@@ -4,9 +4,10 @@ import json
 class Consumer(WebsocketConsumer):
     def connect(self):
         self.accept()
+        print('\nmain client connected\n')
 
     def disconnect(self, close_code):
-        pass
+        print('\nmain client dis-connected\n')
 
     def receive(self, json):
         pass
