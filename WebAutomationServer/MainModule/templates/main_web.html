@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<title>test</title>
+    </head>
+    <body>
+        <h1>main web connected</h1>
+    </body>
+    <script>
+        var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/main_web/');
+
+        chatSocket.onmessage = function(e) {
+        };
+    
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+    
+    </script>
+</html>

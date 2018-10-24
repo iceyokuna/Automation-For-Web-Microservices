@@ -56,7 +56,7 @@ ROOT_URLCONF = 'WebAutomationServer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['MainModule/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,7 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WebAutomationServer.wsgi.application'
 # Channels
-ASGI_APPLICATION = 'mysite.routing.application'
+ASGI_APPLICATION = 'WebAutomationServer.routing.application'
 
 
 # Database
