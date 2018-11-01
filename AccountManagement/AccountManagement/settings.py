@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 ACCOUNT_LOGOUT_ON_GET = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,9 +91,13 @@ WSGI_APPLICATION = 'AccountManagement.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'wasdb',
+        'USER': 'wasadmin',
+        'PASSWORD': 'wasadmin',
+        'HOST': 'cair.p-enterprise.com',
+        'PORT': '5432',
+        }
 }
 
 
