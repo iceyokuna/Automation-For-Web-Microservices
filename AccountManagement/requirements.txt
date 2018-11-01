@@ -17,6 +17,7 @@ hyperlink==18.0.0
 idna==2.7
 incremental==17.5.0
 oauthlib==2.1.0
+psycopg2==2.7.5
 PyHamcrest==1.9.0
 python3-openid==3.1.0
 pytz==2018.7
