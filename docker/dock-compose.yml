@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  webserver:
+    build: ./docker
+    image: cci_legacy_django
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/cci_legacy:/code
+#      - ./www/public:/var/www/html
+
