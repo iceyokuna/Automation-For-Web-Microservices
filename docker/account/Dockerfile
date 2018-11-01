@@ -8,7 +8,7 @@ WORKDIR /code
 ADD requirements.txt /code/
 RUN pip install --upgrade pip
 RUN pip3 install -r requirements.txt
-COPY jet/utils.py /usr/local/lib/python3.7/site-packages/jet
+#COPY jet/utils.py /usr/local/lib/python3.7/site-packages/jet
 CMD ['python3' ,'/code/manage.py', 'collectstatic']
 EXPOSE 8000
 
