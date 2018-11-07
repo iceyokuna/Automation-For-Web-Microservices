@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
 
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 SITE_ID = 1
 ACCOUNT_LOGOUT_ON_GET = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -98,6 +98,8 @@ DATABASES = {
         'HOST': 'cair.p-enterprise.com',
         'PORT': '5432',
         }
+
+  
 }
 
 
