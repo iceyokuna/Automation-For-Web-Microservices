@@ -5,6 +5,9 @@
     </head>
     <body>
         <h1>main web connected</h1>
+        <div id = "redering">
+        </div>
+        <input id = "next" type="button" value="next"/>
     </body>
     <script>
         var chatSocket = new WebSocket(
@@ -16,6 +19,10 @@
     
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
+        };
+
+        document.getElementById("next").onclick = function () {
+            document.getElementById("redering").innerHTML = "Clicked";
         };
     
     </script>
