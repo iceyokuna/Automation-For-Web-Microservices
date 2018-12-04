@@ -10,19 +10,23 @@
         <input id = "next" type="button" value="next"/>
     </body>
     <script>
-        var chatSocket = new WebSocket(
+        var ServerSocket = new WebSocket(
         'ws://' + window.location.host +
         '/main-user/');
 
-        chatSocket.onmessage = function(e) {
+        ServerSocket.onmessage = function(e) {
+            console.log('ok');
         };
     
-        chatSocket.onclose = function(e) {
+        ServerSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 
         document.getElementById("next").onclick = function () {
             document.getElementById("redering").innerHTML = "Clicked";
+            ServerSocket.send(JSON.stringify({
+            'message': 'Hello World!!!!'
+            }));
         };
     
     </script>

@@ -13,8 +13,14 @@ class MainConsumer(WebsocketConsumer):
         print('\nmain client dis-connected\n')
         clientController.removeMainUser(self)
 
-    def receive(self, json):
-        pass
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        print(message)
+        self.send(text_data=json.dumps({
+            'message': 'Hello Client!! from Server'
+        }))
 
 
 class EndConsumer(WebsocketConsumer):
