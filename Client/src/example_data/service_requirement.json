@@ -1,0 +1,30 @@
+{
+  "input": {
+    "emailTitle": {
+      "type": "string",
+      "formData": {
+        "elementType": "TextInput",
+        "elementId": "title#1"
+      }
+    },
+    "emailBody": {
+      "type": "string",
+      "formData": {
+        "elementType": "TextArea",
+        "elementId": "message#233"
+      }
+    },
+    "receiver": {
+      "type": "string",
+      "formData": {
+        "elementType": "TextInput",
+        "elementId": "receiver#1123"
+      }
+    }
+  },
+  "output": {
+    "emailObject": {
+      "type": "json"
+    }
+  }
+}

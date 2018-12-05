@@ -1,0 +1,32 @@
+{
+  "name": "FormExtension",
+  "uri": "http://some-company/schema/bpmn/form",
+  "prefix": "form",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "types": [
+    {
+      "name": "FormData",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "forTaskId",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "html",
+          "type": "String"
+          
+        },
+        {
+          "name": "css",
+          "type": "String"
+        }
+      ]
+    }
+  ]
+}
