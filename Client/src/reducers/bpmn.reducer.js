@@ -2,7 +2,10 @@ import { bpmnConstants } from '_constants';
 
 const defaultState = {
   generatedForms: {},
-  recentForm: null
+  recentForm: null,
+  appName: 'Default name',
+  appDescription: '',
+  bpmnAppJson: {},
 }
 
 export function bpmn(state = defaultState, action) {
@@ -13,7 +16,20 @@ export function bpmn(state = defaultState, action) {
       nextState.generatedForms[forTask] = form;
       nextState.recentForm = { taskId: forTask, form }
       return nextState;
-    }
+    } break;
+
+    case bpmnConstants.SUBMIT_APP_INFO: {
+      const { appName, appDescription } = action;
+      const nextState = { ...state, appName, appDescription };
+      return nextState
+    } break;
+
+    case bpmnConstants.SET_BPMN_JSON: {
+      const { bpmnAppJson } = action;
+      const nextState = { ...state, bpmnAppJson };
+      return nextState
+    } break;
+
     default:
       return state
   }

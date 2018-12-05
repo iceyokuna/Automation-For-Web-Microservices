@@ -1,7 +1,9 @@
 import { bpmnConstants } from '_constants';
 
 export const bpmnActions = {
-  addNewForm
+  addNewForm,
+  setBpmnJson,
+  submitAppInfo
 };
 
 function addNewForm(form, taskId) {
@@ -10,4 +12,19 @@ function addNewForm(form, taskId) {
     form: form,
     forTask: taskId
   };
+}
+
+function setBpmnJson(bpmnAppJson) {
+  return {
+    type: bpmnConstants.SET_BPMN_JSON,
+    bpmnAppJson
+  }
+}
+
+function submitAppInfo(appName, appDescription) {
+  return {
+    type: bpmnConstants.SUBMIT_APP_INFO,
+    appName,
+    appDescription
+  }
 }

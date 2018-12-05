@@ -8,7 +8,6 @@ import formPackage from './descriptors/form';
 import ZoomControls from "./components/ZoomControls";
 import FileControls from "./components/FileControls";
 import EditingTools from './components/EditingTools';
-
 import BpmnProperty from './components/bpmn_property';
 
 import "./style/app.less";
@@ -23,7 +22,16 @@ import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
 import converter from 'xml-js'
 
-import { Box } from 'grommet'
+import { Box, Button } from 'grommet'
+import styled from 'styled-components'
+
+import { bpmnActions } from 'actions'
+
+const NextButtonWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 340px;
+`
 
 let scale = 1;
 
@@ -262,6 +270,18 @@ class BpmnContainer extends Component {
     })
   }
 
+  onSubmitDiagram = () => {
+    this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
+      if (err) {
+        console.error(err);
+      } else {
+        const bpmnJson = converter.xml2js(xml, { compact: false });
+        this.props.dispatch(bpmnActions.setBpmnJson(bpmnJson));
+      }
+    });
+  }
+
+
   render() {
     const { sidebarVisible } = this.state
     return (
@@ -286,6 +306,11 @@ class BpmnContainer extends Component {
           onRedo={this.handleRedo}
           onUndo={this.handleUndo}
         />
+        <NextButtonWrapper>
+          <Box pad='xsmall' gap='small' margin="small">
+            <Button primary label="Next" onClick={this.onSubmitDiagram} />
+          </Box>
+        </NextButtonWrapper>
       </Box>
     );
   }

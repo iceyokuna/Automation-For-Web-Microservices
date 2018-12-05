@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import BpmnBoard from 'containers/BpmnBoard';
 
-import { Button } from 'grommet'
+import { Button, Box } from 'grommet'
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';

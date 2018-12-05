@@ -1,6 +1,8 @@
 import { socketConstants } from '_constants'
 
 const enduserSocket = new WebSocket('ws://localhost:8000/main-user/');
+// const enduserSocket = () => { };
+
 
 export const socketMiddleware = store => next => action => {
   next(action);

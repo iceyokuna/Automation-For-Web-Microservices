@@ -1,3 +1,5 @@
 export const bpmnConstants = {
-  ADD_NEW_FROM: 'ADD_NEW_FORM'
+  ADD_NEW_FROM: 'ADD_NEW_FORM',
+  SET_BPMN_JSON: 'SET_BPMN_JSON',
+  SUBMIT_APP_INFO: 'SUBMIT_APP_INFO'
 };

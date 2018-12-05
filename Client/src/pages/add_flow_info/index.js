@@ -4,7 +4,11 @@ import { global } from 'style'
 import { Box, Button, Heading, Text, TextInput, FormField, TextArea } from 'grommet'
 import { FormNext } from 'grommet-icons'
 
-export default class AddFlowInfo extends Component {
+import { connect } from 'react-redux'
+
+import { bpmnActions } from 'actions'
+
+class AddFlowInfo extends Component {
 
   constructor(props) {
     super(props);
@@ -22,6 +26,8 @@ export default class AddFlowInfo extends Component {
   }
 
   onNextStep = () => {
+    const { workflowName, description } = this.state;
+    this.props.dispatch(bpmnActions.submitAppInfo(workflowName, description));
     this.props.history.push('design_workflow');
   }
 
@@ -58,3 +64,12 @@ export default class AddFlowInfo extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    bpmn: state.bpmn,
+  }
+}
+
+
+export default connect(mapStateToProps)(AddFlowInfo);
