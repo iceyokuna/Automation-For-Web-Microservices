@@ -19,9 +19,15 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('get_available_service', views.get_available_service),
-    path('get_service_input_req/', views.get_service_input_req),
-    path('get_service_output_req/', views.get_service_output_req),
+    path('get_available_methode', views.get_available_methods),
+    path('get_method_input_req/', views.get_method_input_req),
+    path('get_method_output_req/', views.get_method_output_req),
+    path('get_service_info/', views.get_service_info),
+    path('get_service/', views.get_service),
+    path('get_method/', views.get_method),
+    path('get_all_services/', views.get_all_services),  
+    path('get_all_methods/', views.get_all_methods),
     path('update/', views.update_service),
     path('create/', views.create_service),
+    path('add_method/', views.add_method),
 ]
