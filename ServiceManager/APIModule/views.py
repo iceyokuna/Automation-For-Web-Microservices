@@ -53,14 +53,18 @@ def get_method(request):
     return HttpResponse(data_json, content_type='application/json')
 
 def get_all_services(request):
-    data = method.objects.all().values()
-    json_data = json.dumps(list(data)[0])
+    data = service.objects.all().values()
+    json_data = json.dumps(list(data))
     return HttpResponse(json_data)
 
+
+@csrf_exempt
 def get_all_methods(request):
+    if request.method == "POST":
+      for key, value in request.POST.items():
+        print('Key: %s' % (key) ) 
     data = method.objects.filter(service_id = 1).values()
-    #data_json = serializers.serialize('json', data)
-    json_data = json.dumps(list(data)[0])
+    json_data = json.dumps(list(data))
     return HttpResponse(json_data)
 
 
