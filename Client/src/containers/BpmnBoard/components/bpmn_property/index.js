@@ -6,6 +6,29 @@ import { FormAdd, Checkmark, Close } from 'grommet-icons';
 import { global } from 'style';
 import { Link, Redirect } from 'react-router-dom'
 
+import ServiceList from 'components/service_list'
+
+const serviceMethods = [
+  { methodName: 'Send email to a receiver' },
+  { methodName: 'Send email to multiple users' },
+]
+
+const services = [
+  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+]
 
 export default class BpmnProperty extends Component {
 
@@ -67,26 +90,47 @@ export default class BpmnProperty extends Component {
     const { nodeType } = this.state;
     let elements = null;
 
-    if (nodeType === 'bpmn:Task') {
-      elements = (
-        <Box margin={{ bottom: 'small' }}>
-          <FormField>
-            <TextInput size="small" placeholder="Api url" />
-          </FormField>
-          <Box align="center" margin={{ top: 'small' }}>
-            <Link style={{ width: '100%' }} to={{
-              pathname: 'design_form',
-              state: {
-                forTaskId: true
-              }
-            }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-              <Button icon={<FormAdd />} fill label="Create Form" />
-            </Link>
-          </Box>
-        </Box>
-      );
+    switch (nodeType) {
+      // case 'bpmn:Task': {
+      //   return (
+      //     <Box overflow="auto" margin={{ bottom: 'small' }}>
+      //       <Box align="center" margin={{ top: 'small' }}>
+      //         <Link style={{ width: '100%' }} to={{
+      //           pathname: 'design_form',
+      //           state: {
+      //             forTaskId: true
+      //           }
+      //         }} target="_blank" onClick={() => this.onGotoCreateForm()}>
+      //           <Button icon={<FormAdd />} fill label="Create Form" />
+      //         </Link>
+      //       </Box>
+      //     </Box>)
+      // } break;
+
+      case 'bpmn:Task': {
+        return (
+          <Box margin={{ bottom: 'small' }}>
+            <Box align="center" margin={{ top: 'small' }}>
+              <Link style={{ width: '100%' }} to={{
+                pathname: 'design_form',
+                state: {
+                  forTaskId: true
+                }
+              }} target="_blank" onClick={() => this.onGotoCreateForm()}>
+                <Button icon={<FormAdd />} fill label="Create Form" />
+              </Link>
+
+              <Box pad={{ vertical: 'medium' }}>
+                <ServiceList services={services} />
+              </Box>
+
+            </Box>
+          </Box>)
+      }
+
+      default:
+        break;
     }
-    return elements;
   }
 
   renderConfirmChange() {
@@ -110,6 +154,7 @@ export default class BpmnProperty extends Component {
         <FormField>
           <TextInput size="small" placeholder="Name" value={nodeName} onChange={this.onChangeName} />
         </FormField>
+
         {this.renderSpecialProperties()}
         {this.renderConfirmChange()}
 

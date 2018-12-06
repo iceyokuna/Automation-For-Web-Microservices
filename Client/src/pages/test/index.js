@@ -4,7 +4,7 @@ import { socketActions } from 'actions'
 import { connect } from 'react-redux'
 import { Button } from 'grommet'
 
-import ServiceItem from 'components/service_item'
+// import ServiceItem from 'components/service_item'
 
 var ReactDOMServer = require('react-dom/server');
 var HtmlToReactParser = require('html-to-react').Parser;
@@ -118,7 +118,6 @@ class Test extends Component {
         {/* </div>
         <button onClick={() => this.sendMessage()}>Send message</button> */}
 
-        <ServiceItem serviceTitle='Email Service' serviceDescription='This is an email service' serviceMethods={serviceMethods} />
       </div>
     )
   }

@@ -13,9 +13,7 @@ export default class index extends Component {
     activeIndex: [0]
   };
 
-  renderPanelHeader = () => {
-    const { serviceTitle, serviceDescription } = this.props;
-
+  renderPanelHeader = (serviceTitle, serviceDescription) => {
     return (
       <Box pad="small">
         <Box direction="row" justify="between">
@@ -27,8 +25,7 @@ export default class index extends Component {
     )
   };
 
-  renderListOfMethods = () => {
-    const { serviceMethods } = this.props;
+  renderListOfMethods = (serviceMethods) => {
     const views = serviceMethods.map((item, index) =>
       <Box key={index} pad="small" background="light-1">
         <Button>
@@ -38,17 +35,25 @@ export default class index extends Component {
     return views;
   }
 
+  renderServiceItem = () => {
+    const { services } = this.props;
+    const views = services.map((item, index) =>
+      <AccordionPanel
+        header={this.renderPanelHeader(item.serviceTitle, item.description)}
+      >
+        {this.renderListOfMethods(item.methods)}
+      </AccordionPanel>)
+
+    return views;
+  }
+
   render() {
-    const { activeIndex } = this.state;
     return (
       <Accordion
+        style={{ overflowY: 'scroll', maxHeight: 400 }}
         onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
       >
-        <AccordionPanel
-          header={this.renderPanelHeader()}
-        >
-          {this.renderListOfMethods()}
-        </AccordionPanel>
+        {this.renderServiceItem()}
       </Accordion>
     );
   }
