@@ -63,7 +63,11 @@ def get_all_methods(request):
     if request.method == "POST":
       requestJson = json.loads(request.body)
       print(requestJson)
-      
+      serviceId = requestJson['serviceId']
+      data = method.objects.filter(service_id = serviceId).values()
+      json_data = json.dumps(list(data))
+      return HttpResponse(json_data)
+    
     data = method.objects.filter(service_id = 1).values()
     json_data = json.dumps(list(data))
     return HttpResponse(json_data)
