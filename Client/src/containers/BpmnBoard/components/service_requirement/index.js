@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 
 import { Box, Heading, Layer, Button, Text } from 'grommet'
+import JSONTree from 'react-json-tree'
+import { jsonTheme } from './jsonTheme'
 
 export default class ServiceRequirement extends Component {
 
@@ -45,6 +47,8 @@ export default class ServiceRequirement extends Component {
               </Box>
 
               <Text>* Parameters required to use this service</Text>
+
+              <JSONTree shouldExpandNode={() => true} hideRoot theme={jsonTheme} data={serviceMethod.method.requirement} />
 
             </Box>
           </Layer>)
