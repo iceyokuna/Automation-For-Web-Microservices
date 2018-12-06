@@ -48,7 +48,9 @@ export default class ServiceRequirement extends Component {
 
               <Text>* Parameters required to use this service</Text>
 
-              <JSONTree shouldExpandNode={() => true} hideRoot theme={jsonTheme} data={serviceMethod.method.requirement} />
+              <Box height="300px" overflow={{ vertical: 'scroll' }}>
+                <JSONTree shouldExpandNode={() => true} hideRoot theme={jsonTheme} data={serviceMethod.method.requirement} />
+              </Box>
 
             </Box>
           </Layer>)
