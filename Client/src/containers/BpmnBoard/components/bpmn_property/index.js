@@ -9,25 +9,87 @@ import { Link, Redirect } from 'react-router-dom'
 import ServiceList from 'components/service_list'
 
 const serviceMethods = [
-  { methodName: 'Send email to a receiver' },
-  { methodName: 'Send email to multiple users' },
+  {
+    methodName: 'Send email to a receiver', requirement: {
+      "input": {
+        "emailTitle": {
+          "type": "string",
+          "formData": {
+            "elementType": "TextInput",
+            "elementId": "title#1"
+          }
+        },
+        "emailBody": {
+          "type": "string",
+          "formData": {
+            "elementType": "TextArea",
+            "elementId": "message#233"
+          }
+        },
+        "receiver": {
+          "type": "string",
+          "formData": {
+            "elementType": "TextInput",
+            "elementId": "receiver#1123"
+          }
+        }
+      },
+      "output": {
+        "emailObject": {
+          "type": "json"
+        }
+      }
+    }
+  },
+  {
+    methodName: 'Send email to multiple users', requirement: {
+      "input": {
+        "emailTitle": {
+          "type": "string",
+          "formData": {
+            "elementType": "TextInput",
+            "elementId": "title#1"
+          }
+        },
+        "emailBody": {
+          "type": "string",
+          "formData": {
+            "elementType": "TextArea",
+            "elementId": "message#233"
+          }
+        },
+        "receiver": {
+          "type": "string",
+          "formData": {
+            "elementType": "TextInput",
+            "elementId": "receiver#1123"
+          }
+        }
+      },
+      "output": {
+        "emailObject": {
+          "type": "json"
+        }
+      }
+    }
+  },
 ]
 
 const services = [
-  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'description....', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'description....', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
+  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
 ]
 
 export default class BpmnProperty extends Component {
@@ -121,7 +183,7 @@ export default class BpmnProperty extends Component {
               </Link>
 
               <Box pad={{ vertical: 'medium' }}>
-                <ServiceList services={services} />
+                <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => this.props.onSelectServiceMethod(serviceMethod)} />
               </Box>
 
             </Box>

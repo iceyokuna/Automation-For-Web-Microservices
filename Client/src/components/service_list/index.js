@@ -10,7 +10,8 @@ import PlainButton from 'components/plain_button'
 export default class index extends Component {
 
   state = {
-    activeIndex: [0]
+    activeIndex: [0],
+    selectedServiceMethod: null,
   };
 
   renderPanelHeader = (serviceTitle, serviceDescription) => {
@@ -25,11 +26,14 @@ export default class index extends Component {
     )
   };
 
-  renderListOfMethods = (serviceMethods) => {
-    const views = serviceMethods.map((item, index) =>
+  renderListOfMethods = (service) => {
+    const serviceMethods = service.methods;
+    const { serviceTitle, description } = service;
+
+    const views = serviceMethods.map((method, index) =>
       <Box key={index} pad="small" background="light-1">
-        <Button>
-          <Text>{item.methodName}</Text>
+        <Button onClick={() => this.props.onSelectServiceMethod({ serviceTitle, description, method })}>
+          <Text>{method.methodName}</Text>
         </Button>
       </Box>)
     return views;
@@ -39,9 +43,10 @@ export default class index extends Component {
     const { services } = this.props;
     const views = services.map((item, index) =>
       <AccordionPanel
+        key={index}
         header={this.renderPanelHeader(item.serviceTitle, item.description)}
       >
-        {this.renderListOfMethods(item.methods)}
+        {this.renderListOfMethods(item)}
       </AccordionPanel>)
 
     return views;
