@@ -61,8 +61,9 @@ def get_all_services(request):
 @csrf_exempt
 def get_all_methods(request):
     if request.method == "POST":
-      for key, value in request.POST.items():
-        print('Key: %s' % (key) ) 
+      requestJson = json.loads(request.body)
+      print(requestJson)
+      
     data = method.objects.filter(service_id = 1).values()
     json_data = json.dumps(list(data))
     return HttpResponse(json_data)
