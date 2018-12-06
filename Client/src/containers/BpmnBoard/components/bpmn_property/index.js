@@ -8,6 +8,8 @@ import { Link, Redirect } from 'react-router-dom'
 
 import ServiceList from 'components/service_list'
 
+import PropTypes from 'prop-types'
+
 const serviceMethods = [
   {
     methodName: 'Send email to a receiver', requirement: {
@@ -92,7 +94,7 @@ const services = [
   { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
 ]
 
-export default class BpmnProperty extends Component {
+class BpmnProperty extends Component {
 
   constructor(props) {
     super(props);
@@ -224,3 +226,9 @@ export default class BpmnProperty extends Component {
     )
   }
 }
+
+BpmnProperty.propTypes = {
+  allServices: PropTypes.array.isRequired
+}
+
+export default BpmnProperty
