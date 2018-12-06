@@ -242,7 +242,6 @@ class BpmnContainer extends Component {
     let reader = new FileReader();
 
     reader.onloadend = ((obj) => {
-      // console.log(obj.srcElement.result) // As a String
       const xmlStr = obj.srcElement.result
       this.renderDiagram(xmlStr)
     })
