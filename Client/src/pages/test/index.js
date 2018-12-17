@@ -22,7 +22,7 @@ const css = `* {
 body {
   margin: 0;
 }
-.button{
+button{
   width:100%;
   margin:15px 0;
   background-color:#009688;
@@ -33,13 +33,13 @@ body {
   font-size:1em;
   cursor:pointer;
 }
-.form{
+form{
   border-radius:3px;
   padding:10px 15px;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
   color:#444444;
 }
-.textarea{
+textarea{
   width:100%;
   margin-bottom:15px;
   padding:7px 10px;
@@ -48,7 +48,7 @@ body {
   background-color:#eeeeee;
   border:none;
 }
-.input{
+input{
   width:100%;
   margin-bottom:15px;
   padding:7px 10px;
@@ -57,7 +57,7 @@ body {
   background-color:#eee;
   border:none;
 }
-.label{
+label{
   width:100%;
   display:block;
 }
