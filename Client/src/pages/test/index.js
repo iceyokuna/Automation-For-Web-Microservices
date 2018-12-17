@@ -80,24 +80,28 @@ class FormElement extends React.Component {
 
 class Test extends Component {
 
-  componentDidMount = () => {
-    // const dynamicElement = document.getElementById('dynamicElement').children[0];
-    // dynamicElement.addEventListener('submit', function (event) {
-    //   alert('Element clicked through function!');
 
-    //   console.log(event.target.elements)
-    //   event.preventDefault();
-    //   // event.stopPropagation();
-    // });
+  componentDidMount = () => {
+    const formContainer = document.getElementById('formContainer').children[0];
+    formContainer.addEventListener('submit', this.onSubmitForm.bind(this));
   }
 
+  onSubmitForm = (event) => {
+    event.preventDefault();
+    const { firstname, lastname } = event.target.elements;
+    const formData = {
+      firstname, lastname
+    }
+    this.props.dispatch(socketActions.submitForm(formData))
+
+
+    // event.stopPropagation();
+  }
 
   sendMessage = () => {
-    // this.props.dispatch(socketActions.sendMessage('Hello', 'Good morning'))
-    // console.log(this.refs.dynamicElement.children[0])
-    // const dynamicElement = this.refs.dynamicElement.children[0];
-
-
+    this.props.dispatch(socketActions.sendMessage('Hello', 'Good morning'))
+    console.log(this.refs.formContainer.children[0])
+    const formContainer = this.refs.formContainer.children[0];
 
 
   }
@@ -108,15 +112,12 @@ class Test extends Component {
   render() {
     return (
       <div>
-        {/* <Style css={css} />
-        <div> */}
-        {/* test */}
-        {/* <div id="dynamicElement" ref="dynamicElement" dangerouslySetInnerHTML={{ __html: htmlInput }} /> */}
-        {/* {formElement} */}
-        {/* <FormElement /> */}
-
-        {/* </div>
-        <button onClick={() => this.sendMessage()}>Send message</button> */}
+        <Style css={css} />
+        <div>
+          test
+        <div id="formContainer" ref="formContainer" dangerouslySetInnerHTML={{ __html: htmlInput }} />
+        </div>
+        <button onClick={() => this.sendMessage()}>Send message</button>
 
       </div>
     )
