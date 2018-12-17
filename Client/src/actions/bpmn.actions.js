@@ -3,7 +3,7 @@ import { bpmnConstants } from '_constants';
 export const bpmnActions = {
   addNewForm,
   setBpmnJson,
-  submitAppInfo,
+  setAppInfo,
   getAllServices,
   getAllMethodsByServiceId,
 };
@@ -53,7 +53,7 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function submitAppInfo(appName, appDescription) {
+function setAppInfo(appName, appDescription) {
   return {
     type: bpmnConstants.SUBMIT_APP_INFO,
     appName,
