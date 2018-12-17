@@ -9,6 +9,7 @@ import ZoomControls from "./components/ZoomControls";
 import FileControls from "./components/FileControls";
 import EditingTools from './components/EditingTools';
 import BpmnProperty from './components/bpmn_property';
+import ServiceRequirement from './components/service_requirement';
 
 import "./style/app.less";
 
@@ -22,7 +23,7 @@ import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
 import converter from 'xml-js'
 
-import { Box, Button } from 'grommet'
+import { Box, Button, Layer } from 'grommet'
 import styled from 'styled-components'
 
 import { bpmnActions } from 'actions'
@@ -37,14 +38,12 @@ let scale = 1;
 
 class BpmnContainer extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentElement: null,
-      sidebarVisible: true
-    };
-  }
+  state = {
+    currentElement: null,
+    sidebarVisible: true,
+    showServiceRequirement: false,
+    selectedServiceMethod: null,
+  };
 
   componentDidMount() {
     document.body.className = "shown";
@@ -242,7 +241,6 @@ class BpmnContainer extends Component {
     let reader = new FileReader();
 
     reader.onloadend = ((obj) => {
-      // console.log(obj.srcElement.result) // As a String
       const xmlStr = obj.srcElement.result
       this.renderDiagram(xmlStr)
     })
@@ -281,9 +279,18 @@ class BpmnContainer extends Component {
     });
   }
 
+  showServiceMethodRequirement = (serviceMethod) => {
+    this.setState({
+      selectedServiceMethod: serviceMethod,
+      showServiceRequirement: true,
+    })
+  }
+
+  
+
 
   render() {
-    const { sidebarVisible } = this.state
+    const { sidebarVisible, showServiceRequirement, selectedServiceMethod } = this.state
     return (
       <Box fill>
         <div className="content">
@@ -295,7 +302,10 @@ class BpmnContainer extends Component {
           onSaveFile={this.handleSaveFile}
           onSaveImage={this.handleSaveImage}
         />
-        <BpmnProperty currentElement={this.state.currentElement} onUpdate={(newProps) => this.updateProperties(newProps)} />
+        <BpmnProperty
+          currentElement={this.state.currentElement}
+          onUpdate={(newProps) => this.updateProperties(newProps)}
+          onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
         <ZoomControls
           onZoomIn={this.handleZoomIn}
           onZoomOut={this.handleZoomOut}
@@ -311,6 +321,10 @@ class BpmnContainer extends Component {
             <Button primary label="Next" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
+
+        <ServiceRequirement
+          show={showServiceRequirement}
+          serviceMethod={selectedServiceMethod} />
       </Box>
     );
   }

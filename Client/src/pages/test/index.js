@@ -4,6 +4,8 @@ import { socketActions } from 'actions'
 import { connect } from 'react-redux'
 import { Button } from 'grommet'
 
+// import ServiceItem from 'components/service_item'
+
 var ReactDOMServer = require('react-dom/server');
 var HtmlToReactParser = require('html-to-react').Parser;
 var htmlToReactParser = new HtmlToReactParser();
@@ -64,6 +66,11 @@ body {
 // var FormElement = htmlToReactParser.parse(htmlInput);
 // var reactHtml = ReactDOMServer.renderToStaticMarkup(formElement);
 
+const serviceMethods = [
+  { methodName: 'Send email to a receiver' },
+  { methodName: 'Send email to multiple users' },
+]
+
 class FormElement extends React.Component {
   render() {
     return <div dangerouslySetInnerHTML={{ __html: htmlInput }} />;
@@ -74,14 +81,14 @@ class FormElement extends React.Component {
 class Test extends Component {
 
   componentDidMount = () => {
-    const dynamicElement = document.getElementById('dynamicElement').children[0];
-    dynamicElement.addEventListener('submit', function (event) {
-      alert('Element clicked through function!');
+    // const dynamicElement = document.getElementById('dynamicElement').children[0];
+    // dynamicElement.addEventListener('submit', function (event) {
+    //   alert('Element clicked through function!');
 
-      console.log(event.target.elements)
-      event.preventDefault();
-      // event.stopPropagation();
-    });
+    //   console.log(event.target.elements)
+    //   event.preventDefault();
+    //   // event.stopPropagation();
+    // });
   }
 
 
@@ -101,15 +108,16 @@ class Test extends Component {
   render() {
     return (
       <div>
-        <Style css={css} />
-        <div>
-          test
-          <div id="dynamicElement" ref="dynamicElement" dangerouslySetInnerHTML={{ __html: htmlInput }} />
-          {/* {formElement} */}
-          {/* <FormElement /> */}
+        {/* <Style css={css} />
+        <div> */}
+        {/* test */}
+        {/* <div id="dynamicElement" ref="dynamicElement" dangerouslySetInnerHTML={{ __html: htmlInput }} /> */}
+        {/* {formElement} */}
+        {/* <FormElement /> */}
 
-        </div>
-        <button onClick={() => this.sendMessage()}>Send message</button>
+        {/* </div>
+        <button onClick={() => this.sendMessage()}>Send message</button> */}
+
       </div>
     )
   }

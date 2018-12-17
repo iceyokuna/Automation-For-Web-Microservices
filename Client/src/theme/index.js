@@ -21,7 +21,7 @@ export default {
       "secondary": '#546e7a',
       "secondary-light": '#819ca9',
       "secondary-dark": '#29434e',
-      "light-0": '#ffffff'
+      "light-0": '#ffffff',
     },
     "font": {
       "family": "'Metric', Arial, sans-serif",
