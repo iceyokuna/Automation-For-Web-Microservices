@@ -31,9 +31,11 @@ export default class index extends Component {
     const { name, info } = service;
 
     const views = serviceMethods.map((method, index) =>
-      <Box key={index} pad="small" background="light-1">
-        <Button hoverIndicator onClick={() => this.props.onSelectServiceMethod({ name, info, method })}>
-          <Text>{method.name}</Text>
+      <Box key={index} background="light-1">
+        <Button fill hoverIndicator onClick={() => this.props.onSelectServiceMethod({ name, info, method })}>
+          <Box pad='small'>
+            <Text >{method.name}</Text>
+          </Box>
         </Button>
       </Box>)
     return views;

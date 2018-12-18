@@ -185,7 +185,7 @@ class BpmnProperty extends Component {
                 <Button icon={<FormAdd />} fill label="Create Form" />
               </Link>
 
-              <Box pad={{ vertical: 'medium' }}>
+              <Box pad={{ vertical: 'medium' }} width="100%">
                 <ServiceList services={allServices} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
               </Box>
 
