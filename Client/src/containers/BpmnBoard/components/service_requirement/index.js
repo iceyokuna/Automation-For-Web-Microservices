@@ -24,6 +24,7 @@ export default class ServiceRequirement extends Component {
 
   render() {
     const { show, serviceMethod } = this.state;
+    console.log(serviceMethod)
     return (
       <Box>
         {show && (
@@ -35,20 +36,27 @@ export default class ServiceRequirement extends Component {
           >
             <Box pad="medium" gap="small" width="large">
               <Heading level={2} margin="none">
-                {serviceMethod.serviceTitle}
+                {serviceMethod.name}
               </Heading>
 
               <Box direction="row" gap="medium" align="center">
                 <Heading level={3} margin="none">
-                  {serviceMethod.method.methodName}
+                  {serviceMethod.method.name}
                 </Heading>
-                <Text>{serviceMethod.description}</Text>
+                <Text>{serviceMethod.info}</Text>
               </Box>
 
               <Text>* Parameters required to use this service</Text>
 
               <Box height="300px" overflow={{ vertical: 'scroll' }}>
-                <JSONTree shouldExpandNode={() => true} hideRoot theme={jsonTheme} data={serviceMethod.method.requirement} />
+                <Heading level={4} margin="none">
+                  Input Interface
+                </Heading>
+                <JSONTree hideRoot theme={jsonTheme} data={serviceMethod.method.input_interface} />
+                <Heading level={4} margin="none">
+                  Output Interface
+                </Heading>
+                <JSONTree hideRoot theme={jsonTheme} data={serviceMethod.method.output_interface} />
               </Box>
 
             </Box>

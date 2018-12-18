@@ -20,7 +20,7 @@ export function bpmn(state = defaultState, action) {
 
     case bpmnConstants.GET_ALL_SERVICES_REQUEST: {
       const nextState = { ...state };
-      nextState.availableServices.loading = 'Hello';
+      nextState.availableServices.loading = true;
       return nextState;
     } break;
 

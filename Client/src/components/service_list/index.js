@@ -14,26 +14,26 @@ export default class index extends Component {
     selectedServiceMethod: null,
   };
 
-  renderPanelHeader = (serviceTitle, serviceDescription) => {
+  renderPanelHeader = (name, info) => {
     return (
       <Box pad="small">
         <Box direction="row" justify="between">
-          <Text size="large" weight="bold">{serviceTitle}</Text>
+          <Text size="large" weight="bold">{name}</Text>
           <PlainButton icon={<FormDown />} />
         </Box>
-        <Text>{serviceDescription}</Text>
+        <Text>{info}</Text>
       </Box>
     )
   };
 
   renderListOfMethods = (service) => {
     const serviceMethods = service.methods;
-    const { serviceTitle, description } = service;
+    const { name, info } = service;
 
     const views = serviceMethods.map((method, index) =>
       <Box key={index} pad="small" background="light-1">
-        <Button onClick={() => this.props.onSelectServiceMethod({ serviceTitle, description, method })}>
-          <Text>{method.methodName}</Text>
+        <Button hoverIndicator onClick={() => this.props.onSelectServiceMethod({ name, info, method })}>
+          <Text>{method.name}</Text>
         </Button>
       </Box>)
     return views;
@@ -44,7 +44,7 @@ export default class index extends Component {
     const views = services.map((item, index) =>
       <AccordionPanel
         key={index}
-        header={this.renderPanelHeader(item.serviceTitle, item.description)}
+        header={this.renderPanelHeader(item.name, item.info)}
       >
         {this.renderListOfMethods(item)}
       </AccordionPanel>)

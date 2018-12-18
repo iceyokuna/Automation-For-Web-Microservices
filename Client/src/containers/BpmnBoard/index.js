@@ -69,7 +69,10 @@ class BpmnContainer extends Component {
 
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
+    this.props.dispatch(bpmnActions.getAllServices())
+
     this.renderDiagram(xmlStr);
+
 
     // this.props.dispatch(bpmnActions.getAllServices())
   }
@@ -252,8 +255,6 @@ class BpmnContainer extends Component {
 
   handleCreate = () => {
 
-    this.props.dispatch(bpmnActions.getAllServices())
-
   }
 
   handleSaveFile = () => {
@@ -286,6 +287,7 @@ class BpmnContainer extends Component {
   }
 
   showServiceMethodRequirement = (serviceMethod) => {
+
     this.setState({
       selectedServiceMethod: serviceMethod,
       showServiceRequirement: true,
@@ -297,6 +299,7 @@ class BpmnContainer extends Component {
 
   render() {
     const { sidebarVisible, showServiceRequirement, selectedServiceMethod } = this.state
+    const { bpmn } = this.props;
     return (
       <Box fill>
         <div className="content">
@@ -309,7 +312,7 @@ class BpmnContainer extends Component {
           onSaveImage={this.handleSaveImage}
         />
         <BpmnProperty
-          allServices={[]}
+          allServices={bpmn.availableServices.data}
           currentElement={this.state.currentElement}
           onUpdate={(newProps) => this.updateProperties(newProps)}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
