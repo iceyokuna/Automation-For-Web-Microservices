@@ -81,7 +81,7 @@ class BpmnContainer extends Component {
     }
 
     if (bpmn.recentForm) {
-      this.attachFormToXML(bpmn.recentForm);
+      // this.attachFormToXML(bpmn.recentForm);
     }
   }
 

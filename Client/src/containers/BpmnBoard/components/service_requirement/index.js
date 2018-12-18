@@ -24,7 +24,6 @@ export default class ServiceRequirement extends Component {
 
   render() {
     const { show, serviceMethod } = this.state;
-    console.log(serviceMethod)
     return (
       <Box>
         {show && (
