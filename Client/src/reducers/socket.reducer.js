@@ -11,11 +11,12 @@ export function socket(state = defaultState, action) {
   switch (action.type) {
     case socketConstants.RECEIVE_MESSAGE: {
       const nextState = { ...state };
-      const { title, body } = action;
-      nextState.message = { title, body }
-
+      const { message } = action;
+      nextState.message = message
       return nextState;
     }
+
+
     default:
       return state
   }

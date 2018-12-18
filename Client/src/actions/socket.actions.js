@@ -2,7 +2,8 @@ import { socketConstants } from '_constants';
 
 export const socketActions = {
   sendMessage,
-  submitForm
+  receiveMessage,
+  requestNextForm,
 };
 
 function sendMessage(title, body) {
@@ -12,8 +13,19 @@ function sendMessage(title, body) {
   };
 }
 
-function submitForm(formData) {
+function receiveMessage(message) {
   return {
-    type: socketConstants.SUBMIT_FORM
+    type: socketConstants.RECEIVE_MESSAGE,
+    message
+  }
+}
+
+function requestNextForm(formValue) {
+  return {
+    type: socketConstants.REQUEST_NEXT_FORM,
+    formValue: {
+      param1: 'eiei',
+      param2: 'hello'
+    }
   }
 }

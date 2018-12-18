@@ -1,4 +1,5 @@
 import { socketConstants } from '_constants'
+import { socketActions } from 'actions'
 
 const enduserSocket = new WebSocket('ws://localhost:8000/main-user/');
 // const enduserSocket = () => { };
@@ -12,6 +13,7 @@ export const socketMiddleware = store => next => action => {
 
   enduserSocket.onmessage = (res) => {
     console.log('Got message', res.data);
+    store.dispatch(socketActions.receiveMessage(res.data))
   }
 
   enduserSocket.onclose = (res) => {
@@ -31,14 +33,11 @@ export const socketMiddleware = store => next => action => {
       enduserSocket.send(payload);
     } break;
 
-    case socketConstants.SUBMIT_FORM: {
+    case socketConstants.REQUEST_NEXT_FORM: {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          form: {
-            html: 'html data',
-            css: 'css dat',
-          }
+          formValue: action.formValue
         }
       })
       enduserSocket.send(payload);

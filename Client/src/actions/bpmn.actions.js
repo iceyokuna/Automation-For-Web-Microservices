@@ -4,8 +4,12 @@ export const bpmnActions = {
   addNewForm,
   setBpmnJson,
   setAppInfo,
+  
+  // RESTful
   getAllServices,
   getAllMethodsByServiceId,
+  sendWorkflowBpmnJson,
+  sendWorkflowFormData
 };
 
 function getAllServices() {
@@ -60,3 +64,13 @@ function setAppInfo(appName, appDescription) {
     appDescription
   }
 }
+
+function sendWorkflowFormData(formData) {
+  
+}
+
+function sendWorkflowBpmnJson(bpmnJson) {
+  
+}
+
+

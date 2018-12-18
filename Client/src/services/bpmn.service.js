@@ -14,8 +14,13 @@ getAllMethodsByServiceId = (serviceId) => {
   return axios.post('http://localhost:8000/get_all_methods/', { serviceId })
 }
 
-sendBpmnWorkflow = (workflow) => {
-
+sendWorkflowFormData = (formData) => {
+  return axios.post('http://localhost:8000/send_workflow_formData/', { formData })
 }
+sendWorkflowBpmnJson = (bpmnJson) => {
+  return axios.post('http://localhost:8000/send_workflow_bpmnJson/', { bpmnJson })
+}
+
+
 
 
