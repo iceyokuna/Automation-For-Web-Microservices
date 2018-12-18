@@ -1,7 +1,8 @@
 import { socketConstants } from '_constants';
 
 export const socketActions = {
-  sendMessage
+  sendMessage,
+  submitForm
 };
 
 function sendMessage(title, body) {
@@ -9,4 +10,10 @@ function sendMessage(title, body) {
     type: socketConstants.SEND_MESSAGE,
     title, body
   };
+}
+
+function submitForm(formData) {
+  return {
+    type: socketConstants.SUBMIT_FORM
+  }
 }
