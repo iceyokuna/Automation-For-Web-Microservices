@@ -8,7 +8,6 @@ import 'grapesjs/dist/css/grapes.min.css';
 // import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
 
 import { global } from 'style';
-import { Button } from 'grommet';
 
 export default class GrapeJSWrapper extends Component {
   componentDidMount = () => {
@@ -67,7 +66,7 @@ export default class GrapeJSWrapper extends Component {
         }),
       }, {
           isComponent: function (el) {
-            if (el.tagName == 'INPUT') {
+            if (el.tagName === 'INPUT') {
               return { type: 'input' };
             }
           },

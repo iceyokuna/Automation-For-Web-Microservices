@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 // import BpmnModeler from "bpmn-js/lib/Modeler";
 import BpmnModeler from "./custom-modeler";
 import magicModdleDescriptor from "./descriptors/magic";
@@ -23,7 +23,7 @@ import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
 import converter from 'xml-js'
 
-import { Box, Button, Layer } from 'grommet'
+import { Box, Button } from 'grommet'
 import styled from 'styled-components'
 
 import { bpmnActions } from 'actions'
@@ -70,6 +70,8 @@ class BpmnContainer extends Component {
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
     this.renderDiagram(xmlStr);
+
+    this.props.dispatch(bpmnActions.getAllServices)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -286,7 +288,7 @@ class BpmnContainer extends Component {
     })
   }
 
-  
+
 
 
   render() {
@@ -303,6 +305,7 @@ class BpmnContainer extends Component {
           onSaveImage={this.handleSaveImage}
         />
         <BpmnProperty
+          allServices={[]}
           currentElement={this.state.currentElement}
           onUpdate={(newProps) => this.updateProperties(newProps)}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
@@ -325,6 +328,7 @@ class BpmnContainer extends Component {
         <ServiceRequirement
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
+
       </Box>
     );
   }

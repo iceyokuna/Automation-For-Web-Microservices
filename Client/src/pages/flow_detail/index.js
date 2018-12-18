@@ -17,7 +17,6 @@ import { global } from 'style';
 
 import CollaboratorItem from 'components/collaborator_item'
 import TaskItem from 'components/taskItem'
-import DropContent from 'components/dropdown_content'
 
 import moment from 'moment'
 

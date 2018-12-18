@@ -18,7 +18,7 @@ export function bpmn(state = defaultState, action) {
       return nextState;
     } break;
 
-    case bpmnConstants.SUBMIT_APP_INFO: {
+    case bpmnConstants.SET_APP_INFO: {
       const { appName, appDescription } = action;
       const nextState = { ...state, appName, appDescription };
       return nextState

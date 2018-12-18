@@ -27,7 +27,7 @@ class AddFlowInfo extends Component {
 
   onNextStep = () => {
     const { workflowName, description } = this.state;
-    this.props.dispatch(bpmnActions.submitAppInfo(workflowName, description));
+    this.props.dispatch(bpmnActions.setAppInfo(workflowName, description));
     this.props.history.push('design_workflow');
   }
 

@@ -3,8 +3,40 @@ import { bpmnConstants } from '_constants';
 export const bpmnActions = {
   addNewForm,
   setBpmnJson,
-  submitAppInfo
+  setAppInfo,
+  getAllServices,
+  getAllMethodsByServiceId,
 };
+
+function getAllServices() {
+  return dispatch => {
+    dispatch(request());
+  }
+
+  function request() {
+    return {
+      type: bpmnConstants.GET_ALL_SERVICES_REQUEST
+    }
+  }
+
+  function success() {
+    return {
+      type: bpmnConstants.GET_ALL_SERVICES_SUCCESS
+    }
+  }
+
+  function failure() {
+    return {
+      type: bpmnConstants.GET_ALL_SERVICES_FAILURE
+    }
+  }
+}
+
+function getAllMethodsByServiceId(serviceId) {
+  return dispatch => {
+
+  }
+}
 
 function addNewForm(form, taskId) {
   return {
@@ -21,9 +53,9 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function submitAppInfo(appName, appDescription) {
+function setAppInfo(appName, appDescription) {
   return {
-    type: bpmnConstants.SUBMIT_APP_INFO,
+    type: bpmnConstants.SET_APP_INFO,
     appName,
     appDescription
   }
