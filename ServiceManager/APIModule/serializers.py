@@ -15,3 +15,22 @@ class ConnectingMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Connecting_method
         fields = ('id', 'method','connecting_method')
+
+class AllServicesSerializer(serializers.ModelSerializer):
+    methods = MethodSerializer(many=True, read_only=True)
+ 
+    class Meta:
+        model = Service
+        fields = ('id','name','info','methods')
+      
+
+    '''
+    def create(self, validated_data):
+        methods = validated_data.pop('methods')
+        service = Service.objects.create(**validated_data)
+
+        for method in methods:
+            Method.objects.create(**method, service = service)
+        return service
+    '''
+

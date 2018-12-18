@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Service, Method, Connecting_method
-from .serializers import ServiceSerializer, MethodSerializer, ConnectingMethodSerializer
+from .serializers import ServiceSerializer, MethodSerializer, ConnectingMethodSerializer, AllServicesSerializer
 
 class ServiceView(viewsets.ModelViewSet):
     queryset = Service.objects.all()
@@ -14,3 +14,7 @@ class MethodView(viewsets.ModelViewSet):
 class ConnectingMethodView(viewsets.ModelViewSet):
     queryset = Connecting_method.objects.all()
     serializer_class = ConnectingMethodSerializer
+
+class AllServicesView(viewsets.ModelViewSet):
+    queryset = Service.objects.all()
+    serializer_class = AllServicesSerializer
