@@ -1,10 +1,11 @@
 import { bpmnConstants } from '_constants';
+import { bpmnService } from 'services'
 
 export const bpmnActions = {
   addNewForm,
   setBpmnJson,
   setAppInfo,
-  
+
   // RESTful
   getAllServices,
   getAllMethodsByServiceId,
@@ -15,6 +16,11 @@ export const bpmnActions = {
 function getAllServices() {
   return dispatch => {
     dispatch(request());
+    bpmnService.getAllServices().then(
+      res => {
+        console.log(res)
+      }
+    )
   }
 
   function request() {
@@ -66,11 +72,37 @@ function setAppInfo(appName, appDescription) {
 }
 
 function sendWorkflowFormData(formData) {
-  
+
 }
 
 function sendWorkflowBpmnJson(bpmnJson) {
-  
+  return dispatch => {
+    dispatch(request());
+
+    bpmnService.sendWorkflowBpmnJson(bpmnJson).then(
+      res => {
+
+        dispatch(success())
+      });
+  }
+
+  function request() {
+    return {
+      type: bpmnConstants.SEND_WORKFLOW_BPMN_JSON_REQUEST
+    }
+  }
+
+  function success() {
+    return {
+      type: bpmnConstants.SEND_WORKFLOW_BPMN_JSON_SUCCESS
+    }
+  }
+
+  function failure() {
+    return {
+      type: bpmnConstants.SEND_WORKFLOW_BPMN_JSON_FAILURE
+    }
+  }
 }
 
 

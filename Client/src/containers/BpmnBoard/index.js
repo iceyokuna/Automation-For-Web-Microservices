@@ -71,7 +71,7 @@ class BpmnContainer extends Component {
 
     this.renderDiagram(xmlStr);
 
-    this.props.dispatch(bpmnActions.getAllServices)
+    // this.props.dispatch(bpmnActions.getAllServices())
   }
 
   componentWillReceiveProps(nextProps) {
@@ -250,7 +250,11 @@ class BpmnContainer extends Component {
     reader.readAsText(fileObj)
   };
 
-  handleCreate = () => { }
+  handleCreate = () => {
+
+    this.props.dispatch(bpmnActions.getAllServices())
+
+  }
 
   handleSaveFile = () => {
     this.bpmnModeler.saveXML({ format: true }, function (err, xml) {
@@ -276,7 +280,7 @@ class BpmnContainer extends Component {
         console.error(err);
       } else {
         const bpmnJson = converter.xml2js(xml, { compact: false });
-        this.props.dispatch(bpmnActions.setBpmnJson(bpmnJson));
+        this.props.dispatch(bpmnActions.sendWorkflowBpmnJson(bpmnJson));
       }
     });
   }

@@ -3,21 +3,22 @@ import axios from 'axios'
 export const bpmnService = {
   getAllServices,
   getAllMethodsByServiceId,
-  sendDesignedForm
+  sendWorkflowFormData,
+  sendWorkflowBpmnJson,
 };
 
-getAllServices = () => {
-  return axios.get('http://localhost:8000/get_all_services/')
+function getAllServices() {
+  return axios.get('http://localhost:8000/services/')
 }
 
-getAllMethodsByServiceId = (serviceId) => {
+function getAllMethodsByServiceId(serviceId) {
   return axios.post('http://localhost:8000/get_all_methods/', { serviceId })
 }
 
-sendWorkflowFormData = (formData) => {
+function sendWorkflowFormData(formData) {
   return axios.post('http://localhost:8000/send_workflow_formData/', { formData })
 }
-sendWorkflowBpmnJson = (bpmnJson) => {
+function sendWorkflowBpmnJson(bpmnJson) {
   return axios.post('http://localhost:8000/send_workflow_bpmnJson/', { bpmnJson })
 }
 
