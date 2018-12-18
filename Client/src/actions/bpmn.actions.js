@@ -55,7 +55,7 @@ function setBpmnJson(bpmnAppJson) {
 
 function setAppInfo(appName, appDescription) {
   return {
-    type: bpmnConstants.SUBMIT_APP_INFO,
+    type: bpmnConstants.SET_APP_INFO,
     appName,
     appDescription
   }
