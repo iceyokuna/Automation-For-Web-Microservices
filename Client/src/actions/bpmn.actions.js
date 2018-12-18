@@ -18,9 +18,10 @@ function getAllServices() {
     dispatch(request());
     bpmnService.getAllServices().then(
       res => {
-        console.log(res)
+        const services = res.data; // receive list of all services and its all methods
+        dispatch(success(services))
       }
-    )
+    ).catch(error => dispatch(failure()))
   }
 
   function request() {
@@ -29,9 +30,10 @@ function getAllServices() {
     }
   }
 
-  function success() {
+  function success(services) {
     return {
-      type: bpmnConstants.GET_ALL_SERVICES_SUCCESS
+      type: bpmnConstants.GET_ALL_SERVICES_SUCCESS,
+      allServices: services
     }
   }
 
