@@ -8,7 +8,7 @@ export const bpmnService = {
 };
 
 function getAllServices() {
-  return axios.get('http://localhost:8000/services/')
+  return axios.get('http://127.0.0.1:8000/all_services/')
 }
 
 function getAllMethodsByServiceId(serviceId) {
