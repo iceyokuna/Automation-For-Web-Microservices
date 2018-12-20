@@ -7,7 +7,8 @@ import ResetPassword from './reset_password';
 import ModelWorkflow from './workflow';
 import CreateForm from './create_form';
 import Test from './test'
+import ExecuteFlow from './execute_flow';
 
 export {
-  Home, Login, MyFlows, NotFound, Register, ResetPassword, ModelWorkflow, CreateForm, Test
+  Home, Login, MyFlows, NotFound, Register, ResetPassword, ModelWorkflow, CreateForm, Test, ExecuteFlow
 }

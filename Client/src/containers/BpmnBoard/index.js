@@ -282,6 +282,8 @@ class BpmnContainer extends Component {
       } else {
         const bpmnJson = converter.xml2js(xml, { compact: false });
         this.props.dispatch(bpmnActions.sendWorkflowBpmnJson(bpmnJson));
+
+        this.props.history.push('/execute_flow')
       }
     });
   }
@@ -327,7 +329,7 @@ class BpmnContainer extends Component {
           onUndo={this.handleUndo}
         />
         <NextButtonWrapper>
-          <Box pad='xsmall' gap='small' margin="small">
+          <Box pad={{horizontal: 'xsmall'}} gap='small' margin="small">
             <Button primary label="Next" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>

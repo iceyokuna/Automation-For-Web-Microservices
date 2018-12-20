@@ -1,3 +1,10 @@
+import styled from 'styled-components'
+
+export const FillParent = styled.div`
+  width: 100%;
+  height: 100%;
+`
+
 export const global = {
   color: {
     green1: '#009688',
