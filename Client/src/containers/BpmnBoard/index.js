@@ -333,6 +333,7 @@ class BpmnContainer extends Component {
         </NextButtonWrapper>
 
         <ServiceRequirement
+          onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
 

@@ -12,7 +12,10 @@ export default class ServiceRequirement extends Component {
 
   onshow = () => this.setState({ show: true });
 
-  onClose = () => this.setState({ show: undefined });
+  onClose = () => {
+    this.setState({ show: undefined });
+    this.props.onCloseRequirement();
+  }
 
   componentWillReceiveProps = (props) => {
     this.setState({
@@ -24,7 +27,6 @@ export default class ServiceRequirement extends Component {
 
   render() {
     const { show, serviceMethod } = this.state;
-    console.log(serviceMethod)
     return (
       <Box>
         {show && (
