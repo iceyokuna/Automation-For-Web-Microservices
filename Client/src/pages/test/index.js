@@ -102,7 +102,7 @@ class Test extends Component {
       console.log(item.nodeName, item.value)
     })
 
-    this.props.dispatch(socketActions.requestNextForm(formData))
+    this.props.dispatch(socketActions.nextForm(formData))
 
 
     // event.stopPropagation();
