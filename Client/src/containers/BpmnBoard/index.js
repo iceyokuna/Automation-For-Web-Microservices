@@ -256,11 +256,15 @@ class BpmnContainer extends Component {
           if (err) {
             console.error(err);
           } else {
-            const bpmnAppJson = converter.xml2json(xml, { compact: false, spaces: 2 });
-            this.props.dispatch(bpmnActions.sendWorkflowFormData(
-              appName, {
-                appName, appDescription, bpmnAppJson, generatedForms,
-              }));
+            const bpmnJson = converter.xml2json(xml, { compact: false, spaces: 2 });
+            const workflowData = {
+              bpmnJson,
+              generatedForms,
+            }
+            this.props.dispatch(bpmnActions.sendWorkflowData(
+              appName, appDescription,
+              workflowData
+            ));
 
           }
         });

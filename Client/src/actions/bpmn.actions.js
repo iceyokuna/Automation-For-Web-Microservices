@@ -35,7 +35,37 @@ function setAppInfo(appName, appDescription) {
   }
 }
 
-function sendWorkflowData(workflowData) {
+function sendWorkflowData(appName, appDescription, workflowData) {
+  return dispatch => {
+    dispatch(request());
+    bpmnService.sendWorkflowData(appName, appDescription, workflowData).then(
+      res => {
+
+        console.log(res.data)
+        dispatch(success())
+      }).catch(err => dispatch(failure()));
+
+    function request() {
+      return {
+        type: bpmnConstants.SEND_WORKFLOW_DATA_REQUEST
+      }
+    }
+
+    function success(data) {
+      return {
+        type: bpmnConstants.SEND_WORKFLOW_DATA_SUCCESS,
+        data
+      }
+    }
+
+    function failure() {
+      return {
+        type: bpmnConstants.SEND_WORKFLOW_DATA_FAILURE
+      }
+    }
+
+
+  }
 
 }
 
@@ -43,11 +73,7 @@ function sendWorkflowFormData(workflowData) {
   return dispatch => {
     // dispatch(request());
 
-    bpmnService.sendWorkflowData('IC kmitl', { data: 'eiei' }).then(
-      res => {
 
-        console.log(res.data)
-      });
   }
 }
 

@@ -17,8 +17,8 @@ function getAllMethodsByServiceId(serviceId) {
 }
 
 // Send both form and bpmn json together
-function sendWorkflowData(appName, workflowData) {
-  return axios.post('http://localhost:8000/create_workflow/', { appName, workflowData })
+function sendWorkflowData(appName, appDescription, workflowData) {
+  return axios.post('http://localhost:8000/create_workflow/', { appName, appDescription, workflowData })
 }
 
 function sendWorkflowFormData(appName, formData) {
