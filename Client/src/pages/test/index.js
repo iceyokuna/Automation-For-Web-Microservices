@@ -11,9 +11,9 @@ var HtmlToReactParser = require('html-to-react').Parser;
 var htmlToReactParser = new HtmlToReactParser();
 
 const htmlInput = `<form action="/test" method="post">
-First name: <input type="text" name="firstname"><br>
-Last name: <input type="text" name="lastname"><br>
-<input type="submit" value="Submit">
+First name: <input id="firstName" type="text" name="firstname"><br>
+Last name: <input id="lastname" type="text" name="lastname"><br>
+<input id="submitButton" type="submit" value="Submit">
 </form>`
 
 const css = `* {
@@ -83,6 +83,9 @@ class Test extends Component {
 
   componentDidMount = () => {
     const formContainer = document.getElementById('formContainer').children[0];
+
+
+
     formContainer.addEventListener('submit', this.onSubmitForm.bind(this));
   }
 
@@ -92,7 +95,14 @@ class Test extends Component {
     const formData = {
       firstname, lastname
     }
-    this.props.dispatch(socketActions.submitForm(formData))
+
+    const elementsWithId = document.querySelectorAll('*[id]');
+
+    elementsWithId.forEach((item, key) => {
+      console.log(item.nodeName, item.value)
+    })
+
+    this.props.dispatch(socketActions.requestNextForm(formData))
 
 
     // event.stopPropagation();

@@ -5,6 +5,7 @@ export const bpmnService = {
   getAllMethodsByServiceId,
   sendWorkflowFormData,
   sendWorkflowBpmnJson,
+  sendWorkflowData,
 };
 
 function getAllServices() {
@@ -15,11 +16,16 @@ function getAllMethodsByServiceId(serviceId) {
   return axios.post('http://localhost:8000/get_all_methods/', { serviceId })
 }
 
-function sendWorkflowFormData(formData) {
-  return axios.post('http://localhost:8000/send_workflow_formData/', { formData })
+// Send both form and bpmn json together
+function sendWorkflowData(appName, workflowData) {
+  return axios.post('http://localhost:8000/create_workflow/', { appName, workflowData })
 }
-function sendWorkflowBpmnJson(bpmnJson) {
-  return axios.post('http://localhost:8000/send_workflow_bpmnJson/', { bpmnJson })
+
+function sendWorkflowFormData(appName, formData) {
+  return axios.post('http://localhost:8000/send_workflow_formData/', { appName, formData })
+}
+function sendWorkflowBpmnJson(appName, bpmnJson) {
+  return axios.post('http://localhost:8000/send_workflow_bpmnJson/', { appName, bpmnJson })
 }
 
 

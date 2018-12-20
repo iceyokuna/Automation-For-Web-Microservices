@@ -5,7 +5,10 @@ import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css"
 
 import React from 'react';
 
-import { Home, Login, Register, ResetPassword, NotFound, ModelWorkflow, Test } from 'pages'
+import {
+  Home, Login, Register, ResetPassword,
+  NotFound, ModelWorkflow, Test, ExecuteFlow
+} from 'pages'
 import { Router, Route, Link, Switch } from "react-router-dom";
 
 import { Grommet } from 'grommet';
@@ -31,7 +34,7 @@ const App = () => (
 
           {/* For dev */}
           <Route exact path="/test_modeler" component={ModelWorkflow} />
-          <Route exact path="/test" component={Test} />
+          <Route exact path="/execute_flow" component={Test} />
 
           <Route component={NotFound} />
         </Switch>

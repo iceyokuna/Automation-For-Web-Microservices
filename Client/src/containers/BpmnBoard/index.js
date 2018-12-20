@@ -24,9 +24,10 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button } from 'grommet'
+import { PlayFill } from 'grommet-icons'
 import styled from 'styled-components'
 
-import { bpmnActions } from 'actions'
+import { bpmnActions, availableServicesActions } from 'actions'
 
 const NextButtonWrapper = styled.div`
   position: absolute;
@@ -69,7 +70,11 @@ class BpmnContainer extends Component {
 
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
+    // Request all availale services to be selected on the properties panel
+    this.props.dispatch(availableServicesActions.getAllServices());
+
     this.renderDiagram(xmlStr);
+
 
     // this.props.dispatch(bpmnActions.getAllServices())
   }
@@ -152,12 +157,10 @@ class BpmnContainer extends Component {
       if (err) {
         console.error(err);
       } else {
-        console.log(xml);
         const json = converter.xml2json(xml, { compact: false, spaces: 2 });
         download(json, 'bpmn.json', 'application/json');
 
       }
-      // console.log(this.bpmnModeler.getDefinitions());
     });
   }
 
@@ -193,40 +196,7 @@ class BpmnContainer extends Component {
   }
 
 
-  writingBPMNproperties = () => {
-
-    let modeling = this.bpmnModeler.get('modeling');
-    let elementRegistry = this.bpmnModeler.get('elementRegistry');
-
-    let sequenceFlowElement = elementRegistry.get('StartEvent_1'),
-      businessObject = sequenceFlowElement.businessObject;
-
-    // businessObject.id = 'NewEventName'; // Change ID of the element
-
-    let moddle = this.bpmnModeler.get('moddle');
-
-    var analysis = moddle.create('qa:AnalysisDetails');
-
-    analysis.lastChecked = '2018/10/14';
-    analysis.nextCheck = '2018/10/28';
-    analysis.comment = ['Hello', 'Test', JSON.stringify({ a: 100 })];
-
-    businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
-    const extensions = moddle.create('bpmn:ExtensionElements');
-    extensions.get('values').push(analysis);
-    extensions.get('values').push(analysis);
-
-    modeling.updateProperties(sequenceFlowElement, {
-      extensionElements: extensions
-    });
-
-    // console.log(businessObject);
-
-  }
-
   updateProperties(newProps) {
-    // console.log('Update', newProps);
-
     let modeling = this.bpmnModeler.get('modeling');
     let elementRegistry = this.bpmnModeler.get('elementRegistry');
 
@@ -251,8 +221,6 @@ class BpmnContainer extends Component {
   };
 
   handleCreate = () => {
-
-    this.props.dispatch(bpmnActions.getAllServices())
 
   }
 
@@ -281,11 +249,14 @@ class BpmnContainer extends Component {
       } else {
         const bpmnJson = converter.xml2js(xml, { compact: false });
         this.props.dispatch(bpmnActions.sendWorkflowBpmnJson(bpmnJson));
+
+        this.props.history.push('/execute_flow')
       }
     });
   }
 
   showServiceMethodRequirement = (serviceMethod) => {
+
     this.setState({
       selectedServiceMethod: serviceMethod,
       showServiceRequirement: true,
@@ -297,6 +268,10 @@ class BpmnContainer extends Component {
 
   render() {
     const { sidebarVisible, showServiceRequirement, selectedServiceMethod } = this.state
+    const { bpmn, availableServices } = this.props;
+
+    console.log(availableServices)
+
     return (
       <Box fill>
         <div className="content">
@@ -309,7 +284,7 @@ class BpmnContainer extends Component {
           onSaveImage={this.handleSaveImage}
         />
         <BpmnProperty
-          allServices={[]}
+          allServices={availableServices.data}
           currentElement={this.state.currentElement}
           onUpdate={(newProps) => this.updateProperties(newProps)}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
@@ -324,12 +299,13 @@ class BpmnContainer extends Component {
           onUndo={this.handleUndo}
         />
         <NextButtonWrapper>
-          <Box pad='xsmall' gap='small' margin="small">
-            <Button primary label="Next" onClick={this.onSubmitDiagram} />
+          <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
+            <Button primary icon={<PlayFill size="small" />} label="Execute" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
 
         <ServiceRequirement
+          onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
 
@@ -339,9 +315,10 @@ class BpmnContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { bpmn } = state;
+  const { bpmn, availableServices } = state;
   return {
-    bpmn
+    bpmn,
+    availableServices
   };
 };
 

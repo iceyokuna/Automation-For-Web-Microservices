@@ -72,7 +72,7 @@ export default class CreateFlow extends Component {
             steps={[
               { title: 'Information' },
               { title: 'Design Workflow' },
-              { title: 'Publish' }]}
+              { title: 'Execute' }]}
             activeStep={this.state.activeStepIndex} />
         </div>
         <Route path={match.url + "/add_information"} component={AddFlowInfo} />

@@ -7,46 +7,9 @@ export const bpmnActions = {
   setAppInfo,
 
   // RESTful
-  getAllServices,
-  getAllMethodsByServiceId,
   sendWorkflowBpmnJson,
   sendWorkflowFormData
 };
-
-function getAllServices() {
-  return dispatch => {
-    dispatch(request());
-    bpmnService.getAllServices().then(
-      res => {
-        console.log(res)
-      }
-    )
-  }
-
-  function request() {
-    return {
-      type: bpmnConstants.GET_ALL_SERVICES_REQUEST
-    }
-  }
-
-  function success() {
-    return {
-      type: bpmnConstants.GET_ALL_SERVICES_SUCCESS
-    }
-  }
-
-  function failure() {
-    return {
-      type: bpmnConstants.GET_ALL_SERVICES_FAILURE
-    }
-  }
-}
-
-function getAllMethodsByServiceId(serviceId) {
-  return dispatch => {
-
-  }
-}
 
 function addNewForm(form, taskId) {
   return {

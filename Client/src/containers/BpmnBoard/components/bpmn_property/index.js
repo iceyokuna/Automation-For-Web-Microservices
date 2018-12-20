@@ -152,6 +152,7 @@ class BpmnProperty extends Component {
 
   renderSpecialProperties() {
     const { nodeType } = this.state;
+    const { allServices, onSelectServiceMethod } = this.props;
     let elements = null;
 
     switch (nodeType) {
@@ -184,8 +185,8 @@ class BpmnProperty extends Component {
                 <Button icon={<FormAdd />} fill label="Create Form" />
               </Link>
 
-              <Box pad={{ vertical: 'medium' }}>
-                <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => this.props.onSelectServiceMethod(serviceMethod)} />
+              <Box pad={{ vertical: 'medium' }} width="100%">
+                <ServiceList services={allServices} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
               </Box>
 
             </Box>
