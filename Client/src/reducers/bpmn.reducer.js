@@ -5,14 +5,8 @@ const defaultState = {
   recentForm: null,
   appName: 'Default name',
   appDescription: '',
-  bpmnAppJson: {},
 
-
-  availableServices: {
-    loading: false,
-    error: false,
-    data: [] // all available services that the main-user can choose
-  }
+  loadingWorkflowData: false,
 }
 
 export function bpmn(state = defaultState, action) {
@@ -20,23 +14,26 @@ export function bpmn(state = defaultState, action) {
 
     case bpmnConstants.SEND_WORKFLOW_DATA_REQUEST: {
       const nextState = { ...state };
+      nextState.loadingWorkflowData = true;
       return nextState;
     } break;
 
-    case bpmnConstants.SEND_WORKFLOW_BPMN_JSON_SUCCESS: {
+    case bpmnConstants.SEND_WORKFLOW_DATA_SUCCESS: {
       const nextState = { ...state };
+      nextState.loadingWorkflowData = false;
       return nextState;
     } break;
 
-    case bpmnConstants.SEND_WORKFLOW_BPMN_JSON_FAILURE: {
+    case bpmnConstants.SEND_WORKFLOW_DATA_FAILURE: {
       const nextState = { ...state };
+      nextState.loadingWorkflowData = false;
       return nextState;
     } break;
 
     case bpmnConstants.ADD_NEW_FROM: {
       const { forTask, form } = action;
       const nextState = { ...state };
-      nextState.generatedForms.push({taskId: forTask, formData: form})
+      nextState.generatedForms.push({ taskId: forTask, formData: form })
       nextState.recentForm = { taskId: forTask, form }
       return nextState;
     } break;
