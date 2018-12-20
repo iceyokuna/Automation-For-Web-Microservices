@@ -23,11 +23,16 @@ import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
 import converter from 'xml-js'
 
-import { Box, Button } from 'grommet'
+import { Box, Button, Layer } from 'grommet'
 import { PlayFill } from 'grommet-icons'
+
 import styled from 'styled-components'
 
+import Loader from 'react-loader-spinner'
 import { bpmnActions, availableServicesActions } from 'actions'
+
+import appTheme from 'theme';
+const colors = appTheme.global.colors;
 
 const NextButtonWrapper = styled.div`
   position: absolute;
@@ -63,30 +68,19 @@ class BpmnContainer extends Component {
       }
     });
 
-    // this.bpmnModeler.importXML(exampleXml);
-    // this.bpmnModeler.on('import.done', () => {
-
-    // })
-
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
     // Request all availale services to be selected on the properties panel
     this.props.dispatch(availableServicesActions.getAllServices());
 
+    // render xml
     this.renderDiagram(xmlStr);
-
-
-    // this.props.dispatch(bpmnActions.getAllServices())
   }
 
   componentWillReceiveProps(nextProps) {
     const { xml, bpmn } = nextProps;
     if (xml && xml !== this.props.xml) {
       this.renderDiagram(xml);
-    }
-
-    if (bpmn.recentForm) {
-      // this.attachFormToXML(bpmn.recentForm);
     }
   }
 
@@ -124,10 +118,9 @@ class BpmnContainer extends Component {
         console.log("error rendering", err);
       } else {
         // Render success
-        // this.bpmnModeler.getDefinitions();
 
         var linting = this.bpmnModeler.get('linting');
-        linting.activateLinting();
+        linting.activateLinting(); // Activate validator
 
         // Linting events
         linting.lint().then(
@@ -289,13 +282,32 @@ class BpmnContainer extends Component {
     const { sidebarVisible, showServiceRequirement, selectedServiceMethod } = this.state
     const { bpmn, availableServices } = this.props;
 
-    console.log(availableServices)
-
     return (
       <Box fill>
         <div className="content">
           <div id="canvas" />
         </div>
+
+        {/* {show && (
+          <Layer
+
+
+            position="center"
+            modal
+            onClickOutside={this.onCloseLoadingDialog}
+            onEsc={this.onCloseLoadingDialog}
+          >
+            <Box pad="medium" gap="small" width="large">
+              <Loader
+                type="Oval"
+                color={colors.brand}
+                height="50"
+                width="50" />
+
+            </Box>
+          </Layer>)
+        } */}
+
         <FileControls
           onOpenFile={this.handleOpen}
           onCreate={this.handleCreate}
