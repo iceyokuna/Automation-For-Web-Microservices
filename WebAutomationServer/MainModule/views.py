@@ -15,8 +15,12 @@ def end_index(request):
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
     print(resquest)
-    # msg_client = (resquest['message'])
-    
+    app_name = (resquest['appName'])
+    BPMN_element = (resquest['workflowData']['bpmnJson'])
+    HTML_List = (resquest['workflowData']['generatedForms'])
+    print(app_name)
+    print(HTML_List)
+
     print("------saved--------")
     msg = {}
     msg['message'] = 'done'
