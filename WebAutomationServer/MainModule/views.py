@@ -12,6 +12,6 @@ def end_index(request):
 
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
-    msg_client = (resq['message'])
+    msg_client = (resquest['message'])
     
 
