@@ -11,7 +11,9 @@ def end_index(request):
     return render(request, 'end_web.html', {})
 
 def saveFlow(request):
+    print('Save flow')
     resquest = json.loads(request.body.decode('utf-8'))
     msg_client = (resquest['message'])
+    print("------saved--------")
     
 

@@ -248,9 +248,12 @@ class BpmnContainer extends Component {
         console.error(err);
       } else {
         const bpmnJson = converter.xml2js(xml, { compact: false });
-        this.props.dispatch(bpmnActions.sendWorkflowBpmnJson(bpmnJson));
+        // this.props.dispatch(bpmnActions.sendWorkflowBpmnJson(bpmnJson));
 
-        this.props.history.push('/execute_flow')
+        this.props.dispatch(bpmnActions.sendWorkflowFormData('IC KMITL', {data: 100}))
+        
+          
+        // this.props.history.push('/execute_flow')
       }
     });
   }

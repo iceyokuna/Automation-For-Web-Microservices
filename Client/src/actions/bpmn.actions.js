@@ -7,8 +7,9 @@ export const bpmnActions = {
   setAppInfo,
 
   // RESTful
+  sendWorkflowData,
   sendWorkflowBpmnJson,
-  sendWorkflowFormData
+  sendWorkflowFormData,
 };
 
 function addNewForm(form, taskId) {
@@ -34,8 +35,20 @@ function setAppInfo(appName, appDescription) {
   }
 }
 
-function sendWorkflowFormData(formData) {
+function sendWorkflowData(workflowData) {
 
+}
+
+function sendWorkflowFormData(workflowData) {
+  return dispatch => {
+    // dispatch(request());
+
+    bpmnService.sendWorkflowData('IC kmitl', { data: 'eiei' }).then(
+      res => {
+
+        console.log(res.data)
+      });
+  }
 }
 
 function sendWorkflowBpmnJson(bpmnJson) {
