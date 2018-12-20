@@ -13,8 +13,13 @@ def end_index(request):
 
 @csrf_exempt
 def saveFlow(request):
-    # resquest = json.loads(request.body.decode('utf-8'))
+    resquest = json.loads(request.body.decode('utf-8'))
+    print(resquest)
     # msg_client = (resquest['message'])
+    
     print("------saved--------")
+    msg = {}
+    msg['message'] = 'done'
+    return HttpResponse(json.dumps(msg),content_type= "application/json")
      
 
