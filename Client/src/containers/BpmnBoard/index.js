@@ -24,6 +24,7 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button } from 'grommet'
+import { PlayFill } from 'grommet-icons'
 import styled from 'styled-components'
 
 import { bpmnActions, availableServicesActions } from 'actions'
@@ -299,7 +300,7 @@ class BpmnContainer extends Component {
         />
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button primary label="Next" onClick={this.onSubmitDiagram} />
+            <Button primary icon={<PlayFill size="small" />} label="Execute" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
 
