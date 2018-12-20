@@ -6,6 +6,7 @@ import { users } from './users.reducer';
 import { alert } from './alert.reducer';
 import { bpmn } from './bpmn.reducer';
 import { socket } from './socket.reducer';
+import { availableServices } from './available_services.reducer'
 
 const rootReducer = combineReducers({
   authentication,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   users,
   alert,
   bpmn,
-  socket
+  socket,
+  availableServices
 });
 
 export default rootReducer;
