@@ -5,6 +5,7 @@ import { history } from '_helpers';
 export const bpmnActions = {
   addNewForm,
   getNextForm,
+  addNameToId,
 
   setBpmnJson,
   setAppInfo,
@@ -26,6 +27,14 @@ function addNewForm(form, taskId) {
 function getNextForm() {
   return {
     type: bpmnConstants.GET_NEXT_FORM,
+  };
+}
+
+function addNameToId(name, value) {
+  return {
+    id: name,
+    value,
+    type: bpmnConstants.NAME_TO_ID,
   };
 }
 
