@@ -4,6 +4,8 @@ import { history } from '_helpers';
 
 export const bpmnActions = {
   addNewForm,
+  getNextForm,
+
   setBpmnJson,
   setAppInfo,
 
@@ -18,6 +20,12 @@ function addNewForm(form, taskId) {
     type: bpmnConstants.ADD_NEW_FROM,
     form: form,
     forTask: taskId
+  };
+}
+
+function getNextForm() {
+  return {
+    type: bpmnConstants.GET_NEXT_FORM,
   };
 }
 

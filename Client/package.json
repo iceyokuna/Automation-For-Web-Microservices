@@ -56,6 +56,7 @@
     "redux-thunk": "^2.3.0",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
+    "style-it": "^2.1.0",
     "styled-components": "^4.0.2",
     "xml-js": "^1.6.8"
   },

@@ -1,7 +1,10 @@
 import { bpmnConstants } from '_constants';
 
 const defaultState = {
-  generatedForms: [],
+  generatedForms: [
+  ],
+  currentFormIndex: 0,
+
   recentForm: null,
   appName: 'Default name',
   appDescription: '',
@@ -35,6 +38,17 @@ export function bpmn(state = defaultState, action) {
       const nextState = { ...state };
       nextState.generatedForms.push({ taskId: forTask, formData: form })
       nextState.recentForm = { taskId: forTask, form }
+      return nextState;
+    } break;
+
+    case bpmnConstants.GET_NEXT_FORM: {
+      const { currentFormIndex, generatedForms } = state;
+      const nextState = { ...state };
+      if (currentFormIndex < generatedForms.length - 1) {
+        nextState.currentFormIndex += 1;
+      } else {
+        nextState.formsDone = true
+      }
       return nextState;
     } break;
 
