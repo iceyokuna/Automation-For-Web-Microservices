@@ -1,5 +1,6 @@
 import { bpmnConstants } from '_constants';
 import { bpmnService } from 'services'
+import { history } from '_helpers';
 
 export const bpmnActions = {
   addNewForm,
@@ -38,12 +39,15 @@ function setAppInfo(appName, appDescription) {
 function sendWorkflowData(appName, appDescription, workflowData) {
   return dispatch => {
     dispatch(request());
-    bpmnService.sendWorkflowData(appName, appDescription, workflowData).then(
-      res => {
 
-        console.log(res.data)
-        dispatch(success())
-      }).catch(err => dispatch(failure()));
+    setTimeout(() => {
+      bpmnService.sendWorkflowData(appName, appDescription, workflowData).then(
+        res => {
+          dispatch(success())
+          history.push('/execute_flow')
+        }).catch(err => dispatch(failure()));
+    }, 1000);
+
 
     function request() {
       return {

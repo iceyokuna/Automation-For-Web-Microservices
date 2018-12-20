@@ -23,7 +23,7 @@ import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
 import converter from 'xml-js'
 
-import { Box, Button, Layer } from 'grommet'
+import { Box, Button, Layer, Text } from 'grommet'
 import { PlayFill } from 'grommet-icons'
 
 import styled from 'styled-components'
@@ -255,12 +255,10 @@ class BpmnContainer extends Component {
               generatedForms,
             }
 
-            this.props.dispatch(socketActions.startFlow('IC Meeting'))
-
-            // this.props.dispatch(bpmnActions.sendWorkflowData(
-            //   appName, appDescription,
-            //   workflowData
-            // ));
+            this.props.dispatch(bpmnActions.sendWorkflowData(
+              appName, appDescription,
+              workflowData
+            ));
 
           }
         });
@@ -291,25 +289,26 @@ class BpmnContainer extends Component {
           <div id="canvas" />
         </div>
 
-        {/* {show && (
+        {bpmn.loadingWorkflowData && (
           <Layer
-
-
             position="center"
             modal
             onClickOutside={this.onCloseLoadingDialog}
             onEsc={this.onCloseLoadingDialog}
+
           >
-            <Box pad="medium" gap="small" width="large">
+            <Box pad="medium" gap="small" width="large" width="300px"
+              direction="row" justify='center' align="center">
+              <Text>Building your workflow ...</Text>
               <Loader
                 type="Oval"
                 color={colors.brand}
-                height="50"
-                width="50" />
+                height="24"
+                width="24" />
 
             </Box>
           </Layer>)
-        } */}
+        }
 
         <FileControls
           onOpenFile={this.handleOpen}
