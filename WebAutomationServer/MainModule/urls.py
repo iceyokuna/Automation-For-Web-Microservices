@@ -5,4 +5,5 @@ from MainModule import views
 urlpatterns = [
     path('end-user/', views.end_index),
     path('main-user/', views.main_index),
+    path('create_flow/', views.saveFlow),
 ]
