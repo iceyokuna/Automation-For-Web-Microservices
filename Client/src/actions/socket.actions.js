@@ -3,7 +3,9 @@ import { socketConstants } from '_constants';
 export const socketActions = {
   sendMessage,
   receiveMessage,
-  requestNextForm,
+
+  startFlow,
+  nextForm,
 };
 
 function sendMessage(title, body) {
@@ -20,12 +22,17 @@ function receiveMessage(message) {
   }
 }
 
-function requestNextForm(formValue) {
+
+function startFlow(appName) {
   return {
-    type: socketConstants.REQUEST_NEXT_FORM,
-    formValue: {
-      param1: 'eiei',
-      param2: 'hello'
-    }
+    type: socketConstants.START_FLOW,
+    appName
+  }
+}
+
+function nextForm(appName) {
+  return {
+    type: socketConstants.NEXT_FORM,
+    appName
   }
 }

@@ -33,11 +33,21 @@ export const socketMiddleware = store => next => action => {
       enduserSocket.send(payload);
     } break;
 
-    case socketConstants.REQUEST_NEXT_FORM: {
+    case socketConstants.START_FLOW: {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          formValue: action.formValue
+          appName: action.appName
+        }
+      })
+      enduserSocket.send(payload);
+    } break;
+
+    case socketConstants.NEXT_FORM: {
+      const payload = JSON.stringify({
+        message: {
+          type: action.type,
+          appName: action.appName
         }
       })
       enduserSocket.send(payload);
