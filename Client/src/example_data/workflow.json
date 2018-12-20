@@ -1,18 +1,21 @@
 {
     "appName": "IC Meeting",
-    "bpmnJson": {},
-    "generatedform": {
-        "Task#23233": {
-            "formHtml": "<div/>",
-            "formCss": "css string"
-        },
-        "Task#1233": {
-            "formHtml": "<div/>",
-            "formCss": "css string"
-        },
-        "Task#44366": {
-            "formHtml": "<div/>",
-            "formCss": "css string"
+    "appDescription": "Description...",
+    "workflowData": {
+        "bpmnJson": {},
+        "generatedform": {
+            "Task#23233": {
+                "formHtml": "<div/>",
+                "formCss": "css string"
+            },
+            "Task#1233": {
+                "formHtml": "<div/>",
+                "formCss": "css string"
+            },
+            "Task#44366": {
+                "formHtml": "<div/>",
+                "formCss": "css string"
+            }
         }
     }
 }
