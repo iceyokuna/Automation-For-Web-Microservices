@@ -2,6 +2,7 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+import pickle
 
 # Create your views here.
 
@@ -14,12 +15,16 @@ def end_index(request):
 @csrf_exempt
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
-    print(resquest)
+
     app_name = (resquest['appName'])
-    BPMN_element = (resquest['workflowData']['bpmnJson'])
+    #BPMN_element = (resquest['workflowData']['bpmnJson'])
     HTML_List = (resquest['workflowData']['generatedForms'])
     print(app_name)
-    print(HTML_List)
+    Forms = []
+    for element in HTML_List:
+        Forms.append(element['formData'])
+    with open('HTMLs.pkl', 'wb') as html_file:
+        pickle.dump(Forms, html_file)
 
     print("------saved--------")
     msg = {}

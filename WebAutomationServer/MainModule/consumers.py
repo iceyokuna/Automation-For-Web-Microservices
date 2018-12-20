@@ -1,8 +1,11 @@
 from channels.generic.websocket import WebsocketConsumer
 from MainModule.Controller import ClientHandler
 import json
+import pickle
 
 clientController = ClientHandler.ClientHandler()
+HTMLs = []
+html_index = 0
 
 class MainConsumer(WebsocketConsumer):
     def connect(self):
@@ -17,7 +20,22 @@ class MainConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
-        print(message)
+        if(message['type'] == "socket/START_FLOW"):
+            loadlist = []
+            with open('HTMLs.pkl', 'rb') as f:
+                loadlist = pickle.load(f)
+            HTMLs = loadlist
+            self.send(text_data=json.dumps({
+            HTMLs[html_index]
+            }))
+            html_index += 1
+
+        if(message['type'] == "socket/NEXT_FORM"):
+            self.send(text_data=json.dumps({
+            HTMLs[html_index]
+            }))
+            html_index += 1
+
         self.send(text_data=json.dumps({
             'message': 'Hello Client!! from Server'
         }))
