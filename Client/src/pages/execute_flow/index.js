@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { Button, Box, Text } from 'grommet';
 import { FillParent } from 'style'
 
-// import { ClientStyle as Style } from 'react-css-component'
-import Style from 'style-it';
+import { ClientStyle as Style } from 'react-css-component'
+// import Style from 'style-it';
 import { connect } from 'react-redux'
 import { bpmnActions } from 'actions'
 
@@ -81,6 +81,8 @@ class ExecuteFlow extends Component {
                 currentFormHtml: formData.formHtml,
                 currentFormCss: formData.formCss
             })
+
+            document.getElementById('mainContainer').setAttribute('style', formData.formCss)
         }
 
 
@@ -95,10 +97,10 @@ class ExecuteFlow extends Component {
             currentFormCss: currentFormData.formCss
         })
 
-        this.refs.mainContainer.setAttribute('style', currentFormData.formCss)
     }
 
     onSubmitForm = (event) => {
+
         event.preventDefault();
         const { firstname, lastname } = event.target.elements;
         const formData = {
@@ -117,21 +119,24 @@ class ExecuteFlow extends Component {
     }
 
     render() {
-        const { currentFormHtml, currentFormCss } = this.state
+        const { currentFormHtml } = this.state
+
+        const { currentFormIndex, generatedForms } = this.props.bpmn;
+        const forms = generatedForms[currentFormIndex];
+        const formHtml = forms.formHtml;
+        const formData = forms.formData;
 
         return (
-            <Style>
-                {currentFormCss}
-                <FillParent>
-                    <Box pad="medium" gap="medium">
-                        <Text size="large" weight="bold">Workflow Execution</Text>
-                        <Box border="bottom">
-                            {/* <Style css={currentFormCss} /> */}
-                            <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
-                        </Box>
+            <FillParent>
+                <Style css={formData.formCss} />
+                <Box pad="medium" gap="medium">
+                    <Text size="large" weight="bold">Workflow Execution</Text>
+                    <Box border="bottom">
+                        <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
-                </FillParent>
-            </Style>
+                </Box>
+
+            </FillParent>
 
         )
     }
