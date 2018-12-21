@@ -5,7 +5,7 @@ const defaultState = {
     {
       "taskId": "Task_04qtp5o",
       "formData": {
-        "formHtml": "<div class=\"c2073\">T-Shirt Sign Up\n</div><form class=\"form\"><div class=\"form-group\"><label class=\"label\">Name</label><input placeholder=\"Type here your name\" name=\"name\" class=\"input\"/></div><div class=\"form-group\">\n  </div><div class=\"form-group\"><label class=\"label\">Shirt size</label></div><input name=\"size\" placeholder=\"Enter your size\" class=\"input\"/><div class=\"form-group\">\n  </div><div class=\"form-group\"><button type=\"submit\" class=\"button\">Next</button></div></form>",
+        "formHtml": "<div class=\"c2073\">T-Shirt Order\n</div><form class=\"form\"><div class=\"form-group\"><label class=\"label\">Color</label><input placeholder=\"Type here your shirt's color\" name=\"name\" class=\"input\"/></div><div class=\"form-group\">\n  </div><div class=\"form-group\"><label class=\"label\">Shirt size</label></div><input name=\"size\" placeholder=\"Enter your size\" class=\"input\"/><div class=\"form-group\">\n  </div><div class=\"form-group\"><button type=\"submit\" class=\"button\">Next</button></div></form>",
         "formCss": "* { box-sizing: border-box; } body {margin: 0;}.label{width:100%;display:block;}.input{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eee;border:none;}.button{width:100%;margin:15px 0;background-color:#009688;border:none;color:#f6f6f6;border-radius:2px;padding:7px 10px;font-size:1em;cursor:pointer;}.form{border-radius:3px;padding:10px 15px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);color:#444444;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}.c2073{padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;font-size:32px;font-weight:300;}"
       }
     },
@@ -31,6 +31,9 @@ const defaultState = {
       }
     }
   ],
+  // generatedForms: [
+
+  // ],
   currentFormIndex: 0,
 
   formIds: {},
