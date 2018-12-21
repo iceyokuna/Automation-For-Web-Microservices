@@ -36,14 +36,37 @@ class ExecuteFlow extends Component {
 
     }
 
-    componentWillReceiveProps = (nextProps) => {
-        const { currentFormIndex, generatedForms } = nextProps.bpmn;
-        const currentFormData = generatedForms[currentFormIndex].formData;
+    componentDidUpdate = (prevProps, prevState) => {
+        if (this.props.bpmn.formsDone) {
+            const { formIds } = this.props.bpmn;
 
-        this.setState({
-            currentFormHtml: currentFormData.formHtml,
-            currentFormCss: currentFormData.formCss
-        })
+            Object.keys(formIds).forEach(id => {
+                const divElement = document.getElementById(id);
+                divElement.innerText = formIds[id];
+            })
+
+        }
+
+    }
+
+
+    componentWillReceiveProps = (nextProps) => {
+        const { currentFormIndex, generatedForms, formsDone } = nextProps.bpmn;
+
+        if (formsDone) {
+            const textElements = document.querySelectorAll('div');
+            console.log(textElements)
+        }
+        if (currentFormIndex < generatedForms.length) {
+            const currentFormData = generatedForms[currentFormIndex].formData;
+
+            this.setState({
+                currentFormHtml: currentFormData.formHtml,
+                currentFormCss: currentFormData.formCss
+            })
+
+
+        }
 
     }
 
@@ -69,11 +92,6 @@ class ExecuteFlow extends Component {
 
     render() {
         const { currentFormHtml } = this.state
-
-        const { currentFormIndex, generatedForms } = this.props.bpmn;
-        const forms = generatedForms[currentFormIndex];
-        const formHtml = forms.formHtml;
-        const formData = forms.formData;
 
         return (
             <FillParent>
