@@ -58,11 +58,14 @@ function sendWorkflowData(appName, appDescription, workflowData) {
     dispatch(request());
 
     setTimeout(() => {
-      bpmnService.sendWorkflowData(appName, appDescription, workflowData).then(
-        res => {
-          dispatch(success())
-          history.push('/execute_flow')
-        }).catch(err => dispatch(failure()));
+      // bpmnService.sendWorkflowData(appName, appDescription, workflowData).then(
+      //   res => {
+      //     dispatch(success())
+      //     history.push('/execute_flow')
+      //   }).catch(err => dispatch(failure()));
+      dispatch(success())
+      history.push('/execute_flow')
+
     }, 1000);
 
 
