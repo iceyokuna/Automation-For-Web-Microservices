@@ -39,10 +39,11 @@ class ExecuteFlow extends Component {
     componentDidUpdate = (prevProps, prevState) => {
         if (this.props.bpmn.formsDone) {
             const { formIds } = this.props.bpmn;
-
             Object.keys(formIds).forEach(id => {
                 const divElement = document.getElementById(id);
-                divElement.innerText = formIds[id];
+                if (divElement != null) {
+                    divElement.innerText = formIds[id];
+                }
             })
 
         }
