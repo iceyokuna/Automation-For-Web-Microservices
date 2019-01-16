@@ -4,8 +4,7 @@ import json
 import pickle
 
 clientController = ClientHandler.ClientHandler()
-HTMLs = []
-html_index = 0
+
 
 class MainConsumer(WebsocketConsumer):
     def connect(self):
@@ -17,10 +16,15 @@ class MainConsumer(WebsocketConsumer):
         clientController.removeMainUser(self)
 
     def receive(self, text_data):
+        global html_index
+        global HTMLs
+
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
         if(message['type'] == "socket/START_FLOW"):
+            html_index= 0
+            HTMLs = []
             loadlist = []
             with open('HTMLs.pkl', 'rb') as f:
                 loadlist = pickle.load(f)
@@ -37,7 +41,7 @@ class MainConsumer(WebsocketConsumer):
             html_index += 1
 
         self.send(text_data=json.dumps({
-            'message': 'Hello Client!! from Server'
+            'message': 'Error'
         }))
 
 
