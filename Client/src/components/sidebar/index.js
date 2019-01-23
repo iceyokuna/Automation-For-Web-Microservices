@@ -13,12 +13,12 @@ export default class SideBar extends Component {
     return (
       <Spring
         from={{
-          width: 0,
-          // transform: `translateX(-60px)`,
+          width: this.props.showMenuBar ? sideBarWidth : 0,
+          opacity: this.props.showMenuBar ? 1 : 0,
         }}
         to={{
-          // transform: `translateX(0px)`,
-          width: sideBarWidth
+          width: this.props.showMenuBar ? 0 : sideBarWidth,
+          opacity: this.props.showMenuBar ? 0 : 1,
         }}
         config={config.wobbly}
       >

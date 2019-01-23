@@ -18,32 +18,28 @@ export default class DropMenuInline extends Component {
   }
 
   render() {
-    const { isExpand } = this.state;
+    // const { isExpand } = this.state;
     return (
-      <Box style={style} elevation='medium' pad="medium" background="secondary" fill="horizontal">
-        <PlainButton onClick={this.toggleExpand} icon={<FormDown />} />
-        <Spring
-          from={{
-            height: isExpand ? 0 : 'auto',
-          }}
-          to={{
-            height: isExpand ? 'auto' : 0,
-          }}
-          config={config.wobbly}
-        >
-          {props =>
-            <Box style={props}>
-              {isExpand ?
-                <Box>
-                  <PlainButton label="My Flows" onClick={this.onClickMenu} />
-                  <PlainButton label="My Team" onClick={this.onClickMenu} />
-                  <PlainButton label="Setting" onClick={this.onClickMenu} />
-                </Box> : null}
+      <Spring
+        from={{
+          height: this.props.showMenuBar ? 'auto' : 0,
+          opacity: this.props.showMenuBar ? 1 : 0,
+        }}
+        to={{
+          height: this.props.showMenuBar ? 0 : 'auto',
+          opacity: this.props.showMenuBar ? 0 : 1,
+        }}
+        config={config.wobbly}
+      >
+        {props =>
+          <Box style={{ ...props, ...style }} elevation='medium' pad="medium" background="secondary" fill="horizontal" >
+            <Box>
+              <PlainButton label="My Flows" onClick={this.onClickMenu} />
+              <PlainButton label="My Team" onClick={this.onClickMenu} />
+              <PlainButton label="Setting" onClick={this.onClickMenu} />
             </Box>
-          }
-        </Spring>
-
-      </Box>
+          </Box>}
+      </Spring >
     )
   }
 
@@ -59,4 +55,4 @@ export default class DropMenuInline extends Component {
   }
 }
 
-const style = { position: 'fixed', top: 60 }
+const style = { position: 'fixed', top: 60, zIndex: 1, }

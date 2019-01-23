@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Box, Heading, Grid, Text, Button, DropButton, Menu } from 'grommet'
-import { User, Logout, CaretUp, Notification, Close, FormUp } from 'grommet-icons'
+import { Box, Text, Button, DropButton, } from 'grommet'
+import { User, Logout, CaretUp, Notification, Close, Menu } from 'grommet-icons'
 
 import { connect } from 'react-redux'
 
@@ -103,12 +103,12 @@ class AppBar extends Component {
         direction="row"
         align="center"
         justify="between"
-        pad={{ horizontal: "medium", vertical: "small" }}
+        pad="small"
         background='brand'
         height="60px"
       >
         <Box onClick={() => { }} direction="row" align="center" gap="small" >
-          <CaretUp />
+          <PlainButton icon={<Menu />} onClick={() => this.props.onToggleMenu()} />
           <Text size="xlarge" color='light-0' weight="bold">WAS</Text>
         </Box>
         {this.renderForSignedin()}

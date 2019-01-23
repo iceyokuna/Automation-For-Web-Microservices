@@ -26,16 +26,21 @@ import AnimateHeight from 'react-animate-height';
 import { Spring } from 'react-spring'
 
 export default class Home extends Component {
+  state = {
+    showMenuBar: false,
+  }
+
   render() {
     const { match } = this.props;
+    const { showMenuBar } = this.state;
     return (
       <Box flex fill="vertical">
-        <AppBar {...this.props} />
+        <AppBar {...this.props} onToggleMenu={this.toggleMenubar} />
         <Media query="(min-width: 599px)">
           {matches =>
             matches ? (
               <Box direction="row" height='100%'>
-                <SideBar {...this.props} />
+                <SideBar showMenuBar={showMenuBar} {...this.props} />
                 <div style={global.globalContainer}>
                   <Switch>
                     <Route exact path={match.url} component={MyFlows} />
@@ -48,7 +53,7 @@ export default class Home extends Component {
               </Box>
             ) : (
                 <Box direction="column" height='100%' style={{ paddingTop: 120 }}>
-                  <DropMenuInline />
+                  <DropMenuInline showMenuBar={showMenuBar} {...this.props} />
                   <div style={[global.globalContainer, { paddingLeft: 0, paddingTop: 0, }]}>
                     <Switch>
                       <Route exact path={match.url} component={MyFlows} />
@@ -66,5 +71,9 @@ export default class Home extends Component {
 
       </Box >
     )
+  }
+
+  toggleMenubar = (e) => {
+    this.setState({ showMenuBar: !this.state.showMenuBar });
   }
 }
