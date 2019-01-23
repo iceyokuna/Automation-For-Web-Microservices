@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Box, Button } from 'grommet';
 import { Group, Sort, Performance } from 'grommet-icons';
 
-import { Spring } from 'react-spring'
+import { Spring, config } from 'react-spring'
 
 export default class SideBar extends Component {
   render() {
@@ -15,7 +15,8 @@ export default class SideBar extends Component {
         }}
         to={{
           transform: `translateX(0px)`,
-        }}>
+        }}
+      >
         {props =>
           <Box style={{ ...props, ...style }} width="60px" height="100%" align="center"
             elevation='xlarge' pad={{ top: 'small', bottom: 'small' }} background='secondary'>
