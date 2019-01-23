@@ -200,7 +200,9 @@ export default class FlowDetail extends Component {
                 this.renderEditInformationDialog()
               }
             >
-              <Button label="Edit Info" icon={<Edit />} color="secondary" primary />
+              <Box elevation="medium">
+                <Button label="Edit Info" icon={<Edit />} color="secondary" primary />
+              </Box>
             </DropButton>
 
           </Box>

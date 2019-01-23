@@ -9,7 +9,6 @@ const DropContent = ({ onClose, onSelect, title, items }) => (
       <Heading level={3} margin="small">
         {title}
       </Heading>
-      <Button icon={<FormUp />} onClick={onClose} />
     </Box>
 
     {items.map((item, index) => (
