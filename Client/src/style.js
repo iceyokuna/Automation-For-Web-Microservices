@@ -13,6 +13,7 @@ export const global = {
   },
   globalContainer: {
     width: '100%',
+    height: '100%',
     paddingRight: 0,
     paddingBottom: 0,
     paddingLeft: 0,

@@ -55,4 +55,4 @@ export default class DropMenuInline extends Component {
   }
 }
 
-const style = { position: 'fixed', top: 60, zIndex: 1, }
+const style = { position: 'fixed', top: 60, zIndex: 10, }

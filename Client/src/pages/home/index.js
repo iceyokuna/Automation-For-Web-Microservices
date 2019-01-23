@@ -14,16 +14,12 @@ import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
 import { Route, Switch } from 'react-router-dom'
 
-import { global } from 'style'
+import { global, FillParent } from 'style'
 
 import SideBar from 'components/sidebar';
 
 import PrivateRoute from 'components/private_route'
 import Media from 'react-media'
-
-import AnimateHeight from 'react-animate-height';
-
-import { Spring } from 'react-spring'
 
 export default class Home extends Component {
   state = {
@@ -39,7 +35,7 @@ export default class Home extends Component {
         <Media query="(min-width: 599px)">
           {matches =>
             matches ? (
-              <Box direction="row" height='100%'>
+              <FillParent>
                 <SideBar showMenuBar={showMenuBar} {...this.props} />
                 <div style={global.globalContainer}>
                   <Switch>
@@ -50,12 +46,12 @@ export default class Home extends Component {
                     <Route component={NotFound} />
                   </Switch>
                 </div>
-              </Box>
+              </FillParent>
             ) : (
-                <Box direction="column" height='100%' style={{ paddingTop: 60 }}>
+                <FillParent>
                   <DropMenuInline showMenuBar={showMenuBar} {...this.props} />
-                  <div style={[global.globalContainer, {}]}>
-                    <Switch>
+                  <div style={global.globalContainer}>
+                    <Switch >
                       <Route exact path={match.url} component={MyFlows} />
                       <Route path={match.url + "/create"} component={CreateFlow} />
                       <Route path={match.url + "/:flow_id/edit_diagram"} component={Workflow} />
@@ -63,7 +59,7 @@ export default class Home extends Component {
                       <Route component={NotFound} />
                     </Switch>
                   </div>
-                </Box>
+                </FillParent>
               )
           }
         </Media>
