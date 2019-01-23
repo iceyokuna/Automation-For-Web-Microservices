@@ -23,6 +23,8 @@ import Media from 'react-media'
 
 import AnimateHeight from 'react-animate-height';
 
+import { Spring } from 'react-spring'
+
 export default class Home extends Component {
   render() {
     const { match } = this.props;
@@ -45,7 +47,7 @@ export default class Home extends Component {
                 </div>
               </Box>
             ) : (
-                <Box direction="column" height='100%' style={{paddingTop: 60}}>
+                <Box direction="column" height='100%' style={{ paddingTop: 60 }}>
                   <DropMenuInline />
                   <div style={[global.globalContainer, { paddingLeft: 0, paddingTop: 0, }]}>
                     <Switch>
