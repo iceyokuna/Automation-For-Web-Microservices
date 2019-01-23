@@ -1,45 +1,34 @@
 import React, { Component } from 'react'
-import AnimateHeight from 'react-animate-height'
 
-import { FormDown } from 'grommet-icons'
-import { Box, Text, Button } from 'grommet'
+import { Box } from 'grommet'
 
-import { Spring, config } from 'react-spring'
+import { Transition, config } from 'react-spring'
 
 import PlainButton from 'components/plain_button'
 
 export default class DropMenuInline extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isExpand: false,
-    }
-  }
-
   render() {
-    // const { isExpand } = this.state;
+    const { showMenuBar } = this.props;
     return (
-      <Spring
-        from={{
-          height: this.props.showMenuBar ? 'auto' : 0,
-          opacity: this.props.showMenuBar ? 1 : 0,
-        }}
-        to={{
-          height: this.props.showMenuBar ? 0 : 'auto',
-          opacity: this.props.showMenuBar ? 0 : 1,
-        }}
-        config={config.wobbly}
-      >
-        {props =>
-          <Box style={{ ...props, ...style }} elevation='medium' pad="medium" background="secondary" fill="horizontal" >
-            <Box>
-              <PlainButton label="My Flows" onClick={this.onClickMenu} />
-              <PlainButton label="My Team" onClick={this.onClickMenu} />
-              <PlainButton label="Setting" onClick={this.onClickMenu} />
+      <Transition
+        items={showMenuBar}
+        from={{ height: 0, opacity: 0 }}
+        enter={{ height: 'auto', opacity: 1 }}
+        leave={{ height: 0, opacity: 0 }}
+        config={config.wobbly}>
+        {toggle =>
+          toggle
+            ? props => <Box style={{ ...props, ...style }} elevation='medium' pad="medium" background="secondary" fill="horizontal" >
+              <Box>
+                <PlainButton label="My Flows" onClick={this.onClickMenu} />
+                <PlainButton label="My Team" onClick={this.onClickMenu} />
+                <PlainButton label="Setting" onClick={this.onClickMenu} />
+              </Box>
             </Box>
-          </Box>}
-      </Spring >
+            : null
+        }
+      </Transition>
     )
   }
 
