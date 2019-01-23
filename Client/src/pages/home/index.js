@@ -29,8 +29,6 @@ export default class Home extends Component {
     return (
       <Box flex fill="vertical">
         <AppBar {...this.props} />
-
-
         <Media query="(min-width: 599px)">
           {matches =>
             matches ? (
@@ -48,7 +46,7 @@ export default class Home extends Component {
               </Box>
             ) : (
                 <Box direction="column" height='100%'>
-                  <DropMenuInline/>
+                  <DropMenuInline />
                   <div style={global.globalContainer}>
                     <Switch>
                       <Route exact path={match.url} component={MyFlows} />

@@ -97,6 +97,7 @@ class AppBar extends Component {
   render() {
     return (
       <Box
+        style={style}
         responsive={false}
         elevation="medium"
         direction="row"
@@ -114,6 +115,12 @@ class AppBar extends Component {
       </Box>
     )
   }
+}
+
+const style = {
+  position: 'fixed',
+  width: '100%',
+  zIndex: 2,
 }
 
 export default connect(null, null)(AppBar);

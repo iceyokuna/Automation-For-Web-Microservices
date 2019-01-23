@@ -13,7 +13,10 @@ export const global = {
   },
   globalContainer: {
     width: '100%',
-    padding: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+    paddingLeft: 60,
+    paddingTop: 60,
     backgroundColor: '#f6f6f6',
     display: 'flex',
     flexDirection: 'column',
