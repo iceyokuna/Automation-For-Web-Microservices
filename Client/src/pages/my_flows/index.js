@@ -73,7 +73,9 @@ export default class MyFlow extends Component {
 
             <Col lg={4} sm={4} xs={12}>
               <Box direction="row" align="center" fill justify="end">
-                <Button label="New Flow" icon={<Add />} color="secondary" primary onClick={() => this.onCreateFlow()} />
+                <Box elevation="medium">
+                  <Button label="New Flow" icon={<Add />} color="secondary" primary onClick={() => this.onCreateFlow()} />
+                </Box>
               </Box>
             </Col>
           </Row>

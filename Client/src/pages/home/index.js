@@ -45,9 +45,9 @@ export default class Home extends Component {
                 </div>
               </Box>
             ) : (
-                <Box direction="column" height='100%'>
+                <Box direction="column" height='100%' style={{paddingTop: 60}}>
                   <DropMenuInline />
-                  <div style={global.globalContainer}>
+                  <div style={[global.globalContainer, { paddingLeft: 0, paddingTop: 0, }]}>
                     <Switch>
                       <Route exact path={match.url} component={MyFlows} />
                       <Route path={match.url + "/create"} component={CreateFlow} />

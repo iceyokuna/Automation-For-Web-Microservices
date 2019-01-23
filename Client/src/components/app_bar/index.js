@@ -105,6 +105,7 @@ class AppBar extends Component {
         justify="between"
         pad={{ horizontal: "medium", vertical: "small" }}
         background='brand'
+        height="60px"
       >
         <Box onClick={() => { }} direction="row" align="center" gap="small" >
           <CaretUp />
