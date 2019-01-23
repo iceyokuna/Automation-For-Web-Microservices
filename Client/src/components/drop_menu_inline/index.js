@@ -21,9 +21,7 @@ export default class DropMenuInline extends Component {
     const { isExpand } = this.state;
     return (
       <Box style={style} elevation='medium' pad="medium" background="secondary" fill="horizontal">
-        <Button onClick={this.toggleExpand} >
-          <FormDown />
-        </Button>
+        <PlainButton onClick={this.toggleExpand} icon={<FormDown />} />
         <Spring
           from={{
             height: isExpand ? 0 : 'auto',
@@ -37,9 +35,9 @@ export default class DropMenuInline extends Component {
             <Box style={props}>
               {isExpand ?
                 <Box>
-                  <PlainButton label="My Flows" onClick={this.onClickMenu}/>
-                  <PlainButton label="My Team" onClick={this.onClickMenu}/>
-                  <PlainButton label="Setting" onClick={this.onClickMenu}/>
+                  <PlainButton label="My Flows" onClick={this.onClickMenu} />
+                  <PlainButton label="My Team" onClick={this.onClickMenu} />
+                  <PlainButton label="Setting" onClick={this.onClickMenu} />
                 </Box> : null}
             </Box>
           }

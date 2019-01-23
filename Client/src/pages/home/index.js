@@ -47,7 +47,7 @@ export default class Home extends Component {
                 </div>
               </Box>
             ) : (
-                <Box direction="column" height='100%' style={{ paddingTop: 60 }}>
+                <Box direction="column" height='100%' style={{ paddingTop: 120 }}>
                   <DropMenuInline />
                   <div style={[global.globalContainer, { paddingLeft: 0, paddingTop: 0, }]}>
                     <Switch>

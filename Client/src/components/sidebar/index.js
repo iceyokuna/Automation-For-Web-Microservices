@@ -5,20 +5,25 @@ import { Group, Sort, Performance } from 'grommet-icons';
 
 import { Spring, config } from 'react-spring'
 
+const sideBarWidth = 60;
+
 export default class SideBar extends Component {
   render() {
     if (this.props.location.pathname === '/my_flows/create_form') return null;
     return (
       <Spring
         from={{
-          transform: `translateX(-60px)`,
+          width: 0,
+          // transform: `translateX(-60px)`,
         }}
         to={{
-          transform: `translateX(0px)`,
+          // transform: `translateX(0px)`,
+          width: sideBarWidth
         }}
+        config={config.wobbly}
       >
         {props =>
-          <Box style={{ ...props, ...style }} width="60px" height="100%" align="center"
+          <Box style={{ ...props, ...style }} width={`${sideBarWidth}px`} height="100%" align="center"
             elevation='xlarge' pad={{ top: 'small', bottom: 'small' }} background='secondary'>
             <Button hoverIndicator icon={<Sort />} />
             <Button hoverIndicator icon={<Group />} />
