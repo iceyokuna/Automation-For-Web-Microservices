@@ -121,7 +121,7 @@ class AppBar extends Component {
 const style = {
   position: 'fixed',
   width: '100%',
-  zIndex: 2,
+  zIndex: 10,
 }
 
 export default connect(null, null)(AppBar);

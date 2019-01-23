@@ -15,7 +15,7 @@ export const global = {
     width: '100%',
     paddingRight: 0,
     paddingBottom: 0,
-    paddingLeft: 60,
+    paddingLeft: 0,
     paddingTop: 60,
     backgroundColor: '#f6f6f6',
     display: 'flex',

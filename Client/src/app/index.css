@@ -42,6 +42,7 @@ body {
 #canvas > div > div > div.bpmn-js-bpmnlint-issues.bpmn-js-bpmnlint-process-issues {
   left: 100px !important;
   right: initial;
+  z-index: 4;
 }
 
 #canvas > div > div > div.djs-palette.open {

@@ -52,9 +52,9 @@ export default class Home extends Component {
                 </div>
               </Box>
             ) : (
-                <Box direction="column" height='100%' style={{ paddingTop: 120 }}>
+                <Box direction="column" height='100%' style={{ paddingTop: 60 }}>
                   <DropMenuInline showMenuBar={showMenuBar} {...this.props} />
-                  <div style={[global.globalContainer, { paddingLeft: 0, paddingTop: 0, }]}>
+                  <div style={[global.globalContainer, {}]}>
                     <Switch>
                       <Route exact path={match.url} component={MyFlows} />
                       <Route path={match.url + "/create"} component={CreateFlow} />
