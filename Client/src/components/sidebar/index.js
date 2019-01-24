@@ -24,12 +24,16 @@ export default class SideBar extends Component {
         config={config.wobbly}>
         {toggle =>
           toggle
-            ? props => <Box style={{ ...props, ...style }} width={`${sideBarWidth}px`} height="100%" align="start"
-              elevation='xlarge' pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }} background='secondary'>
-              <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Sort />} label="My Flows" /></Box>
-              <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Group />} label="My Team" /></Box>
-              <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Performance />} label="Setting" /></Box>
-            </Box>
+            ? props =>
+              <Box style={{ ...props, ...style }}
+                width={`${sideBarWidth}px`}
+                height="100%" align="start"
+                elevation='xlarge' pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }}
+                background='secondary' responsive={false}>
+                <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Sort />} label="My Flows" /></Box>
+                <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Group />} label="My Team" /></Box>
+                <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Performance />} label="Setting" /></Box>
+              </Box>
             : null
         }
       </Transition>
