@@ -21,6 +21,8 @@ export default class GrapeJSWrapper extends Component {
         }
       },
       allowScripts: 1,
+      storageManager: { type: null },
+      fromElement: true,
       height: '100%'
     });
 
