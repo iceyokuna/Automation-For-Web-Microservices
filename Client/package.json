@@ -22,7 +22,7 @@
     "copy-webpack-plugin": "^4.6.0",
     "downloadjs": "^1.4.7",
     "flexboxgrid": "^6.3.1",
-    "grapesjs": "^0.14.33",
+    "grapesjs": "^0.14.50",
     "grapesjs-custom-code": "^0.1.1",
     "grapesjs-preset-webpage": "^0.1.10",
     "grommet": "^2.0.1",
