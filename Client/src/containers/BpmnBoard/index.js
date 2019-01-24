@@ -46,7 +46,6 @@ class BpmnContainer extends Component {
 
   state = {
     currentElement: null,
-    sidebarVisible: true,
     showServiceRequirement: false,
     selectedServiceMethod: null,
   };
@@ -240,11 +239,7 @@ class BpmnContainer extends Component {
       if (err) {
         console.error(err);
       } else {
-        const bpmnJson = converter.xml2js(xml, { compact: false });
-        // this.props.dispatch(bpmnActions.sendWorkflowBpmnJson(bpmnJson));
-
         const { appName, appDescription, generatedForms } = this.props.bpmn;
-
         this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
           if (err) {
             console.error(err);
@@ -254,12 +249,14 @@ class BpmnContainer extends Component {
               bpmnJson,
               generatedForms,
             }
-
             this.props.dispatch(bpmnActions.sendWorkflowData(
               appName, appDescription,
               workflowData
             ));
 
+            this.props.dispatch(socketActions.sendMessage('REACT Title', {
+              a: 100
+            }));
           }
         });
 
@@ -277,10 +274,8 @@ class BpmnContainer extends Component {
   }
 
 
-
-
   render() {
-    const { sidebarVisible, showServiceRequirement, selectedServiceMethod } = this.state
+    const { showServiceRequirement, selectedServiceMethod } = this.state
     const { bpmn, availableServices } = this.props;
 
     return (
@@ -331,6 +326,7 @@ class BpmnContainer extends Component {
           onRedo={this.handleRedo}
           onUndo={this.handleUndo}
         />
+
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
             <Button primary icon={<PlayFill size="small" />} label="Execute" onClick={this.onSubmitDiagram} />

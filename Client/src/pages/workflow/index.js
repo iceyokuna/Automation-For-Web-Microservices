@@ -11,7 +11,6 @@ import { withRouter } from 'react-router-dom';
 class ModelWorkflow extends Component {
 
   render() {
-    console.log('workflow', this.props);
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative' }}>
         <BpmnBoard />

@@ -9,7 +9,7 @@ import PlainButton from 'components/plain_button'
 export default class DropMenuInline extends Component {
 
   render() {
-    const { showMenuBar } = this.props;
+    const { showMenuBar, history } = this.props;
     return (
       <Transition
         items={showMenuBar}
@@ -21,9 +21,9 @@ export default class DropMenuInline extends Component {
           toggle
             ? props => <Box style={{ ...props, ...style }} elevation='medium' pad="medium" background="secondary" fill="horizontal" >
               <Box>
-                <PlainButton label="My Flows" onClick={this.onClickMenu} />
-                <PlainButton label="My Team" onClick={this.onClickMenu} />
-                <PlainButton label="Setting" onClick={this.onClickMenu} />
+                <PlainButton label="My Flows" onClick={() => history.push('/my_flows')} />
+                <PlainButton label="My Team" onClick={() => history.push('/my_flows')} />
+                <PlainButton label="Setting" onClick={() => history.push('/my_flows')} />
               </Box>
             </Box>
             : null
@@ -39,9 +39,6 @@ export default class DropMenuInline extends Component {
   }
 
 
-  onClickMenu = (e) => {
-
-  }
 }
 
 const style = { position: 'fixed', top: 60, zIndex: 10, }

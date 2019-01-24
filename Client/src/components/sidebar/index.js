@@ -12,8 +12,9 @@ const appBarHeight = 60;
 export default class SideBar extends Component {
 
   render() {
-    const { showMenuBar } = this.props;
-    if (this.props.location.pathname === '/my_flows/create_form') return null;
+    const { showMenuBar, history, location } = this.props;
+
+    if (location.pathname === '/my_flows/create_form') return null;
     return (
       <Transition
         items={showMenuBar}
@@ -25,9 +26,9 @@ export default class SideBar extends Component {
           toggle
             ? props => <Box style={{ ...props, ...style }} width={`${sideBarWidth}px`} height="100%" align="start"
               elevation='xlarge' pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }} background='secondary'>
-              <Box fill="horizontal"><PlainButton hoverIndicator icon={<Sort />} label="My Flows" /></Box>
-              <Box fill="horizontal"><PlainButton hoverIndicator icon={<Group />} label="My Team" /></Box>
-              <Box fill="horizontal"><PlainButton fhoverIndicator icon={<Performance />} label="Setting" /></Box>
+              <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Sort />} label="My Flows" /></Box>
+              <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Group />} label="My Team" /></Box>
+              <Box fill="horizontal"><PlainButton hoverIndicator onClick={() => history.push('/my_flows')} icon={<Performance />} label="Setting" /></Box>
             </Box>
             : null
         }

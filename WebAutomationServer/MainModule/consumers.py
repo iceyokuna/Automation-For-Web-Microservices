@@ -41,7 +41,7 @@ class MainConsumer(WebsocketConsumer):
             html_index += 1
 
         self.send(text_data=json.dumps({
-            'message': 'Error'
+            'message': 'Good morning from server'
         }))
 
 
