@@ -46,6 +46,7 @@ export default class GrapeJSWrapper extends Component {
         defaults: Object.assign({}, dModel.prototype.defaults, {
           traits: [
             // strings are automatically converted to text types
+            'id',
             'name',
             'placeholder',
             {
@@ -75,33 +76,20 @@ export default class GrapeJSWrapper extends Component {
       view: dView,
     });
 
-
-    // const buttonProps = Object.assign({}, dModel.prototype.defaults);
-
-    // // console.log(buttonProps)
-
-    // // var originalButton = domComps.getType('button');
-
-    // buttonProps.traits = [...buttonProps.traits,
-    //   'id',
-    //   'text',
-    // {
-    //   type: 'select',
-    //   label: 'Type',
-    //   name: 'type',
-    //   options: [
-    //     { value: 'submit', name: 'Submit' },
-    //     { value: 'reset', name: 'Reset' },
-    //     { value: 'button', name: 'Button' },
-    //   ]
-    // }]
+    // Need to remove previous and drag a new one => the custom attribute will show up
 
     // domComps.addType('button', {
     //   model: dModel.extend({
-    //     defaults: buttonProps,
+    //     defaults: Object.assign({}, dModel.prototype.defaults, {
+    //       traits: [
+    //         // strings are automatically converted to text types
+    //         'name',
+    //         'placeholder',
+    //       ],
+    //     }),
     //   }, {
     //       isComponent: function (el) {
-    //         if (el.tagName == 'BUTTON') {
+    //         if (el.tagName === 'BUTTON') {
     //           return { type: 'button' };
     //         }
     //       },
@@ -109,6 +97,8 @@ export default class GrapeJSWrapper extends Component {
 
     //   view: dView,
     // });
+
+
 
 
     buttonRule.set('style', {
