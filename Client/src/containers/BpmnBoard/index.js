@@ -10,6 +10,7 @@ import FileControls from "./components/FileControls";
 import EditingTools from './components/EditingTools';
 import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
+import ParticipantSelector from './components/participant_selector';
 
 import "./style/app.less";
 
@@ -47,6 +48,7 @@ class BpmnContainer extends Component {
   state = {
     currentElement: null,
     showServiceRequirement: false,
+    showParticipantSelector: false,
     selectedServiceMethod: null,
   };
 
@@ -277,7 +279,7 @@ class BpmnContainer extends Component {
 
 
   render() {
-    const { showServiceRequirement, selectedServiceMethod } = this.state
+    const { showServiceRequirement, showParticipantSelector, selectedServiceMethod } = this.state
     const { bpmn, availableServices } = this.props;
 
     return (
@@ -339,6 +341,8 @@ class BpmnContainer extends Component {
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
+
+        {/* <ParticipantSelector show={showParticipantSelector} participants={}/> */}
 
       </Box>
     );

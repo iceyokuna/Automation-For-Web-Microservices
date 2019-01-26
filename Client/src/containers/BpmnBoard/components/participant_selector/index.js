@@ -61,7 +61,7 @@ export default class ParticipantSelector extends Component {
                 placeholder="ID/Name of your team member"
                 value={value}
                 options={options}
-                onChange={({ option }) => { this.setState({ value: option }); }}
+                onChange={({ option }) => { this.setState({ value: option.username }); }}
                 onClose={() => this.setState({ options: defaultOptions })}
                 onSearch={text => {
                   const exp = new RegExp(text, "i");
