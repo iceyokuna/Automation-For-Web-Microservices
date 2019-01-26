@@ -134,6 +134,8 @@ class BpmnContainer extends Component {
           this.setState({
             currentElement: event.element.businessObject
           });
+
+          console.log(event);
         })
 
         eventBus.on('element.dbclick', (event) => {
