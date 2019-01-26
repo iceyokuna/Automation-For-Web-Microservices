@@ -101,7 +101,6 @@ class AppBar extends Component {
       <Box
         style={style}
         responsive={false}
-        elevation={'medium'}
         direction="row"
         align="center"
         justify="between"

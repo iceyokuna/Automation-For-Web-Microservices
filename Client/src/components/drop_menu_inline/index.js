@@ -19,7 +19,7 @@ export default class DropMenuInline extends Component {
         config={config.wobbly}>
         {toggle =>
           toggle
-            ? props => <Box style={{ ...props, ...style }} elevation='medium' pad="medium" background="secondary" fill="horizontal" >
+            ? props => <Box style={{ ...props, ...style }} pad="medium" background="secondary" fill="horizontal" >
               <Box>
                 <PlainButton label="My Flows" onClick={() => this.props.onSelectMenu('/my_flows')} />
                 <PlainButton label="My Team" onClick={() => this.props.onSelectMenu('/my_team')} />
