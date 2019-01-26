@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 
 import { Box, Heading, Layer, Button, Text, Select } from 'grommet'
 
-import { Close } from 'grommet-icons'
+import { Close, Checkmark } from 'grommet-icons'
 import Avatar from 'react-avatar';
 
 const defaultOptions = [];
 for (let i = 1; i <= 200; i += 1) {
-  defaultOptions.push({ username: `Username ${i}`, id: `id ${i}` });
+  defaultOptions.push({ username: `Username_${i}`, id: `id_${i}` });
 }
 
 
@@ -23,26 +23,22 @@ const ParticipantItem = ({ username, id }) => (
 
 export default class ParticipantSelector extends Component {
   state = {
-    show: true,
     options: defaultOptions,
     value: "",
   }
 
-  onshow = () => this.setState({ show: true });
-
   onClose = () => {
-    this.setState({ show: undefined });
+    this.props.onClose();
   }
 
-  componentWillReceiveProps = (props) => {
-    this.setState({
-      show: props.show,
-      serviceMethod: props.serviceMethod
-    })
+  selectParticipant = () => {
+    this.props.onSelectParticipant(this.state.value);
+    this.onClose();
   }
 
   render() {
-    const { show, options, value } = this.state;
+    const { options, value } = this.state;
+    const { show } = this.props;
     return (
       <Box>
         {show && (
@@ -63,7 +59,7 @@ export default class ParticipantSelector extends Component {
                 placeholder="ID/Name of your team member"
                 value={value}
                 options={options}
-                onChange={({ option }) => { this.setState({ value: option.username }); }}
+                onChange={({ option }) => { this.setState({ value: option.id }); }}
                 onClose={() => this.setState({ options: defaultOptions })}
                 onSearch={text => {
                   const exp = new RegExp(text);
@@ -81,7 +77,7 @@ export default class ParticipantSelector extends Component {
               </Select>
 
               <Box justify="end" direction="row" gap="small">
-                <Button label="Close" icon={<Close />} onClick={this.onClose} primary />
+                <Button label="Ok" icon={<Checkmark />} onClick={this.selectParticipant} primary />
               </Box>
 
             </Box>

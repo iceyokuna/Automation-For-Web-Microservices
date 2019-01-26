@@ -11,6 +11,8 @@ import { userActions } from 'actions'
 
 import Media from 'react-media'
 
+const iconColor = "#ffffff"
+
 class AppBar extends Component {
 
   constructor(props) {
@@ -64,7 +66,7 @@ class AppBar extends Component {
                 onSelect={this.onSelectNotification}
                 onClose={this.onCloseDropdown} />}
           >
-            <PlainButton icon={<Notification />} />
+            <PlainButton icon={<Notification color={iconColor} />} />
           </DropButton>
 
           <DropButton
@@ -82,9 +84,9 @@ class AppBar extends Component {
             <Media query="(min-width: 599px)">
               {matches =>
                 matches ? (
-                  <PlainButton icon={<User />} label={this.state.username} />
+                  <PlainButton icon={<User color={iconColor} />} label={this.state.username} />
                 ) : (
-                    <PlainButton icon={<User />} />
+                    <PlainButton icon={<User color={iconColor} />} />
                   )
               }
             </Media>
@@ -99,7 +101,7 @@ class AppBar extends Component {
       <Box
         style={style}
         responsive={false}
-        elevation="medium"
+        elevation={'medium'}
         direction="row"
         align="center"
         justify="between"
@@ -108,7 +110,7 @@ class AppBar extends Component {
         height="60px"
       >
         <Box onClick={() => { }} direction="row" align="center" gap="small" >
-          <PlainButton icon={<Menu />} onClick={() => this.props.onToggleMenu()} />
+          <PlainButton icon={<Menu color={iconColor} />} onClick={() => this.props.onToggleMenu()} />
           <Text size="xlarge" color='light-0' weight="bold">WAS</Text>
         </Box>
         {this.renderForSignedin()}

@@ -9,6 +9,8 @@ import PlainButton from 'components/plain_button'
 const sideBarWidth = 200;
 const appBarHeight = 60;
 
+const iconColor = "#ffffff";
+
 export default class SideBar extends Component {
 
   render() {
@@ -33,19 +35,19 @@ export default class SideBar extends Component {
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
                     onClick={() => this.props.onSelectMenu('/my_flows')}
-                    icon={<Sort />}
+                    icon={<Sort color={iconColor} />}
                     label="My Flows" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
                     onClick={() => this.props.onSelectMenu('/my_team')}
-                    icon={<Group />}
+                    icon={<Group color={iconColor} />}
                     label="My Team" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
                     onClick={() => this.props.onSelectMenu('/setting')}
-                    icon={<Performance />}
+                    icon={<Performance color={iconColor} />}
                     label="Setting" />
                 </Box>
               </Box>

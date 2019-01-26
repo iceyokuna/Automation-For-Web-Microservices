@@ -88,15 +88,15 @@ class BpmnContainer extends Component {
   attachFormToXML = (newForms) => {
     const { taskId, form } = newForms;
 
-    let elementRegistry = this.bpmnModeler.get('elementRegistry');
+    const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
-    let sequenceFlowElement = elementRegistry.get(taskId),
+    const sequenceFlowElement = elementRegistry.get(taskId),
       businessObject = sequenceFlowElement.businessObject;
 
     // businessObject.id = 'NewEventName'; // Change ID of the element
 
-    let moddle = this.bpmnModeler.get('moddle');
-    let formTag = moddle.create('form:FormData');
+    const moddle = this.bpmnModeler.get('moddle');
+    const formTag = moddle.create('form:FormData');
 
     formTag.forTaskId = taskId;
     formTag.html = form.formHtml;
@@ -106,7 +106,7 @@ class BpmnContainer extends Component {
     const extensions = moddle.create('bpmn:ExtensionElements');
     extensions.get('values').push(formTag);
 
-    let modeling = this.bpmnModeler.get('modeling');
+    const modeling = this.bpmnModeler.get('modeling');
     modeling.updateProperties(sequenceFlowElement, {
       extensionElements: extensions
     });
@@ -120,7 +120,7 @@ class BpmnContainer extends Component {
       } else {
         // Render success
 
-        var linting = this.bpmnModeler.get('linting');
+        const linting = this.bpmnModeler.get('linting');
         linting.activateLinting(); // Activate validator
 
         // Linting events
@@ -131,17 +131,22 @@ class BpmnContainer extends Component {
         )
 
         // Binding events
-        let eventBus = this.bpmnModeler.get('eventBus');
+        const eventBus = this.bpmnModeler.get('eventBus');
         eventBus.on('element.click', (event) => {
           this.setState({
             currentElement: event.element.businessObject
           });
-
           console.log(event);
         })
 
-        eventBus.on('element.dbclick', (event) => {
-          console.log(event);
+        eventBus.on('element.dblclick', (event) => {
+          const targetObject = event.element.businessObject;
+          if (targetObject.$type == 'bpmn:Lane') {
+            this.setState({
+              showParticipantSelector: true,
+              currentElement: event.element.businessObject,
+            })
+          }
         })
 
       }
@@ -189,20 +194,6 @@ class BpmnContainer extends Component {
   handleZoomReset = () => {
     scale = 1;
     this.handleZoom();
-  }
-
-
-  updateProperties(newProps) {
-    let modeling = this.bpmnModeler.get('modeling');
-    let elementRegistry = this.bpmnModeler.get('elementRegistry');
-
-    let sequenceFlowElement = elementRegistry.get(newProps.nodeId),
-      businessObject = sequenceFlowElement.businessObject;
-
-    modeling.updateProperties(sequenceFlowElement, {
-      name: newProps.nodeName,
-      testProps: 'eiei'
-    })
   }
 
   handleOpen = (fileObj) => {
@@ -270,13 +261,37 @@ class BpmnContainer extends Component {
   }
 
   showServiceMethodRequirement = (serviceMethod) => {
-
     this.setState({
       selectedServiceMethod: serviceMethod,
       showServiceRequirement: true,
     })
   }
 
+  updateByBpmnProperty(newProps) {
+    const modeling = this.bpmnModeler.get('modeling');
+    const elementRegistry = this.bpmnModeler.get('elementRegistry');
+
+    const sequenceFlowElement = elementRegistry.get(newProps.nodeId);
+
+    modeling.updateProperties(sequenceFlowElement, {
+      name: newProps.nodeName,
+      testProps: 'eiei'
+    })
+  }
+
+  updateByParticipant = (partId) => {
+    const modeling = this.bpmnModeler.get('modeling');
+    const elementRegistry = this.bpmnModeler.get('elementRegistry');
+    const { currentElement } = this.state;
+
+    const sequenceFlowElement = elementRegistry.get(currentElement.id);
+
+    modeling.updateProperties(sequenceFlowElement, {
+      name: partId,
+    })
+
+    this.setState({ showParticipantSelector: undefined });
+  }
 
   render() {
     const { showServiceRequirement, showParticipantSelector, selectedServiceMethod } = this.state
@@ -318,7 +333,7 @@ class BpmnContainer extends Component {
         <BpmnProperty
           allServices={availableServices.data}
           currentElement={this.state.currentElement}
-          onUpdate={(newProps) => this.updateProperties(newProps)}
+          onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
         <ZoomControls
           onZoomIn={this.handleZoomIn}
@@ -342,7 +357,10 @@ class BpmnContainer extends Component {
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
 
-        {/* <ParticipantSelector show={showParticipantSelector} participants={}/> */}
+        <ParticipantSelector
+          show={showParticipantSelector}
+          onClose={() => this.setState({ showParticipantSelector: undefined })}
+          onSelectParticipant={this.updateByParticipant} />
 
       </Box>
     );
