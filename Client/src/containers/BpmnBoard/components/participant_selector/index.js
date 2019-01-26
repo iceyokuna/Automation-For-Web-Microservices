@@ -52,11 +52,13 @@ export default class ParticipantSelector extends Component {
             onClickOutside={this.onClose}
             onEsc={this.onClose}
           >
-            <Box pad="medium" gap="small" width="large">
+            <Box pad="medium" gap="small" width="medium">
               <Heading level={2} margin="none">
                 Choose a participant for this lane
               </Heading>
+
               <Select
+                dropHeight="medium"
                 size="medium"
                 placeholder="ID/Name of your team member"
                 value={value}
@@ -64,9 +66,10 @@ export default class ParticipantSelector extends Component {
                 onChange={({ option }) => { this.setState({ value: option.username }); }}
                 onClose={() => this.setState({ options: defaultOptions })}
                 onSearch={text => {
-                  const exp = new RegExp(text, "i");
+                  const exp = new RegExp(text);
                   this.setState({
-                    options: defaultOptions.filter(o => exp.test(o))
+                    options: defaultOptions.filter(option =>
+                      (exp.test(option.username) || exp.test(option.id)))
                   });
                 }}
               >
