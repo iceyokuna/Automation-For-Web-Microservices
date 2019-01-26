@@ -65,7 +65,7 @@ export default class CreateFlow extends Component {
 
     return (
       <Box fill flex align="center">
-        <div style={{ width: '400px', position: 'absolute' }}>
+        {/* <div style={{ width: '400px', position: 'absolute' }}>
           <Stepper
             activeColor={colors.brand}
             completeColor={colors.brand}
@@ -74,7 +74,7 @@ export default class CreateFlow extends Component {
               { title: 'Design Workflow' },
               { title: 'Execute' }]}
             activeStep={this.state.activeStepIndex} />
-        </div>
+        </div> */}
         <Route path={match.url + "/add_information"} component={AddFlowInfo} />
         <Route path={match.url + "/design_workflow"} component={ModelWorkflow} />
         <Route path={match.url + "/design_form"} component={CreateForm} />

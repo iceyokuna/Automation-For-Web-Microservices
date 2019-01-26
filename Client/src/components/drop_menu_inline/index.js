@@ -21,9 +21,9 @@ export default class DropMenuInline extends Component {
           toggle
             ? props => <Box style={{ ...props, ...style }} elevation='medium' pad="medium" background="secondary" fill="horizontal" >
               <Box>
-                <PlainButton label="My Flows" onClick={() => history.push('/my_flows')} />
-                <PlainButton label="My Team" onClick={() => history.push('/my_flows')} />
-                <PlainButton label="Setting" onClick={() => history.push('/my_flows')} />
+                <PlainButton label="My Flows" onClick={() => this.props.onSelectMenu('/my_flows')} />
+                <PlainButton label="My Team" onClick={() => this.props.onSelectMenu('/my_team')} />
+                <PlainButton label="Setting" onClick={() => this.props.onSelectMenu('/setting')} />
               </Box>
             </Box>
             : null

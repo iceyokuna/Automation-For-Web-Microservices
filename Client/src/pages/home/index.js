@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 
-// import SideMenu from 'components/side_menu';
+import { global, FillParent } from 'style'
+
 import AppBar from 'components/app_bar';
 import DropMenuInline from 'components/drop_menu_inline'
+import SideBar from 'components/sidebar';
+import PrivateRoute from 'components/private_route'
 
 import { Button, Box, Text } from 'grommet';
 
@@ -12,14 +15,12 @@ import NotFound from 'pages/not_found'
 import MyFlows from 'pages/my_flows';
 import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
+
 import { Route, Switch } from 'react-router-dom'
 
-import { global, FillParent } from 'style'
-
-import SideBar from 'components/sidebar';
-
-import PrivateRoute from 'components/private_route'
 import Media from 'react-media'
+
+import { history } from '_helpers';
 
 export default class Home extends Component {
   state = {
@@ -36,7 +37,8 @@ export default class Home extends Component {
           {matches =>
             matches ? (
               <FillParent>
-                <SideBar showMenuBar={showMenuBar} {...this.props} />
+                <SideBar showMenuBar={showMenuBar}
+                  onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
                 <div style={global.globalContainer}>
                   <Switch>
                     <Route exact path={match.url} component={MyFlows} />
@@ -49,7 +51,8 @@ export default class Home extends Component {
               </FillParent>
             ) : (
                 <FillParent>
-                  <DropMenuInline showMenuBar={showMenuBar} {...this.props} />
+                  <DropMenuInline showMenuBar={showMenuBar}
+                    onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
                   <div style={global.globalContainer}>
                     <Switch >
                       <Route exact path={match.url} component={MyFlows} />
@@ -71,5 +74,10 @@ export default class Home extends Component {
 
   toggleMenubar = (e) => {
     this.setState({ showMenuBar: !this.state.showMenuBar });
+  }
+
+  navigateTo = (pathName) => {
+    history.push(pathName);
+    this.toggleMenubar();
   }
 }
