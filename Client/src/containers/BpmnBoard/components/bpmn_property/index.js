@@ -12,86 +12,85 @@ import PropTypes from 'prop-types'
 
 const serviceMethods = [
   {
-    methodName: 'Send email to a receiver', requirement: {
-      "input": {
-        "emailTitle": {
-          "type": "string",
-          "formData": {
-            "elementType": "TextInput",
-            "elementId": "title#1"
-          }
-        },
-        "emailBody": {
-          "type": "string",
-          "formData": {
-            "elementType": "TextArea",
-            "elementId": "message#233"
-          }
-        },
-        "receiver": {
-          "type": "string",
-          "formData": {
-            "elementType": "TextInput",
-            "elementId": "receiver#1123"
-          }
+    name: 'Send email to a receiver',
+    "input_interface": {
+      "emailTitle": {
+        "type": "string",
+        "formData": {
+          "elementType": "TextInput",
+          "elementId": "title#1"
         }
       },
-      "output": {
-        "emailObject": {
-          "type": "json"
+      "emailBody": {
+        "type": "string",
+        "formData": {
+          "elementType": "TextArea",
+          "elementId": "message#233"
+        }
+      },
+      "receiver": {
+        "type": "string",
+        "formData": {
+          "elementType": "TextInput",
+          "elementId": "receiver#1123"
         }
       }
+    },
+    "output_interface": {
+      "emailObject": {
+        "type": "json"
+      }
     }
+
   },
   {
-    methodName: 'Send email to multiple users', requirement: {
-      "input": {
-        "emailTitle": {
-          "type": "string",
-          "formData": {
-            "elementType": "TextInput",
-            "elementId": "title#1"
-          }
-        },
-        "emailBody": {
-          "type": "string",
-          "formData": {
-            "elementType": "TextArea",
-            "elementId": "message#233"
-          }
-        },
-        "receiver": {
-          "type": "string",
-          "formData": {
-            "elementType": "TextInput",
-            "elementId": "receiver#1123"
-          }
+    name: 'Send email to multiple users',
+    "input_interface": {
+      "emailTitle": {
+        "type": "string",
+        "formData": {
+          "elementType": "TextInput",
+          "elementId": "title#1"
         }
       },
-      "output": {
-        "emailObject": {
-          "type": "json"
+      "emailBody": {
+        "type": "string",
+        "formData": {
+          "elementType": "TextArea",
+          "elementId": "message#233"
         }
+      },
+      "receiver": {
+        "type": "string",
+        "formData": {
+          "elementType": "TextInput",
+          "elementId": "receiver#1123"
+        }
+      }
+    },
+    "output_interface": {
+      "emailObject": {
+        "type": "json"
       }
     }
   },
 ]
 
 const services = [
-  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Email Service', description: 'This is description of the service', methods: serviceMethods },
-  { serviceTitle: 'Payment Service', description: 'This is description of the service', methods: serviceMethods },
+  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
+  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
 ]
 
 class BpmnProperty extends Component {
@@ -186,7 +185,7 @@ class BpmnProperty extends Component {
               </Link>
 
               <Box pad={{ vertical: 'medium' }} width="100%">
-                <ServiceList services={allServices} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
+                <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
               </Box>
 
             </Box>
