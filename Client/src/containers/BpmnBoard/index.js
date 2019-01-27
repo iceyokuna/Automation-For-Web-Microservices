@@ -354,6 +354,7 @@ class BpmnContainer extends Component {
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
+          onSelectMethod={() => { }}
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
 

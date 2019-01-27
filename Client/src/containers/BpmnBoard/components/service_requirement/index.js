@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { Box, Heading, Layer, Button, Text } from 'grommet'
+import { Checkmark } from 'grommet-icons'
 import JSONTree from 'react-json-tree'
 import { jsonTheme } from './jsonTheme'
 
@@ -10,9 +11,9 @@ export default class ServiceRequirement extends Component {
 
   }
 
-  onshow = () => this.setState({ show: true });
+  show = () => this.setState({ show: true });
 
-  onClose = () => {
+  close = () => {
     this.setState({ show: undefined });
     this.props.onCloseRequirement();
   }
@@ -25,6 +26,12 @@ export default class ServiceRequirement extends Component {
 
   }
 
+  selectMethod = (method) => {
+    this.props.onSelectMethod(method);
+    this.close();
+  }
+
+
   render() {
     const { show, serviceMethod } = this.state;
     return (
@@ -33,8 +40,8 @@ export default class ServiceRequirement extends Component {
           <Layer
             position="center"
             modal
-            onClickOutside={this.onClose}
-            onEsc={this.onClose}
+            onClickOutside={this.close}
+            onEsc={this.close}
           >
             <Box pad="medium" gap="small" width="large">
               <Heading level={2} margin="none">
@@ -59,6 +66,10 @@ export default class ServiceRequirement extends Component {
                   Output Interface
                 </Heading>
                 <JSONTree hideRoot theme={jsonTheme} data={serviceMethod.method.output_interface} />
+              </Box>
+
+              <Box direction="row" justify="end">
+                <Button style={{width: 100}} label="OK" icon={<Checkmark />} primary onClick={() => this.selectMethod(serviceMethod)} />
               </Box>
 
             </Box>
