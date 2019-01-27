@@ -11,6 +11,5 @@ export const local = {
     height: '100%'
   },
   propertiesText: {
-    marginBottom: 15,
   }
 }

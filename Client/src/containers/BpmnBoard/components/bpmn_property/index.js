@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { local } from './style';
 
-import { Box, TextInput, Button, Heading, Text, FormField } from 'grommet';
+import { Box, TextInput, Button, Heading, Text, FormField, CheckBox } from 'grommet';
 import { FormAdd, Checkmark, Close } from 'grommet-icons';
 import { global } from 'style';
 import { Link, Redirect } from 'react-router-dom'
@@ -10,88 +10,8 @@ import ServiceList from 'components/service_list'
 
 import PropTypes from 'prop-types'
 
-const serviceMethods = [
-  {
-    name: 'Send email to a receiver',
-    "input_interface": {
-      "emailTitle": {
-        "type": "string",
-        "formData": {
-          "elementType": "TextInput",
-          "elementId": "title#1"
-        }
-      },
-      "emailBody": {
-        "type": "string",
-        "formData": {
-          "elementType": "TextArea",
-          "elementId": "message#233"
-        }
-      },
-      "receiver": {
-        "type": "string",
-        "formData": {
-          "elementType": "TextInput",
-          "elementId": "receiver#1123"
-        }
-      }
-    },
-    "output_interface": {
-      "emailObject": {
-        "type": "json"
-      }
-    }
+import { services } from './mockup_service_data'
 
-  },
-  {
-    name: 'Send email to multiple users',
-    "input_interface": {
-      "emailTitle": {
-        "type": "string",
-        "formData": {
-          "elementType": "TextInput",
-          "elementId": "title#1"
-        }
-      },
-      "emailBody": {
-        "type": "string",
-        "formData": {
-          "elementType": "TextArea",
-          "elementId": "message#233"
-        }
-      },
-      "receiver": {
-        "type": "string",
-        "formData": {
-          "elementType": "TextInput",
-          "elementId": "receiver#1123"
-        }
-      }
-    },
-    "output_interface": {
-      "emailObject": {
-        "type": "json"
-      }
-    }
-  },
-]
-
-const services = [
-  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Email Service', info: 'This is info of the service', methods: serviceMethods },
-  { name: 'Payment Service', info: 'This is info of the service', methods: serviceMethods },
-]
 
 class BpmnProperty extends Component {
 
@@ -102,7 +22,8 @@ class BpmnProperty extends Component {
       nodeId: '',
       nodeName: '',
       nodeType: null,
-      toCreateForm: false
+      isAsyncTask: false,
+      toCreateForm: false,
     }
 
   }
@@ -150,7 +71,7 @@ class BpmnProperty extends Component {
   }
 
   renderSpecialProperties() {
-    const { nodeType } = this.state;
+    const { nodeType, isAsyncTask } = this.state;
     const { allServices, onSelectServiceMethod } = this.props;
     let elements = null;
 
@@ -173,23 +94,27 @@ class BpmnProperty extends Component {
 
       case 'bpmn:Task': {
         return (
-          <Box margin={{ bottom: 'small' }}>
-            <Box align="center" margin={{ top: 'small' }}>
-              <Link style={{ width: '100%' }} to={{
-                pathname: 'design_form',
-                state: {
-                  forTaskId: true
-                }
-              }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-                <Button icon={<FormAdd />} fill label="Create Form" />
-              </Link>
+          <Box gap="small">
+            <CheckBox
+              toggle
+              label="Asynchronous"
+              checked={isAsyncTask}
+              onChange={event => this.setState({ isAsyncTask: event.target.checked })} />
+            <Link style={{ width: '100%' }} to={{
+              pathname: 'design_form',
+              state: {
+                forTaskId: true
+              }
+            }} target="_blank" onClick={() => this.onGotoCreateForm()}>
+              <Button icon={<FormAdd />} fill label="Create Form" />
+            </Link>
 
-              <Box pad={{ vertical: 'medium' }} width="100%">
-                <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
-              </Box>
-
+            <Box fill="horizontal">
+              <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
             </Box>
-          </Box>)
+
+          </Box>
+        )
       }
 
       default:
@@ -210,7 +135,7 @@ class BpmnProperty extends Component {
     const { nodeId, nodeName } = this.state;
 
     return (
-      <Box style={local.container} elevation='medium' pad='medium' background={'light-0'} responsive={false}>
+      <Box style={local.container} elevation='medium' pad='medium' background={'light-0'} gap="small" responsive={false}>
         <Text size='large' style={local.propertiesText} weight="bold">Properties</Text>
         <FormField>
           <TextInput size="small" placeholder="ID" value={nodeId} onChange={this.onChangeID} />
