@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from EmailAPI import views
+from EmailAPI.views import EmailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('email/', views.email),
+    path('api/email', EmailView.as_view()),
 ]
