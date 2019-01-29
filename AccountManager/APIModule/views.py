@@ -52,3 +52,4 @@ class LogoutView(APIView):
         request.session.flush()
         request.user.auth_token.delete()
         return Response({'detail':'Successfully logged out'},status=HTTP_200_OK)
+
