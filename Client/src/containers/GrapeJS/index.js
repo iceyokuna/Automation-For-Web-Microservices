@@ -27,7 +27,31 @@ export default class GrapeJSWrapper extends Component {
     });
 
     this.panelManager = this.editor.Panels;
+    this.setDefaultComponentTheme();
+    this.listenToEvents();
 
+  }
+
+  exportToHTMLCSS() {
+    // Add javascript to the form
+    // this.editor.addComponents('<script>alert(2)</script>');
+
+    // console.log(this.editor);
+    // console.log(this.panelManager.getPanels());
+    // const options = this.panelManager.getPanel('commands');
+    const formHtml = this.editor.getHtml(), formCss = this.editor.getCss();
+    this.props.onExportForm({ formHtml, formCss });
+  }
+
+  listenToEvents() {
+
+    this.editor.on('component:update:attributes', (arg) => {
+      console.log(arg)
+    })
+  }
+
+
+  setDefaultComponentTheme() {
     const cssComposer = this.editor.CssComposer;
     const sm = this.editor.SelectorManager;
 
@@ -38,70 +62,10 @@ export default class GrapeJSWrapper extends Component {
     const input = sm.add('input'), inputRule = cssComposer.add([input]);
     const label = sm.add('label'), labelRule = cssComposer.add([label]);
 
-    var domComps = this.editor.DomComponents;
-    var dType = domComps.getType('default');
-    var dModel = dType.model;
-    var dView = dType.view;
-
-    domComps.addType('input', {
-      model: dModel.extend({
-        defaults: Object.assign({}, dModel.prototype.defaults, {
-          traits: [
-            // strings are automatically converted to text types
-            'id',
-            'name',
-            'placeholder',
-            {
-              type: 'select',
-              label: 'Type',
-              name: 'type',
-              options: [
-                { value: 'text', name: 'Text' },
-                { value: 'email', name: 'Email' },
-                { value: 'password', name: 'Password' },
-                { value: 'number', name: 'Number' },
-              ]
-            }, {
-              type: 'checkbox',
-              label: 'Required',
-              name: 'required',
-            }],
-        }),
-      }, {
-          isComponent: function (el) {
-            if (el.tagName === 'INPUT') {
-              return { type: 'input' };
-            }
-          },
-        }),
-
-      view: dView,
-    });
-
-    // Need to remove previous and drag a new one => the custom attribute will show up
-
-    // domComps.addType('button', {
-    //   model: dModel.extend({
-    //     defaults: Object.assign({}, dModel.prototype.defaults, {
-    //       traits: [
-    //         // strings are automatically converted to text types
-    //         'name',
-    //         'placeholder',
-    //       ],
-    //     }),
-    //   }, {
-    //       isComponent: function (el) {
-    //         if (el.tagName === 'BUTTON') {
-    //           return { type: 'button' };
-    //         }
-    //       },
-    //     }),
-
-    //   view: dView,
-    // });
-
-
-
+    let domComps = this.editor.DomComponents;
+    let dType = domComps.getType('default');
+    let dModel = dType.model;
+    let dView = dType.view;
 
     buttonRule.set('style', {
       'width': '100%',
@@ -158,6 +122,61 @@ export default class GrapeJSWrapper extends Component {
       'display': 'block',
     })
 
+    domComps.addType('input', {
+      model: dModel.extend({
+        defaults: Object.assign({}, dModel.prototype.defaults, {
+          traits: [
+            // strings are automatically converted to text types
+            'id',
+            'name',
+            'placeholder',
+            {
+              type: 'select',
+              label: 'Type',
+              name: 'type',
+              options: [
+                { value: 'text', name: 'Text' },
+                { value: 'email', name: 'Email' },
+                { value: 'password', name: 'Password' },
+                { value: 'number', name: 'Number' },
+              ]
+            }, {
+              type: 'checkbox',
+              label: 'Required',
+              name: 'required',
+            }],
+        }),
+      }, {
+          isComponent: function (el) {
+            if (el.tagName === 'INPUT') {
+              return { type: 'input' };
+            }
+          },
+        }),
+
+      view: dView,
+    });
+
+    // Need to remove previous and drag a new one => the custom attribute will show up
+
+    domComps.addType('button', {
+      model: dModel.extend({
+        defaults: Object.assign({}, dModel.prototype.defaults, {
+          traits: [
+            // strings are automatically converted to text types
+            'id',
+          ],
+        }),
+      }, {
+          isComponent: function (el) {
+            if (el.tagName === 'BUTTON') {
+              return { type: 'button' };
+            }
+          },
+        }),
+
+      view: dView,
+    });
 
     this.panelManager.addButton('options',
       [
@@ -173,20 +192,7 @@ export default class GrapeJSWrapper extends Component {
         }
       ]
     );
-
   }
-
-  exportToHTMLCSS() {
-    // Add javascript to the form
-    // this.editor.addComponents('<script>alert(2)</script>');
-
-    // console.log(this.editor);
-    // console.log(this.panelManager.getPanels());
-    // const options = this.panelManager.getPanel('commands');
-    const formHtml = this.editor.getHtml(), formCss = this.editor.getCss();
-    this.props.onExportForm({ formHtml, formCss });
-  }
-
 
   render() {
     return (
