@@ -1,36 +1,10 @@
-version: '2'
+version: '3'
 
 services:
   web_autmotion:
     build: ./webautomation
-    image: workflow_web_automation
     command: python3 manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8001:8000"
     volumes:
       - ../WebAutomationServer:/code
-#      - ./www/public:/var/www/html
-
-  account:                                                                                                 
-    build: ./account                                                                                                
-    image: workflow_account                                                                                    
-    command: python3 manage.py runserver 0.0.0.0:8000                                                        
-    ports:                                                                                                   
-      - "8002:8000"                                                                                          
-    volumes:                                                                                                 
-      - ../AccountManagement:/code
-
-#      - ./www/public:/var/www/html 
-
-
-
-version: '3'
-
-services:
-  web:
-    build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
     ports:
-      - "8000:8000"
+      - "8001:8000"
