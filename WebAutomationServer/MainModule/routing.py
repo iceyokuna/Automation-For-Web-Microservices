@@ -4,5 +4,5 @@ from django.urls import path
 from MainModule import consumers
 
 websocket_urlpatterns = [
-    path('main-user/', consumers.MainConsumer),
+    path('execute/', consumers.MainConsumer),
 ]
