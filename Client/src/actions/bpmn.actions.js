@@ -12,7 +12,10 @@ export const bpmnActions = {
 
   // RESTful
   sendWorkflowData,
+  getWorkflowByAppName,
 };
+
+
 
 function addNewForm(form, taskId) {
   return {
@@ -83,10 +86,36 @@ function sendWorkflowData(appName, appDescription, workflowData) {
         type: bpmnConstants.SEND_WORKFLOW_DATA_FAILURE
       }
     }
-
-
   }
 
+}
+
+function getWorkflowByAppName(appName) {
+  return dispatch => {
+
+    dispatch(request());
+
+    function request() {
+      return {
+        type: bpmnConstants.GET_WORKFLOW_BY_APP_NAME_REQUEST,
+        appName,
+      }
+    }
+
+    function success(data) {
+      return {
+        type: bpmnConstants.GET_WORKFLOW_BY_APP_NAME_SUCCESS,
+        data
+      }
+    }
+
+    function failure(err) {
+      console.error(err);
+      return {
+        type: bpmnConstants.GET_WORKFLOW_BY_APP_NAME_FAILURE
+      }
+    }
+  }
 }
 
 

@@ -1,7 +1,9 @@
 import { socketConstants } from '_constants'
 import { socketActions } from 'actions'
 
-var socket = new WebSocket('ws://178.128.214.101:8002/execute/');
+const domainName = '178.128.214.101:8002';
+
+var socket = new WebSocket(`ws://${domainName}/execute/`);
 // const socket = () => { };
 
 

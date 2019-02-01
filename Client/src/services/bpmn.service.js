@@ -6,6 +6,7 @@ export const bpmnService = {
   getAllServices,
   getAllMethodsByServiceId,
   sendWorkflowData,
+  getWorkflowByAppName
 };
 
 function getAllServices() {
@@ -21,4 +22,6 @@ function sendWorkflowData(appName, appDescription, workflowData) {
   return axios.post(domainName + '/create_workflow/', { appName, appDescription, workflowData })
 }
 
-
+function getWorkflowByAppName(appName) {
+  return axios.post(domainName + '/get_workflow/', appName)
+}
