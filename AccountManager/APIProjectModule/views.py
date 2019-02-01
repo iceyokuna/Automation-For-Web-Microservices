@@ -11,7 +11,7 @@ class ProjectView(viewsets.ModelViewSet):
 class AdminView(viewsets.ModelViewSet):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
-
+    
 class CollaboratorView(viewsets.ModelViewSet):
     queryset = Collaborator.objects.all()
     serializer_class = CollaboratorSerializer
