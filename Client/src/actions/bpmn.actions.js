@@ -12,8 +12,6 @@ export const bpmnActions = {
 
   // RESTful
   sendWorkflowData,
-  sendWorkflowBpmnJson,
-  sendWorkflowFormData,
 };
 
 function addNewForm(form, taskId) {
@@ -62,10 +60,7 @@ function sendWorkflowData(appName, appDescription, workflowData) {
         res => {
           dispatch(success())
           history.push('/execute_flow')
-        }).catch(err => dispatch(failure()));
-      // dispatch(success())
-      // history.push('/execute_flow')
-
+        }).catch(err => dispatch(failure(err)));
     }, 1000);
 
 
@@ -82,7 +77,8 @@ function sendWorkflowData(appName, appDescription, workflowData) {
       }
     }
 
-    function failure() {
+    function failure(err) {
+      console.error(err);
       return {
         type: bpmnConstants.SEND_WORKFLOW_DATA_FAILURE
       }
@@ -91,44 +87,6 @@ function sendWorkflowData(appName, appDescription, workflowData) {
 
   }
 
-}
-
-function sendWorkflowFormData(workflowData) {
-  return dispatch => {
-    // dispatch(request());
-
-
-  }
-}
-
-function sendWorkflowBpmnJson(bpmnJson) {
-  return dispatch => {
-    dispatch(request());
-
-    bpmnService.sendWorkflowBpmnJson(bpmnJson).then(
-      res => {
-
-        dispatch(success())
-      });
-  }
-
-  function request() {
-    return {
-      type: bpmnConstants.SEND_WORKFLOW_BPMN_JSON_REQUEST
-    }
-  }
-
-  function success() {
-    return {
-      type: bpmnConstants.SEND_WORKFLOW_BPMN_JSON_SUCCESS
-    }
-  }
-
-  function failure() {
-    return {
-      type: bpmnConstants.SEND_WORKFLOW_BPMN_JSON_FAILURE
-    }
-  }
 }
 
 
