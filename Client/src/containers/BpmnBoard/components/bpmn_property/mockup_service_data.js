@@ -5,21 +5,21 @@ const serviceMethods = [
       "emailTitle": {
         "type": "string",
         "formData": {
-          "elementType": "TextInput",
+          "elementType": "input",
           "elementId": "title#1"
         }
       },
       "emailBody": {
         "type": "string",
         "formData": {
-          "elementType": "TextArea",
+          "elementType": "textarea",
           "elementId": "message#233"
         }
       },
       "receiver": {
         "type": "string",
         "formData": {
-          "elementType": "TextInput",
+          "elementType": "input",
           "elementId": "receiver#1123"
         }
       }
