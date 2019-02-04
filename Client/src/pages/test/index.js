@@ -4,16 +4,14 @@ import { socketActions } from 'actions'
 import { connect } from 'react-redux'
 import { Button } from 'grommet'
 
-
-import ParticipantSelector from 'containers/BpmnBoard/components/participant_selector'
+import FloatDropdown from 'components/float_dropdown'
 
 class Test extends Component {
-
 
   render() {
     return (
       <div>
-        <ParticipantSelector />
+        <FloatDropdown />
       </div>
     )
   }
