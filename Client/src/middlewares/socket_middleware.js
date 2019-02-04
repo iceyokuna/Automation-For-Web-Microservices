@@ -1,22 +1,25 @@
 import { socketConstants } from '_constants'
 import { socketActions } from 'actions'
 
-const enduserSocket = new WebSocket('ws://localhost:8000/main-user/');
-// const enduserSocket = () => { };
+const domainName = '178.128.214.101:8002';
+
+var socket = new WebSocket(`ws://${domainName}/execute/`);
+// const socket = () => { };
+
 
 export const socketMiddleware = store => next => action => {
   next(action);
 
-  enduserSocket.onopen = (e) => {
-
+  socket.onopen = (e) => {
+    // alert('Success')
   }
 
-  enduserSocket.onmessage = (res) => {
+  socket.onmessage = (res) => {
     console.log('Got message', res.data);
     store.dispatch(socketActions.receiveMessage(res.data))
   }
 
-  enduserSocket.onclose = (res) => {
+  socket.onclose = (res) => {
     console.error('Chat socket closed unexpectedly');
   };
 
@@ -30,7 +33,7 @@ export const socketMiddleware = store => next => action => {
           body: 'Good morning'
         }
       })
-      enduserSocket.send(payload);
+      socket.send(payload);
     } break;
 
     case socketConstants.START_FLOW: {
@@ -40,7 +43,7 @@ export const socketMiddleware = store => next => action => {
           appName: action.appName
         }
       })
-      enduserSocket.send(payload);
+      socket.send(payload);
     } break;
 
     case socketConstants.NEXT_FORM: {
@@ -50,7 +53,7 @@ export const socketMiddleware = store => next => action => {
           appName: action.appName
         }
       })
-      enduserSocket.send(payload);
+      socket.send(payload);
     } break;
 
     default:

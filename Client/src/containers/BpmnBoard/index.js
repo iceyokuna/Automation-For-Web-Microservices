@@ -248,14 +248,8 @@ class BpmnContainer extends Component {
               appName, appDescription,
               workflowData
             ));
-
-            this.props.dispatch(socketActions.sendMessage('REACT Title', {
-              a: 100
-            }));
           }
         });
-
-        // this.props.history.push('/execute_flow')
       }
     });
   }
