@@ -23,6 +23,7 @@ class MainConsumer(WebsocketConsumer):
         message = text_data_json['message']
 
         if(message['type'] == "socket/START_FLOW"):
+            print(message)
             html_index= 0
             HTMLs = []
             loadlist = []
