@@ -16,7 +16,7 @@ export const socketMiddleware = store => next => action => {
   }
 
   socket.onmessage = (res) => {
-    // console.log('Got message', res.data);
+    console.log('Got message', res.data);
     switch (res.data.type) {
       case 'START_FLOW_SUCCESS': {
         // store.dispatch()
@@ -28,7 +28,7 @@ export const socketMiddleware = store => next => action => {
 
       case 'NEXT_FORM_SUCCESS': {
         const form = res.data.form;
-        
+
       } break;
 
       case 'NEXT_FORM_FAIL': {
