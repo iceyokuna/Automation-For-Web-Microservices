@@ -2,19 +2,23 @@ import React, { Component } from 'react'
 import { ClientStyle as Style } from 'react-css-component'
 import { socketActions } from 'actions'
 import { connect } from 'react-redux'
-import { Button } from 'grommet'
+import { Button, Box } from 'grommet'
 
-
-import ParticipantSelector from 'containers/BpmnBoard/components/participant_selector'
+import FloatDropdown from 'components/float_dropdown'
 
 class Test extends Component {
+
+  startWorkflow = () => {
+    this.props.dispatch(socketActions.startFlow('TestFlow'));
+  }
 
 
   render() {
     return (
-      <div>
-        <ParticipantSelector />
-      </div>
+      <Box justify="center" align="center" fill="vertical">
+        {/* <FloatDropdown /> */}
+        <Button label="Start Flow" onClick={() => this.startWorkflow()} />
+      </Box>
     )
   }
 }

@@ -6,7 +6,7 @@ import { FillParent } from 'style'
 import { ClientStyle as Style } from 'react-css-component'
 // import Style from 'style-it';
 import { connect } from 'react-redux'
-import { bpmnActions } from 'actions'
+import { workflowActions, socketActions } from 'actions'
 import cssString from './css_string'
 
 
@@ -17,10 +17,15 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
+
+        const { dispatch } = this.props
+
+        dispatch(socketActions.startFlow("IC_KMITL"));
+
         const mainContainer = document.getElementById('mainContainer');
         mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
 
-        const { currentFormIndex, generatedForms } = this.props.bpmn;
+        const { currentFormIndex, generatedForms } = this.props.workflow;
 
         const forms = generatedForms[currentFormIndex] || null;
         if (forms != null) {
@@ -37,8 +42,8 @@ class ExecuteFlow extends Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (this.props.bpmn.formsDone) {
-            const { formIds } = this.props.bpmn;
+        if (this.props.workflow.formsDone) {
+            const { formIds } = this.props.workflow;
             Object.keys(formIds).forEach(id => {
                 const divElement = document.getElementById(id);
                 if (divElement != null) {
@@ -52,7 +57,7 @@ class ExecuteFlow extends Component {
 
 
     componentWillReceiveProps = (nextProps) => {
-        const { currentFormIndex, generatedForms, formsDone } = nextProps.bpmn;
+        const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
 
         if (formsDone) {
             const textElements = document.querySelectorAll('div');
@@ -72,7 +77,6 @@ class ExecuteFlow extends Component {
     }
 
     onSubmitForm = (event) => {
-
         event.preventDefault();
         const { firstname, lastname } = event.target.elements;
         const formData = {
@@ -83,13 +87,19 @@ class ExecuteFlow extends Component {
 
         for (let e of elements) {
             console.log(e.type, e.name, e.value)
-            this.props.dispatch(bpmnActions.addNameToId(e.name, e.value));
+            this.props.dispatch(workflowActions.addNameToId(e.name, e.value));
         }
 
-        this.props.dispatch(bpmnActions.getNextForm())
+        // this.props.dispatch(workflowActions.getNextForm())
 
         // event.stopPropagation();
     }
+
+    getNextForm = () => {
+        const { dispatch } = this.props
+        dispatch(socketActions.nextForm("IC_MEETING"));
+    }
+
 
     render() {
         const { currentFormHtml } = this.state
@@ -102,8 +112,9 @@ class ExecuteFlow extends Component {
                     <Box border="bottom">
                         <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
-                </Box>
 
+                    <Button label="Next" primary onClick={() => this.getNextForm()} />
+                </Box>
             </FillParent>
 
         )
@@ -111,9 +122,9 @@ class ExecuteFlow extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { bpmn } = state;
+    const { workflow } = state;
     return {
-        bpmn,
+        workflow,
     };
 };
 

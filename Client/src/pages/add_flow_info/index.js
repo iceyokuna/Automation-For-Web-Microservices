@@ -6,7 +6,7 @@ import { FormNext } from 'grommet-icons'
 
 import { connect } from 'react-redux'
 
-import { bpmnActions } from 'actions'
+import { workflowActions } from 'actions'
 
 class AddFlowInfo extends Component {
 
@@ -27,7 +27,7 @@ class AddFlowInfo extends Component {
 
   onNextStep = () => {
     const { workflowName, description } = this.state;
-    this.props.dispatch(bpmnActions.setAppInfo(workflowName, description));
+    this.props.dispatch(workflowActions.setAppInfo(workflowName, description));
     this.props.history.push('design_workflow');
   }
 
@@ -67,7 +67,7 @@ class AddFlowInfo extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    bpmn: state.bpmn,
+    workflow: state.workflow,
   }
 }
 

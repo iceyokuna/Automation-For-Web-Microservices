@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import GrapesContainer from 'containers/GrapeJS';
 import { Button } from 'grommet';
 
-import { bpmnActions } from 'actions';
+import { workflowActions } from 'actions';
 import { TaskPanel } from './style'
 
 export default class CreateForm extends Component {
@@ -17,7 +17,7 @@ export default class CreateForm extends Component {
   }
 
   handleGeneratedForm(form) {
-    const action = bpmnActions.addNewForm(form, this.state.currentTaskId);
+    const action = workflowActions.addNewForm(form, this.state.currentTaskId);
     localStorage.setItem('newFormAdded', JSON.stringify(action));
 
     // Delay 1 sec
