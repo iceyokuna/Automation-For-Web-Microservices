@@ -2,7 +2,7 @@ import { bpmnConstants } from '_constants';
 import { bpmnService } from 'services'
 import { history } from '_helpers';
 
-export const bpmnActions = {
+export const workflowActions = {
   addNewForm,
   getNextForm,
   addNameToId,

@@ -6,7 +6,7 @@ import { FillParent } from 'style'
 import { ClientStyle as Style } from 'react-css-component'
 // import Style from 'style-it';
 import { connect } from 'react-redux'
-import { bpmnActions } from 'actions'
+import { workflowActions } from 'actions'
 import cssString from './css_string'
 
 
@@ -83,10 +83,10 @@ class ExecuteFlow extends Component {
 
         for (let e of elements) {
             console.log(e.type, e.name, e.value)
-            this.props.dispatch(bpmnActions.addNameToId(e.name, e.value));
+            this.props.dispatch(workflowActions.addNameToId(e.name, e.value));
         }
 
-        this.props.dispatch(bpmnActions.getNextForm())
+        this.props.dispatch(workflowActions.getNextForm())
 
         // event.stopPropagation();
     }

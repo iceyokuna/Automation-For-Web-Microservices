@@ -30,7 +30,7 @@ import { PlayFill } from 'grommet-icons'
 import styled from 'styled-components'
 
 import Loader from 'react-loader-spinner'
-import { bpmnActions, availableServicesActions, socketActions } from 'actions'
+import { workflowActions, availableServicesActions, socketActions } from 'actions'
 
 import appTheme from 'theme';
 const colors = appTheme.global.colors;
@@ -244,7 +244,7 @@ class BpmnContainer extends Component {
               bpmnJson,
               generatedForms,
             }
-            this.props.dispatch(bpmnActions.sendWorkflowData(
+            this.props.dispatch(workflowActions.sendWorkflowData(
               appName, appDescription,
               workflowData
             ));

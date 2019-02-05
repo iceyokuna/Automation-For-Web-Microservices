@@ -16,7 +16,26 @@ export const socketMiddleware = store => next => action => {
   }
 
   socket.onmessage = (res) => {
-    console.log('Got message', res.data);
+    // console.log('Got message', res.data);
+    switch (res.data.type) {
+      case 'START_FLOW_SUCCESS': {
+        store.dispatch()
+      } break;
+
+      case 'START_FLOW_FAIL': {
+
+      } break;
+
+      case 'NEXT_FORM_SUCCESS': {
+
+      } break;
+
+      case 'NEXT_FORM_FAIL': {
+
+      } break;
+      default:
+        break;
+    }
     store.dispatch(socketActions.receiveMessage(res.data))
   }
 
