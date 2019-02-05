@@ -3,7 +3,8 @@ import { socketActions } from 'actions'
 
 const domainName = '178.128.214.101:8002';
 
-var socket = new WebSocket(`ws://${domainName}/execute/`);
+
+var socket = new WebSocket(`ws://${socketConstants.LOCAL_SOCKET_URL}/execute/`);
 // const socket = () => { };
 
 

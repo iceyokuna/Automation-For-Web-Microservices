@@ -23,7 +23,8 @@ class EmailView(APIView):
         recipient_list = request.data.get('email')
         email_from = settings.EMAIL_HOST_USER
 
-        if(send_mail( subject, message, email_from, [recipient_list] )):
+        #if(send_mail( subject, message, email_from, [recipient_list] )):
+        if(send_mail( subject, message, email_from, recipient_list )):
             return Response(request.data, status=HTTP_200_OK)
 
         return Response( status=HTTP_400_BAD_REQUEST)
