@@ -67,7 +67,7 @@ class AddFlowInfo extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    bpmn: state.bpmn,
+    workflow: state.workflow,
   }
 }
 

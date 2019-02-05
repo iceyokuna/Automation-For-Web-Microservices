@@ -20,7 +20,7 @@ class ExecuteFlow extends Component {
         const mainContainer = document.getElementById('mainContainer');
         mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
 
-        const { currentFormIndex, generatedForms } = this.props.bpmn;
+        const { currentFormIndex, generatedForms } = this.props.workflow;
 
         const forms = generatedForms[currentFormIndex] || null;
         if (forms != null) {
@@ -37,8 +37,8 @@ class ExecuteFlow extends Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (this.props.bpmn.formsDone) {
-            const { formIds } = this.props.bpmn;
+        if (this.props.workflow.formsDone) {
+            const { formIds } = this.props.workflow;
             Object.keys(formIds).forEach(id => {
                 const divElement = document.getElementById(id);
                 if (divElement != null) {
@@ -52,7 +52,7 @@ class ExecuteFlow extends Component {
 
 
     componentWillReceiveProps = (nextProps) => {
-        const { currentFormIndex, generatedForms, formsDone } = nextProps.bpmn;
+        const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
 
         if (formsDone) {
             const textElements = document.querySelectorAll('div');
@@ -111,9 +111,9 @@ class ExecuteFlow extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { bpmn } = state;
+    const { workflow } = state;
     return {
-        bpmn,
+        workflow,
     };
 };
 
