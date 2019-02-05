@@ -1,4 +1,4 @@
-export const bpmnConstants = {
+export const workflowContants = {
   ADD_NEW_FROM: 'ADD_NEW_FORM',
   GET_NEXT_FORM: 'GET_NEXT_FORM',
   NAME_TO_ID: 'NAME_TO_ID',

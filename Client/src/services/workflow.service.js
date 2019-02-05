@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const domainName = "http://178.128.214.101:8002"
 
-export const bpmnService = {
+export const workflowService = {
   getAllServices,
   getAllMethodsByServiceId,
   sendWorkflowData,
