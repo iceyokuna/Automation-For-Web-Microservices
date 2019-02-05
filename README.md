@@ -25,7 +25,7 @@ to construct your own web application to perform business services
 
 
 # HOW TO RUN
-for react elient "npm start" -> dir- client
+for react elient "npm install" then "npm start" -> dir- client
 
 for server "py manage.py runserver -> dir- Automation-For-Web-Microservices \ WebAutomationServer
 
