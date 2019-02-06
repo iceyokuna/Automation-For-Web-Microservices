@@ -7,6 +7,7 @@ import { ClientStyle as Style } from 'react-css-component'
 // import Style from 'style-it';
 import { connect } from 'react-redux'
 import { workflowActions, socketActions } from 'actions'
+import { Next, Previous } from 'grommet-icons'
 import cssString from './css_string'
 
 
@@ -97,6 +98,11 @@ class ExecuteFlow extends Component {
         // event.stopPropagation();
     }
 
+    getPreviousForm = () => {
+        console.log('Previous')
+    }
+
+
     getNextForm = () => {
         const { dispatch } = this.props
         dispatch(socketActions.nextForm("IC_MEETING"));
@@ -116,7 +122,10 @@ class ExecuteFlow extends Component {
                             <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                         </Box>
 
-                        <Button label="Next" primary onClick={() => this.getNextForm()} />
+                        <Box direction="row" align="center" justify="between" gap="medium">
+                            <Button icon={<Previous />}label="Previous" onClick={() => this.getPreviousForm()} />
+                            <Button icon={<Next />}label="Next" primary onClick={() => this.getNextForm()} />
+                        </Box>
                     </Box>
                 </FillParent>
             );
