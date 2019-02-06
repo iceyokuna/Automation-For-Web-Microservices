@@ -17,8 +17,8 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
-        // const { dispatch } = this.props
-        // dispatch(socketActions.startFlow("IC_KMITL"));
+        const { dispatch } = this.props
+        dispatch(socketActions.startFlow("IC_KMITL"));
 
         // const mainContainer = document.getElementById('mainContainer');
         // mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
@@ -50,25 +50,33 @@ class ExecuteFlow extends Component {
     // }
 
 
-    // componentWillReceiveProps = (nextProps) => {
-    //     const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
+    componentWillReceiveProps = (nextProps) => {
+        const { executingForm } = nextProps.workflow;
 
-    //     if (formsDone) {
-    //         const textElements = document.querySelectorAll('div');
-    //         console.log(textElements)
-    //     }
-    //     if (currentFormIndex < generatedForms.length) {
-    //         const currentFormData = generatedForms[currentFormIndex].formData;
+        if (executingForm) {
+            this.setState({
+                currentFormHtml: executingForm.formHtml,
+                currentFormCss: executingForm.formCss,
+            })
+        }
+        // const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
 
-    //         this.setState({
-    //             currentFormHtml: currentFormData.formHtml,
-    //             currentFormCss: currentFormData.formCss
-    //         })
+        // if (formsDone) {
+        //     const textElements = document.querySelectorAll('div');
+        //     console.log(textElements)
+        // }
+        // if (currentFormIndex < generatedForms.length) {
+        //     const currentFormData = generatedForms[currentFormIndex].formData;
+
+        //     this.setState({
+        //         currentFormHtml: currentFormData.formHtml,
+        //         currentFormCss: currentFormData.formCss
+        //     })
 
 
-    //     }
+        // }
 
-    // }
+    }
 
     onSubmitForm = (event) => {
         event.preventDefault();
@@ -96,17 +104,16 @@ class ExecuteFlow extends Component {
 
 
     render() {
-        if (this.props.workflow == null) {
-            return <Box>Loading</Box>
-        } else {
-            const { executingForm } = this.props.workflow;
+        const { currentFormCss, currentFormHtml } = this.state;
+        if (!currentFormCss || !currentFormHtml) return <Box>Loading</Box>
+        else {
             return (
                 <FillParent>
-                    <Style css={executingForm.formCss} />
+                    <Style css={currentFormCss} />
                     <Box pad="medium" gap="medium">
                         <Text size="large" weight="bold">Workflow Execution</Text>
                         <Box border="bottom">
-                            <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: executingForm.formHtml }} />
+                            <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                         </Box>
 
                         <Button label="Next" primary onClick={() => this.getNextForm()} />
