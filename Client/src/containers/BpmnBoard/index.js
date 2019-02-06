@@ -25,7 +25,7 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { PlayFill } from 'grommet-icons'
+import { Upload } from 'grommet-icons'
 
 import styled from 'styled-components'
 
@@ -307,7 +307,7 @@ class BpmnContainer extends Component {
           >
             <Box pad="medium" gap="small" width="large" width="300px"
               direction="row" justify='center' align="center">
-              <Text>Building your workflow ...</Text>
+              <Text>Submitting your workflow ...</Text>
               <Loader
                 type="Oval"
                 color={colors.brand}
@@ -342,7 +342,7 @@ class BpmnContainer extends Component {
 
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button primary icon={<PlayFill size="small" />} label="Submit" onClick={this.onSubmitDiagram} />
+            <Button primary icon={<Upload size="small" />} label="Submit" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
 
