@@ -4,7 +4,7 @@ from rest_framework import routers
 
 routers = routers.DefaultRouter()
 routers.register('admin', views.AdminView)
-routers.register('project', views.ProjectView)
+routers.register('workflow', views.WorkflowView)
 routers.register('collaborator', views.CollaboratorView)
 
 urlpatterns = [
