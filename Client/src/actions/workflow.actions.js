@@ -1,11 +1,13 @@
 import { workflowContants } from '_constants';
 import { workflowService } from 'services'
+import { socketActions } from 'actions'
 import { history } from '_helpers';
 
 export const workflowActions = {
   addNewForm,
-  getNextForm,
   addNameToId,
+  setExecutingForm,
+  // getNextForm,
 
   setBpmnJson,
   setAppInfo,
@@ -16,6 +18,12 @@ export const workflowActions = {
 };
 
 
+function setExecutingForm(form) {
+  return {
+    type: workflowContants.SET_CURRENT_EXECUTING_FORM,
+    executingForm: form,
+  }
+}
 
 function addNewForm(form, taskId) {
   return {
@@ -25,11 +33,11 @@ function addNewForm(form, taskId) {
   };
 }
 
-function getNextForm() {
-  return {
-    type: workflowContants.GET_NEXT_FORM,
-  };
-}
+// function getNextForm() {
+//   return {
+//     type: workflowContants.SET_CURRENT_EXECUTING_FORM,
+//   };
+// }
 
 function addNameToId(name, value) {
   return {
@@ -62,7 +70,10 @@ function sendWorkflowData(appName, appDescription, workflowData) {
       workflowService.sendWorkflowData(appName, appDescription, workflowData).then(
         res => {
           dispatch(success())
-          history.push('/execute_flow')
+          dispatch(socketActions.startFlow(appName));
+          setTimeout(() => {
+            history.push('/execute_flow')
+          }, 1000);
         }).catch(err => dispatch(failure(err)));
     }, 1000);
 

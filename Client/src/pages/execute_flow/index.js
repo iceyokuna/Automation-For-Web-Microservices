@@ -17,64 +17,58 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
+        // const { dispatch } = this.props
+        // dispatch(socketActions.startFlow("IC_KMITL"));
 
-        const { dispatch } = this.props
+        // const mainContainer = document.getElementById('mainContainer');
+        // mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
 
-        dispatch(socketActions.startFlow("IC_KMITL"));
+        // const { executingForm } = this.props.workflow;
 
-        const mainContainer = document.getElementById('mainContainer');
-        mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
+        // this.setState({
+        //     currentFormHtml: executingForm.formHtml,
+        //     currentFormCss: executingForm.formCss
+        // })
 
-        const { currentFormIndex, generatedForms } = this.props.workflow;
-
-        const forms = generatedForms[currentFormIndex] || null;
-        if (forms != null) {
-            const formData = forms.formData;
-            this.setState({
-                currentFormHtml: formData.formHtml,
-                currentFormCss: formData.formCss
-            })
-
-            document.getElementById('mainContainer').setAttribute('style', formData.formCss)
-        }
+        // document.getElementById('mainContainer').setAttribute('style', executingForm.formCss)
 
 
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
-        if (this.props.workflow.formsDone) {
-            const { formIds } = this.props.workflow;
-            Object.keys(formIds).forEach(id => {
-                const divElement = document.getElementById(id);
-                if (divElement != null) {
-                    divElement.innerText = formIds[id];
-                }
-            })
+    // componentDidUpdate = (prevProps, prevState) => {
+    //     if (this.props.workflow.formsDone) {
+    //         const { formIds } = this.props.workflow;
+    //         Object.keys(formIds).forEach(id => {
+    //             const divElement = document.getElementById(id);
+    //             if (divElement != null) {
+    //                 divElement.innerText = formIds[id];
+    //             }
+    //         })
 
-        }
+    //     }
 
-    }
-
-
-    componentWillReceiveProps = (nextProps) => {
-        const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
-
-        if (formsDone) {
-            const textElements = document.querySelectorAll('div');
-            console.log(textElements)
-        }
-        if (currentFormIndex < generatedForms.length) {
-            const currentFormData = generatedForms[currentFormIndex].formData;
-
-            this.setState({
-                currentFormHtml: currentFormData.formHtml,
-                currentFormCss: currentFormData.formCss
-            })
+    // }
 
 
-        }
+    // componentWillReceiveProps = (nextProps) => {
+    //     const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
 
-    }
+    //     if (formsDone) {
+    //         const textElements = document.querySelectorAll('div');
+    //         console.log(textElements)
+    //     }
+    //     if (currentFormIndex < generatedForms.length) {
+    //         const currentFormData = generatedForms[currentFormIndex].formData;
+
+    //         this.setState({
+    //             currentFormHtml: currentFormData.formHtml,
+    //             currentFormCss: currentFormData.formCss
+    //         })
+
+
+    //     }
+
+    // }
 
     onSubmitForm = (event) => {
         event.preventDefault();
@@ -102,32 +96,33 @@ class ExecuteFlow extends Component {
 
 
     render() {
-        const { currentFormHtml } = this.state
+        if (this.props.workflow == null) {
+            return <Box>Loading</Box>
+        } else {
+            const { executingForm } = this.props.workflow;
+            return (
+                <FillParent>
+                    <Style css={executingForm.formCss} />
+                    <Box pad="medium" gap="medium">
+                        <Text size="large" weight="bold">Workflow Execution</Text>
+                        <Box border="bottom">
+                            <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: executingForm.formHtml }} />
+                        </Box>
 
-        return (
-            <FillParent>
-                <Style css={cssString} />
-                <Box pad="medium" gap="medium">
-                    <Text size="large" weight="bold">Workflow Execution</Text>
-                    <Box border="bottom">
-                        <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                        <Button label="Next" primary onClick={() => this.getNextForm()} />
                     </Box>
+                </FillParent>
+            );
+        }
 
-                    <Button label="Next" primary onClick={() => this.getNextForm()} />
-                </Box>
-            </FillParent>
-
-        )
     }
 }
 
 const mapStateToProps = (state) => {
-    const { workflow } = state;
     return {
-        workflow,
-    };
-};
-
+        workflow: state.workflow,
+    }
+}
 
 
 export default connect(mapStateToProps, null)(ExecuteFlow);
