@@ -1,5 +1,5 @@
 import { socketConstants } from '_constants'
-import { socketActions } from 'actions'
+import { socketActions, workflowActions } from 'actions'
 
 const domainName = '178.128.214.101:8002';
 
@@ -16,19 +16,20 @@ export const socketMiddleware = store => next => action => {
   }
 
   socket.onmessage = (res) => {
-    console.log('Got message', res.data);
-    switch (res.data.type) {
-      case 'START_FLOW_SUCCESS': {
-        // store.dispatch()
+    const data = JSON.parse(res.data);
+    switch (data.type) {
+      case 'workflow/START_FLOW_SUCCESS': {
+        const { form } = data;
+        store.dispatch(workflowActions.setExecutingForm(form));
       } break;
 
       case 'START_FLOW_FAIL': {
 
       } break;
 
-      case 'NEXT_FORM_SUCCESS': {
-        const form = res.data.form;
-
+      case 'workflow/NEXT_FORM_SUCCESS': {
+        const { form } = data;
+        store.dispatch(workflowActions.setExecutingForm(form));
       } break;
 
       case 'NEXT_FORM_FAIL': {
@@ -37,7 +38,7 @@ export const socketMiddleware = store => next => action => {
       default:
         break;
     }
-    store.dispatch(socketActions.receiveMessage(res.data))
+    // store.dispatch(socketActions.receiveMessage(res.data))
   }
 
   socket.onclose = (res) => {

@@ -16,7 +16,6 @@ export function socket(state = defaultState, action) {
       return nextState;
     }
 
-
     default:
       return state
   }

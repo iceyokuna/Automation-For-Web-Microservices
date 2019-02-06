@@ -7,6 +7,7 @@ import { ClientStyle as Style } from 'react-css-component'
 // import Style from 'style-it';
 import { connect } from 'react-redux'
 import { workflowActions, socketActions } from 'actions'
+import { Next, Previous } from 'grommet-icons'
 import cssString from './css_string'
 
 
@@ -17,62 +18,64 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
-
         const { dispatch } = this.props
-
         dispatch(socketActions.startFlow("IC_KMITL"));
 
-        const mainContainer = document.getElementById('mainContainer');
-        mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
+        // const mainContainer = document.getElementById('mainContainer');
+        // mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
 
-        const { currentFormIndex, generatedForms } = this.props.workflow;
+        // const { executingForm } = this.props.workflow;
 
-        const forms = generatedForms[currentFormIndex] || null;
-        if (forms != null) {
-            const formData = forms.formData;
-            this.setState({
-                currentFormHtml: formData.formHtml,
-                currentFormCss: formData.formCss
-            })
+        // this.setState({
+        //     currentFormHtml: executingForm.formHtml,
+        //     currentFormCss: executingForm.formCss
+        // })
 
-            document.getElementById('mainContainer').setAttribute('style', formData.formCss)
-        }
+        // document.getElementById('mainContainer').setAttribute('style', executingForm.formCss)
 
 
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
-        if (this.props.workflow.formsDone) {
-            const { formIds } = this.props.workflow;
-            Object.keys(formIds).forEach(id => {
-                const divElement = document.getElementById(id);
-                if (divElement != null) {
-                    divElement.innerText = formIds[id];
-                }
-            })
+    // componentDidUpdate = (prevProps, prevState) => {
+    //     if (this.props.workflow.formsDone) {
+    //         const { formIds } = this.props.workflow;
+    //         Object.keys(formIds).forEach(id => {
+    //             const divElement = document.getElementById(id);
+    //             if (divElement != null) {
+    //                 divElement.innerText = formIds[id];
+    //             }
+    //         })
 
-        }
+    //     }
 
-    }
+    // }
 
 
     componentWillReceiveProps = (nextProps) => {
-        const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
+        const { executingForm } = nextProps.workflow;
 
-        if (formsDone) {
-            const textElements = document.querySelectorAll('div');
-            console.log(textElements)
-        }
-        if (currentFormIndex < generatedForms.length) {
-            const currentFormData = generatedForms[currentFormIndex].formData;
-
+        if (executingForm) {
             this.setState({
-                currentFormHtml: currentFormData.formHtml,
-                currentFormCss: currentFormData.formCss
+                currentFormHtml: executingForm.formHtml,
+                currentFormCss: executingForm.formCss,
             })
-
-
         }
+        // const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
+
+        // if (formsDone) {
+        //     const textElements = document.querySelectorAll('div');
+        //     console.log(textElements)
+        // }
+        // if (currentFormIndex < generatedForms.length) {
+        //     const currentFormData = generatedForms[currentFormIndex].formData;
+
+        //     this.setState({
+        //         currentFormHtml: currentFormData.formHtml,
+        //         currentFormCss: currentFormData.formCss
+        //     })
+
+
+        // }
 
     }
 
@@ -95,6 +98,11 @@ class ExecuteFlow extends Component {
         // event.stopPropagation();
     }
 
+    getPreviousForm = () => {
+        console.log('Previous')
+    }
+
+
     getNextForm = () => {
         const { dispatch } = this.props
         dispatch(socketActions.nextForm("IC_MEETING"));
@@ -102,32 +110,35 @@ class ExecuteFlow extends Component {
 
 
     render() {
-        const { currentFormHtml } = this.state
+        const { currentFormCss, currentFormHtml } = this.state;
+        if (!currentFormCss || !currentFormHtml) return <Box>Loading</Box>
+        else {
+            return (
+                <FillParent>
+                    <Style css={currentFormCss} />
+                    <Box pad="medium" gap="medium">
+                        <Text size="large" weight="bold">Workflow Execution</Text>
+                        <Box border="bottom">
+                            <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                        </Box>
 
-        return (
-            <FillParent>
-                <Style css={cssString} />
-                <Box pad="medium" gap="medium">
-                    <Text size="large" weight="bold">Workflow Execution</Text>
-                    <Box border="bottom">
-                        <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                        <Box direction="row" align="center" justify="between" gap="medium">
+                            <Button icon={<Previous />}label="Previous" onClick={() => this.getPreviousForm()} />
+                            <Button icon={<Next />}label="Next" primary onClick={() => this.getNextForm()} />
+                        </Box>
                     </Box>
+                </FillParent>
+            );
+        }
 
-                    <Button label="Next" primary onClick={() => this.getNextForm()} />
-                </Box>
-            </FillParent>
-
-        )
     }
 }
 
 const mapStateToProps = (state) => {
-    const { workflow } = state;
     return {
-        workflow,
-    };
-};
-
+        workflow: state.workflow,
+    }
+}
 
 
 export default connect(mapStateToProps, null)(ExecuteFlow);

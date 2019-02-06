@@ -1,4 +1,4 @@
-const Prefix = 'socket/';
+const Prefix = 'workflow/';
 
 export const socketConstants = {
   DEV_SERVER_URL: '178.128.214.101',

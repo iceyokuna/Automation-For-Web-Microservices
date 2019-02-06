@@ -34,7 +34,7 @@ const defaultState = {
   // generatedForms: [
 
   // ],
-  currentFormIndex: 0,
+  executingForm: null,
 
   formIds: {},
   formsDone: false,
@@ -75,16 +75,10 @@ export function workflow(state = defaultState, action) {
       return nextState;
     } break;
 
-    case workflowContants.GET_NEXT_FORM: {
-      const { currentFormIndex, generatedForms } = state;
+    case workflowContants.SET_CURRENT_EXECUTING_FORM: {
       const nextState = { ...state };
-      if (currentFormIndex < generatedForms.length) {
-        nextState.currentFormIndex += 1;
-
-        if (nextState.currentFormIndex == generatedForms.length - 1) {
-          nextState.formsDone = true;
-        }
-      }
+      const { executingForm } = action;
+      nextState.executingForm = executingForm;
       return nextState;
     } break;
 
