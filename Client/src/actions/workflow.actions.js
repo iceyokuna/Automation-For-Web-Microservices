@@ -70,10 +70,7 @@ function sendWorkflowData(appName, appDescription, workflowData) {
       workflowService.sendWorkflowData(appName, appDescription, workflowData).then(
         res => {
           dispatch(success())
-          dispatch(socketActions.startFlow(appName));
-          setTimeout(() => {
-            history.push('/execute_flow')
-          }, 1000);
+          // history.push('/execute_flow');
         }).catch(err => dispatch(failure(err)));
     }, 1000);
 
