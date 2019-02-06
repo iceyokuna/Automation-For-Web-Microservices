@@ -36,10 +36,15 @@ class MainConsumer(WebsocketConsumer):
             html_index += 1
 
         if(message['type'] == "socket/NEXT_FORM"):
-            self.send(text_data=json.dumps(
-            HTMLs[html_index]
-            ))
-            html_index += 1
+            try:
+                self.send(text_data=json.dumps(
+                HTMLs[html_index]
+                ))
+                html_index += 1
+            except IndexError:
+                self.send(text_data=json.dumps(
+                    {'type': 'socket/FINISH_ALL_FORM', 'data': 'You got the last form already'}
+                ))
 
         # self.send(text_data=json.dumps({
         #     'message': 'Good morning from server'
