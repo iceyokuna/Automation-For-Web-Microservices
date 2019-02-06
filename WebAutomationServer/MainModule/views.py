@@ -16,6 +16,15 @@ def end_index(request):
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
 
+    print("APP NAME ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    print(resquest['appName'])
+
+    print("BPMN JSON DATA ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    print(resquest['workflowData']['bpmnJson'])
+
+    print("GENERATED FORM ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    print(resquest['workflowData']['generatedForms'])
+
     app_name = (resquest['appName'])
     #BPMN_element = (resquest['workflowData']['bpmnJson'])
     HTML_List = (resquest['workflowData']['generatedForms'])
@@ -30,5 +39,6 @@ def saveFlow(request):
     msg = {}
     msg['message'] = 'done'
     return HttpResponse(json.dumps(msg),content_type= "application/json")
+
      
 
