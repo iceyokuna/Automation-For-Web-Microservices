@@ -30,20 +30,20 @@ class MainConsumer(WebsocketConsumer):
             with open('HTMLs.pkl', 'rb') as f:
                 loadlist = pickle.load(f)
             HTMLs = loadlist
-            self.send(text_data=json.dumps({
+            self.send(text_data=json.dumps(
             HTMLs[html_index]
-            }))
+            ))
             html_index += 1
 
         if(message['type'] == "socket/NEXT_FORM"):
-            self.send(text_data=json.dumps({
+            self.send(text_data=json.dumps(
             HTMLs[html_index]
-            }))
+            ))
             html_index += 1
 
-        self.send(text_data=json.dumps({
-            'message': 'Good morning from server'
-        }))
+        # self.send(text_data=json.dumps({
+        #     'message': 'Good morning from server'
+        # }))
 
 
 class EndConsumer(WebsocketConsumer):
