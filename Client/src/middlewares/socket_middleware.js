@@ -16,10 +16,12 @@ export const socketMiddleware = store => next => action => {
   }
 
   socket.onmessage = (res) => {
-    console.log('Got message', res.data);
-    switch (res.data.type) {
-      case 'START_FLOW_SUCCESS': {
+    const data = JSON.parse(res.data);
+    console.log(data)
+    switch (data.type) {
+      case 'socket/START_FLOW_SUCCESS': {
         // store.dispatch()
+        alert('Start flow success')
       } break;
 
       case 'START_FLOW_FAIL': {

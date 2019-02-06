@@ -31,7 +31,9 @@ class MainConsumer(WebsocketConsumer):
                 loadlist = pickle.load(f)
             HTMLs = loadlist
             self.send(text_data=json.dumps(
-            HTMLs[html_index]
+                { 'type': "socket/START_FLOW_SUCCESS",
+                'data': HTMLs[html_index]
+                }
             ))
             html_index += 1
 
