@@ -25,12 +25,12 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { PlayFill } from 'grommet-icons'
+import { Upload } from 'grommet-icons'
 
 import styled from 'styled-components'
 
 import Loader from 'react-loader-spinner'
-import { bpmnActions, availableServicesActions, socketActions } from 'actions'
+import { workflowActions, availableServicesActions, socketActions } from 'actions'
 
 import appTheme from 'theme';
 const colors = appTheme.global.colors;
@@ -234,7 +234,7 @@ class BpmnContainer extends Component {
       if (err) {
         console.error(err);
       } else {
-        const { appName, appDescription, generatedForms } = this.props.bpmn;
+        const { appName, appDescription, generatedForms } = this.props.workflow;
         this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
           if (err) {
             console.error(err);
@@ -244,7 +244,7 @@ class BpmnContainer extends Component {
               bpmnJson,
               generatedForms,
             }
-            this.props.dispatch(bpmnActions.sendWorkflowData(
+            this.props.dispatch(workflowActions.sendWorkflowData(
               appName, appDescription,
               workflowData
             ));
@@ -289,7 +289,7 @@ class BpmnContainer extends Component {
 
   render() {
     const { showServiceRequirement, showParticipantSelector, selectedServiceMethod } = this.state
-    const { bpmn, availableServices } = this.props;
+    const { workflow, availableServices } = this.props;
 
     return (
       <Box fill>
@@ -297,7 +297,7 @@ class BpmnContainer extends Component {
           <div id="canvas" />
         </div>
 
-        {bpmn.loadingWorkflowData && (
+        {workflow.loadingWorkflowData && (
           <Layer
             position="center"
             modal
@@ -307,7 +307,7 @@ class BpmnContainer extends Component {
           >
             <Box pad="medium" gap="small" width="large" width="300px"
               direction="row" justify='center' align="center">
-              <Text>Building your workflow ...</Text>
+              <Text>Submitting your workflow ...</Text>
               <Loader
                 type="Oval"
                 color={colors.brand}
@@ -342,7 +342,7 @@ class BpmnContainer extends Component {
 
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button primary icon={<PlayFill size="small" />} label="Execute" onClick={this.onSubmitDiagram} />
+            <Button primary icon={<Upload size="small" />} label="Submit" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
 
@@ -363,9 +363,9 @@ class BpmnContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { bpmn, availableServices } = state;
+  const { workflow, availableServices } = state;
   return {
-    bpmn,
+    workflow,
     availableServices
   };
 };

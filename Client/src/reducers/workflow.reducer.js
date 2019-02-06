@@ -1,4 +1,4 @@
-import { bpmnConstants } from '_constants';
+import { workflowContants } from '_constants';
 
 const defaultState = {
   generatedForms: [
@@ -34,7 +34,7 @@ const defaultState = {
   // generatedForms: [
 
   // ],
-  currentFormIndex: 0,
+  executingForm: null,
 
   formIds: {},
   formsDone: false,
@@ -46,28 +46,28 @@ const defaultState = {
   loadingWorkflowData: false,
 }
 
-export function bpmn(state = defaultState, action) {
+export function workflow(state = defaultState, action) {
   switch (action.type) {
 
-    case bpmnConstants.SEND_WORKFLOW_DATA_REQUEST: {
+    case workflowContants.SEND_WORKFLOW_DATA_REQUEST: {
       const nextState = { ...state };
       nextState.loadingWorkflowData = true;
       return nextState;
     } break;
 
-    case bpmnConstants.SEND_WORKFLOW_DATA_SUCCESS: {
+    case workflowContants.SEND_WORKFLOW_DATA_SUCCESS: {
       const nextState = { ...state };
       nextState.loadingWorkflowData = false;
       return nextState;
     } break;
 
-    case bpmnConstants.SEND_WORKFLOW_DATA_FAILURE: {
+    case workflowContants.SEND_WORKFLOW_DATA_FAILURE: {
       const nextState = { ...state };
       nextState.loadingWorkflowData = false;
       return nextState;
     } break;
 
-    case bpmnConstants.ADD_NEW_FROM: {
+    case workflowContants.ADD_NEW_FROM: {
       const { forTask, form } = action;
       const nextState = { ...state };
       nextState.generatedForms.push({ taskId: forTask, formData: form })
@@ -75,33 +75,27 @@ export function bpmn(state = defaultState, action) {
       return nextState;
     } break;
 
-    case bpmnConstants.GET_NEXT_FORM: {
-      const { currentFormIndex, generatedForms } = state;
+    case workflowContants.SET_CURRENT_EXECUTING_FORM: {
       const nextState = { ...state };
-      if (currentFormIndex < generatedForms.length) {
-        nextState.currentFormIndex += 1;
-
-        if (nextState.currentFormIndex == generatedForms.length - 1) {
-          nextState.formsDone = true;
-        }
-      }
+      const { executingForm } = action;
+      nextState.executingForm = executingForm;
       return nextState;
     } break;
 
-    case bpmnConstants.NAME_TO_ID: {
+    case workflowContants.NAME_TO_ID: {
       const { id, value } = action;
       const nextState = { ...state };
       nextState.formIds[id] = value;
       return nextState;
     } break;
 
-    case bpmnConstants.SET_APP_INFO: {
+    case workflowContants.SET_APP_INFO: {
       const { appName, appDescription } = action;
       const nextState = { ...state, appName, appDescription };
       return nextState
     } break;
 
-    case bpmnConstants.SET_BPMN_JSON: {
+    case workflowContants.SET_BPMN_JSON: {
       const { bpmnAppJson } = action;
       const nextState = { ...state, bpmnAppJson };
       return nextState

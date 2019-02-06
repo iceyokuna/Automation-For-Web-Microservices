@@ -22,27 +22,38 @@ class MainConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
-        if(message['type'] == "socket/START_FLOW"):
+        if(message['type'] == "workflow/START_FLOW"):
             html_index= 0
             HTMLs = []
             loadlist = []
             with open('HTMLs.pkl', 'rb') as f:
                 loadlist = pickle.load(f)
             HTMLs = loadlist
-            self.send(text_data=json.dumps({
-            HTMLs[html_index]
-            }))
+            self.send(text_data=json.dumps(
+                { 
+                'type': "workflow/START_FLOW_SUCCESS",
+                'form': HTMLs[html_index]
+                }
+            ))
             html_index += 1
 
-        if(message['type'] == "socket/NEXT_FORM"):
-            self.send(text_data=json.dumps({
-            HTMLs[html_index]
-            }))
-            html_index += 1
+        if(message['type'] == "workflow/NEXT_FORM"):
+            try:
+                self.send(text_data=json.dumps(
+                    {
+                        'type': "workflow/NEXT_FORM_SUCCESS",
+                'form':HTMLs[html_index]
+                    }
+                ))
+                html_index += 1
+            except IndexError:
+                self.send(text_data=json.dumps(
+                    {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}
+                ))
 
-        self.send(text_data=json.dumps({
-            'message': 'Good morning from server'
-        }))
+        # self.send(text_data=json.dumps({
+        #     'message': 'Good morning from server'
+        # }))
 
 
 class EndConsumer(WebsocketConsumer):
