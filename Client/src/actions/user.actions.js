@@ -15,27 +15,27 @@ function login(username, password) {
   return dispatch => {
     dispatch(request({ username }));
 
-    // userService.login(username, password)
-    //   .then(
-    //     res => {
-    //       const token = res.data.key;
-    //       if (token) { localStorage.setItem('user', JSON.stringify(token)); }
-    //       dispatch(success(token));
-    //       history.push('/my_flows');
-    //     },
-    //     error => {
-    //       dispatch(failure(error.toString()));
-    //       dispatch(alertActions.error(error.toString()));
-    //     }
-    //   );
+    userService.login(username, password)
+      .then(
+        res => {
+          const token = res.data.key;
+          if (token) { localStorage.setItem('user', JSON.stringify(token)); }
+          dispatch(success(token));
+          history.push('/my_flows');
+        },
+        error => {
+          dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
+        }
+      );
 
     // Fake login
-    setTimeout(() => {
-      const token = 1234788989
-      localStorage.setItem('user', token);
-      dispatch(success(token));
-      history.push('/my_flows');
-    }, 500)
+    // setTimeout(() => {
+    //   const token = 1234788989
+    //   localStorage.setItem('user', token);
+    //   dispatch(success(token));
+    //   history.push('/my_flows');
+    // }, 500)
 
   };
 

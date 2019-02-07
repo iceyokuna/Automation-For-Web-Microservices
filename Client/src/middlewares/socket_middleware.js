@@ -16,29 +16,33 @@ export const socketMiddleware = store => next => action => {
   }
 
   socket.onmessage = (res) => {
-    const data = JSON.parse(res.data);
-    switch (data.type) {
-      case 'workflow/START_FLOW_SUCCESS': {
-        const { form } = data;
-        store.dispatch(workflowActions.setExecutingForm(form));
-      } break;
+    try {
+      const data = JSON.parse(res.data);
+      switch (data.type) {
+        case 'workflow/START_FLOW_SUCCESS': {
+          const { form } = data;
+          store.dispatch(workflowActions.setExecutingForm(form));
+        } break;
 
-      case 'START_FLOW_FAIL': {
+        case 'START_FLOW_FAIL': {
 
-      } break;
+        } break;
 
-      case 'workflow/NEXT_FORM_SUCCESS': {
-        const { form } = data;
-        store.dispatch(workflowActions.setExecutingForm(form));
-      } break;
+        case 'workflow/NEXT_FORM_SUCCESS': {
+          const { form } = data;
+          store.dispatch(workflowActions.setExecutingForm(form));
+        } break;
 
-      case 'NEXT_FORM_FAIL': {
+        case 'NEXT_FORM_FAIL': {
 
-      } break;
-      default:
-        break;
+        } break;
+        default:
+          break;
+      }
+      // store.dispatch(socketActions.receiveMessage(res.data))
+    } catch (error) {
+      console.error(error);
     }
-    // store.dispatch(socketActions.receiveMessage(res.data))
   }
 
   socket.onclose = (res) => {
