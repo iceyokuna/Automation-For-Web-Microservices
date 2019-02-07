@@ -20,7 +20,7 @@ def saveFlow(request):
     print(resquest['appName'])
 
     print("BPMN JSON DATA ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    workflow_detail = resquest['workflowData']['bpmnJson']
+    workflow_detail = json.loads(resquest['workflowData']['bpmnJson'])
     print(type(workflow_detail))
 
     print("GENERATED FORM ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
