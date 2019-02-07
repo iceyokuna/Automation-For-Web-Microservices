@@ -21,7 +21,7 @@ class MainConsumer(WebsocketConsumer):
 
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
+        #case start flow
         if(message['type'] == "workflow/START_FLOW"):
             html_index= 0
             HTMLs = []
@@ -37,6 +37,7 @@ class MainConsumer(WebsocketConsumer):
             ))
             html_index += 1
 
+        #case next flow
         if(message['type'] == "workflow/NEXT_FORM"):
             try:
                 self.send(text_data=json.dumps(
