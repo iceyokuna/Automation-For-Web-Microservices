@@ -16,15 +16,17 @@ def end_index(request):
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
 
-    print("APP NAME ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    print(resquest['appName'])
+    #print("APP NAME ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    #print(resquest['appName'])
 
-    print("BPMN JSON DATA ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    #print("BPMN JSON DATA ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     workflow_detail = json.loads(resquest['workflowData']['bpmnJson'])
-    print(type(workflow_detail))
-
-    print("GENERATED FORM ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    print(resquest['workflowData']['generatedForms'])
+    elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
+    for element in elements_list:
+        print(element)
+    
+    #print("GENERATED FORM ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    #print(resquest['workflowData']['generatedForms'])
 
     app_name = (resquest['appName'])
     #BPMN_element = (resquest['workflowData']['bpmnJson'])
