@@ -2,14 +2,10 @@ import React, { Component } from 'react'
 
 import { Button, Box, Text } from 'grommet';
 import { FillParent } from 'style'
-
-import { ClientStyle as Style } from 'react-css-component'
-// import Style from 'style-it';
+import { UniversalStyle as Style } from 'react-css-component'
 import { connect } from 'react-redux'
 import { workflowActions, socketActions } from 'actions'
 import { Next, Previous } from 'grommet-icons'
-import cssString from './css_string'
-
 
 class ExecuteFlow extends Component {
     state = {
@@ -53,6 +49,8 @@ class ExecuteFlow extends Component {
 
     componentWillReceiveProps = (nextProps) => {
         const { executingForm } = nextProps.workflow;
+
+        console.log(executingForm)
 
         if (executingForm) {
             this.setState({
@@ -123,8 +121,8 @@ class ExecuteFlow extends Component {
                         </Box>
 
                         <Box direction="row" align="center" justify="between" gap="medium">
-                            <Button icon={<Previous />}label="Previous" onClick={() => this.getPreviousForm()} />
-                            <Button icon={<Next />}label="Next" primary onClick={() => this.getNextForm()} />
+                            <Button icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
+                            <Button icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
                         </Box>
                     </Box>
                 </FillParent>
