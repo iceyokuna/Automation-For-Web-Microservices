@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'APIModule',
     'APIRegistrationModule',
-    'APIProjectModule'
+    'APIProjectModule',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AccountManager.wsgi.application'
 
-CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Database
@@ -89,9 +89,9 @@ DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'wasdb',
-        'USER': 'was',
+        'USER': 'postgres',
         'PASSWORD': '123159',
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
