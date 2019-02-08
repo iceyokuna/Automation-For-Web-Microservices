@@ -19,8 +19,12 @@ function login(username, password) {
 }
 
 function logout() {
-  // remove user from local storage to log user out
-  localStorage.removeItem('user');
+  const token = localStorage.getItem('user').toString();
+  return axios.post(globalConstants.USER_LOGOUT_URL, null, {
+    headers: {
+      Authorization: "Token " + token,
+    }
+  })
 }
 
 function getAll() {
