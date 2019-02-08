@@ -2,13 +2,16 @@ from django.urls import path, include, reverse
 from . import views
 from rest_framework import routers
 
-routers = routers.DefaultRouter()
+
+from APIProjectModule.views import WorkflowView
+#routers = routers.DefaultRouter()
+
 #routers.register('admin', views.AdminView)
-routers.register('workflow', views.WorkflowView)
+#routers.register('workflow', views.WorkflowView.as_view())
 #routers.register('collaborator', views.CollaboratorView)
 
 urlpatterns = [
-    
-    path('', include(routers.urls))
+    path('api/workflow', WorkflowView.as_view())
+    #path('', include(routers.urls))
     
 ]
