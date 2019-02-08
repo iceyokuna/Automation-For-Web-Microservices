@@ -18,7 +18,7 @@ function login(username, password) {
     userService.login(username, password)
       .then(
         res => {
-          const token = res.data.key;
+          const token = res.data.token;
           if (token) { localStorage.setItem('user', JSON.stringify(token)); }
           dispatch(success(token));
           history.push('/my_flows');
