@@ -1,6 +1,4 @@
-from MainModule.Graphflow import *
-
-class GraphFlowController:
+class ExecutionEngine:
     def __init__(self):
         self.node = []
         self.current = 0
