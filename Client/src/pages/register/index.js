@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { styles } from './style'
 
-import { Box, FormField, TextInput, Button, Heading, Text } from 'grommet';
+import { Box, FormField, TextInput, Button, Heading, Text, } from 'grommet';
 import { UserNew } from 'grommet-icons';
 import { connect } from 'react-redux'
 import { userActions } from 'actions';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Register extends Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class Register extends Component {
       email: '',
       password: '',
       confirmPass: '',
+      passwordError: null,
     };
   }
 
@@ -37,22 +38,26 @@ class Register extends Component {
 
   onRegister = () => {
     const { username, email, password, confirmPass } = this.state;
+
+    if (password !== confirmPass) {
+      this.setState({ passwordError: 'Password must be the same' });
+      return;
+    }
+
     const userInfo = {
       username: username,
       email: email,
-      password1: password,
-      password2: confirmPass
+      password: password,
+      first_name: 'Anonymous_firstname',
+      last_name: 'Anonymouse_lastname',
     };
-
+    this.setState({ passwordError: null });
     this.props.dispatch(userActions.register(userInfo))
-
-    // this.props.history.replace('/login');
-
-    // Todos
-
   }
 
   render() {
+    const { passwordError } = this.state;
+
     return (
       <Box flex direction="column" align="center" justify="center" background="light-2" fill='vertical'>
         <Box pad='medium' style={{ width: 350 }} elevation='medium' background="light-0" animation='fadeIn'>
@@ -75,14 +80,16 @@ class Register extends Component {
               value={this.state.email}
               onChange={this.onChangeEmail} />
           </FormField>
-          <FormField>
+          <FormField
+            error={passwordError}>
             <TextInput
               placeholder="Password"
               type="password"
               value={this.state.password}
               onChange={this.onChangePassword} />
           </FormField>
-          <FormField>
+          <FormField
+            error={passwordError}>
             <TextInput
               placeholder="Confirm password"
               type="password"
@@ -98,4 +105,4 @@ class Register extends Component {
   }
 }
 
-export default withRouter(connect(null,null)(Register));
+export default withRouter(connect(null, null)(Register));

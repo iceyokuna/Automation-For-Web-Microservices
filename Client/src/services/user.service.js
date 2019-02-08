@@ -42,13 +42,7 @@ function getById(id) {
 }
 
 function register(user) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: user
-  };
-
-  return axios.post('http://cair.p-enterprise.com:8002/rest-auth/registration/', user)
+  return axios.post(globalConstants.USER_REGISTER_URL, user)
 }
 
 function update(user) {
