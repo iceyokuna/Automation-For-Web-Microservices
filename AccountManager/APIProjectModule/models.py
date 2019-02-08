@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Workflow(models.Model):
     #id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    workflow = JSONField(null=True)
+    workflow = JSONField(null=False)
     user = models.ForeignKey(User, to_field="username", db_column="username", related_name='project_user', on_delete=models.CASCADE)
     
     def __str__(self):
