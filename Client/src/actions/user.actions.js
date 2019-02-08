@@ -18,8 +18,8 @@ function login(username, password) {
     userService.login(username, password)
       .then(
         res => {
-          const token = res.data.key;
-          if (token) { localStorage.setItem('user', JSON.stringify(token)); }
+          const token = res.data.token;
+          if (token) { localStorage.setItem('user', token); }
           dispatch(success(token));
           history.push('/my_flows');
         },
@@ -45,8 +45,13 @@ function login(username, password) {
 }
 
 function logout() {
-  userService.logout();
-  history.push('/login');
+  userService.logout().then((res) => {
+    console.log(res);
+    history.push('/login');
+  }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
+  // localStorage.removeItem('user');
+  // history.push('/login');
+
   return { type: userConstants.LOGOUT };
 }
 

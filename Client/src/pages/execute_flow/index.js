@@ -121,14 +121,20 @@ class ExecuteFlow extends Component {
                         </Box>
 
                         <Box direction="row" align="center" justify="between" gap="medium">
-                            <Button icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
-                            <Button icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
+                            <Button style={styles.navButton} icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
+                            <Button style={styles.navButton} icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
                         </Box>
                     </Box>
                 </FillParent>
             );
         }
 
+    }
+}
+
+const styles = {
+    navButton: {
+        width: 120
     }
 }
 
