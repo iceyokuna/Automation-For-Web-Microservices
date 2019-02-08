@@ -15,11 +15,7 @@ export const userService = {
 };
 
 function login(username, password) {
-  return axios.post(globalConstants.USER_LOGIN_URL, { username, password }, {
-    headers: {
-      'Access-Control-Allow-Origin': true,
-    }
-  })
+  return axios.post(globalConstants.USER_LOGIN_URL, { username, password })
 }
 
 function logout() {
