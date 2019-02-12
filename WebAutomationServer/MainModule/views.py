@@ -22,9 +22,12 @@ def saveFlow(request):
     #print("BPMN JSON DATA ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     workflow_detail = json.loads(resquest['workflowData']['bpmnJson'])
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
+    print(workflow_detail)
+    print()
+    print()
     print(elements_list)
     #for element in elements_list:
-    #    print(element)
+    #    print(element)t
     
     #print("GENERATED FORM ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     #print(resquest['workflowData']['generatedForms'])
@@ -43,6 +46,3 @@ def saveFlow(request):
     msg = {}
     msg['message'] = 'done'
     return HttpResponse(json.dumps(msg),content_type= "application/json")
-
-     
-

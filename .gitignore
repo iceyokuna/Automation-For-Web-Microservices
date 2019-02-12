@@ -1,3 +1,4 @@
 
 *.pyc
 ServiceManager/APIModule/migrations/0008_auto_20181218_1426.py
+WebAutomationServer/HTMLs.pkl
