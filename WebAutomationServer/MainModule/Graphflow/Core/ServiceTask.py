@@ -6,7 +6,7 @@ class ServiceTask(Activity):
         super().__init__(id, name, inputType , outputType)
         self.HTMLReference = None
         self.serviceURL=  None
-        self.lane_owner_id = None
+        self.lane_owner_id = lane_owner_id
 
     def setLaneOwner(self, lane_owner_id):
         self.lane_owner_id = lane_owner_id

@@ -54,7 +54,15 @@ class WorkflowEngine:
 
             #Tasks
             elif(element['name'] == 'bpmn2:task'):
+                lane_owner = element_ref_lane_owner[element['attributes']['id']]
+                Id = element['attributes']['id']
+                name = element['attributes']['name']
+                inputType = None
+                outputType = None
+                Task = ServiceTask(Id, name, inputType, outputType, lane_owner)
+                self.state[element['attributes']['id']] = Task
                 print("\nTask Elements")
+##                print(Task.getLaneOwner())
                 print('id: ',element['attributes']['id'], end = '\tname : ')
                 print(element['attributes']['name'])
 
