@@ -1,5 +1,5 @@
-from Core.CoreElement import *
-from Core.IOtypes import *
+from MainModule.Graphflow.Core.CoreElement import *
+from MainModule.Graphflow.Core.IOtypes import *
 
 class FlowObject(CoreElement):
     def __init__(self , id, name, inputType , outputType):

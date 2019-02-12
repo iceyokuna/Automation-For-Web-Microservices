@@ -1,5 +1,5 @@
-from Core.Activity import *
-from Core.IOtypes import *
+from MainModule.Graphflow.Core.Activity import *
+from MainModule.Graphflow.Core.IOtypes import *
 
 class UserTask(Activity):
     def __init__(self , id, name, inputType , outputType):

@@ -1,4 +1,4 @@
-from Core.IOtypes import *
+from MainModule.Graphflow.Core.IOtypes import *
 
 class CoreElement:
     def __init__(self, elementId, elementName):

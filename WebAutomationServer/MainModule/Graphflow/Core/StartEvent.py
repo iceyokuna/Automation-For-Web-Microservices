@@ -1,5 +1,5 @@
-from Core.Event import *
-from Core.IOtypes import *
+from MainModule.Graphflow.Core.Event import *
+from MainModule.Graphflow.Core.IOtypes import *
 
 class StartEvent(Event):
     def __init__(self , id, name, inputType , outputType):

@@ -1,4 +1,4 @@
-from Core.CoreElement import *
+from MainModule.Graphflow.Core.CoreElement import *
 
 class ConnectingObject(CoreElement):
     def __init__(self , id, name):
