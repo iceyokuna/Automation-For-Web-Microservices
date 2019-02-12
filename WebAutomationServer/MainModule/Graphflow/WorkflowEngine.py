@@ -19,15 +19,15 @@ class WorkflowEngine:
         lane_dict = set()
         
         for element in elements_list:
-            #print(element['name'])
-            #Lane Infomation
+##            print(element['name'])
+##            Lane Infomation
             if(element['name'] == 'bpmn2:laneSet'):
                 print("\nLane Elements")
-##                element = element['elements'][0]
                 element = element['elements']
                 for lane in element:
                     print('id: ',lane['attributes']['id'], end = '\tlane owner : ')
                     print(lane['attributes']['name'], end = "\tref elements id : ")
+                    
                     elements_in_lane = lane['elements']
                     for element_ref in elements_in_lane:
                         element_ref = element_ref['elements'][0]

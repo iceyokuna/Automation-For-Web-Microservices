@@ -2,10 +2,17 @@ from Core.Activity import *
 from Core.IOtypes import *
 
 class ServiceTask(Activity):
-    def __init__(self , id, name, inputType , outputType):
-        super().__init__(id, name, inputType , outputType)
+    def __init__(self , id, name, inputType , outputType, lane_owner_id = None):
+        super().__init__(id, name, inputType , outputType, lane_owner_id)
         self.HTMLReference = None
         self.serviceURL=  None
+        self.lane_owner_id = None
+
+    def setLaneOwner(self, lane_owner_id):
+        self.lane_owner_id = lane_owner_id
+
+    def getLaneOwner(self):
+        return self.lane_owner_id
 
     def setURL(self,url):
         self.serviceURL = url
