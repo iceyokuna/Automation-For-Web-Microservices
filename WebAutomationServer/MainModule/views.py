@@ -2,6 +2,7 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from MainModule.Graphflow.WorkflowEngine import WorkflowEngine
 import pickle
 
 # Create your views here.
@@ -22,17 +23,18 @@ def saveFlow(request):
     #bpmn data
     workflow_detail = json.loads(resquest['workflowData']['bpmnJson'])
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
-    print(elements_list)
+#    print(elements_list)
 
     #HTML form data
     HTML_List = (resquest['workflowData']['generatedForms'])
 
+    #initialize workflow engine instance
+    workflowEngine = WorkflowEngine()
+    workflowEngine.initialize(elements_list, HTML_List)
+
     #Workflow Engine Initiate construction and save
-    Forms = []
-    for element in HTML_List:
-        Forms.append(element['formData'])
-    with open('HTMLs.pkl', 'wb') as html_file:
-        pickle.dump(Forms, html_file)
+    with open('HTMLs.pkl', 'wb') as f:
+        pickle.dump(workflowEngine, f)
 
     print("------saved--------")
     msg = {}
