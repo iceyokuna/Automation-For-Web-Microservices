@@ -76,8 +76,17 @@ html_elements_list4 = [{'taskId': 'Task_04qtp5o', 'formData': {'formHtml': '<div
 
 workflowEngine = WorkflowEngine()
 workflowEngine.initialize(elements_list4, html_elements_list4)
-print(workflowEngine.start(),'\n')
-print(workflowEngine.next(),'\n')
-print(workflowEngine.next())
+
+with open('workflow_instance.pkl', 'wb') as f:
+    pickle.dump(workflowEngine, f)
+
+workflowEngine_load = WorkflowEngine()
+with open('workflow_instance.pkl', 'rb') as f:
+    workflowEngine_load = pickle.load(f)
+print(workflowEngine_load.start(),'\n')
+print(workflowEngine_load.next(),'\n')
+print(workflowEngine_load.next())
+
+
 
 
