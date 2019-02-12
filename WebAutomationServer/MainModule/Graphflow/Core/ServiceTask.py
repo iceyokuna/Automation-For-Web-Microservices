@@ -3,7 +3,7 @@ from Core.IOtypes import *
 
 class ServiceTask(Activity):
     def __init__(self , id, name, inputType , outputType, lane_owner_id = None):
-        super().__init__(id, name, inputType , outputType, lane_owner_id)
+        super().__init__(id, name, inputType , outputType)
         self.HTMLReference = None
         self.serviceURL=  None
         self.lane_owner_id = None
