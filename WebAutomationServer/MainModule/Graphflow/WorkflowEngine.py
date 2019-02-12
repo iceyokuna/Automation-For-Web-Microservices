@@ -8,16 +8,21 @@ from Core.IOtypes import *
 
 class WorkflowEngine:
     def __init__(self):
-        self.state = set() #Q
-        self.transition = set() #delta
-        self.currentState = set() #S
-        self.endState = set() #E
-        self.lane_owner = set() #L
+        self.state = {} #Q
+        self.transition = {} #delta
+        self.currentState = {} #S
+        self.endState = {} #E
 
     def initialize(self, elements_list, HTML_list = None):
         
-        lane_dict = set()
-        
+        element_ref_lane_owner = {}
+        element_ref_html = {}
+
+        #token html
+        for html in html_elements_list4:
+            element_ref_html[html['taskId']] = html['formData']
+
+        #token lane
         for element in elements_list:
 ##            print(element['name'])
 ##            Lane Infomation
@@ -27,10 +32,11 @@ class WorkflowEngine:
                 for lane in element:
                     print('id: ',lane['attributes']['id'], end = '\tlane owner : ')
                     print(lane['attributes']['name'], end = "\tref elements id : ")
-                    
+
                     elements_in_lane = lane['elements']
                     for element_ref in elements_in_lane:
                         element_ref = element_ref['elements'][0]
+                        element_ref_lane_owner[element_ref['text']] = str(lane['attributes']['name']) #id_element : id_owner
                         print(element_ref['text'], end = ", ")
                     print()
 
@@ -59,6 +65,8 @@ class WorkflowEngine:
                 print(element['attributes']['sourceRef'], end = '\t outging :')
                 print(element['attributes']['targetRef'])
 
+        print()
+        print(element_ref_lane_owner)
 
             
 elements_list1 = [{'type': 'element', 'name': 'bpmn2:laneSet', 'attributes': {'id': 'LaneSet_1yijipe'}, 'elements': [{'type': 'element', 'name': 'bpmn2:lane', 'attributes': {'id': 'Lane_0cp0rti', 'name': 'id_1'}, 'elements': [{'type': 'element', 'name': 'bpmn2:flowNodeRef', 'elements': [{'type': 'text', 'text': 'StartEvent_18ktykv'}]}, {'type': 'element', 'name': 'bpmn2:flowNodeRef', 'elements': [{'type': 'text', 'text': 'Task_0qz6rn4'}]}, {'type': 'element', 'name': 'bpmn2:flowNodeRef', 'elements': [{'type': 'text', 'text': 'EndEvent_0bfcthj'}]}]}]}, {'type': 'element', 'name': 'bpmn2:startEvent', 'attributes': {'id': 'StartEvent_18ktykv', 'name': 'Start'}, 'elements': [{'type': 'element', 'name': 'bpmn2:outgoing', 'elements': [{'type': 'text', 'text': 'SequenceFlow_1g7v2nr'}]}]}, {'type': 'element', 'name': 'bpmn2:task', 'attributes': {'id': 'Task_0qz6rn4', 'name': 'Task1'}, 'elements': [{'type': 'element', 'name': 'bpmn2:incoming', 'elements': [{'type': 'text', 'text': 'SequenceFlow_1g7v2nr'}]}, {'type': 'element', 'name': 'bpmn2:outgoing', 'elements': [{'type': 'text', 'text': 'SequenceFlow_0ogr2u7'}]}]}, {'type': 'element', 'name': 'bpmn2:endEvent', 'attributes': {'id': 'EndEvent_0bfcthj', 'name': 'End'}, 'elements': [{'type': 'element', 'name': 'bpmn2:incoming', 'elements': [{'type': 'text', 'text': 'SequenceFlow_0ogr2u7'}]}]}, {'type': 'element', 'name': 'bpmn2:sequenceFlow', 'attributes': {'id': 'SequenceFlow_1g7v2nr', 'sourceRef': 'StartEvent_18ktykv', 'targetRef': 'Task_0qz6rn4'}}, {'type': 'element', 'name': 'bpmn2:sequenceFlow', 'attributes': {'id': 'SequenceFlow_0ogr2u7', 'sourceRef': 'Task_0qz6rn4', 'targetRef': 'EndEvent_0bfcthj'}}]
@@ -70,8 +78,8 @@ html_elements_list4 = [{'taskId': 'Task_04qtp5o', 'formData': {'formHtml': '<div
 workflowEngine = WorkflowEngine()
 workflowEngine.initialize(elements_list4, html_elements_list4)
 
-for html in html_elements_list4:
-    print(html['taskId'])
-##    print(html['formData']) #send hack this one
-    print()
+##for html in html_elements_list4:
+##    print(html['taskId'])
+####    print(html['formData']) #send hack this one
+##    print()
 
