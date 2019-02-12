@@ -2,6 +2,8 @@
 import { authHeader } from '_helpers';
 import axios from 'axios'
 
+import { globalConstants } from '_constants'
+
 export const userService = {
   login,
   logout,
@@ -13,12 +15,16 @@ export const userService = {
 };
 
 function login(username, password) {
-  return axios.post('http://cair.p-enterprise.com:8002/rest-auth/login/', { username, password })
+  return axios.post(globalConstants.USER_LOGIN_URL, { username, password })
 }
 
 function logout() {
-  // remove user from local storage to log user out
-  localStorage.removeItem('user');
+  const token = localStorage.getItem('user').toString();
+  return axios.post(globalConstants.USER_LOGOUT_URL, null, {
+    headers: {
+      Authorization: "Token " + token,
+    }
+  })
 }
 
 function getAll() {
@@ -40,13 +46,7 @@ function getById(id) {
 }
 
 function register(user) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: user
-  };
-
-  return axios.post('http://cair.p-enterprise.com:8002/rest-auth/registration/', user)
+  return axios.post(globalConstants.USER_REGISTER_URL, user)
 }
 
 function update(user) {

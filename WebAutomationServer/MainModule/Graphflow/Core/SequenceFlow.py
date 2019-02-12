@@ -1,4 +1,4 @@
-from Core.ConnectingObject import *
+from MainModule.Graphflow.Core.ConnectingObject import *
 
 class SequenceFlow(ConnectingObject):
     def __init__(self,  id, name):

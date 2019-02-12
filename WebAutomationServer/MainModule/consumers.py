@@ -1,5 +1,6 @@
 from channels.generic.websocket import WebsocketConsumer
 from MainModule.Controller import ClientHandler
+from MainModule.Graphflow.WorkflowEngine import WorkflowEngine
 import json
 import pickle
 
@@ -16,37 +17,43 @@ class MainConsumer(WebsocketConsumer):
         clientController.removeMainUser(self)
 
     def receive(self, text_data):
-        global html_index
-        global HTMLs
-
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         #case start flow
         if(message['type'] == "workflow/START_FLOW"):
-            html_index= 0
-            HTMLs = []
-            loadlist = []
+            workflowEngine_load = WorkflowEngine()
             with open('HTMLs.pkl', 'rb') as f:
-                loadlist = pickle.load(f)
-            HTMLs = loadlist
+                workflowEngine_load = pickle.load(f)
+
+            HTML = workflowEngine_load.start()
+
+            with open('HTMLs.pkl', 'wb') as f:
+                pickle.dump(workflowEngine_load, f)
+
             self.send(text_data=json.dumps(
                 { 
                 'type': "workflow/START_FLOW_SUCCESS",
-                'form': HTMLs[html_index]
+                'form': HTML
                 }
             ))
-            html_index += 1
 
         #case next flow
         if(message['type'] == "workflow/NEXT_FORM"):
             try:
+                workflowEngine_load = WorkflowEngine()
+                with open('HTMLs.pkl', 'rb') as f:
+                    workflowEngine_load = pickle.load(f)
+                HTML = workflowEngine_load.next()
+
+                with open('HTMLs.pkl', 'wb') as f:
+                    pickle.dump(workflowEngine_load, f)
+
                 self.send(text_data=json.dumps(
                     {
                         'type': "workflow/NEXT_FORM_SUCCESS",
-                'form':HTMLs[html_index]
+                        'form': HTML
                     }
                 ))
-                html_index += 1
             except IndexError:
                 self.send(text_data=json.dumps(
                     {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}

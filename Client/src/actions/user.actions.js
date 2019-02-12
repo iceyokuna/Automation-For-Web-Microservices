@@ -15,27 +15,27 @@ function login(username, password) {
   return dispatch => {
     dispatch(request({ username }));
 
-    // userService.login(username, password)
-    //   .then(
-    //     res => {
-    //       const token = res.data.key;
-    //       if (token) { localStorage.setItem('user', JSON.stringify(token)); }
-    //       dispatch(success(token));
-    //       history.push('/my_flows');
-    //     },
-    //     error => {
-    //       dispatch(failure(error.toString()));
-    //       dispatch(alertActions.error(error.toString()));
-    //     }
-    //   );
+    userService.login(username, password)
+      .then(
+        res => {
+          const token = res.data.token;
+          if (token) { localStorage.setItem('user', token); }
+          dispatch(success(token));
+          history.push('/my_flows');
+        },
+        error => {
+          dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
+        }
+      );
 
     // Fake login
-    setTimeout(() => {
-      const token = 1234788989
-      localStorage.setItem('user', token);
-      dispatch(success(token));
-      history.push('/my_flows');
-    }, 500)
+    // setTimeout(() => {
+    //   const token = 1234788989
+    //   localStorage.setItem('user', token);
+    //   dispatch(success(token));
+    //   history.push('/my_flows');
+    // }, 500)
 
   };
 
@@ -45,8 +45,13 @@ function login(username, password) {
 }
 
 function logout() {
-  userService.logout();
-  history.push('/login');
+  userService.logout().then((res) => {
+    console.log(res);
+    history.push('/login');
+  }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
+  // localStorage.removeItem('user');
+  // history.push('/login');
+
   return { type: userConstants.LOGOUT };
 }
 
