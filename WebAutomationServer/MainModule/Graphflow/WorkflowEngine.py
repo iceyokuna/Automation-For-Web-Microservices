@@ -10,7 +10,7 @@ class WorkflowEngine:
     def __init__(self):
         self.state = {} #Q
         self.transition = {} #delta
-        self.currentState = {} #S
+        self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
 
     def initialize(self, elements_list, HTML_list = None):
@@ -42,12 +42,14 @@ class WorkflowEngine:
 
             #Start Event
             elif(element['name'] == 'bpmn2:startEvent'):
+                self.currentState["current"] = element['attributes']['id']
                 print("\nStart Event Element")
                 print('id: ',element['attributes']['id'], end = '\tname : ')
                 print(element['attributes']['name'])
 
             #End Event
             elif(element['name'] == 'bpmn2:endEvent'):
+                self.endState[element['attributes']['id']] = element['attributes']['name']
                 print("\nEnd Event Element")
                 print('id: ',element['attributes']['id'], end = '\tname : ')
                 print(element['attributes']['name'])
