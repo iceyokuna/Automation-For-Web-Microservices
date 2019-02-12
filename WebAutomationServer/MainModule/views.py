@@ -16,26 +16,18 @@ def end_index(request):
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
 
-    #print("APP NAME ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    #print(resquest['appName'])
+    #app name
+    app_name = (resquest['appName'])
 
-    #print("BPMN JSON DATA ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    #bpmn data
     workflow_detail = json.loads(resquest['workflowData']['bpmnJson'])
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
-    print(workflow_detail)
-    print()
-    print()
     print(elements_list)
-    #for element in elements_list:
-    #    print(element)t
-    
-    #print("GENERATED FORM ++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    #print(resquest['workflowData']['generatedForms'])
 
-    app_name = (resquest['appName'])
-    #BPMN_element = (resquest['workflowData']['bpmnJson'])
+    #HTML form data
     HTML_List = (resquest['workflowData']['generatedForms'])
-    print(app_name)
+
+    #Workflow Engine Initiate construction and save
     Forms = []
     for element in HTML_List:
         Forms.append(element['formData'])
