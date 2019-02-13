@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from APIModule.views import LoginView, LogoutView#login
+from APIModule.views import LoginView, LogoutView, ValidateTokenView
 from APIRegistrationModule.views import RegisterView, ChangePasswordView
 from django.contrib.auth import views as auth_views
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login', LoginView.as_view()),
     path('api/logout', LogoutView.as_view(), name='logout'),
+    path('api/validate_token',ValidateTokenView.as_view()),
     path('api/register', RegisterView.as_view()),
     path('api/change_password', ChangePasswordView.as_view() ),
     path('', include('APIProjectModule.urls'))

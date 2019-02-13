@@ -53,3 +53,12 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
         return Response({'detail':'Successfully logged out'},status=HTTP_200_OK)
 
+
+@permission_classes((IsAuthenticated,))
+class ValidateTokenView(APIView):
+    def get(self, request):
+        return Response({'detail':'Successfully validated'},status=HTTP_200_OK)
+    
+    def post(self, request):    
+        return Response({'detail':'Successfully validated'}, status=HTTP_400_BAD_REQUEST)
+
