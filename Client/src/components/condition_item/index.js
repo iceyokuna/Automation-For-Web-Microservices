@@ -42,8 +42,7 @@ export default class ConditionItem extends Component {
     const { variable1, operator, variable2 } = this.state
 
     return (
-      <Box direction="row">
-
+      <Box direction="row" gap="small">
         <Select
           dropHeight="medium"
           size="medium"
