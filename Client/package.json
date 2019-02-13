@@ -50,6 +50,7 @@
     "react-scripts": "1.1.5",
     "react-spring": "^7.2.10",
     "react-stepper-horizontal": "^1.0.11",
+    "react-tag-input": "^6.2.1",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-socket.io": "^1.4.0",
@@ -58,7 +59,9 @@
     "socket.io-client": "^2.2.0",
     "style-it": "^2.1.0",
     "styled-components": "^4.0.2",
-    "xml-js": "^1.6.8"
+    "xml-js": "^1.6.8",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
