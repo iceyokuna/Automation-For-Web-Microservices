@@ -9,6 +9,8 @@ const variables = [
   { name: 'Name', type: 'String' },
 ];
 
+const operators = ['==', '!=', '<', '<=', '>', '>='];
+
 const Variable = ({ name, type }) => {
   return (
     <Box direction="row" gap="small" pad="small">
@@ -19,21 +21,29 @@ const Variable = ({ name, type }) => {
   );
 }
 
+const Operator = ({ value }) => {
+  return (
+    <Box pad="small">
+      <Text>{value}</Text>
+    </Box>
+  );
+}
 
 export default class ConditionItem extends Component {
 
   state = {
     variable1: {},
     variable2: {},
-    operator: null,
+    operator: '',
     targetNode: null,
   }
 
   render() {
-    const { variable1 } = this.state
-    
+    const { variable1, operator, variable2 } = this.state
+
     return (
       <Box direction="row">
+
         <Select
           dropHeight="medium"
           size="medium"
@@ -42,7 +52,34 @@ export default class ConditionItem extends Component {
           options={variables}
           onChange={({ option }) => { this.setState({ variable1: option }) }}
         >
+          {(option, index) => (
+            <Variable name={option.name} type={option.type} />
+          )}
 
+        </Select>
+
+        <Select
+          dropHeight="medium"
+          size="medium"
+          placeholder="Operator"
+          value={operator}
+          options={operators}
+          onChange={({ option }) => { this.setState({ operator: option }) }}
+        >
+          {(option, index) => (
+            <Operator value={option} />
+          )}
+
+        </Select>
+
+        <Select
+          dropHeight="medium"
+          size="medium"
+          placeholder="Variable 2"
+          value={variable2.name}
+          options={variables}
+          onChange={({ option }) => { this.setState({ variable2: option }) }}
+        >
           {(option, index) => (
             <Variable name={option.name} type={option.type} />
           )}
