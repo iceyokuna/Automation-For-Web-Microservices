@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import ConditionItem from 'components/condition_item'
-
 import { Box, Layer, Text, Button } from 'grommet'
 
 
@@ -10,14 +9,34 @@ export default class ConditionList extends Component {
 
   state = {
     conditions: [
-      { var1: 'Salary', operator: '>', var2: 50000, nextNode: 'Task_22323' },
-      { var1: 'Salary', operator: '>', var2: 50000, nextNode: 'Task_22323' },
-      { var1: 'Salary', operator: '>', var2: 50000, nextNode: 'Task_22323' },
+      {
+        "variable1": {
+          "name": "Salary",
+          "type": "Number"
+        },
+        "variable2": {
+          "name": "Salary",
+          "type": "Number"
+        },
+        "operator": "==",
+        "targetNode": "TASK_1132"
+      },
+      {
+        "variable1": {
+          "name": "Salary",
+          "type": "Number"
+        },
+        "variable2": {
+          "name": "Salary",
+          "type": "Number"
+        },
+        "operator": "==",
+        "targetNode": "TASK_1132"
+      },
     ],
   }
 
   close = () => {
-    this.setState({ show: undefined });
     this.props.onCloseConditionList();
   }
 
@@ -25,11 +44,19 @@ export default class ConditionList extends Component {
 
   }
 
+  changeCondition = (index, condition) => {
+    console.log(index, condition)
+  }
+
 
   renderConditionItems = () => {
     const { variables, operators, bpmnNodes } = this.props
     return this.state.conditions.map((item, index) =>
-      <ConditionItem allVariables={variables} allOperators={operators} allBpmnNodes={bpmnNodes} />)
+      <ConditionItem
+        onChange={(condition) => this.changeCondition(index, condition)}
+        allVariables={variables}
+        allOperators={operators}
+        allBpmnNodes={bpmnNodes} />)
   }
 
 
@@ -53,6 +80,7 @@ export default class ConditionList extends Component {
             color="brand"
             label="Apply"
             primary
+            alignSelf="end"
             onPress={() => this.applyConditions()} />
         </Box>
 

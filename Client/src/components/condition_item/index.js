@@ -32,9 +32,17 @@ export default class ConditionItem extends Component {
     targetNode: '',
   }
 
+  changeCondition = () => {
+    this.props.onChange(this.state);
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    this.changeCondition();
+  }
+
+
   render() {
     const { variable1, operator, variable2, targetNode } = this.state
-
     const { allVariables, allOperators, allBpmnNodes } = this.props
 
     return (
@@ -46,7 +54,9 @@ export default class ConditionItem extends Component {
             placeholder="Variable 1"
             value={variable1.name}
             options={allVariables}
-            onChange={({ option }) => { this.setState({ variable1: option }) }}
+            onChange={({ option }) => {
+              this.setState({ variable1: option });
+            }}
           >
             {(option, index) => (
               <Variable name={option.name} type={option.type} />
@@ -61,7 +71,9 @@ export default class ConditionItem extends Component {
             placeholder="Operator"
             value={operator}
             options={allOperators}
-            onChange={({ option }) => { this.setState({ operator: option }) }}
+            onChange={({ option }) => {
+              this.setState({ operator: option });
+            }}
           >
             {(option, index) => (
               <Option value={option} />
@@ -77,7 +89,9 @@ export default class ConditionItem extends Component {
             placeholder="Variable 2"
             value={variable2.name}
             options={allVariables}
-            onChange={({ option }) => { this.setState({ variable2: option }) }}
+            onChange={({ option }) => {
+              this.setState({ variable2: option });
+            }}
           >
             {(option, index) => (
               <Variable name={option.name} type={option.type} />
@@ -99,7 +113,9 @@ export default class ConditionItem extends Component {
             placeholder="Target Node"
             value={targetNode}
             options={allBpmnNodes}
-            onChange={({ option }) => { this.setState({ targetNode: option }) }}
+            onChange={({ option }) => {
+              this.setState({ targetNode: option });
+            }}
           >
             {(option, index) => (
               <Option value={option} />
