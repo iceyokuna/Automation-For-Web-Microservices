@@ -107,7 +107,6 @@ export default class ConditionItem extends Component {
 
           </Select>
         </Box>
-
       </Box>
     )
   }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import ConditionItem from 'components/condition_item'
 
-import { Box, Layer, Text } from 'grommet'
+import { Box, Layer, Text, Button } from 'grommet'
 
 
 
@@ -21,6 +21,11 @@ export default class ConditionList extends Component {
     this.props.onCloseConditionList();
   }
 
+  applyConditions = () => {
+
+  }
+
+
   renderConditionItems = () => {
     const { variables, operators, bpmnNodes } = this.props
     return this.state.conditions.map((item, index) =>
@@ -38,13 +43,20 @@ export default class ConditionList extends Component {
         onClickOutside={this.close}
         onEsc={this.close}
       >
-        <Box gap="small" pad="medium">
-          <Text weight="bold" size="large">Conditions for this gateway</Text>
+        <Box gap="small" pad="medium" width="800px">
+          <Text weight="bold" size="xlarge">Conditions for this gateway</Text>
           {/* <ConditionItem variable={variables} operators={operators} />
           <ConditionItem variable={variables} operators={operators} />
           <ConditionItem variable={variables} operators={operators} /> */}
           {this.renderConditionItems()}
+          <Button
+            color="brand"
+            label="Apply"
+            primary
+            onPress={() => this.applyConditions()} />
         </Box>
+
+
       </Layer>
     )
   }
