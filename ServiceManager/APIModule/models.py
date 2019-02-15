@@ -16,6 +16,7 @@ class Method(models.Model):
     #id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     info = models.TextField(null=True)
+    url = models.TextField(null=True)
     service = models.ForeignKey(Service, related_name='methods', on_delete=models.CASCADE)
     input_interface = JSONField(null=True)
     output_interface = JSONField(null=True)
