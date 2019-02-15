@@ -19,6 +19,7 @@ from rest_framework.response import Response
 #@api_view(["POST"])
 @permission_classes((AllowAny,))
 class LoginView(APIView):
+    
 
     def get(self, request):
         return Response( status=HTTP_400_BAD_REQUEST)
@@ -52,4 +53,13 @@ class LogoutView(APIView):
         request.session.flush()
         request.user.auth_token.delete()
         return Response({'detail':'Successfully logged out'},status=HTTP_200_OK)
+
+
+@permission_classes((IsAuthenticated,))
+class ValidateTokenView(APIView):
+    def get(self, request):
+        return Response({'detail':'Successfully validated'},status=HTTP_200_OK)
+    
+    def post(self, request):    
+        return Response({'detail':'Successfully validated'}, status=HTTP_400_BAD_REQUEST)
 

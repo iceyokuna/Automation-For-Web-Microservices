@@ -1,0 +1,15 @@
+[Sender]
+[.......Title.......]
+[........Body...................]
+
+
+
+{
+sender: 'ot00445',
+receiver: 'iceyo',
+message: {
+title: 'Fill this form',
+body: 'asdsadasdasldkasdksad',
+linkToForm: 'https://auto-web.com/execute/:workFlowName'
+}
+}

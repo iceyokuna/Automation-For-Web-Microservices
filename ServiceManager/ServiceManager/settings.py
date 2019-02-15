@@ -77,19 +77,28 @@ WSGI_APPLICATION = 'ServiceManager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+'''
 DATABASES = {
-    'default': {
+        'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'wasdb',
         'USER': 'postgres',
-        'PASSWORD': '1141411414',
+        'PASSWORD': '123159',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
 
-
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': 5433,
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
