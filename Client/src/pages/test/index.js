@@ -3,14 +3,33 @@ import { ClientStyle as Style } from 'react-css-component'
 import { socketActions } from 'actions'
 import { connect } from 'react-redux'
 
-import ConditionItem from 'components/condition_item'
+import ConditionList from 'components/condition_list'
+
+const variables = [
+  { name: 'Salary', type: 'Number' },
+  { name: 'Single', type: 'Boolean' },
+  { name: 'Name', type: 'String' },
+];
+
+const operators = ['==', '!=', '<', '<=', '>', '>='];
+
+const bpmnNodes = [
+  'TASK_1132',
+  'TASK_2233E',
+  'LANE_133ww'
+];
 
 class Test extends Component {
 
   render() {
     return (
       <div>
-        <ConditionItem />
+        <ConditionList
+          show={true}
+          onCloseConditionList={() => { }}
+          variables={variables}
+          operators={operators}
+          bpmnNodes={bpmnNodes} />
       </div>
     )
   }
