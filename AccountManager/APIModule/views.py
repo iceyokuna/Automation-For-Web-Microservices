@@ -19,6 +19,7 @@ from rest_framework.response import Response
 #@api_view(["POST"])
 @permission_classes((AllowAny,))
 class LoginView(APIView):
+    
 
     def get(self, request):
         return Response( status=HTTP_400_BAD_REQUEST)
