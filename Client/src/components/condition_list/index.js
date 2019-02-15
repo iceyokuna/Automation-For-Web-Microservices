@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import ConditionItem from 'components/condition_item'
 import { Box, Layer, Text, Button } from 'grommet'
+import { Add } from 'grommet-icons'
 
 
 
@@ -21,18 +22,6 @@ export default class ConditionList extends Component {
         "operator": "==",
         "targetNode": "TASK_1132"
       },
-      {
-        "variable1": {
-          "name": "Salary",
-          "type": "Number"
-        },
-        "variable2": {
-          "name": "Salary",
-          "type": "Number"
-        },
-        "operator": "==",
-        "targetNode": "TASK_1132"
-      },
     ],
   }
 
@@ -40,9 +29,28 @@ export default class ConditionList extends Component {
     this.props.onCloseConditionList();
   }
 
+
+  addMoreCondition = () => {
+    const { conditions } = this.state;
+    conditions.push({
+      "variable1": {
+        "name": null,
+        "type": null
+      },
+      "variable2": {
+        "name": null,
+        "type": null
+      },
+      "operator": null,
+      "targetNode": null
+    });
+    this.setState({ conditions: conditions });
+  }
+
   applyConditions = () => {
 
   }
+
 
   changeCondition = (index, condition) => {
     console.log(index, condition)
@@ -72,16 +80,22 @@ export default class ConditionList extends Component {
       >
         <Box gap="small" pad="medium" width="800px">
           <Text weight="bold" size="xlarge">Conditions for this gateway</Text>
-          {/* <ConditionItem variable={variables} operators={operators} />
-          <ConditionItem variable={variables} operators={operators} />
-          <ConditionItem variable={variables} operators={operators} /> */}
           {this.renderConditionItems()}
-          <Button
-            color="brand"
-            label="Apply"
-            primary
-            alignSelf="end"
-            onPress={() => this.applyConditions()} />
+
+          <Box direction="row" justify="end" gap="small">
+            <Button
+              icon={<Add />}
+              label="Condition"
+              onClick={() => this.addMoreCondition()} />
+
+            <Button
+              style={{ width: 80 }}
+              color="brand"
+              label="Apply"
+              primary
+              onClick={() => this.applyConditions()} />
+          </Box>
+
         </Box>
 
 

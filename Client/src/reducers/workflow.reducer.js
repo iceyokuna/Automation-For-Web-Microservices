@@ -34,6 +34,9 @@ const defaultState = {
   // generatedForms: [
 
   // ],
+  appliedMethods: {
+
+  },
   executingForm: null,
 
   formIds: {},
@@ -44,7 +47,23 @@ const defaultState = {
   appDescription: '',
 
   loadingWorkflowData: false,
+
+  gateWayConditions: {
+    "Task_04qtp5o": {
+      "variable1": {
+        "name": null,
+        "type": null
+      },
+      "variable2": {
+        "name": null,
+        "type": null
+      },
+      "operator": null,
+      "targetNode": null
+    }
+  }
 }
+
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
@@ -53,19 +72,19 @@ export function workflow(state = defaultState, action) {
       const nextState = { ...state };
       nextState.loadingWorkflowData = true;
       return nextState;
-    } break;
+    }
 
     case workflowContants.SEND_WORKFLOW_DATA_SUCCESS: {
       const nextState = { ...state };
       nextState.loadingWorkflowData = false;
       return nextState;
-    } break;
+    }
 
     case workflowContants.SEND_WORKFLOW_DATA_FAILURE: {
       const nextState = { ...state };
       nextState.loadingWorkflowData = false;
       return nextState;
-    } break;
+    }
 
     case workflowContants.ADD_NEW_FROM: {
       const { forTask, form } = action;
@@ -73,33 +92,39 @@ export function workflow(state = defaultState, action) {
       nextState.generatedForms.push({ taskId: forTask, formData: form })
       nextState.recentForm = { taskId: forTask, form }
       return nextState;
-    } break;
+    }
 
     case workflowContants.SET_CURRENT_EXECUTING_FORM: {
       const nextState = { ...state };
       const { executingForm } = action;
       nextState.executingForm = executingForm;
       return nextState;
-    } break;
+    }
 
     case workflowContants.NAME_TO_ID: {
       const { id, value } = action;
       const nextState = { ...state };
       nextState.formIds[id] = value;
       return nextState;
-    } break;
+    }
 
     case workflowContants.SET_APP_INFO: {
       const { appName, appDescription } = action;
       const nextState = { ...state, appName, appDescription };
       return nextState
-    } break;
+    }
 
     case workflowContants.SET_BPMN_JSON: {
       const { bpmnAppJson } = action;
       const nextState = { ...state, bpmnAppJson };
       return nextState
-    } break;
+    }
+
+    case workflowContants.APPLY_METHOD_TO_TASK: {
+      const nextState = { ...state };
+      nextState.appliedMethods[action.taskId] = action.method;
+      return nextState;
+    }
 
     default:
       return state

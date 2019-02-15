@@ -63,10 +63,10 @@ class BpmnContainer extends Component {
 
   state = {
     currentElement: null,
+    selectedServiceMethod: null,
     showServiceRequirement: false,
     showParticipantSelector: false,
-    showConditionList: false,
-    selectedServiceMethod: null,
+    showConditionList: true,
   };
 
   componentDidMount() {
@@ -255,7 +255,7 @@ class BpmnContainer extends Component {
       if (err) {
         console.error(err);
       } else {
-        const { appName, appDescription, generatedForms } = this.props.workflow;
+        const { appName, appDescription, generatedForms, appliedMethods } = this.props.workflow;
         this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
           if (err) {
             console.error(err);
@@ -264,6 +264,7 @@ class BpmnContainer extends Component {
             const workflowData = {
               bpmnJson,
               generatedForms,
+              appliedMethods,
             }
             this.props.dispatch(workflowActions.sendWorkflowData(
               appName, appDescription,
@@ -293,6 +294,12 @@ class BpmnContainer extends Component {
       testProps: 'eiei'
     })
   }
+
+  applyMethodToCurrentTask = (method) => {
+    const taskId = this.state.currentElement.id;
+    this.props.dispatch(workflowActions.applyMethodToTask(taskId, method));
+  }
+
 
   updateByParticipant = (partId) => {
     const modeling = this.bpmnModeler.get('modeling');
@@ -373,7 +380,7 @@ class BpmnContainer extends Component {
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
-          onSelectMethod={() => { }}
+          onSelectMethod={(method) => this.applyMethodToCurrentTask(method)}
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
 
