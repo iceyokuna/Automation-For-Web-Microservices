@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'HOST': 'service_db',
-        'PORT': 5433,
+        'PORT': 5432,
     }
 }
 # Password validation
