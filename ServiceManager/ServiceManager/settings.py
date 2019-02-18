@@ -95,8 +95,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5433,
+        'HOST': 'service_db',
+        'PORT': 5432,
     }
 }
 # Password validation
