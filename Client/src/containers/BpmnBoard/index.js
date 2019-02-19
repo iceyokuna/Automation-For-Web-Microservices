@@ -66,7 +66,7 @@ class BpmnContainer extends Component {
     selectedServiceMethod: null,
     showServiceRequirement: false,
     showParticipantSelector: false,
-    showConditionList: true,
+    showConditionList: false,
   };
 
   componentDidMount() {
