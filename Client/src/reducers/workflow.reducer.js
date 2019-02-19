@@ -24,8 +24,6 @@ const defaultState = {
 
   },
   executingForm: null,
-
-  formIds: {},
   formsDone: false,
 
   recentForm: null,

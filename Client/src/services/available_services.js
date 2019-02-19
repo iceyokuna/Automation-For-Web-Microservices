@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { globalConstants } from '_constants'
 
 export const availaleServicesActions = {
     getAllServices,
@@ -6,7 +7,7 @@ export const availaleServicesActions = {
 };
 
 function getAllServices() {
-    return axios.get('http://127.0.0.1:8000/all_services/')
+    return axios.get(globalConstants.GET_ALL_SERVICES_URL);
 }
 
 function getAllMethodsByServiceId(serviceId) {
