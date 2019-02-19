@@ -13,12 +13,18 @@ class ExecuteFlow extends Component {
         currentFormCss: null,
     }
 
+    constructor(props) {
+        super(props);
+
+        this.formContainerRef = React.createRef();
+    }
+
     componentDidMount = () => {
         const { dispatch } = this.props
         dispatch(socketActions.startFlow("IC_KMITL"));
 
-        // const mainContainer = document.getElementById('mainContainer');
-        // mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
+        // const formContainer = document.getElementById('formContainer');
+        // formContainer.addEventListener('submit', this.onSubmitForm.bind(this));
 
         // const { executingForm } = this.props.workflow;
 
@@ -27,7 +33,7 @@ class ExecuteFlow extends Component {
         //     currentFormCss: executingForm.formCss
         // })
 
-        // document.getElementById('mainContainer').setAttribute('style', executingForm.formCss)
+        // document.getElementById('formContainer').setAttribute('style', executingForm.formCss)
 
 
     }
@@ -93,7 +99,21 @@ class ExecuteFlow extends Component {
     }
 
     getPreviousForm = () => {
-        console.log('Previous')
+        console.log(this.formContainerRef.current);
+
+        const elements = document.getElementsByTagName('input');
+
+        for (let e of elements) {
+            console.log("id: " + e.id, "\ntype: " + e.type, "\nname: " + e.name, "\nvalue: " + e.value)
+            // this.props.dispatch(workflowActions.addNameToId(e.name, e.value));
+        }
+
+        // Object.keys(formIds).forEach(id => {
+        //     const divElement = document.getElementById(id);
+        //     if (divElement != null) {
+        //         divElement.innerText = formIds[id];
+        //     }
+        // })
     }
 
 
@@ -113,7 +133,7 @@ class ExecuteFlow extends Component {
                     <Box pad="medium" gap="medium">
                         <Text size="large" weight="bold">Workflow Execution</Text>
                         <Box border="bottom">
-                            <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                            <div id="formContainer" ref={this.formContainerRef} dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                         </Box>
 
                         <Box direction="row" align="center" justify="between" gap="medium">
