@@ -45,6 +45,12 @@ class MainConsumer(WebsocketConsumer):
                     workflowEngine_load = pickle.load(f)
                 HTML = workflowEngine_load.next()
 
+                if (HTML == "DONE"): 
+                    self.send(text_data=json.dumps(
+                        {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}
+                    ))
+                    return None
+
                 with open('HTMLs.pkl', 'wb') as f:
                     pickle.dump(workflowEngine_load, f)
 
@@ -54,6 +60,8 @@ class MainConsumer(WebsocketConsumer):
                         'form': HTML
                     }
                 ))
+
+
             except IndexError:
                 self.send(text_data=json.dumps(
                     {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}

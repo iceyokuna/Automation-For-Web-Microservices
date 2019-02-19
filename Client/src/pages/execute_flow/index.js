@@ -28,6 +28,8 @@ class ExecuteFlow extends Component {
     componentWillReceiveProps = (nextProps) => {
         const { executingForm } = nextProps.workflow;
 
+        console.log(executingForm)
+
         if (executingForm) {
             this.setState({
                 currentFormHtml: executingForm.formHtml,
@@ -71,14 +73,14 @@ class ExecuteFlow extends Component {
     getNextForm = () => {
         const { dispatch } = this.props;
         const formInputValues = this.extractValuesFromCurrentForm();
-        console.log(formInputValues);
         dispatch(socketActions.nextForm("IC_MEETING", formInputValues));
     }
 
 
     render() {
         const { currentFormCss, currentFormHtml } = this.state;
-        if (!currentFormCss || !currentFormHtml) return <Box>Loading</Box>
+        const { executingForm } = this.props.workflow;
+        if (executingForm === "DONE") return <Box>Done all forms</Box>
         else {
             return (
                 <FillParent>

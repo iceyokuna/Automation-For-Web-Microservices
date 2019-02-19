@@ -64,7 +64,7 @@ class WorkflowEngine:
     def next(self):
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         if(self.currentState["current"] in self.endState):
-            return "{'formHtml': '<div>Done</div>', 'formCss': ''}"
+            return "DONE"
         element_object = self.state[self.currentState["current"]]
         return (element_object.getHTML())
             

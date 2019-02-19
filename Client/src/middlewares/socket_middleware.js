@@ -36,6 +36,11 @@ export const socketMiddleware = store => next => action => {
         case 'NEXT_FORM_FAIL': {
 
         } break;
+
+
+        case 'workflow/FINISH_ALL_FORM': {
+          store.dispatch(workflowActions.setExecutingForm("DONE"));
+        } break;
         default:
           break;
       }
