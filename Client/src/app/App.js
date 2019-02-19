@@ -35,7 +35,7 @@ const App = () => (
           {/* For dev */}
           <Route exact path="/test_modeler" component={ModelWorkflow} />
           <Route exact path="/test_component" component={Test} />
-          <Route exact path="/execute_flow" component={ExecuteFlow} />
+          <Route exact path="/execute_flow/:flowId" component={ExecuteFlow} />
 
           <Route component={NotFound} />
         </Switch>
