@@ -8,6 +8,7 @@ import { workflowActions, socketActions } from 'actions'
 import { Next, Previous } from 'grommet-icons'
 
 class ExecuteFlow extends Component {
+
     state = {
         currentFormHtml: null,
         currentFormCss: null,
@@ -22,36 +23,7 @@ class ExecuteFlow extends Component {
     componentDidMount = () => {
         const { dispatch } = this.props
         dispatch(socketActions.startFlow("IC_KMITL"));
-
-        // const formContainer = document.getElementById('formContainer');
-        // formContainer.addEventListener('submit', this.onSubmitForm.bind(this));
-
-        // const { executingForm } = this.props.workflow;
-
-        // this.setState({
-        //     currentFormHtml: executingForm.formHtml,
-        //     currentFormCss: executingForm.formCss
-        // })
-
-        // document.getElementById('formContainer').setAttribute('style', executingForm.formCss)
-
-
     }
-
-    // componentDidUpdate = (prevProps, prevState) => {
-    //     if (this.props.workflow.formsDone) {
-    //         const { formIds } = this.props.workflow;
-    //         Object.keys(formIds).forEach(id => {
-    //             const divElement = document.getElementById(id);
-    //             if (divElement != null) {
-    //                 divElement.innerText = formIds[id];
-    //             }
-    //         })
-
-    //     }
-
-    // }
-
 
     componentWillReceiveProps = (nextProps) => {
         const { executingForm } = nextProps.workflow;
@@ -79,47 +51,28 @@ class ExecuteFlow extends Component {
 
     }
 
-    onSubmitForm = (event) => {
-        event.preventDefault();
-        const { firstname, lastname } = event.target.elements;
-        const formData = {
-            firstname, lastname
-        }
-
-        const elements = document.getElementsByTagName('input');
-
-        for (let e of elements) {
-            console.log(e.type, e.name, e.value)
-            this.props.dispatch(workflowActions.addNameToId(e.name, e.value));
-        }
-
-        // this.props.dispatch(workflowActions.getNextForm())
-
-        // event.stopPropagation();
-    }
-
     getPreviousForm = () => {
-        console.log(this.formContainerRef.current);
-
-        const elements = document.getElementsByTagName('input');
-
-        for (let e of elements) {
-            console.log("id: " + e.id, "\ntype: " + e.type, "\nname: " + e.name, "\nvalue: " + e.value)
-            // this.props.dispatch(workflowActions.addNameToId(e.name, e.value));
-        }
-
-        // Object.keys(formIds).forEach(id => {
-        //     const divElement = document.getElementById(id);
-        //     if (divElement != null) {
-        //         divElement.innerText = formIds[id];
-        //     }
-        // })
+        console.log("Get Previous Form");
     }
 
+    extractValuesFromCurrentForm = () => {
+        const inputElements = document.getElementsByTagName('input');
+        const inputValues = {};
+        for (let e of inputElements) {
+            inputValues[e.id] = {
+                type: e.type,
+                name: e.name,
+                value: e.value
+            }
+        }
+        return inputValues;
+    }
 
     getNextForm = () => {
-        const { dispatch } = this.props
-        dispatch(socketActions.nextForm("IC_MEETING"));
+        const { dispatch } = this.props;
+        const formInputValues = this.extractValuesFromCurrentForm();
+        console.log(formInputValues);
+        dispatch(socketActions.nextForm("IC_MEETING", formInputValues));
     }
 
 

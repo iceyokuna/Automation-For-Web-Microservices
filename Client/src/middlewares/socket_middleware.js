@@ -76,7 +76,8 @@ export const socketMiddleware = store => next => action => {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          appName: action.appName
+          appName: action.appName,
+          formInputValues: action.formInputValues,
         }
       })
       socket.send(payload);
