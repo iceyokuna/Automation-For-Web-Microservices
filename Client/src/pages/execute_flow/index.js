@@ -50,8 +50,6 @@ class ExecuteFlow extends Component {
     componentWillReceiveProps = (nextProps) => {
         const { executingForm } = nextProps.workflow;
 
-        console.log(executingForm)
-
         if (executingForm) {
             this.setState({
                 currentFormHtml: executingForm.formHtml,
@@ -71,8 +69,6 @@ class ExecuteFlow extends Component {
         //         currentFormHtml: currentFormData.formHtml,
         //         currentFormCss: currentFormData.formCss
         //     })
-
-
         // }
 
     }
