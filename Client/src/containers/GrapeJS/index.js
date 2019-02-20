@@ -197,6 +197,7 @@ export default class GrapeJSWrapper extends Component {
     return (
 
       <div style={{ height: '100%', }}>
+        <div style={{ backgroundColor: 'red', position: 'fixed', top: 20 }}>TEST</div>
         <div id="gjs" >
         </div>
       </div>

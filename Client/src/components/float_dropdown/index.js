@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Box } from 'grommet';
+import { Box, Text, Button } from 'grommet';
 import { Group, Sort, Performance } from 'grommet-icons';
 
 import { Transition, config } from 'react-spring'
@@ -14,20 +14,86 @@ const iconColor = "#ffffff";
 
 
 
+const InterfaceItem = ({ item, parameterName }) => {
+  console.log(item)
+  return (
+    <Box pad="xsmall" border={{ side: 'bottom', size: 'small' }} flex={false}>
+      <Box direction="row" gap="small">
+        <Text weight="bold">Parameter name : </Text>
+        <Text >{parameterName}</Text>
+      </Box>
+      <Box direction="row" gap="small">
+        <Text weight="bold">Element type : </Text>
+        <Text >{item.formData.elementType}</Text>
+      </Box>
+      <Box direction="row" gap="small">
+        <Text weight="bold">Element id : </Text>
+        <Text >{item.formData.elementId} </Text>
+      </Box>
+    </Box>
+  )
+}
+
 export default class FloatDropdown extends Component {
   state = {
     show: true,
+    currentMethod: {
+      methodName: "Registration",
+      taskId: 'Task_161fsp2',
+      input_interface: {
+        emailTitle: {
+          type: "string",
+          formData: {
+            elementType: "input",
+            elementId: "title#1"
+          }
+        },
+        emailBody: {
+          type: "string",
+          formData: {
+            elementType: "textarea",
+            elementId: "message#233"
+          }
+        },
+        receiver: {
+          type: "string",
+          formData: {
+            elementType: "input",
+            elementId: "receiver#1123"
+          }
+        }
+      },
+    }
   }
-
-  a = 15;
 
   toggleMenu = (params) => {
     this.setState({ show: !this.state.show });
   }
 
+  appendItem = (params) => {
+    this.state.currentMethod.input_interface[Math.random()] = {
+      type: "string",
+      formData: {
+        elementType: "input",
+        elementId: "receiver#1123"
+      }
+    }
+  }
+
+
+  renderInterfaceItem = () => {
+    const { input_interface } = this.state.currentMethod;
+    return Object.keys(input_interface).
+      map((key, index) =>
+        <InterfaceItem
+          item={input_interface[key]}
+          parameterName={key}
+          key={index} />)
+  }
+
 
   render() {
-    const { show } = this.state;
+    const { show, currentMethod } = this.state;
 
     return (
       <Container >
@@ -41,12 +107,18 @@ export default class FloatDropdown extends Component {
             toggle
               ? props =>
 
-                <Box style={{ ...style }}
-                  width={`${sideBarWidth}px`}
-                  height="100%" align="start"
-                  elevation='xlarge' pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }}
-                  background='secondary' responsive={false}>
-                  {this.a}
+                <Box background="light-0" width="400px"
+                  elevation="medium" pad="medium" gap="small"
+                >
+                  <Box direction="row" justify="between" border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                    <Text size="xlarge" weight="bold" >{currentMethod.methodName}</Text>
+                    <Text size="large" >{currentMethod.taskId}</Text>
+                  </Box>
+
+                  <Box style={{ maxHeight: 400, overflowY: 'auto' }} >
+                    {this.renderInterfaceItem()}
+                  </Box>
+                  <Button label="ADD" onClick={() => this.appendItem(0)} />
                 </Box>
               : null
           }
@@ -55,4 +127,5 @@ export default class FloatDropdown extends Component {
     );
   }
 }
-const style = { position: 'fixed', left: 0, top: appBarHeight, zIndex: 10 }
+
+const style = { position: 'fixed', left: 0, top: 0, zIndex: 15 }

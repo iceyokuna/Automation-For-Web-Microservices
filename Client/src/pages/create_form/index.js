@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 
-import GrapesContainer from 'containers/GrapeJS';
 import { Button } from 'grommet';
 
 import { workflowActions } from 'actions';
 import { TaskPanel } from './style'
+
+import GrapesContainer from 'containers/GrapeJS';
+import FloatDropDown from 'components/float_dropdown'
+
 
 export default class CreateForm extends Component {
 
@@ -29,7 +32,8 @@ export default class CreateForm extends Component {
   render() {
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <TaskPanel >{this.state.currentTaskId}</TaskPanel>
+        <FloatDropDown />
+        {/* <TaskPanel >{this.state.currentTaskId}</TaskPanel> */}
         <GrapesContainer onExportForm={(form) => { this.handleGeneratedForm(form) }} />
       </div>
     )
