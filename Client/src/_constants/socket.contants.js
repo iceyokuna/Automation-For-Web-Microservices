@@ -12,7 +12,7 @@ export const socketConstants = {
   START_FLOW_FAIL: Prefix + 'START_FLOW_FAIL',
 
   NEXT_FORM: Prefix + 'NEXT_FORM',
-  NEXT_FORM_SUCCESS: Prefix + 'NEXT_FORM_FAIL',
+  NEXT_FORM_SUCCESS: Prefix + 'NEXT_FORM_SUCCESS',
   NEXT_FORM_FAIL: Prefix + 'NEXT_FORM_FAIL',
 
   FINISH_ALL_FORMS: Prefix + 'FINISH_ALL_FORM',

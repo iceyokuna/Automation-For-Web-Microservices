@@ -63,7 +63,12 @@ export const socketMiddleware = store => next => action => {
           body: 'Good morning'
         }
       })
-      socket.send(payload);
+      try {
+        socket.send(payload);
+      } catch (error) {
+        console.error(error);
+      }
+
     } break;
 
     case socketConstants.START_FLOW: {
@@ -73,7 +78,11 @@ export const socketMiddleware = store => next => action => {
           appName: action.appName
         }
       })
-      socket.send(payload);
+      try {
+        socket.send(payload);
+      } catch (error) {
+        console.error(error);
+      }
     } break;
 
     case socketConstants.NEXT_FORM: {
@@ -84,7 +93,11 @@ export const socketMiddleware = store => next => action => {
           formInputValues: action.formInputValues,
         }
       })
-      socket.send(payload);
+      try {
+        socket.send(payload);
+      } catch (error) {
+        console.error(error);
+      }
     } break;
 
     default:

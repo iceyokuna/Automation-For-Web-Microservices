@@ -73,7 +73,12 @@ export function workflow(state = defaultState, action) {
     case workflowContants.ADD_NEW_FROM: {
       const { forTask, form } = action;
       const nextState = { ...state };
-      nextState.generatedForms.push({ taskId: forTask, formData: form })
+      const indexToUpdate = nextState.generatedForms.findIndex((item => item.taskId == forTask));
+      if (indexToUpdate !== -1) {
+        nextState.generatedForms[indexToUpdate] = { taskId: forTask, formData: form };
+      } else {
+        nextState.generatedForms.push({ taskId: forTask, formData: form })
+      }
       nextState.recentForm = { taskId: forTask, form }
       return nextState;
     }
