@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { Box, Text, Button } from 'grommet';
-import { Group, Sort, Performance, Checkmark, Close } from 'grommet-icons';
+import { Group, Sort, Performance, Checkmark, Help } from 'grommet-icons';
 
 import { Transition, config } from 'react-spring'
 import PlainButton from 'components/plain_button'
@@ -35,7 +35,7 @@ const InterfaceItem = ({ item, parameterName, isDone }) => {
         </Box>
         <Box justify="center">
           {isDone == true ? <Checkmark color="#5FEB89" /> :
-            <Close color="#FF6161" />}
+            <Help color="#FF6161" />}
         </Box>
       </Box>
 
