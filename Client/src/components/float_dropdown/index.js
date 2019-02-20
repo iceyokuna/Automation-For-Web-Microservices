@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { Box, Text, Button } from 'grommet';
-import { Group, Sort, Performance } from 'grommet-icons';
+import { Group, Sort, Performance, Checkmark, Close } from 'grommet-icons';
 
 import { Transition, config } from 'react-spring'
 import PlainButton from 'components/plain_button'
@@ -14,22 +14,31 @@ const iconColor = "#ffffff";
 
 
 
-const InterfaceItem = ({ item, parameterName }) => {
-  console.log(item)
+const InterfaceItem = ({ item, parameterName, isDone }) => {
   return (
     <Box pad="xsmall" border={{ side: 'bottom', size: 'small' }} flex={false}>
-      <Box direction="row" gap="small">
-        <Text weight="bold">Parameter name : </Text>
-        <Text >{parameterName}</Text>
+
+      <Box direction="row" justify="between">
+        <Box>
+          <Box direction="row" gap="small">
+            <Text weight="bold">Parameter name : </Text>
+            <Text >{parameterName}</Text>
+          </Box>
+          <Box direction="row" gap="small">
+            <Text weight="bold">Element type : </Text>
+            <Text >{item.formData.elementType}</Text>
+          </Box>
+          <Box direction="row" gap="small">
+            <Text weight="bold">Element id : </Text>
+            <Text >{item.formData.elementId} </Text>
+          </Box>
+        </Box>
+        <Box justify="center">
+          {isDone == true ? <Checkmark color="#5FEB89" /> :
+            <Close color="#FF6161" />}
+        </Box>
       </Box>
-      <Box direction="row" gap="small">
-        <Text weight="bold">Element type : </Text>
-        <Text >{item.formData.elementType}</Text>
-      </Box>
-      <Box direction="row" gap="small">
-        <Text weight="bold">Element id : </Text>
-        <Text >{item.formData.elementId} </Text>
-      </Box>
+
     </Box>
   )
 }
@@ -71,13 +80,20 @@ export default class FloatDropdown extends Component {
   }
 
   appendItem = (params) => {
-    this.state.currentMethod.input_interface[Math.random()] = {
+    const currentMethod = this.state.currentMethod;
+
+    currentMethod.input_interface["A" + Math.floor(Math.random() * 100)] = {
       type: "string",
       formData: {
         elementType: "input",
         elementId: "receiver#1123"
       }
     }
+
+    this.setState({
+      currentMethod: currentMethod
+    })
+
   }
 
 
@@ -115,10 +131,10 @@ export default class FloatDropdown extends Component {
                     <Text size="large" >{currentMethod.taskId}</Text>
                   </Box>
 
-                  <Box style={{ maxHeight: 400, overflowY: 'auto' }} >
+                  <Box style={{ height: 250, overflowY: 'auto' }} >
                     {this.renderInterfaceItem()}
                   </Box>
-                  <Button label="ADD" onClick={() => this.appendItem(0)} />
+                  <Button label="ADD" onClick={() => this.appendItem()} />
                 </Box>
               : null
           }
