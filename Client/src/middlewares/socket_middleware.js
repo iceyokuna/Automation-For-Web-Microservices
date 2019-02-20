@@ -19,26 +19,25 @@ export const socketMiddleware = store => next => action => {
     try {
       const data = JSON.parse(res.data);
       switch (data.type) {
-        case 'workflow/START_FLOW_SUCCESS': {
+        case socketConstants.START_FLOW_SUCCESS: {
           const { form } = data;
           store.dispatch(workflowActions.setExecutingForm(form));
         } break;
 
-        case 'START_FLOW_FAIL': {
+        case socketConstants.START_FLOW_FAIL: {
 
         } break;
 
-        case 'workflow/NEXT_FORM_SUCCESS': {
+        case socketConstants.NEXT_FORM_SUCCESS: {
           const { form } = data;
           store.dispatch(workflowActions.setExecutingForm(form));
         } break;
 
-        case 'NEXT_FORM_FAIL': {
+        case socketConstants.NEXT_FORM_FAIL: {
 
         } break;
 
-
-        case 'workflow/FINISH_ALL_FORM': {
+        case socketConstants.FINISH_ALL_FORMS: {
           store.dispatch(workflowActions.setExecutingForm("DONE"));
         } break;
         default:
