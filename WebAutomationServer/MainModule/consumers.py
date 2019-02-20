@@ -6,7 +6,6 @@ import pickle
 
 clientController = ClientHandler.ClientHandler()
 
-
 class MainConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
@@ -39,38 +38,26 @@ class MainConsumer(WebsocketConsumer):
 
         #case next flow
         if(message['type'] == "workflow/NEXT_FORM"):
-            try:
-                workflowEngine_load = WorkflowEngine()
-                with open('HTMLs.pkl', 'rb') as f:
-                    workflowEngine_load = pickle.load(f)
-                HTML = workflowEngine_load.next()
+            workflowEngine_load = WorkflowEngine()
+            with open('HTMLs.pkl', 'rb') as f:
+                workflowEngine_load = pickle.load(f)
+            HTML = workflowEngine_load.next()
 
-                if (HTML == "DONE"): 
-                    self.send(text_data=json.dumps(
-                        {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}
-                    ))
-                    return None
-
-                with open('HTMLs.pkl', 'wb') as f:
-                    pickle.dump(workflowEngine_load, f)
-
-                self.send(text_data=json.dumps(
-                    {
-                        'type': "workflow/NEXT_FORM_SUCCESS",
-                        'form': HTML
-                    }
-                ))
-
-
-            except IndexError:
+            if (HTML == "DONE"): 
                 self.send(text_data=json.dumps(
                     {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}
                 ))
+                return None
 
-        # self.send(text_data=json.dumps({
-        #     'message': 'Good morning from server'
-        # }))
+            with open('HTMLs.pkl', 'wb') as f:
+                pickle.dump(workflowEngine_load, f)
 
+            self.send(text_data=json.dumps(
+                {
+                    'type': "workflow/NEXT_FORM_SUCCESS",
+                    'form': HTML
+                }
+            ))
 
 class EndConsumer(WebsocketConsumer):
     def connect(self):
