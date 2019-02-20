@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
 
 import { Box, Text, Button } from 'grommet';
-import { Group, Sort, Performance, Checkmark, Help } from 'grommet-icons';
+import { Checkmark, Help, FormDown } from 'grommet-icons';
 
 import { Transition, config } from 'react-spring'
 import PlainButton from 'components/plain_button'
-import { Container } from './style'
+import { Container, CollapseButton, circleButton, CollapseButtonContainer } from './style'
 
 const sideBarWidth = 200;
 const appBarHeight = 60;
 
 const iconColor = "#ffffff";
-
-
 
 const InterfaceItem = ({ item, parameterName, isDone }) => {
   return (
@@ -75,7 +73,7 @@ export default class FloatDropdown extends Component {
     }
   }
 
-  toggleMenu = (params) => {
+  toggleMenu = () => {
     this.setState({ show: !this.state.show });
   }
 
@@ -113,30 +111,33 @@ export default class FloatDropdown extends Component {
 
     return (
       <Container >
+        <CollapseButtonContainer>
+          <Button primary icon={<FormDown color="#ffffff" />} style={circleButton}
+            onClick={() => this.toggleMenu()} >
+          </Button>
+        </CollapseButtonContainer>
+
         <Transition
+          config={config.wobbly}
           items={show}
-          from={{ width: 0, opacity: 0 }}
-          enter={{ width: sideBarWidth, opacity: 1 }}
-          leave={{ width: 0, opacity: 0 }}
-          config={config.wobbly}>
+          from={{ height: 0, width: 400, opacity: 0, }}
+          enter={{ height: 'auto', opacity: 1 }}
+          leave={{ height: 0, opacity: 0 }}>
           {toggle =>
             toggle
-              ? props =>
-
-                <Box background="light-0" width="400px"
-                  elevation="medium" pad="medium" gap="small"
-                >
-                  <Box direction="row" justify="between" border={{ side: 'bottom', size: 'small' }} pad="xsmall">
-                    <Text size="xlarge" weight="bold" >{currentMethod.methodName}</Text>
-                    <Text size="large" >{currentMethod.taskId}</Text>
-                  </Box>
-
-                  <Box style={{ height: 250, overflowY: 'auto' }} >
-                    {this.renderInterfaceItem()}
-                  </Box>
-                  <Button label="ADD" onClick={() => this.appendItem()} />
+              ? props => <Box background="light-0" width="400px"
+                elevation="medium" pad="medium" gap="small" style={props}
+              >
+                <Box direction="row" justify="between" border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                  <Text size="xlarge" weight="bold" >{currentMethod.methodName}</Text>
+                  <Text size="large" >{currentMethod.taskId}</Text>
                 </Box>
-              : null
+
+                <Box style={{ height: 250, overflowY: 'auto' }} >
+                  {this.renderInterfaceItem()}
+                </Box>
+              </Box>
+              : props => null
           }
         </Transition>
       </Container>
