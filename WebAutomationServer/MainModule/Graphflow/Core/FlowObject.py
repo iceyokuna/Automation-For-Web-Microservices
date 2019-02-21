@@ -10,6 +10,12 @@ class FlowObject(CoreElement):
         self.output = None
         self.flowReference = None
 
+    def setInputType(self, inputInterface):
+        self.inputType = inputInterface
+
+    def setOutputType(self, outputInterface):
+        self.outputType = outputInterface
+
     def getInputType(self):
         return self.inputType
 
