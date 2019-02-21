@@ -13,13 +13,13 @@ class FlowObject(CoreElement):
     def setInputInterface(self, inputInterface):
         self.inputInterface = inputInterface
 
-    def setOutInterface(self, outputInterface):
+    def setOutputInterface(self, outputInterface):
         self.outputInterface = outputInterface
 
     def getInputInterface(self):
         return self.inputInterface
 
-    def getOutInterface(self):
+    def getOutputInterface(self):
         return self.outputInterface
 
     def setInput(self, Input):
