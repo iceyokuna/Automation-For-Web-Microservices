@@ -64,21 +64,45 @@ class WorkflowEngine:
     def next(self):
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         if(self.currentState["current"] in self.endState):
+            #DEBUG_LOG_WHEN_EXECUTION_DONE
+            self.showLog()
             return "DONE"
         element_object = self.state[self.currentState["current"]]
         return (element_object.getHTML())
+
+    def setUserInput(self, userInput):
+        self.state[self.currentState["current"]].setInput(userInput)
+
+    def setServiceOutput(self, serviceOutput):
+        self.state[self.currentState["current"]].setOutput(serviceOutput)
+
+    def execute(self):
+        #request and get respond back and store to self.output
+#        ServiceOutput = request......
+#        self.currentState["current"].setServiceOutput(ServiceOutput)
+        pass
     
     def bindService(self, serviceList):
         for service in serviceList:
             service_data = serviceList[service]
-            task = self.state[service]
-            task.setURL(service_data['method']['url'])
-            task.setInputInterface(service_data['method']['input_interface'])
-            task.setOutInterface(service_data['method']['output_interface'])
-#            print(task.getURL())
-#            print(task.getInputInterface())
-#            print(task.getOutInterface())
+            self.state[service].setURL(service_data['method']['url'])
+            self.state[service].setInputInterface(service_data['method']['input_interface'])
+            self.state[service].setOutputInterface(service_data['method']['output_interface'])
+#            print(self.state[service].getURL())
+#            print(self.state[service].getInputInterface())
+#            print(self.state[service].getOutInterface())
 #            print()
+
+    #use to debug when execution reach end node
+    def showLog(self):
+        for element in self.state:
+            print()
+            print("-----------------------------------")
+            print("TASK ID -> " + str(element))
+            print("Service URL -> " + str(self.state[element].getURL()))
+            print("Service Interface -> " + str(self.state[element].getInputInterface()))
+            print("User Input -> " + str(self.state[element].getInput()))
+            print("-----------------------------------")
 
 
 
