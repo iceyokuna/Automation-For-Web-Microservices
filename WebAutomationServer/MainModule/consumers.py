@@ -18,6 +18,7 @@ class MainConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        
         #case start flow
         if(message['type'] == "workflow/START_FLOW"):
             workflowEngine_load = WorkflowEngine()

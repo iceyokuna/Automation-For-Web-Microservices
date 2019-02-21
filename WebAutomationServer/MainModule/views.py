@@ -30,12 +30,10 @@ def saveFlow(request):
     #HTML form data
     HTML_List = (resquest['workflowData']['generatedForms'])
 
-    #Get Service Binding Infomation
+    #Service Binding Infomation
     service_List = (resquest['workflowData']['appliedMethods'])
 #    print(service_List)
 
-    for service in service_List:
-        print(service_List[service])
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
@@ -44,6 +42,9 @@ def saveFlow(request):
     #Workflow Engine Initiate construction and save
     with open('HTMLs.pkl', 'wb') as f:
         pickle.dump(workflowEngine, f)
+
+    #Bind services to WorkflowEngine
+    workflowEngine.bindService(service_List)
 
     print("------saved--------")
     msg = {}
