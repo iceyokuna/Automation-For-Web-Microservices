@@ -39,14 +39,14 @@ def saveFlow(request):
     workflowEngine = WorkflowEngine()
     workflowEngine.initialize(elements_list, HTML_List)
 
-    #Workflow Engine Initiate construction and save
-    with open('HTMLs.pkl', 'wb') as f:
-        pickle.dump(workflowEngine, f)
-
     #Bind services to WorkflowEngine
     workflowEngine.bindService(service_List)
 
-    print("------saved--------")
+    #Workflow Engine Initiate construction and [save]!!!
+    with open('HTMLs.pkl', 'wb') as f:
+        pickle.dump(workflowEngine, f)
+
+    print("------saved workflow object successfully--------")
     msg = {}
     msg['message'] = 'done'
     return HttpResponse(json.dumps(msg),content_type= "application/json")
