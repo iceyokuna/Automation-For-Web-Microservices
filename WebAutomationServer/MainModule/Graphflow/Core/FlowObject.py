@@ -2,25 +2,25 @@ from MainModule.Graphflow.Core.CoreElement import *
 from MainModule.Graphflow.Core.IOtypes import *
 
 class FlowObject(CoreElement):
-    def __init__(self , id, name, inputType , outputType):
+    def __init__(self , id, name, inputInterface , outputInterface):
         super().__init__(id, name)
-        self.inputType = inputType
-        self.outputType = outputType
+        self.inputInterface = inputInterface
+        self.outputInterface = outputInterface
         self.input = None
         self.output = None
         self.flowReference = None
 
     def setInputType(self, inputInterface):
-        self.inputType = inputInterface
+        self.inputInterface = inputInterface
 
     def setOutputType(self, outputInterface):
-        self.outputType = outputInterface
+        self.outputInterface = outputInterface
 
     def getInputType(self):
-        return self.inputType
+        return self.inputInterface
 
     def getOutputType(self):
-        return self.outputType
+        return self.outputInterface
 
     def setInput(self, Input):
         self.input = Input
