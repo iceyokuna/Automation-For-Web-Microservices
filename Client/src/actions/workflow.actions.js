@@ -6,6 +6,7 @@ import { history } from '_helpers';
 export const workflowActions = {
   addNewForm,
   addNameToId,
+  applyMethodToTask,
   setExecutingForm,
   // getNextForm,
 
@@ -47,6 +48,14 @@ function addNameToId(name, value) {
   };
 }
 
+function applyMethodToTask(taskId, method) {
+  return {
+    type: workflowContants.APPLY_METHOD_TO_TASK,
+    taskId,
+    method,
+  }
+}
+
 function setBpmnJson(bpmnAppJson) {
   return {
     type: workflowContants.SET_BPMN_JSON,
@@ -67,10 +76,11 @@ function sendWorkflowData(appName, appDescription, workflowData) {
     dispatch(request());
 
     setTimeout(() => {
+      console.log(workflowData)
       workflowService.sendWorkflowData(appName, appDescription, workflowData).then(
         res => {
           dispatch(success())
-          history.push('/execute_flow');
+          history.push('/execute_flow/flow1133');
         }).catch(err => dispatch(failure(err)));
     }, 1000);
 

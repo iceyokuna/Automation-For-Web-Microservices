@@ -12,6 +12,8 @@ import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
 import ParticipantSelector from './components/participant_selector';
 
+import ConditionList from 'components/condition_list'
+
 import "./style/app.less";
 
 import { connect } from 'react-redux';
@@ -43,13 +45,28 @@ const NextButtonWrapper = styled.div`
 
 let scale = 1;
 
+const variables = [
+  { name: 'Salary', type: 'Number' },
+  { name: 'Single', type: 'Boolean' },
+  { name: 'Name', type: 'String' },
+];
+
+const operators = ['==', '!=', '<', '<=', '>', '>='];
+
+const bpmnNodes = [
+  'TASK_1132',
+  'TASK_2233E',
+  'LANE_133ww'
+];
+
 class BpmnContainer extends Component {
 
   state = {
     currentElement: null,
+    selectedServiceMethod: null,
     showServiceRequirement: false,
     showParticipantSelector: false,
-    selectedServiceMethod: null,
+    showConditionList: false,
   };
 
   componentDidMount() {
@@ -76,6 +93,7 @@ class BpmnContainer extends Component {
 
     // render xml
     this.renderDiagram(xmlStr);
+    this.bindEvenCallback();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,6 +102,28 @@ class BpmnContainer extends Component {
       this.renderDiagram(xml);
     }
   }
+
+  bindEvenCallback = () => {
+    // Binding events
+    const eventBus = this.bpmnModeler.get('eventBus');
+    eventBus.on('element.click', (event) => {
+      this.setState({
+        currentElement: event.element.businessObject
+      });
+      console.log(event);
+    })
+
+    eventBus.on('element.dblclick', (event) => {
+      const targetObject = event.element.businessObject;
+      if (targetObject.$type == 'bpmn:Lane') {
+        this.setState({
+          showParticipantSelector: true,
+          currentElement: event.element.businessObject,
+        })
+      }
+    })
+  }
+
 
   attachFormToXML = (newForms) => {
     const { taskId, form } = newForms;
@@ -129,25 +169,6 @@ class BpmnContainer extends Component {
             // console.log(result);
           }
         )
-
-        // Binding events
-        const eventBus = this.bpmnModeler.get('eventBus');
-        eventBus.on('element.click', (event) => {
-          this.setState({
-            currentElement: event.element.businessObject
-          });
-          console.log(event);
-        })
-
-        eventBus.on('element.dblclick', (event) => {
-          const targetObject = event.element.businessObject;
-          if (targetObject.$type == 'bpmn:Lane') {
-            this.setState({
-              showParticipantSelector: true,
-              currentElement: event.element.businessObject,
-            })
-          }
-        })
 
       }
     });
@@ -234,7 +255,7 @@ class BpmnContainer extends Component {
       if (err) {
         console.error(err);
       } else {
-        const { appName, appDescription, generatedForms } = this.props.workflow;
+        const { appName, appDescription, generatedForms, appliedMethods } = this.props.workflow;
         this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
           if (err) {
             console.error(err);
@@ -243,6 +264,7 @@ class BpmnContainer extends Component {
             const workflowData = {
               bpmnJson,
               generatedForms,
+              appliedMethods,
             }
             this.props.dispatch(workflowActions.sendWorkflowData(
               appName, appDescription,
@@ -273,6 +295,12 @@ class BpmnContainer extends Component {
     })
   }
 
+  applyMethodToCurrentTask = (method) => {
+    const taskId = this.state.currentElement.id;
+    this.props.dispatch(workflowActions.applyMethodToTask(taskId, method));
+  }
+
+
   updateByParticipant = (partId) => {
     const modeling = this.bpmnModeler.get('modeling');
     const elementRegistry = this.bpmnModeler.get('elementRegistry');
@@ -288,7 +316,11 @@ class BpmnContainer extends Component {
   }
 
   render() {
-    const { showServiceRequirement, showParticipantSelector, selectedServiceMethod } = this.state
+    const {
+      showServiceRequirement,
+      showParticipantSelector,
+      selectedServiceMethod,
+      showConditionList } = this.state
     const { workflow, availableServices } = this.props;
 
     return (
@@ -348,7 +380,7 @@ class BpmnContainer extends Component {
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
-          onSelectMethod={() => { }}
+          onSelectMethod={(method) => this.applyMethodToCurrentTask(method)}
           show={showServiceRequirement}
           serviceMethod={selectedServiceMethod} />
 
@@ -356,6 +388,13 @@ class BpmnContainer extends Component {
           show={showParticipantSelector}
           onClose={() => this.setState({ showParticipantSelector: undefined })}
           onSelectParticipant={this.updateByParticipant} />
+
+        <ConditionList
+          show={showConditionList}
+          onCloseConditionList={() => this.setState({ showConditionList: false })}
+          variables={variables}
+          operators={operators}
+          bpmnNodes={bpmnNodes} />
 
       </Box>
     );

@@ -3,7 +3,7 @@ import { availableServicesContants as services } from '_constants';
 const defaultState = {
     loading: false,
     error: false,
-    data: [] // all available services that the main-user can choose
+    data: {}, // all available services that the main-user can choose
 }
 
 export function availableServices(state = defaultState, action) {

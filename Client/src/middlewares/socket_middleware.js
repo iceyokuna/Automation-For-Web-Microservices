@@ -19,22 +19,26 @@ export const socketMiddleware = store => next => action => {
     try {
       const data = JSON.parse(res.data);
       switch (data.type) {
-        case 'workflow/START_FLOW_SUCCESS': {
+        case socketConstants.START_FLOW_SUCCESS: {
           const { form } = data;
           store.dispatch(workflowActions.setExecutingForm(form));
         } break;
 
-        case 'START_FLOW_FAIL': {
+        case socketConstants.START_FLOW_FAIL: {
 
         } break;
 
-        case 'workflow/NEXT_FORM_SUCCESS': {
+        case socketConstants.NEXT_FORM_SUCCESS: {
           const { form } = data;
           store.dispatch(workflowActions.setExecutingForm(form));
         } break;
 
-        case 'NEXT_FORM_FAIL': {
+        case socketConstants.NEXT_FORM_FAIL: {
 
+        } break;
+
+        case socketConstants.FINISH_ALL_FORMS: {
+          store.dispatch(workflowActions.setExecutingForm("DONE"));
         } break;
         default:
           break;
@@ -59,7 +63,12 @@ export const socketMiddleware = store => next => action => {
           body: 'Good morning'
         }
       })
-      socket.send(payload);
+      try {
+        socket.send(payload);
+      } catch (error) {
+        console.error(error);
+      }
+
     } break;
 
     case socketConstants.START_FLOW: {
@@ -69,17 +78,26 @@ export const socketMiddleware = store => next => action => {
           appName: action.appName
         }
       })
-      socket.send(payload);
+      try {
+        socket.send(payload);
+      } catch (error) {
+        console.error(error);
+      }
     } break;
 
     case socketConstants.NEXT_FORM: {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          appName: action.appName
+          appName: action.appName,
+          formInputValues: action.formInputValues,
         }
       })
-      socket.send(payload);
+      try {
+        socket.send(payload);
+      } catch (error) {
+        console.error(error);
+      }
     } break;
 
     default:

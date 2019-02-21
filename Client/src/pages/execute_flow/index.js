@@ -8,44 +8,22 @@ import { workflowActions, socketActions } from 'actions'
 import { Next, Previous } from 'grommet-icons'
 
 class ExecuteFlow extends Component {
+
     state = {
         currentFormHtml: null,
         currentFormCss: null,
     }
 
+    constructor(props) {
+        super(props);
+
+        this.formContainerRef = React.createRef();
+    }
+
     componentDidMount = () => {
         const { dispatch } = this.props
         dispatch(socketActions.startFlow("IC_KMITL"));
-
-        // const mainContainer = document.getElementById('mainContainer');
-        // mainContainer.addEventListener('submit', this.onSubmitForm.bind(this));
-
-        // const { executingForm } = this.props.workflow;
-
-        // this.setState({
-        //     currentFormHtml: executingForm.formHtml,
-        //     currentFormCss: executingForm.formCss
-        // })
-
-        // document.getElementById('mainContainer').setAttribute('style', executingForm.formCss)
-
-
     }
-
-    // componentDidUpdate = (prevProps, prevState) => {
-    //     if (this.props.workflow.formsDone) {
-    //         const { formIds } = this.props.workflow;
-    //         Object.keys(formIds).forEach(id => {
-    //             const divElement = document.getElementById(id);
-    //             if (divElement != null) {
-    //                 divElement.innerText = formIds[id];
-    //             }
-    //         })
-
-    //     }
-
-    // }
-
 
     componentWillReceiveProps = (nextProps) => {
         const { executingForm } = nextProps.workflow;
@@ -71,45 +49,38 @@ class ExecuteFlow extends Component {
         //         currentFormHtml: currentFormData.formHtml,
         //         currentFormCss: currentFormData.formCss
         //     })
-
-
         // }
 
     }
 
-    onSubmitForm = (event) => {
-        event.preventDefault();
-        const { firstname, lastname } = event.target.elements;
-        const formData = {
-            firstname, lastname
-        }
-
-        const elements = document.getElementsByTagName('input');
-
-        for (let e of elements) {
-            console.log(e.type, e.name, e.value)
-            this.props.dispatch(workflowActions.addNameToId(e.name, e.value));
-        }
-
-        // this.props.dispatch(workflowActions.getNextForm())
-
-        // event.stopPropagation();
-    }
-
     getPreviousForm = () => {
-        console.log('Previous')
+        console.log("Get Previous Form");
     }
 
+    extractValuesFromCurrentForm = () => {
+        const inputElements = document.getElementsByTagName('input');
+        const inputValues = {};
+        for (let e of inputElements) {
+            inputValues[e.id] = {
+                type: e.type,
+                name: e.name,
+                value: e.value
+            }
+        }
+        return inputValues;
+    }
 
     getNextForm = () => {
-        const { dispatch } = this.props
-        dispatch(socketActions.nextForm("IC_MEETING"));
+        const { dispatch } = this.props;
+        const formInputValues = this.extractValuesFromCurrentForm();
+        dispatch(socketActions.nextForm("IC_MEETING", formInputValues));
     }
 
 
     render() {
         const { currentFormCss, currentFormHtml } = this.state;
-        if (!currentFormCss || !currentFormHtml) return <Box>Loading</Box>
+        const { executingForm } = this.props.workflow;
+        if (executingForm === "DONE") return <Box>Done all forms</Box>
         else {
             return (
                 <FillParent>
@@ -117,7 +88,7 @@ class ExecuteFlow extends Component {
                     <Box pad="medium" gap="medium">
                         <Text size="large" weight="bold">Workflow Execution</Text>
                         <Box border="bottom">
-                            <div id="mainContainer" ref="mainContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                            <div id="formContainer" ref={this.formContainerRef} dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                         </Box>
 
                         <Box direction="row" align="center" justify="between" gap="medium">
