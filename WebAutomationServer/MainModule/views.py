@@ -20,13 +20,22 @@ def saveFlow(request):
     #app name
     app_name = (resquest['appName'])
 
+#    print(resquest)
+
     #bpmn data
     workflow_detail = json.loads(resquest['workflowData']['bpmnJson'])
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
-#    print(elements_list)
+#   print(elements_list)
 
     #HTML form data
     HTML_List = (resquest['workflowData']['generatedForms'])
+
+    #Get Service Binding Infomation
+    service_List = (resquest['workflowData']['appliedMethods'])
+#    print(service_List)
+
+    for service in service_List:
+        print(service_List[service])
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
