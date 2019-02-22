@@ -14,12 +14,6 @@ class ExecuteFlow extends Component {
         currentFormCss: null,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.formContainerRef = React.createRef();
-    }
-
     componentDidMount = () => {
         const { dispatch } = this.props
         dispatch(socketActions.startFlow("IC_KMITL"));
@@ -27,30 +21,12 @@ class ExecuteFlow extends Component {
 
     componentWillReceiveProps = (nextProps) => {
         const { executingForm } = nextProps.workflow;
-
-        console.log(executingForm)
-
         if (executingForm) {
             this.setState({
                 currentFormHtml: executingForm.formHtml,
                 currentFormCss: executingForm.formCss,
             })
         }
-        // const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
-
-        // if (formsDone) {
-        //     const textElements = document.querySelectorAll('div');
-        //     console.log(textElements)
-        // }
-        // if (currentFormIndex < generatedForms.length) {
-        //     const currentFormData = generatedForms[currentFormIndex].formData;
-
-        //     this.setState({
-        //         currentFormHtml: currentFormData.formHtml,
-        //         currentFormCss: currentFormData.formCss
-        //     })
-        // }
-
     }
 
     getPreviousForm = () => {
@@ -58,13 +34,27 @@ class ExecuteFlow extends Component {
     }
 
     extractValuesFromCurrentForm = () => {
-        const inputElements = document.getElementsByTagName('input');
+        const inputElements = document.getElementById('formContainer').getElementsByTagName('input');
+        const textareaElements = document.getElementById('formContainer').getElementsByTagName('textarea');
+
+        const elements = [...inputElements, ...textareaElements];
         const inputValues = {};
-        for (let e of inputElements) {
-            inputValues[e.id] = {
-                type: e.type,
-                name: e.name,
-                value: e.value
+        for (let e of elements) {
+
+            // Check whether the checkbox input is selected or not
+            if (e.checked == true) {
+                inputValues[e.id] = {
+                    type: e.type,
+                    name: e.name,
+                    value: e.value,
+                    checked: true,
+                }
+            } else {
+                inputValues[e.id] = {
+                    type: e.type,
+                    name: e.name,
+                    value: e.value
+                }
             }
         }
         return inputValues;
@@ -75,7 +65,6 @@ class ExecuteFlow extends Component {
         const formInputValues = this.extractValuesFromCurrentForm();
         dispatch(socketActions.nextForm("IC_MEETING", formInputValues));
     }
-
 
     render() {
         const { currentFormCss, currentFormHtml } = this.state;
@@ -88,7 +77,7 @@ class ExecuteFlow extends Component {
                     <Box pad="medium" gap="medium">
                         <Text size="large" weight="bold">Workflow Execution</Text>
                         <Box border="bottom">
-                            <div id="formContainer" ref={this.formContainerRef} dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                            <div id="formContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                         </Box>
 
                         <Box direction="row" align="center" justify="between" gap="medium">
