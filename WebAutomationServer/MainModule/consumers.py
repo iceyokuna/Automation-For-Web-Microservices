@@ -18,6 +18,9 @@ class MainConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+
+#        print(text_data_json)
+    
         #case start flow
         if(message['type'] == "workflow/START_FLOW"):
             workflowEngine_load = WorkflowEngine()
@@ -41,6 +44,11 @@ class MainConsumer(WebsocketConsumer):
             workflowEngine_load = WorkflowEngine()
             with open('HTMLs.pkl', 'rb') as f:
                 workflowEngine_load = pickle.load(f)
+                
+            #set Input from client to current state node
+            workflowEngine_load.setUserInput(message['formInputValues'])
+
+            #get next html
             HTML = workflowEngine_load.next()
 
             if (HTML == "DONE"): 
