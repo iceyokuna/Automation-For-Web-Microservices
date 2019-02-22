@@ -14,12 +14,6 @@ class ExecuteFlow extends Component {
         currentFormCss: null,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.formContainerRef = React.createRef();
-    }
-
     componentDidMount = () => {
         const { dispatch } = this.props
         dispatch(socketActions.startFlow("IC_KMITL"));
@@ -27,30 +21,12 @@ class ExecuteFlow extends Component {
 
     componentWillReceiveProps = (nextProps) => {
         const { executingForm } = nextProps.workflow;
-
-        console.log(executingForm)
-
         if (executingForm) {
             this.setState({
                 currentFormHtml: executingForm.formHtml,
                 currentFormCss: executingForm.formCss,
             })
         }
-        // const { currentFormIndex, generatedForms, formsDone } = nextProps.workflow;
-
-        // if (formsDone) {
-        //     const textElements = document.querySelectorAll('div');
-        //     console.log(textElements)
-        // }
-        // if (currentFormIndex < generatedForms.length) {
-        //     const currentFormData = generatedForms[currentFormIndex].formData;
-
-        //     this.setState({
-        //         currentFormHtml: currentFormData.formHtml,
-        //         currentFormCss: currentFormData.formCss
-        //     })
-        // }
-
     }
 
     getPreviousForm = () => {
@@ -58,10 +34,10 @@ class ExecuteFlow extends Component {
     }
 
     extractValuesFromCurrentForm = () => {
-        const inputElements = document.getElementsByTagName('input');
+        const inputElements = document.getElementById('formContainer').getElementsByTagName('input');
         const inputValues = {};
         for (let e of inputElements) {
-            
+
             // Check whether the checkbox input is selected or not
             if (e.checked == true) {
                 inputValues[e.id] = {
@@ -70,7 +46,6 @@ class ExecuteFlow extends Component {
                     value: e.value,
                     checked: true,
                 }
-
             } else {
                 inputValues[e.id] = {
                     type: e.type,
@@ -78,7 +53,6 @@ class ExecuteFlow extends Component {
                     value: e.value
                 }
             }
-
         }
         return inputValues;
     }
@@ -88,7 +62,6 @@ class ExecuteFlow extends Component {
         const formInputValues = this.extractValuesFromCurrentForm();
         dispatch(socketActions.nextForm("IC_MEETING", formInputValues));
     }
-
 
     render() {
         const { currentFormCss, currentFormHtml } = this.state;
