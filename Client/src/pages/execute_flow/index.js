@@ -61,11 +61,24 @@ class ExecuteFlow extends Component {
         const inputElements = document.getElementsByTagName('input');
         const inputValues = {};
         for (let e of inputElements) {
-            inputValues[e.id] = {
-                type: e.type,
-                name: e.name,
-                value: e.value
+            
+            // Check whether the checkbox input is selected or not
+            if (e.checked == true) {
+                inputValues[e.id] = {
+                    type: e.type,
+                    name: e.name,
+                    value: e.value,
+                    checked: true,
+                }
+
+            } else {
+                inputValues[e.id] = {
+                    type: e.type,
+                    name: e.name,
+                    value: e.value
+                }
             }
+
         }
         return inputValues;
     }
