@@ -88,6 +88,7 @@ WSGI_APPLICATION = 'AccountManager.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 #'''
+'''
 DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -99,6 +100,7 @@ DATABASES = {
     }
 }
 '''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -108,7 +110,7 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-'''
+
 #Django Rest Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

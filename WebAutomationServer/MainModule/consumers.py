@@ -6,7 +6,6 @@ import pickle
 
 clientController = ClientHandler.ClientHandler()
 
-
 class MainConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
@@ -19,6 +18,9 @@ class MainConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+
+#        print(text_data_json)
+    
         #case start flow
         if(message['type'] == "workflow/START_FLOW"):
             workflowEngine_load = WorkflowEngine()
@@ -39,30 +41,31 @@ class MainConsumer(WebsocketConsumer):
 
         #case next flow
         if(message['type'] == "workflow/NEXT_FORM"):
-            try:
-                workflowEngine_load = WorkflowEngine()
-                with open('HTMLs.pkl', 'rb') as f:
-                    workflowEngine_load = pickle.load(f)
-                HTML = workflowEngine_load.next()
+            workflowEngine_load = WorkflowEngine()
+            with open('HTMLs.pkl', 'rb') as f:
+                workflowEngine_load = pickle.load(f)
+                
+            #set Input from client to current state node
+            workflowEngine_load.setUserInput(message['formInputValues'])
 
-                with open('HTMLs.pkl', 'wb') as f:
-                    pickle.dump(workflowEngine_load, f)
+            #get next html
+            HTML = workflowEngine_load.next()
 
-                self.send(text_data=json.dumps(
-                    {
-                        'type': "workflow/NEXT_FORM_SUCCESS",
-                        'form': HTML
-                    }
-                ))
-            except IndexError:
+            if (HTML == "DONE"): 
                 self.send(text_data=json.dumps(
                     {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}
                 ))
+                return None
 
-        # self.send(text_data=json.dumps({
-        #     'message': 'Good morning from server'
-        # }))
+            with open('HTMLs.pkl', 'wb') as f:
+                pickle.dump(workflowEngine_load, f)
 
+            self.send(text_data=json.dumps(
+                {
+                    'type': "workflow/NEXT_FORM_SUCCESS",
+                    'form': HTML
+                }
+            ))
 
 class EndConsumer(WebsocketConsumer):
     def connect(self):

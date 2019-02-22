@@ -2,8 +2,8 @@ from MainModule.Graphflow.Core.Activity import *
 from MainModule.Graphflow.Core.IOtypes import *
 
 class ServiceTask(Activity):
-    def __init__(self , id, name, inputType , outputType, lane_owner_id = None):
-        super().__init__(id, name, inputType , outputType)
+    def __init__(self , id, name, inputInterface , outputInterface, lane_owner_id = None):
+        super().__init__(id, name, inputInterface , outputInterface)
         self.HTMLReference = None
         self.serviceURL=  None
         self.lane_owner_id = lane_owner_id

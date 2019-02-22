@@ -30,9 +30,10 @@ function startFlow(appName) {
   }
 }
 
-function nextForm(appName) {
+function nextForm(appName, formInputValues) {
   return {
     type: socketConstants.NEXT_FORM,
-    appName
+    appName,
+    formInputValues
   }
 }
