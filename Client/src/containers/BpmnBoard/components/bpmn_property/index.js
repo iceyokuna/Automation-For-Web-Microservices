@@ -73,8 +73,8 @@ class BpmnProperty extends Component {
   renderSpecialProperties() {
     const { nodeType, isAsyncTask } = this.state;
     const { allServices, onSelectServiceMethod } = this.props;
-    console.log(allServices);
-    // const services = allServices.length == 0 ? services : allServices;
+    // console.log(allServices); 
+    const services = allServices.length == 0 ? services : allServices;
 
     switch (nodeType) {
       // case 'bpmn:Task': {
