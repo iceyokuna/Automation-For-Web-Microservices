@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from APICallServiceModule.views import ServiceCallView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('APIModule.urls'))
+    path('', include('APIModule.urls')),
+    path('call_service', ServiceCallView.as_view())
 ]
