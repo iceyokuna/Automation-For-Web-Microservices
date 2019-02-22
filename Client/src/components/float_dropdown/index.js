@@ -43,7 +43,7 @@ const InterfaceItem = ({ item, parameterName, isDone }) => {
 
 export default class FloatDropdown extends Component {
   state = {
-    show: true,
+    show: false,
     currentMethod: {
       methodName: "Registration",
       taskId: 'Task_161fsp2',
@@ -72,6 +72,13 @@ export default class FloatDropdown extends Component {
       },
     }
   }
+
+  componentDidMount = () => {
+    setTimeout(() => {
+      this.setState({ show: true });
+    }, 500);
+  }
+
 
   toggleMenu = () => {
     this.setState({ show: !this.state.show });

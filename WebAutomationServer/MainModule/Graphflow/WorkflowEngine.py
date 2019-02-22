@@ -85,7 +85,7 @@ class WorkflowEngine:
     def bindService(self, serviceList):
         for service in serviceList:
             service_data = serviceList[service]
-            self.state[service].setURL(service_data['method']['url'])
+            # self.state[service].setURL(service_data['method']['url'])
             self.state[service].setInputInterface(service_data['method']['input_interface'])
             self.state[service].setOutputInterface(service_data['method']['output_interface'])
 #            print(self.state[service].getURL())

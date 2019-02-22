@@ -27,11 +27,11 @@ export default class index extends Component {
   };
 
   renderListOfMethods = (service) => {
-    const { name, info, methods } = service;
-
+    const { id, name, info, methods } = service;
+    const serviceId = id;
     const views = methods.map((method, index) =>
       <Box key={index} background="light-1">
-        <Button fill hoverIndicator onClick={() => this.props.onSelectServiceMethod({ name, info, method })}>
+        <Button fill hoverIndicator onClick={() => this.props.onSelectServiceMethod({ serviceId, name, info, method })}>
           <Box pad='small'>
             <Text >{method.name}</Text>
           </Box>

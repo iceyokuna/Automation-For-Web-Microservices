@@ -156,8 +156,32 @@ export default class GrapeJSWrapper extends Component {
       view: dView,
     });
 
-    // Need to remove previous and drag a new one => the custom attribute will show up
+    domComps.addType('textarea', {
+      model: dModel.extend({
+        defaults: Object.assign({}, dModel.prototype.defaults, {
+          traits: [
+            // strings are automatically converted to text types
+            'id',
+            'name',
+            'placeholder',
+            {
+              type: 'checkbox',
+              label: 'Required',
+              name: 'required',
+            }],
+        }),
+      }, {
+          isComponent: function (el) {
+            if (el.tagName === 'TEXTAREA') {
+              return { type: 'textarea' };
+            }
+          },
+        }),
 
+      view: dView,
+    });
+
+    // Need to remove previous and drag a new one => the custom attribute will show up
     domComps.addType('button', {
       model: dModel.extend({
         defaults: Object.assign({}, dModel.prototype.defaults, {
