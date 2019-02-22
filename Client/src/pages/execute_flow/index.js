@@ -74,7 +74,7 @@ class ExecuteFlow extends Component {
                     <Box pad="medium" gap="medium">
                         <Text size="large" weight="bold">Workflow Execution</Text>
                         <Box border="bottom">
-                            <div id="formContainer" ref={this.formContainerRef} dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                            <div id="formContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                         </Box>
 
                         <Box direction="row" align="center" justify="between" gap="medium">
