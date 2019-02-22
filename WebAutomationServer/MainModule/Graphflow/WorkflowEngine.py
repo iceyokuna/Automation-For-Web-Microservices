@@ -80,6 +80,10 @@ class WorkflowEngine:
         #request and get respond back and store to self.output
 #        ServiceOutput = request......
 #        self.currentState["current"].setServiceOutput(ServiceOutput)
+
+        #Test exectuion before deployment (calling local host email service)
+        outputInterface = self.state[self.currentState["current"]].getOutputInterface()
+        userInput = self.state[self.currentState["current"]].getInput()
         pass
     
     def bindService(self, serviceList):
