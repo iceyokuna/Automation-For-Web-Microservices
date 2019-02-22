@@ -35,8 +35,11 @@ class ExecuteFlow extends Component {
 
     extractValuesFromCurrentForm = () => {
         const inputElements = document.getElementById('formContainer').getElementsByTagName('input');
+        const textareaElements = document.getElementById('formContainer').getElementsByTagName('textarea');
+
+        const elements = [...inputElements, ...textareaElements];
         const inputValues = {};
-        for (let e of inputElements) {
+        for (let e of elements) {
 
             // Check whether the checkbox input is selected or not
             if (e.checked == true) {
