@@ -36,7 +36,6 @@ class ExecuteFlow extends Component {
     extractValuesFromCurrentForm = () => {
         const inputElements = document.getElementById('formContainer').getElementsByTagName('input');
         const textareaElements = document.getElementById('formContainer').getElementsByTagName('textarea');
-
         const elements = [...inputElements, ...textareaElements];
         const inputValues = {};
         for (let e of elements) {
