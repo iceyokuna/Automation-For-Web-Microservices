@@ -27,8 +27,8 @@ export default class GrapeJSWrapper extends Component {
 
     this.panelManager = this.editor.Panels;
     this.setDefaultComponentTheme();
+    this.setProperties();
     this.listenToEvents();
-
   }
 
   exportToHTMLCSS() {
@@ -43,8 +43,25 @@ export default class GrapeJSWrapper extends Component {
   }
 
   listenToEvents() {
+    // Create save form button
+    this.panelManager.addButton('options',
+      [
+        {
+          id: 'import',
+          className: 'fa fa-check-circle',
+          attributes: {
+            title: 'Add this form to a BPMN process'
+          },
+          command: (editor) => {
+            this.exportToHTMLCSS();
+          }
+        }
+      ]
+    );
 
+    // Binding event for updating attributes
     this.editor.on('component:update:attributes', (arg) => {
+      // Todo
       console.log(arg)
     })
   }
@@ -60,11 +77,6 @@ export default class GrapeJSWrapper extends Component {
     const select = sm.add('select'), selectRule = cssComposer.add([select]);
     const input = sm.add('input'), inputRule = cssComposer.add([input]);
     const label = sm.add('label'), labelRule = cssComposer.add([label]);
-
-    let domComps = this.editor.DomComponents;
-    let dType = domComps.getType('default');
-    let dModel = dType.model;
-    let dView = dType.view;
 
     buttonRule.set('style', {
       'width': '100%',
@@ -120,6 +132,13 @@ export default class GrapeJSWrapper extends Component {
       'width': '100%',
       'display': 'block',
     })
+  }
+
+  setProperties = () => {
+    const domComps = this.editor.DomComponents;
+    const dType = domComps.getType('default');
+    const dModel = dType.model;
+    const dView = dType.view;
 
     domComps.addType('input', {
       model: dModel.extend({
@@ -201,21 +220,8 @@ export default class GrapeJSWrapper extends Component {
       view: dView,
     });
 
-    this.panelManager.addButton('options',
-      [
-        {
-          id: 'import',
-          className: 'fa fa-check-circle',
-          attributes: {
-            title: 'Add this form to a BPMN process'
-          },
-          command: (editor) => {
-            this.exportToHTMLCSS();
-          }
-        }
-      ]
-    );
   }
+
 
   render() {
     return (
