@@ -23,12 +23,12 @@ const InterfaceItem = ({ item, parameterName, isDone }) => {
             <Text >{parameterName}</Text>
           </Box>
           <Box direction="row" gap="small">
-            <Text weight="bold">Element type : </Text>
-            <Text >{item.formData.elementType}</Text>
+            <Text weight="bold">Element id : </Text>
+            <Text >{parameterName} </Text>
           </Box>
           <Box direction="row" gap="small">
-            <Text weight="bold">Element id : </Text>
-            <Text >{item.formData.elementId} </Text>
+            <Text weight="bold">Element type : </Text>
+            <Text >{item.elementType}</Text>
           </Box>
         </Box>
         <Box justify="center">
@@ -84,37 +84,20 @@ export default class FloatDropdown extends Component {
     this.setState({ show: !this.state.show });
   }
 
-  appendItem = (params) => {
-    const currentMethod = this.state.currentMethod;
-
-    currentMethod.input_interface["A" + Math.floor(Math.random() * 100)] = {
-      type: "string",
-      formData: {
-        elementType: "input",
-        elementId: "receiver#1123"
-      }
-    }
-
-    this.setState({
-      currentMethod: currentMethod
-    })
-
-  }
-
-
-  renderInterfaceItem = () => {
-    const { input_interface } = this.state.currentMethod;
-    return Object.keys(input_interface).
+  renderInterfaceItem = (inputInterface) => {
+    return Object.keys(inputInterface).
       map((key, index) =>
         <InterfaceItem
-          item={input_interface[key]}
+          item={inputInterface[key]}
           parameterName={key}
           key={index} />)
   }
 
 
   render() {
-    const { show, currentMethod } = this.state;
+    const { show } = this.state;
+    const { taskId, service } = this.props;
+    console.log(service);
 
     return (
       <Container >
@@ -133,15 +116,20 @@ export default class FloatDropdown extends Component {
           {toggle =>
             toggle
               ? props => <Box background="light-0" width="400px"
-                elevation="medium" pad="medium" gap="small" style={props}
+                elevation="medium" pad="medium" gap="xsmall" style={props}
               >
-                <Box direction="row" justify="between" border={{ side: 'bottom', size: 'small' }} pad="xsmall">
-                  <Text size="xlarge" weight="bold" >{currentMethod.methodName}</Text>
-                  <Text size="large" >{currentMethod.taskId}</Text>
+                <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                  <Box direction="row" justify="between">
+                    <Text size="xlarge" weight="bold" >{service.method.name}</Text>
+                    <Text size="large" >{taskId}</Text>
+                  </Box>
+                  <Box>
+                    <Text>{service.method.info}</Text>
+                  </Box>
                 </Box>
 
                 <Box style={{ height: 250, overflowY: 'auto' }} >
-                  {this.renderInterfaceItem()}
+                  {this.renderInterfaceItem(service.method.input_interface)}
                 </Box>
               </Box>
               : props => null

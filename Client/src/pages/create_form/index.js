@@ -32,9 +32,10 @@ export default class CreateForm extends Component {
   }
 
   render() {
+    const { currentTask } = this.state;
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <FloatDropDown />
+        <FloatDropDown taskId={currentTask.taskId} service={currentTask.selectedService} />
         {/* <TaskPanel >{this.state.currentTaskId}</TaskPanel> */}
         <GrapesContainer onExportForm={(form) => { this.handleGeneratedForm(form) }} />
       </div>
