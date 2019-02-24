@@ -17,6 +17,7 @@ export default class CreateForm extends Component {
     const currentTask = JSON.parse(localStorage.getItem('currentTask'));
     this.state = {
       currentTask: currentTask,
+      elementsIdSet: {}
     }
   }
 
@@ -31,13 +32,21 @@ export default class CreateForm extends Component {
     }, 1000);
   }
 
+  handleSetElementId = (elementId, isIdSet) => {
+    const { elementsIdSet } = this.state;
+    elementsIdSet[elementId] = isIdSet;
+    this.setState({
+      elementsIdSet: elementsIdSet,
+    })
+  }
+
   render() {
-    const { currentTask } = this.state;
+    const { currentTask, elementsIdSet } = this.state;
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <FloatDropDown taskId={currentTask.taskId} service={currentTask.selectedService} />
+        <FloatDropDown taskId={currentTask.taskId} service={currentTask.selectedService} elementsIdSet={elementsIdSet} />
         {/* <TaskPanel >{this.state.currentTaskId}</TaskPanel> */}
-        <GrapesContainer onExportForm={(form) => { this.handleGeneratedForm(form) }} />
+        <GrapesContainer onExportForm={this.handleGeneratedForm.bind(this)} onSetElementId={this.handleSetElementId.bind(this)} />
       </div>
     )
   }

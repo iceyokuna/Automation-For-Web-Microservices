@@ -60,9 +60,16 @@ export default class GrapeJSWrapper extends Component {
     );
 
     // Binding event for updating attributes
-    this.editor.on('component:update:attributes', (arg) => {
-      // Todo
-      console.log(arg)
+    this.editor.on('component:update:attributes', (event) => {
+      // Handle attributes change
+      const changedAttributes = event.changed.attributes;
+      const previousAttributes = event._previousAttributes.attributes;
+      const changedId = changedAttributes.id;
+      if (changedId) {
+        this.props.onSetElementId(changedId, true);
+      } else if (!changedId) {
+        this.props.onSetElementId(previousAttributes.id, undefined);
+      }
     })
   }
 

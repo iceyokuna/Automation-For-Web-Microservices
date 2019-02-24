@@ -96,8 +96,8 @@ export default class FloatDropdown extends Component {
 
   render() {
     const { show } = this.state;
-    const { taskId, service } = this.props;
-    console.log(service);
+    const { taskId, service, elementsIdSet } = this.props;
+    console.log(elementsIdSet);
 
     return (
       <Container >
