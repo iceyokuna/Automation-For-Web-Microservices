@@ -65,10 +65,11 @@ export default class GrapeJSWrapper extends Component {
       const changedAttributes = event.changed.attributes;
       const previousAttributes = event._previousAttributes.attributes;
       const changedId = changedAttributes.id;
-      if (changedId) {
+      if (changedId !== '') {
         this.props.onSetElementId(changedId, true);
-      } else if (!changedId) {
-        this.props.onSetElementId(previousAttributes.id, undefined);
+      } 
+      else if (changedId === '' || (changedAttributes.id != previousAttributes.id)) {
+        this.props.onSetElementId(previousAttributes.id, false);
       }
     })
   }

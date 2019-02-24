@@ -12,7 +12,7 @@ const appBarHeight = 60;
 
 const iconColor = "#ffffff";
 
-const InterfaceItem = ({ item, parameterName, isDone }) => {
+const InterfaceItem = ({ item, parameterName }) => {
   return (
     <Box pad="xsmall" border={{ side: 'bottom', size: 'small' }} flex={false}>
 
@@ -32,7 +32,7 @@ const InterfaceItem = ({ item, parameterName, isDone }) => {
           </Box>
         </Box>
         <Box justify="center">
-          {isDone == true ? <Checkmark color="#5FEB89" /> :
+          {item.isIdSet == true ? <Checkmark color="#5FEB89" /> :
             <Help color="#FF6161" />}
         </Box>
       </Box>
@@ -84,11 +84,25 @@ export default class FloatDropdown extends Component {
     this.setState({ show: !this.state.show });
   }
 
-  renderInterfaceItem = (inputInterface) => {
-    return Object.keys(inputInterface).
+  renderInterfaceItems = (inputInterface) => {
+    const { elementsIdSet } = this.props;
+
+    const cloneObject = { ...inputInterface };
+    const keys = Object.keys(cloneObject);
+
+    for (let key of keys) {
+      // Check that user set id for each element or not
+      if (inputInterface[key] && elementsIdSet[key]) {
+        cloneObject[key].isIdSet = true;
+      } else {
+        cloneObject[key].isIdSet = undefined;
+      }
+    }
+
+    return Object.keys(cloneObject).
       map((key, index) =>
         <InterfaceItem
-          item={inputInterface[key]}
+          item={cloneObject[key]}
           parameterName={key}
           key={index} />)
   }
@@ -96,8 +110,7 @@ export default class FloatDropdown extends Component {
 
   render() {
     const { show } = this.state;
-    const { taskId, service, elementsIdSet } = this.props;
-    console.log(elementsIdSet);
+    const { taskId, service } = this.props;
 
     return (
       <Container >
@@ -129,7 +142,7 @@ export default class FloatDropdown extends Component {
                 </Box>
 
                 <Box style={{ height: 250, overflowY: 'auto' }} >
-                  {this.renderInterfaceItem(service.method.input_interface)}
+                  {this.renderInterfaceItems(service.method.input_interface)}
                 </Box>
               </Box>
               : props => null
