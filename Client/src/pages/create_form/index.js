@@ -14,13 +14,15 @@ export default class CreateForm extends Component {
   constructor(props) {
     super(props);
 
+    const currentTask = JSON.parse(localStorage.getItem('currentTask'));
     this.state = {
-      currentTaskId: localStorage.getItem('currentTaskId')
+      currentTask: currentTask,
     }
   }
 
   handleGeneratedForm(form) {
-    const action = workflowActions.addNewForm(form, this.state.currentTaskId);
+    const { currentTask } = this.state;
+    const action = workflowActions.addNewForm(form, currentTask.taskId);
     localStorage.setItem('newFormAdded', JSON.stringify(action));
 
     // Delay 1 sec

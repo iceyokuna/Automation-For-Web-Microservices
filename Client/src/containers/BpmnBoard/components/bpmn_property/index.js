@@ -12,6 +12,8 @@ import PropTypes from 'prop-types'
 
 import { services } from './mockup_service_data'
 
+import { connect } from 'react-redux'
+
 
 class BpmnProperty extends Component {
 
@@ -67,13 +69,18 @@ class BpmnProperty extends Component {
   }
 
   onGotoCreateForm() {
-    localStorage.setItem('currentTaskId', this.state.nodeId);
+    const { appliedMethods } = this.props.workflow;
+    const { nodeId } = this.state;
+    const currentTask = {
+      taskId: nodeId,
+      selectedService: appliedMethods[nodeId]
+    }
+    localStorage.setItem('currentTask', JSON.stringify(currentTask));
   }
 
   renderSpecialProperties() {
     const { nodeType, isAsyncTask } = this.state;
     const { allServices, onSelectServiceMethod } = this.props;
-    // console.log(allServices); 
     const services = allServices.length == 0 ? services : allServices;
 
     switch (nodeType) {
@@ -157,4 +164,12 @@ BpmnProperty.propTypes = {
   allServices: PropTypes.array.isRequired
 }
 
-export default BpmnProperty
+const mapStateToProps = (state) => {
+  return {
+    workflow: state.workflow
+  }
+}
+
+
+
+export default connect(mapStateToProps)(BpmnProperty);
