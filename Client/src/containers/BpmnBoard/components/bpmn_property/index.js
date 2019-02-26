@@ -103,19 +103,11 @@ class BpmnProperty extends Component {
       case 'bpmn:Task': {
         return (
           <Box gap="small">
-            <CheckBox
+            {/* <CheckBox
               toggle
               label="Asynchronous"
               checked={isAsyncTask}
-              onChange={event => this.setState({ isAsyncTask: event.target.checked })} />
-            <Link style={{ width: '100%' }} to={{
-              pathname: 'design_form',
-              state: {
-                forTaskId: true
-              }
-            }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-              <Button icon={<FormAdd />} fill label="Create Form" />
-            </Link>
+              onChange={event => this.setState({ isAsyncTask: event.target.checked })} /> */}
 
             <Box fill="horizontal">
               <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
@@ -129,6 +121,20 @@ class BpmnProperty extends Component {
         break;
     }
   }
+
+  renderCreateFormButton = () => {
+    return (
+      <Link style={{ width: '100%' }} to={{
+        pathname: 'design_form',
+        state: {
+          forTaskId: true
+        }
+      }} target="_blank" onClick={() => this.onGotoCreateForm()}>
+        <Button icon={<FormAdd />} fill label="Create Form" />
+      </Link>
+    );
+  }
+
 
   renderConfirmChange() {
     return (
@@ -153,6 +159,7 @@ class BpmnProperty extends Component {
         </FormField>
 
         {this.renderSpecialProperties()}
+        {this.renderCreateFormButton()}
         {this.renderConfirmChange()}
 
       </Box>
