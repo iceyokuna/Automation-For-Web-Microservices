@@ -6,6 +6,7 @@ from MainModule.Graphflow.Core.ExclusiveGateway import ExclusiveGateway
 from MainModule.Graphflow.Core.SequenceFlow import SequenceFlow
 from MainModule.Graphflow.Core.IOtypes import *
 import pickle
+import requests
 
 class WorkflowEngine:
     def __init__(self):
@@ -72,6 +73,19 @@ class WorkflowEngine:
 
     def setUserInput(self, userInput):
         self.state[self.currentState["current"]].setInput(userInput)
+        if (self.state[self.currentState["current"]].getInputInterface() == None):
+            return
+
+        request_input = {}
+        for key in userInput:
+            if(key == 'email'):
+                request_input[key] = [userInput[key]['value']]
+                continue
+            request_input[key] = userInput[key]['value']
+
+        data = request_input
+        res = requests.post('http://127.0.0.1:8001/api/email', json= data)
+
 
     def setServiceOutput(self, serviceOutput):
         self.state[self.currentState["current"]].setOutput(serviceOutput)
@@ -84,7 +98,11 @@ class WorkflowEngine:
         #Test exectuion before deployment (calling local host email service)
         outputInterface = self.state[self.currentState["current"]].getOutputInterface()
         userInput = self.state[self.currentState["current"]].getInput()
-        pass
+        request_input = {}
+        for key in userInput:
+            request_input[key] = key['value']
+        print(request_input)
+        
     
     def bindService(self, serviceList):
         for service in serviceList:

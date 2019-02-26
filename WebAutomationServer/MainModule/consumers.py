@@ -50,6 +50,7 @@ class MainConsumer(WebsocketConsumer):
 
             #get next html
             HTML = workflowEngine_load.next()
+ #           workflowEngine_load.execute()
 
             if (HTML == "DONE"): 
                 self.send(text_data=json.dumps(
