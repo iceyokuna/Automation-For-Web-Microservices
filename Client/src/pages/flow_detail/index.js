@@ -102,7 +102,7 @@ export default class FlowDetail extends Component {
   renderDescriptionBox = () => {
     const { description } = this.state;
     return (
-      <Box elevation="small" margin="small" pad="small"
+      <Box margin="small" pad="small"
         round={{ size: 'small' }} background="light-0" >
         <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
           <Text size="large" weight="bold">Description</Text>
@@ -116,7 +116,7 @@ export default class FlowDetail extends Component {
 
   renderCollaboratorsBox = () => {
     return (
-      <Box elevation="small" margin="small" pad="small"
+      <Box margin="small" pad="small"
         round={{ size: 'small' }} background="light-0" >
         <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
           <Text size="large" weight="bold">Collaborators</Text>
@@ -132,7 +132,7 @@ export default class FlowDetail extends Component {
 
   renderTaskBox = () => {
     return (
-      <Box elevation="small" margin="small" pad="small"
+      <Box margin="small" pad="small"
         round={{ size: 'small' }}
         background="light-0" >
         <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
