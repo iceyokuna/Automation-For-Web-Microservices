@@ -52,13 +52,13 @@ export default class FlowItem extends Component {
 
     return (
       <Box fill onMouseEnter={this.showSnackbar} onMouseLeave={this.hideSnackbar}>
-        <Box elevation="medium" margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
-          <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
+        <Box margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
+          <Box pad="xsmall">
             <Button onClick={onSelectFlow} >
               <Text weight="bold">{title}</Text>
             </Button>
           </Box>
-          <Box pad="small">
+          <Box pad="xsmall">
             <Paragraph >{description}</Paragraph>
             <Text >Owner : {owner}</Text>
           </Box>

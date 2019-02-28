@@ -138,7 +138,7 @@ class BpmnProperty extends Component {
 
   renderConfirmChange() {
     return (
-      <Box direction="row" >
+      <Box direction="row" gap="xsmall" >
         <Button style={{ width: "100%" }} label='OK' primary icon={<Checkmark />} onClick={this.onSubmitChanges.bind(this)} />
         <Button style={{ width: "100%" }} label='Cancel' icon={<Close />} onCancel={() => this.undoAllChanges()} />
       </Box>
@@ -149,7 +149,7 @@ class BpmnProperty extends Component {
     const { nodeId, nodeName } = this.state;
 
     return (
-      <Box style={local.container} elevation='medium' pad='medium' background={'light-0'} gap="small" responsive={false}>
+      <Box style={local.container} elevation='medium' pad='medium' background='light-0' gap="small" responsive={false}>
         <Text size='large' style={local.propertiesText} weight="bold">Properties</Text>
         <FormField>
           <TextInput size="small" placeholder="ID" value={nodeId} onChange={this.onChangeID} />
