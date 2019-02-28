@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { styles } from './style'
 
-import { Box, FormField, TextInput, Button, Heading, Text, } from 'grommet';
+import { Box, FormField, TextInput, Button, Image, } from 'grommet';
 import { UserNew } from 'grommet-icons';
 import { connect } from 'react-redux'
 import { userActions } from 'actions';
@@ -59,13 +59,11 @@ class Register extends Component {
     const { passwordError } = this.state;
 
     return (
-      <Box flex direction="column" align="center" justify="center" background="light-2" fill='vertical'>
-        <Box pad='medium' style={{ width: 350 }} elevation="small"
+      <Box flex direction="column" align="center" justify="center" fill='vertical'>
+        <Box pad='medium' style={{ width: 350 }}
           round={{ size: 'small' }}
-          background="light-0" animation='fadeIn'>
-          <Heading size="small" >
-            WAS
-          </Heading>
+          animation='fadeIn'>
+          <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
           <FormField >
             <TextInput
               ref='usernameInput'
