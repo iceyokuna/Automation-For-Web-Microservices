@@ -6,6 +6,7 @@ import { Snackbar } from './style'
 
 import PlainButton from 'components/plain_button'
 
+const iconColor = "#915591"
 
 export default class FlowItem extends Component {
 
@@ -52,7 +53,7 @@ export default class FlowItem extends Component {
 
     return (
       <Box fill onMouseEnter={this.showSnackbar} onMouseLeave={this.hideSnackbar}>
-        <Box margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
+        <Box round={{ size: "small" }} margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
           <Box pad="xsmall">
             <Button onClick={onSelectFlow} >
               <Text weight="bold">{title}</Text>
@@ -65,9 +66,9 @@ export default class FlowItem extends Component {
 
           <Snackbar hidden={this.state.hideSnackbar}>
             <Box animation={{ type: 'fadeIn', duration: 300 }} direction="row" align="center" justify="end" background="light-0" gap="small">
-              <PlainButton icon={<Edit color="brand" />} onClick={this.handleEdit} />
-              <PlainButton icon={<PauseFill color="brand" />} onClick={this.handlePause} />
-              <PlainButton icon={<Trash color="brand" />} onClick={this.handleDelete} />
+              <PlainButton icon={<Edit color={iconColor} />} onClick={this.handleEdit} />
+              <PlainButton icon={<PauseFill color={iconColor} />} onClick={this.handlePause} />
+              <PlainButton icon={<Trash color={iconColor} />} onClick={this.handleDelete} />
             </Box>
           </Snackbar>
         </Box>

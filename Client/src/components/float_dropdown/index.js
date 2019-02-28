@@ -129,7 +129,7 @@ export default class FloatDropdown extends Component {
           {toggle =>
             toggle
               ? props => <Box background="light-0" width="400px"
-                elevation="medium" pad="medium" gap="xsmall" style={props}
+                elevation="small" pad="medium" gap="xsmall" style={props}
               >
                 <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
                   <Box direction="row" justify="between">

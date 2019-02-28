@@ -69,7 +69,9 @@ class Login extends Component {
   render() {
     return (
       <Box flex direction="column" align="center" justify="center" background="light-2" fill='vertical'>
-        <Box responsive={false} pad='medium' style={{ width: 350 }} elevation='medium' background="light-0" animation='fadeIn'>
+        <Box responsive={false} pad='medium' style={{ width: 350 }}
+          round={{ size: 'small' }}
+          elevation="small" background="light-0" animation='fadeIn'>
           <Heading size="small" responsive={false} >
             WAS
           </Heading>

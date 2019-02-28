@@ -7,8 +7,8 @@ import { FilePicker } from 'react-file-picker'
 
 export default ({ onOpenFile, onOpenFileError, onCreate, onSaveFile, onSaveImage, }) => (
   <Box direction='row' style={{ position: 'absolute', left: 10, bottom: 10 }}
-    background="light-0"
-    elevation='medium' pad='xsmall' gap='small' margin="small">
+    background="light-0" round={{ size: "xsmall" }}
+    elevation="small" pad='xsmall' gap='small' margin="small">
 
     <FilePicker
       extensions={['bpmn']}

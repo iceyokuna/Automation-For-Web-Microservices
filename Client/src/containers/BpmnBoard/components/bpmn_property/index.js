@@ -149,7 +149,8 @@ class BpmnProperty extends Component {
     const { nodeId, nodeName } = this.state;
 
     return (
-      <Box style={local.container} elevation='medium' pad='medium' background='light-0' gap="small" responsive={false}>
+      <Box style={local.container} elevation="small" round={{ corner: "top-left", size: "xsmall" }}
+        pad='medium' background='light-0' gap="small" responsive={false}>
         <Text size='large' style={local.propertiesText} weight="bold">Properties</Text>
         <FormField>
           <TextInput size="small" placeholder="ID" value={nodeId} onChange={this.onChangeID} />
