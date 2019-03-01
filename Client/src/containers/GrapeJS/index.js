@@ -11,7 +11,6 @@ import { global } from 'style';
 
 export default class GrapeJSWrapper extends Component {
   componentDidMount = () => {
-
     this.editor = grapesjs.init({
       container: '#gjs',
       plugins: [presetWebpage, customCodePlugin],
@@ -67,13 +66,12 @@ export default class GrapeJSWrapper extends Component {
       const changedId = changedAttributes.id;
       if (changedId !== '') {
         this.props.onSetElementId(changedId, true);
-      } 
+      }
       else if (changedId === '' || (changedAttributes.id != previousAttributes.id)) {
         this.props.onSetElementId(previousAttributes.id, false);
       }
     })
   }
-
 
   setDefaultComponentTheme() {
     const cssComposer = this.editor.CssComposer;

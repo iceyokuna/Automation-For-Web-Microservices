@@ -69,12 +69,15 @@ class BpmnProperty extends Component {
   }
 
   onGotoCreateForm() {
-    const { appliedMethods } = this.props.workflow;
+    const { appliedMethods, generatedForms } = this.props.workflow;
     const { nodeId } = this.state;
+    const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
     const currentTask = {
       taskId: nodeId,
-      selectedService: appliedMethods[nodeId]
+      selectedService: appliedMethods[nodeId],
+      currentForm: generatedForms[currentFormIndex].formData
     }
+
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
   }
 
@@ -84,22 +87,6 @@ class BpmnProperty extends Component {
     const services = allServices.length == 0 ? services : allServices;
 
     switch (nodeType) {
-      // case 'bpmn:Task': {
-      //   return (
-      //     <Box overflow="auto" margin={{ bottom: 'small' }}>
-      //       <Box align="center" margin={{ top: 'small' }}>
-      //         <Link style={{ width: '100%' }} to={{
-      //           pathname: 'design_form',
-      //           state: {
-      //             forTaskId: true
-      //           }
-      //         }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-      //           <Button icon={<FormAdd />} fill label="Create Form" />
-      //         </Link>
-      //       </Box>
-      //     </Box>)
-      // } break;
-
       case 'bpmn:Task': {
         return (
           <Box gap="small">
@@ -108,15 +95,12 @@ class BpmnProperty extends Component {
               label="Asynchronous"
               checked={isAsyncTask}
               onChange={event => this.setState({ isAsyncTask: event.target.checked })} /> */}
-
             <Box fill="horizontal">
               <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
             </Box>
-
           </Box>
         )
       }
-
       default:
         break;
     }
@@ -124,12 +108,10 @@ class BpmnProperty extends Component {
 
   renderCreateFormButton = () => {
     return (
-      <Link style={{ width: '100%' }} to={{
-        pathname: 'design_form',
-        state: {
-          forTaskId: true
-        }
-      }} target="_blank" onClick={() => this.onGotoCreateForm()}>
+      <Link style={{ width: '100%' }}
+        to={{
+          pathname: 'design_form',
+        }} target="_blank" onClick={() => this.onGotoCreateForm()}>
         <Button icon={<FormAdd />} fill label="Create Form" />
       </Link>
     );
