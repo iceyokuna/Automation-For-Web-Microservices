@@ -171,8 +171,8 @@ export default class FlowDetail extends Component {
         </FormField>
 
         <Box direction="row" justify="end" gap="small">
-          <Button label="Edit Diagram" icon={<Cluster />} color="brand" onClick={this.navigateToModeler} />
-          <Button label="OK" icon={<Checkmark />} color="brand" primary onClick={() => { }} />
+          <Button label="Edit Diagram" icon={<Cluster />} color="accent-1" onClick={this.navigateToModeler} />
+          <Button label="OK" icon={<Checkmark />} color="accent-1" primary onClick={() => { }} />
         </Box>
       </Box>
     )
