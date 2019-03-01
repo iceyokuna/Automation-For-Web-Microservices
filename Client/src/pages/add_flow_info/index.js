@@ -33,9 +33,10 @@ class AddFlowInfo extends Component {
 
   render() {
     return (
-      <div style={global.mainContainer}>
-        <Box flex direction="column" align="center" justify="center" background="light-2  " fill='vertical'>
-          <Box responsive={false} pad='medium' style={{ width: 400 }} elevation='medium' background="light-0" animation='fadeIn'>
+      <div style={{ ...global.mainContainer, backgroundColor: '#ffffff' }}>
+        <Box flex direction="column"
+          align="center" justify="center" fill='vertical'>
+          <Box pad='medium' width="400px" animation='fadeIn'>
             <Heading size="small" responsive={false} >
               Create a New Flow
           </Heading>
@@ -54,8 +55,9 @@ class AddFlowInfo extends Component {
                 onChange={this.onChangeDescription} />
             </FormField>
 
-            < Button primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
-
+            <Box margin={{ top: 'small' }}>
+              < Button color="accent-1" primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
+            </Box>
 
           </Box>
         </Box>

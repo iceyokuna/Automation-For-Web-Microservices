@@ -374,7 +374,7 @@ class BpmnContainer extends Component {
 
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button primary icon={<Upload size="small" />} label="Submit" onClick={this.onSubmitDiagram} />
+            <Button color="accent-1" primary icon={<Upload size="small" />} label="Submit" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
 

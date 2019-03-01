@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Box, Text, Button, DropButton, } from 'grommet'
-import { User, Logout, CaretUp, Notification, Close, Menu } from 'grommet-icons'
+import { Box, Text, DropButton, } from 'grommet'
+import { User, Notification, Menu } from 'grommet-icons'
 
 import { connect } from 'react-redux'
 
@@ -47,7 +47,6 @@ class AppBar extends Component {
       case 'Notification#1': this.props.dispatch(userActions.logout());
     }
   }
-
 
   renderForSignedin() {
     if (localStorage.getItem('user') == null) return null;

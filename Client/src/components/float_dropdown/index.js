@@ -12,7 +12,7 @@ const appBarHeight = 60;
 
 const iconColor = "#ffffff";
 
-const InterfaceItem = ({ item, parameterName, isDone }) => {
+const InterfaceItem = ({ item, parameterName }) => {
   return (
     <Box pad="xsmall" border={{ side: 'bottom', size: 'small' }} flex={false}>
 
@@ -23,16 +23,16 @@ const InterfaceItem = ({ item, parameterName, isDone }) => {
             <Text >{parameterName}</Text>
           </Box>
           <Box direction="row" gap="small">
-            <Text weight="bold">Element type : </Text>
-            <Text >{item.formData.elementType}</Text>
+            <Text weight="bold">Element id : </Text>
+            <Text >{parameterName} </Text>
           </Box>
           <Box direction="row" gap="small">
-            <Text weight="bold">Element id : </Text>
-            <Text >{item.formData.elementId} </Text>
+            <Text weight="bold">Element type : </Text>
+            <Text >{item.elementType}</Text>
           </Box>
         </Box>
         <Box justify="center">
-          {isDone == true ? <Checkmark color="#5FEB89" /> :
+          {item.isIdSet == true ? <Checkmark color="#5FEB89" /> :
             <Help color="#FF6161" />}
         </Box>
       </Box>
@@ -84,37 +84,33 @@ export default class FloatDropdown extends Component {
     this.setState({ show: !this.state.show });
   }
 
-  appendItem = (params) => {
-    const currentMethod = this.state.currentMethod;
+  renderInterfaceItems = (inputInterface) => {
+    const { elementsIdSet } = this.props;
 
-    currentMethod.input_interface["A" + Math.floor(Math.random() * 100)] = {
-      type: "string",
-      formData: {
-        elementType: "input",
-        elementId: "receiver#1123"
+    const cloneObject = { ...inputInterface };
+    const keys = Object.keys(cloneObject);
+
+    for (let key of keys) {
+      // Check that user set id for each element or not
+      if (inputInterface[key] && elementsIdSet[key]) {
+        cloneObject[key].isIdSet = true;
+      } else {
+        cloneObject[key].isIdSet = undefined;
       }
     }
 
-    this.setState({
-      currentMethod: currentMethod
-    })
-
-  }
-
-
-  renderInterfaceItem = () => {
-    const { input_interface } = this.state.currentMethod;
-    return Object.keys(input_interface).
+    return Object.keys(cloneObject).
       map((key, index) =>
         <InterfaceItem
-          item={input_interface[key]}
+          item={cloneObject[key]}
           parameterName={key}
           key={index} />)
   }
 
 
   render() {
-    const { show, currentMethod } = this.state;
+    const { show } = this.state;
+    const { taskId, service } = this.props;
 
     return (
       <Container >
@@ -133,15 +129,20 @@ export default class FloatDropdown extends Component {
           {toggle =>
             toggle
               ? props => <Box background="light-0" width="400px"
-                elevation="medium" pad="medium" gap="small" style={props}
+                elevation="small" pad="medium" gap="xsmall" style={props}
               >
-                <Box direction="row" justify="between" border={{ side: 'bottom', size: 'small' }} pad="xsmall">
-                  <Text size="xlarge" weight="bold" >{currentMethod.methodName}</Text>
-                  <Text size="large" >{currentMethod.taskId}</Text>
+                <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                  <Box direction="row" justify="between">
+                    <Text size="xlarge" weight="bold" >{service.method.name}</Text>
+                    <Text size="large" >{taskId}</Text>
+                  </Box>
+                  <Box>
+                    <Text>{service.method.info}</Text>
+                  </Box>
                 </Box>
 
                 <Box style={{ height: 250, overflowY: 'auto' }} >
-                  {this.renderInterfaceItem()}
+                  {this.renderInterfaceItems(service.method.input_interface)}
                 </Box>
               </Box>
               : props => null

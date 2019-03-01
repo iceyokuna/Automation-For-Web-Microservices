@@ -30,8 +30,9 @@ export default class SideBar extends Component {
               <Box style={{ ...props, ...style }}
                 width={`${sideBarWidth}px`}
                 height="100%" align="start"
-                elevation='xlarge' pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }}
-                background='secondary' responsive={false}>
+                elevation="small" pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }}
+                background='dark-1' responsive={false}
+                gap="small">
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
                     onClick={() => this.props.onSelectMenu('/my_flows')}
@@ -57,4 +58,4 @@ export default class SideBar extends Component {
     );
   }
 }
-const style = { position: 'fixed', left: 0, top: appBarHeight, zIndex: 10 }
+const style = { position: 'fixed', left: 0, top: appBarHeight, zIndex: 10, }

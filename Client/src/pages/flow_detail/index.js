@@ -102,14 +102,13 @@ export default class FlowDetail extends Component {
   renderDescriptionBox = () => {
     const { description } = this.state;
     return (
-      <Box fill margin={{ bottom: 'small' }} >
-        <Box elevation="medium" margin="small" pad="small" background="light-0" >
-          <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-            <Text size="large" weight="bold">Description</Text>
-          </Box>
-          <Box pad="small">
-            <Paragraph >{description}</Paragraph>
-          </Box>
+      <Box margin="small" pad="small"
+        round={{ size: 'small' }} background="light-0" >
+        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
+          <Text size="large" weight="bold">Description</Text>
+        </Box>
+        <Box pad="small">
+          <Paragraph >{description}</Paragraph>
         </Box>
       </Box>
     );
@@ -117,16 +116,15 @@ export default class FlowDetail extends Component {
 
   renderCollaboratorsBox = () => {
     return (
-      <Box fill margin={{ bottom: 'small' }} >
-        <Box elevation="medium" margin="small" pad="small" background="light-0" >
-          <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-            <Text size="large" weight="bold">Collaborators</Text>
-          </Box>
-          <Box pad="small">
-            {/* List of collaborators*/}
-            {this.renderCollaboratorsList()}
+      <Box margin="small" pad="small"
+        round={{ size: 'small' }} background="light-0" >
+        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
+          <Text size="large" weight="bold">Collaborators</Text>
+        </Box>
+        <Box pad="small">
+          {/* List of collaborators*/}
+          {this.renderCollaboratorsList()}
 
-          </Box>
         </Box>
       </Box>
     )
@@ -134,16 +132,16 @@ export default class FlowDetail extends Component {
 
   renderTaskBox = () => {
     return (
-      <Box fill margin={{ bottom: 'small' }} >
-        <Box elevation="medium" margin="small" pad="small" background="light-0" >
-          <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-            <Text size="large" weight="bold">Tasks</Text>
-          </Box>
-          <Box pad="small">
-            {/* List of Tasks*/}
-            {this.renderTaskList()}
+      <Box margin="small" pad="small"
+        round={{ size: 'small' }}
+        background="light-0" >
+        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
+          <Text size="large" weight="bold">Tasks</Text>
+        </Box>
+        <Box pad="small">
+          {/* List of Tasks*/}
+          {this.renderTaskList()}
 
-          </Box>
         </Box>
       </Box>
     )
@@ -151,7 +149,7 @@ export default class FlowDetail extends Component {
 
   renderEditInformationDialog = () => {
     return (
-      <Box pad="small" width="400px">
+      <Box pad="small" width="400px" round={{ size: 'small' }}>
         <Box direction="row" justify="between" align="center">
           <Heading level={3} margin="small">
             Edit Information
@@ -173,8 +171,8 @@ export default class FlowDetail extends Component {
         </FormField>
 
         <Box direction="row" justify="end" gap="small">
-          <Button label="Edit Diagram" icon={<Cluster />} color="brand" onClick={this.navigateToModeler} />
-          <Button label="OK" icon={<Checkmark />} color="brand" primary onClick={() => { }} />
+          <Button label="Edit Diagram" icon={<Cluster />} color="accent-1" onClick={this.navigateToModeler} />
+          <Button label="OK" icon={<Checkmark />} color="accent-1" primary onClick={() => { }} />
         </Box>
       </Box>
     )
@@ -200,9 +198,7 @@ export default class FlowDetail extends Component {
                 this.renderEditInformationDialog()
               }
             >
-              <Box elevation="medium">
-                <Button label="Edit Info" icon={<Edit />} color="secondary" primary />
-              </Box>
+              <Button label="Edit Info" icon={<Edit />} color="accent-1" primary />
             </DropButton>
 
           </Box>
