@@ -15,7 +15,6 @@ export default class CreateForm extends Component {
       currentTask: currentTask,
       elementsIdSet: {}
     }
-    console.log(currentTask);
   }
 
   handleGeneratedForm = (form) => {
@@ -47,6 +46,7 @@ export default class CreateForm extends Component {
       <div style={{ width: '100%', height: '100%' }}>
         <FloatDropDown taskId={currentTask.taskId} service={currentTask.selectedService} elementsIdSet={elementsIdSet} />
         <GrapesContainer
+          initialForm={currentTask.currentForm}
           onExportForm={this.handleGeneratedForm}
           onSetElementId={this.handleSetElementId} />
       </div>

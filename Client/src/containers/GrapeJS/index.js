@@ -230,11 +230,14 @@ export default class GrapeJSWrapper extends Component {
 
 
   render() {
+    const { initialForm } = this.props;
+    console.log(initialForm)
     return (
-
       <div style={{ height: '100%', }}>
         <div style={{ backgroundColor: 'red', position: 'fixed', top: 20 }}>TEST</div>
         <div id="gjs" >
+          <div dangerouslySetInnerHTML={{ __html: initialForm.formHtml }} />
+          <style>{initialForm.formCss}</style>
         </div>
       </div>
     )
