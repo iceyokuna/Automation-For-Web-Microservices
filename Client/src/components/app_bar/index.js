@@ -48,7 +48,6 @@ class AppBar extends Component {
     }
   }
 
-
   renderForSignedin() {
     if (localStorage.getItem('user') == null) return null;
     else {
