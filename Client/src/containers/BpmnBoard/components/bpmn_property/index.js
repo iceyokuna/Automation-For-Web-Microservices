@@ -6,11 +6,12 @@ import { FormAdd, Checkmark, Close } from 'grommet-icons';
 import { global } from 'style';
 import { Link, Redirect } from 'react-router-dom'
 
-import ServiceList from 'components/service_list'
 
 import PropTypes from 'prop-types'
 
 import { services } from './mockup_service_data'
+
+import TaskProperty from './task_property'
 
 import { connect } from 'react-redux'
 
@@ -89,16 +90,8 @@ class BpmnProperty extends Component {
     switch (nodeType) {
       case 'bpmn:Task': {
         return (
-          <Box gap="small">
-            {/* <CheckBox
-              toggle
-              label="Asynchronous"
-              checked={isAsyncTask}
-              onChange={event => this.setState({ isAsyncTask: event.target.checked })} /> */}
-            <Box fill="horizontal">
-              <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
-            </Box>
-          </Box>
+          <TaskProperty services={services}
+            onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
         )
       }
       default:
