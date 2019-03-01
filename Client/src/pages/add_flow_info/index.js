@@ -55,8 +55,9 @@ class AddFlowInfo extends Component {
                 onChange={this.onChangeDescription} />
             </FormField>
 
-            < Button color="accent-1" primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
-
+            <Box margin={{ top: 'small' }}>
+              < Button color="accent-1" primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
+            </Box>
 
           </Box>
         </Box>
