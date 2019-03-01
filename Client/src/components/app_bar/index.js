@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Box, Text, Button, DropButton, } from 'grommet'
-import { User, Logout, CaretUp, Notification, Close, Menu } from 'grommet-icons'
+import { Box, Text, DropButton, } from 'grommet'
+import { User, Notification, Menu } from 'grommet-icons'
 
 import { connect } from 'react-redux'
 

@@ -49,5 +49,10 @@ export default {
         ";\n      "
       ]
     }
+  },
+  "icon": {
+    "colors": {
+      "light-0": '#FFFFFF'
+    }
   }
 }

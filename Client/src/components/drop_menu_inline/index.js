@@ -9,7 +9,7 @@ import PlainButton from 'components/plain_button'
 export default class DropMenuInline extends Component {
 
   render() {
-    const { showMenuBar, history } = this.props;
+    const { showMenuBar } = this.props;
     return (
       <Transition
         items={showMenuBar}

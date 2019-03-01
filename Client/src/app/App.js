@@ -10,9 +10,7 @@ import {
   NotFound, ModelWorkflow, Test, ExecuteFlow
 } from 'pages'
 
-import { hp } from 'grommet-theme-hp'
-
-import { Router, Route, Link, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 
 import { Grommet } from 'grommet';
 import appTheme from 'theme';
@@ -21,11 +19,6 @@ import { Provider } from 'react-redux';
 import { store, history } from '_helpers';
 
 import PrivateRoute from 'components/private_route'
-
-
-
-
-// Only for development
 
 const App = () => (
   <Router history={history}>
