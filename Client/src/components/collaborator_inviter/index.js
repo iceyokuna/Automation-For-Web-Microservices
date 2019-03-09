@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Chips, { Chip } from 'react-chips'
-import theme from './chips_theme'
+import theme, { chipTheme } from './chips_theme'
 
 export default class CollaboratorInviter extends Component {
   state = {
@@ -21,6 +21,7 @@ export default class CollaboratorInviter extends Component {
         placeholder="Collaborators ( optional )"
         alwaysRenderSuggestions
         theme={theme}
+        chipTheme={chipTheme}
         value={selectedCollaborators}
         onChange={this.onChangecollaborators}
         suggestions={userIds} />

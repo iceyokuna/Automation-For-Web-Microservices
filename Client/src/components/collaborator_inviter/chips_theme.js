@@ -61,11 +61,12 @@ export default theme;
 
 export const chipTheme = {
   chip: {
-    padding: 5,
-    background: "#ccc",
+    padding: "4px 12px",
+    background: "#915591",
     margin: "2.5px",
-    borderRadius: 3,
+    borderRadius: 18,
     cursor: 'default',
+    color: '#fff'
   },
   chipSelected: {
     background: '#888',
