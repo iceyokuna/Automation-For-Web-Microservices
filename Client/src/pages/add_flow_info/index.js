@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { global } from 'style'
+import { connect } from 'react-redux'
+import { workflowActions } from 'actions'
 
 import { Box, Button, Heading, Text, TextInput, FormField, TextArea } from 'grommet'
 import { FormNext } from 'grommet-icons'
-
-import { connect } from 'react-redux'
-
-import { workflowActions } from 'actions'
+import CollaboratorInviter from 'components/collaborator_inviter';
 
 class AddFlowInfo extends Component {
 
@@ -32,6 +31,7 @@ class AddFlowInfo extends Component {
   }
 
   render() {
+    const { workflowName, description } = this.state
     return (
       <div style={{ ...global.mainContainer, backgroundColor: '#ffffff' }}>
         <Box flex direction="column"
@@ -45,15 +45,17 @@ class AddFlowInfo extends Component {
                 ref='workflowNameInput'
                 autoFocus
                 placeholder="Workflow Name"
-                value={this.state.workflowName}
+                value={workflowName}
                 onChange={this.onChangeWorkflowName} />
             </FormField>
             <FormField>
               <TextArea
                 placeholder="Description"
-                value={this.state.description}
+                value={description}
                 onChange={this.onChangeDescription} />
             </FormField>
+
+            <CollaboratorInviter />
 
             <Box margin={{ top: 'small' }}>
               < Button color="accent-1" primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
@@ -62,7 +64,7 @@ class AddFlowInfo extends Component {
           </Box>
         </Box>
 
-      </div>
+      </div >
     )
   }
 }
