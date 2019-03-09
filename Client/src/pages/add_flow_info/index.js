@@ -33,7 +33,11 @@ class AddFlowInfo extends Component {
   render() {
     const { workflowName, description } = this.state
     return (
-      <div style={{ ...global.mainContainer, backgroundColor: '#ffffff' }}>
+      <div style={{
+        ...global.mainContainer,
+        backgroundColor: '#ffffff',
+        maxWidth: null
+      }}>
         <Box flex direction="column"
           align="center" justify="center" fill='vertical'>
           <Box pad='medium' width="400px" animation='fadeIn'>
