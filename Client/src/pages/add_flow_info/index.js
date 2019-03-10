@@ -14,6 +14,8 @@ class AddFlowInfo extends Component {
     this.state = {
       workflowName: '',
       description: '',
+      selectedCollaborators: [],
+      userIds: ["iceyo#1177", "pym#887", "bas#998"],
     };
   }
 
@@ -24,14 +26,20 @@ class AddFlowInfo extends Component {
     this.setState({ description: e.target.value });
   }
 
+  onChangecollaborators = (chips) => {
+    this.setState({
+      selectedCollaborators: chips,
+    })
+  }
+
   onNextStep = () => {
-    const { workflowName, description } = this.state;
-    this.props.dispatch(workflowActions.setAppInfo(workflowName, description));
+    const { workflowName, description, selectedCollaborators } = this.state;
+    this.props.dispatch(workflowActions.setAppInfo(workflowName, description, selectedCollaborators));
     this.props.history.push('design_workflow');
   }
 
   render() {
-    const { workflowName, description } = this.state
+    const { workflowName, description, selectedCollaborators, userIds } = this.state
     return (
       <div style={{
         ...global.mainContainer,
@@ -59,7 +67,10 @@ class AddFlowInfo extends Component {
                 onChange={this.onChangeDescription} />
             </FormField>
 
-            <CollaboratorInviter />
+            <CollaboratorInviter
+              onChangecollaborators={this.onChangecollaborators}
+              selectedCollaborators={selectedCollaborators}
+              userIds={userIds} />
 
             <Box margin={{ top: 'small' }}>
               < Button color="accent-1" primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />

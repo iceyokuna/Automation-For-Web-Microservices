@@ -29,6 +29,7 @@ const defaultState = {
   recentForm: null,
   appName: 'Default name',
   appDescription: '',
+  collaborators: [],
 
   loadingWorkflowData: false,
 
@@ -98,8 +99,8 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SET_APP_INFO: {
-      const { appName, appDescription } = action;
-      const nextState = { ...state, appName, appDescription };
+      const { appName, appDescription, collaborators } = action;
+      const nextState = { ...state, appName, appDescription, collaborators };
       return nextState
     }
 
