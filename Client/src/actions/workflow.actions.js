@@ -63,11 +63,12 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function setAppInfo(appName, appDescription) {
+function setAppInfo(appName, appDescription, collaborators) {
   return {
     type: workflowContants.SET_APP_INFO,
     appName,
-    appDescription
+    appDescription,
+    collaborators
   }
 }
 

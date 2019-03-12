@@ -4,8 +4,8 @@ import { Undo, Redo, Code } from 'grommet-icons';
 
 export default ({ onUndo, onRedo, onSave }) => (
   <Box direction='column' style={{ position: 'absolute', right: 300, top: 10 }}
-    background="light-0"
-    elevation='medium' pad='xsmall' gap='small' margin="small">
+    background="light-0" round={{ size: "xsmall" }}
+    elevation="small" pad='xsmall' gap='small' margin="small">
     <Button hoverIndicator onClick={onUndo} >
       <Undo size="medium" />
     </Button>

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { global } from 'style'
+import { connect } from 'react-redux'
+import { workflowActions } from 'actions'
 
 import { Box, Button, Heading, Text, TextInput, FormField, TextArea } from 'grommet'
 import { FormNext } from 'grommet-icons'
-
-import { connect } from 'react-redux'
-
-import { workflowActions } from 'actions'
+import CollaboratorInviter from 'components/collaborator_inviter';
 
 class AddFlowInfo extends Component {
 
@@ -15,6 +14,8 @@ class AddFlowInfo extends Component {
     this.state = {
       workflowName: '',
       description: '',
+      selectedCollaborators: [],
+      userIds: ["iceyo#1177", "pym#887", "bas#998"],
     };
   }
 
@@ -25,17 +26,29 @@ class AddFlowInfo extends Component {
     this.setState({ description: e.target.value });
   }
 
+  onChangecollaborators = (chips) => {
+    this.setState({
+      selectedCollaborators: chips,
+    })
+  }
+
   onNextStep = () => {
-    const { workflowName, description } = this.state;
-    this.props.dispatch(workflowActions.setAppInfo(workflowName, description));
+    const { workflowName, description, selectedCollaborators } = this.state;
+    this.props.dispatch(workflowActions.setAppInfo(workflowName, description, selectedCollaborators));
     this.props.history.push('design_workflow');
   }
 
   render() {
+    const { workflowName, description, selectedCollaborators, userIds } = this.state
     return (
-      <div style={global.mainContainer}>
-        <Box flex direction="column" align="center" justify="center" background="light-2  " fill='vertical'>
-          <Box responsive={false} pad='medium' style={{ width: 400 }} elevation='medium' background="light-0" animation='fadeIn'>
+      <div style={{
+        ...global.mainContainer,
+        backgroundColor: '#ffffff',
+        maxWidth: null
+      }}>
+        <Box flex direction="column"
+          align="center" justify="center" fill='vertical'>
+          <Box pad='medium' width="400px" animation='fadeIn'>
             <Heading size="small" responsive={false} >
               Create a New Flow
           </Heading>
@@ -44,23 +57,29 @@ class AddFlowInfo extends Component {
                 ref='workflowNameInput'
                 autoFocus
                 placeholder="Workflow Name"
-                value={this.state.workflowName}
+                value={workflowName}
                 onChange={this.onChangeWorkflowName} />
             </FormField>
             <FormField>
               <TextArea
                 placeholder="Description"
-                value={this.state.description}
+                value={description}
                 onChange={this.onChangeDescription} />
             </FormField>
 
-            < Button primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
+            <CollaboratorInviter
+              onChangecollaborators={this.onChangecollaborators}
+              selectedCollaborators={selectedCollaborators}
+              userIds={userIds} />
 
+            <Box margin={{ top: 'small' }}>
+              < Button color="accent-1" primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
+            </Box>
 
           </Box>
         </Box>
 
-      </div>
+      </div >
     )
   }
 }

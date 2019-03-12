@@ -56,7 +56,7 @@ export default class index extends Component {
   render() {
     return (
       <Accordion
-        style={{ overflowY: 'scroll', maxHeight: 400 }}
+        style={{ overflowY: 'auto' }}
         onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
       >
         {this.renderServiceItem()}

@@ -6,11 +6,14 @@ import { FormAdd, Checkmark, Close } from 'grommet-icons';
 import { global } from 'style';
 import { Link, Redirect } from 'react-router-dom'
 
-import ServiceList from 'components/service_list'
 
 import PropTypes from 'prop-types'
 
 import { services } from './mockup_service_data'
+
+import TaskProperty from './task_property'
+
+import { connect } from 'react-redux'
 
 
 class BpmnProperty extends Component {
@@ -67,65 +70,50 @@ class BpmnProperty extends Component {
   }
 
   onGotoCreateForm() {
-    localStorage.setItem('currentTaskId', this.state.nodeId);
+    const { appliedMethods, generatedForms } = this.props.workflow;
+    const { nodeId } = this.state;
+    const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
+    const currentTask = {
+      taskId: nodeId,
+      selectedService: appliedMethods[nodeId],
+      currentForm: generatedForms[currentFormIndex].formData
+    }
+
+    localStorage.setItem('currentTask', JSON.stringify(currentTask));
   }
 
   renderSpecialProperties() {
     const { nodeType, isAsyncTask } = this.state;
     const { allServices, onSelectServiceMethod } = this.props;
-    // console.log(allServices); 
     const services = allServices.length == 0 ? services : allServices;
 
     switch (nodeType) {
-      // case 'bpmn:Task': {
-      //   return (
-      //     <Box overflow="auto" margin={{ bottom: 'small' }}>
-      //       <Box align="center" margin={{ top: 'small' }}>
-      //         <Link style={{ width: '100%' }} to={{
-      //           pathname: 'design_form',
-      //           state: {
-      //             forTaskId: true
-      //           }
-      //         }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-      //           <Button icon={<FormAdd />} fill label="Create Form" />
-      //         </Link>
-      //       </Box>
-      //     </Box>)
-      // } break;
-
       case 'bpmn:Task': {
         return (
-          <Box gap="small">
-            <CheckBox
-              toggle
-              label="Asynchronous"
-              checked={isAsyncTask}
-              onChange={event => this.setState({ isAsyncTask: event.target.checked })} />
-            <Link style={{ width: '100%' }} to={{
-              pathname: 'design_form',
-              state: {
-                forTaskId: true
-              }
-            }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-              <Button icon={<FormAdd />} fill label="Create Form" />
-            </Link>
-
-            <Box fill="horizontal">
-              <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
-            </Box>
-
-          </Box>
+          <TaskProperty services={services}
+            onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
         )
       }
-
       default:
         break;
     }
   }
 
+  renderCreateFormButton = () => {
+    return (
+      <Link style={{ width: '100%' }}
+        to={{
+          pathname: 'design_form',
+        }} target="_blank" onClick={() => this.onGotoCreateForm()}>
+        <Button icon={<FormAdd />} fill label="Create Form" />
+      </Link>
+    );
+  }
+
+
   renderConfirmChange() {
     return (
-      <Box direction="row" >
+      <Box direction="row" gap="xsmall" >
         <Button style={{ width: "100%" }} label='OK' primary icon={<Checkmark />} onClick={this.onSubmitChanges.bind(this)} />
         <Button style={{ width: "100%" }} label='Cancel' icon={<Close />} onCancel={() => this.undoAllChanges()} />
       </Box>
@@ -136,7 +124,8 @@ class BpmnProperty extends Component {
     const { nodeId, nodeName } = this.state;
 
     return (
-      <Box style={local.container} elevation='medium' pad='medium' background={'light-0'} gap="small" responsive={false}>
+      <Box style={local.container} elevation="small" round={{ corner: "top-left", size: "xsmall" }}
+        pad='medium' background='light-0' gap="small" responsive={false}>
         <Text size='large' style={local.propertiesText} weight="bold">Properties</Text>
         <FormField>
           <TextInput size="small" placeholder="ID" value={nodeId} onChange={this.onChangeID} />
@@ -146,6 +135,7 @@ class BpmnProperty extends Component {
         </FormField>
 
         {this.renderSpecialProperties()}
+        {this.renderCreateFormButton()}
         {this.renderConfirmChange()}
 
       </Box>
@@ -157,4 +147,12 @@ BpmnProperty.propTypes = {
   allServices: PropTypes.array.isRequired
 }
 
-export default BpmnProperty
+const mapStateToProps = (state) => {
+  return {
+    workflow: state.workflow
+  }
+}
+
+
+
+export default connect(mapStateToProps)(BpmnProperty);

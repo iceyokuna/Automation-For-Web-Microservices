@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Box, FormField, TextInput, Button, Heading, Text } from 'grommet';
+import { Box, FormField, TextInput, Button, Heading, Text, Image } from 'grommet';
 import { Login as Signin } from 'grommet-icons';
 import { Link, withRouter } from 'react-router-dom'
 
@@ -68,11 +68,11 @@ class Login extends Component {
 
   render() {
     return (
-      <Box flex direction="column" align="center" justify="center" background="light-2" fill='vertical'>
-        <Box responsive={false} pad='medium' style={{ width: 350 }} elevation='medium' background="light-0" animation='fadeIn'>
-          <Heading size="small" responsive={false} >
-            WAS
-          </Heading>
+      <Box flex direction="column" align="center" justify="center" fill='vertical'>
+        <Box responsive={false} pad='medium' style={{ width: 350 }}
+          round={{ size: 'small' }}
+          animation='fadeIn'>
+          <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
           <FormField >
             <TextInput
               ref='usernameInput'

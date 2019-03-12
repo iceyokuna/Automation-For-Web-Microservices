@@ -69,7 +69,7 @@ export default class ServiceRequirement extends Component {
               </Box>
 
               <Box direction="row" justify="end">
-                <Button style={{ width: 100 }} label="OK" icon={<Checkmark />} primary onClick={() => this.selectMethod(serviceMethod)} />
+                <Button style={{ width: 100 }} label="OK" icon={<Checkmark />} primary color="accent-1" onClick={() => this.selectMethod(serviceMethod)} />
               </Box>
 
             </Box>

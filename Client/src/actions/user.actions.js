@@ -46,11 +46,9 @@ function login(username, password) {
 
 function logout() {
   userService.logout().then((res) => {
-    console.log(res);
+    localStorage.removeItem('user');
     history.push('/login');
   }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
-  // localStorage.removeItem('user');
-  // history.push('/login');
 
   return { type: userConstants.LOGOUT };
 }
