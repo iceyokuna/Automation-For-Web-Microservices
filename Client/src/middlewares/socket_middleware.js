@@ -1,12 +1,7 @@
 import { socketConstants } from '_constants'
-import { socketActions, workflowActions } from 'actions'
-
-const domainName = '178.128.214.101:8002';
-
+import { workflowActions } from 'actions'
 
 var socket = new WebSocket(`ws://${socketConstants.LOCAL_SOCKET_URL}/execute/`);
-// const socket = () => { };
-
 
 export const socketMiddleware = store => next => action => {
   next(action);

@@ -6,6 +6,7 @@ import { history } from '_helpers';
 export const workflowActions = {
   addNewForm,
   addNameToId,
+  addNewCollaborator,
   applyMethodToTask,
   setExecutingForm,
   // getNextForm,
@@ -69,6 +70,13 @@ function setAppInfo(appName, appDescription, collaborators) {
     appName,
     appDescription,
     collaborators
+  }
+}
+
+function addNewCollaborator(newCollaborators) {
+  return {
+    type: workflowContants.ADD_NEW_COLLABORATORS,
+    newCollaborators,
   }
 }
 
