@@ -12,7 +12,7 @@ class AdminSerializer(serializers.ModelSerializer):
         model = Admin
         fields = ('id', 'admin_id')
 '''
-class CollaboratorSerializer(serializers.ManyRelatedField):
+class CollaboratorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collaborator
         fields = ('id','workflow','collaborator')

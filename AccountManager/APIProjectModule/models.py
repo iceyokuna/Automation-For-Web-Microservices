@@ -25,4 +25,4 @@ class Collaborator(models.Model):
     Collaborator = models.ForeignKey(User, related_name='collaborator', on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.name
+        return self.workflow.name
