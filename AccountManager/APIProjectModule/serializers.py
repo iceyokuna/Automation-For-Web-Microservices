@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Workflow #Collaborator, Admin, Workflow
+from .models import Workflow, Collaborator #, Admin, Workflow
 
 class WorkflowSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,9 +11,9 @@ class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
         fields = ('id', 'admin_id')
-
+'''
 class CollaboratorSerializer(serializers.ManyRelatedField):
     class Meta:
         model = Collaborator
-        fields = ('id','collaborator_id')
-        '''
+        fields = ('id','workflow','collaborator')
+        

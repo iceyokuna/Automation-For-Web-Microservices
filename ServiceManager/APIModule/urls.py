@@ -9,7 +9,5 @@ routers.register('methods', views.MethodView)
 routers.register('connecting_methods', views.ConnectingMethodView)
 
 urlpatterns = [
-    
     path('', include(routers.urls))
-    
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Workflow #, Admin, Collaborator
-from .serializers import WorkflowSerializer #, AdminSerializer, CollaboratorSerializer
+from .models import Workflow, Collaborator#, Admin, 
+from .serializers import WorkflowSerializer,CollaboratorSerializer # AdminSerializer, 
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
@@ -23,16 +23,16 @@ class WorkflowView(APIView):
     def post(self, request):
         Workflow.objects.create(user= request.user, workflow = request.POST.get('workflow'), name = request.POST.get('name'))
         return Response(status=HTTP_200_OK)
+   
 
-    
-  
+
+class CollaboratorView(viewsets.ModelViewSet):
+    queryset = Collaborator.objects.all()
+    serializer_class = CollaboratorSerializer
 
 '''
 class AdminView(viewsets.ModelViewSet):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
+''' 
     
-class CollaboratorView(viewsets.ModelViewSet):
-    queryset = Collaborator.objects.all()
-    serializer_class = CollaboratorSerializer
-'''
