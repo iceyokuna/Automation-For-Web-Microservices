@@ -38,7 +38,7 @@ class AppBar extends Component {
 
   onSelectAccountPanel = (name) => {
     switch (name) {
-      case 'Logout': this.props.dispatch(userActions.logout());
+      case 'Logout': this.props.dispatch(userActions.logout()); break;
     }
   }
 
