@@ -32,12 +32,8 @@ export default class ConditionItem extends Component {
     targetNode: '',
   }
 
-  changeCondition = () => {
+  onChangeCondition = () => {
     this.props.onChange(this.state);
-  }
-
-  componentDidUpdate = (prevProps, prevState) => {
-    this.changeCondition();
   }
 
 
@@ -55,7 +51,8 @@ export default class ConditionItem extends Component {
             value={variable1.name}
             options={allVariables}
             onChange={({ option }) => {
-              this.setState({ variable1: option });
+              this.setState({ variable1: option },
+                () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
@@ -72,7 +69,8 @@ export default class ConditionItem extends Component {
             value={operator}
             options={allOperators}
             onChange={({ option }) => {
-              this.setState({ operator: option });
+              this.setState({ operator: option },
+                () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
@@ -90,7 +88,8 @@ export default class ConditionItem extends Component {
             value={variable2.name}
             options={allVariables}
             onChange={({ option }) => {
-              this.setState({ variable2: option });
+              this.setState({ variable2: option },
+                () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
@@ -114,7 +113,8 @@ export default class ConditionItem extends Component {
             value={targetNode}
             options={allBpmnNodes}
             onChange={({ option }) => {
-              this.setState({ targetNode: option });
+              this.setState({ targetNode: option },
+                () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
@@ -123,7 +123,7 @@ export default class ConditionItem extends Component {
 
           </Select>
         </Box>
-      </Box>
+      </Box >
     )
   }
 }

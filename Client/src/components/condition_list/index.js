@@ -48,12 +48,17 @@ export default class ConditionList extends Component {
   }
 
   applyConditions = () => {
-
+    
   }
 
 
   changeCondition = (index, condition) => {
-    console.log(index, condition)
+    const { conditions } = this.state;
+    conditions[index] = condition;
+    console.log(conditions)
+    this.setState({
+      conditions: conditions
+    })
   }
 
 

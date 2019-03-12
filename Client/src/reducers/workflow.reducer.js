@@ -20,9 +20,8 @@ const defaultState = {
   // generatedForms: [
 
   // ],
-  appliedMethods: {
-
-  },
+  appliedMethods: {},
+  appliedConditions: {},
   executingForm: null,
   formsDone: false,
 
