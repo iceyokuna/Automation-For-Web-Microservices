@@ -19,8 +19,10 @@ class Admin(models.Model):
     
     #def __str__(self):
     #    return self.name
-
+'''
 class Collaborator(models.Model):
     workflow = models.ForeignKey(Workflow, related_name='project_col', on_delete=models.CASCADE)
-    Collaborator = models.ForeignKey(User, related_name='collaborator', on_delete=models.CASCADE)
-'''
+    collaborator = models.ForeignKey(User, related_name='collaborator', on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.workflow.name

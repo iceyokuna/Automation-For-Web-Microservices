@@ -26,7 +26,7 @@ class ServiceCallView(APIView):
                         status=HTTP_503_SERVICE_UNAVAILABLE)
 
     def post(self, request):
-        #header = request.header
+        header = request.headers
         data = json.loads(request.data.get("data"))
         service_id = request.data.get("service_id")
         method_id = request.data.get("method_id")
