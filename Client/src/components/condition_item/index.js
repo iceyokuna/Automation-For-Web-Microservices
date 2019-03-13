@@ -42,8 +42,8 @@ export default class ConditionItem extends Component {
     const { allVariables, allOperators, allBpmnNodes } = this.props
 
     return (
-      <Box direction="row" gap="small">
-        <Box>
+      <Box height="60px" flex={false}>
+        <Box direction="row" gap="small">
           <Select
             size="small"
             dropHeight="medium"
@@ -59,9 +59,7 @@ export default class ConditionItem extends Component {
               <Variable name={option.name} type={option.type} />
             )}
           </Select>
-        </Box>
 
-        <Box>
           <Select
             size="small"
             dropHeight="medium"
@@ -78,9 +76,7 @@ export default class ConditionItem extends Component {
             )}
 
           </Select>
-        </Box>
 
-        <Box>
           <Select
             size="small"
             dropHeight="medium"
@@ -97,16 +93,14 @@ export default class ConditionItem extends Component {
             )}
 
           </Select>
-        </Box>
 
-        <Box
-          pad="small"
-          justify="center"
-          align="center">
-          <FormNextLink />
-        </Box>
+          <Box
+            pad="small"
+            justify="center"
+            align="center">
+            <FormNextLink />
+          </Box>
 
-        <Box>
           <Select
             size="small"
             placeholder="Target Node"
@@ -122,8 +116,8 @@ export default class ConditionItem extends Component {
             )}
 
           </Select>
-        </Box>
-      </Box >
+        </Box >
+      </Box>
     )
   }
 }
