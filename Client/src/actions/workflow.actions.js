@@ -6,8 +6,9 @@ import { history } from '_helpers';
 export const workflowActions = {
   addNewForm,
   addNameToId,
-  addNewCollaborator,
+  addNewCollaborators,
   applyMethodToTask,
+  applyConditionsToGateWay,
   setExecutingForm,
   // getNextForm,
 
@@ -35,12 +36,6 @@ function addNewForm(form, taskId) {
   };
 }
 
-// function getNextForm() {
-//   return {
-//     type: workflowContants.SET_CURRENT_EXECUTING_FORM,
-//   };
-// }
-
 function addNameToId(name, value) {
   return {
     id: name,
@@ -54,6 +49,14 @@ function applyMethodToTask(taskId, method) {
     type: workflowContants.APPLY_METHOD_TO_TASK,
     taskId,
     method,
+  }
+}
+
+function applyConditionsToGateWay(gatewayId, conditions) {
+  return {
+    type: workflowContants.APPLY_CONDITIONS_TO_GATEWAY,
+    gatewayId,
+    conditions,
   }
 }
 
@@ -73,7 +76,7 @@ function setAppInfo(appName, appDescription, collaborators) {
   }
 }
 
-function addNewCollaborator(newCollaborators) {
+function addNewCollaborators(newCollaborators) {
   return {
     type: workflowContants.ADD_NEW_COLLABORATORS,
     newCollaborators,

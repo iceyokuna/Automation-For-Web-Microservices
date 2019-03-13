@@ -66,7 +66,7 @@ class BpmnContainer extends Component {
     selectedServiceMethod: null,
     showServiceRequirement: false,
     showParticipantSelector: false,
-    showConditionList: true,
+    showConditionList: false,
   };
 
   componentDidMount() {
@@ -107,9 +107,20 @@ class BpmnContainer extends Component {
     // Binding events
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
+      const currentElement = event.element.businessObject;
       this.setState({
-        currentElement: event.element.businessObject
+        currentElement: currentElement
       });
+
+      switch (currentElement.$type) {
+        case "bpmn:ExclusiveGateway": {
+          this.setState({
+            showConditionList: true
+          })
+        }
+        default:
+          break;
+      }
       console.log(event);
     })
 
@@ -229,7 +240,12 @@ class BpmnContainer extends Component {
   };
 
   handleCreate = () => {
+    const { currentElement } = this.state
+    const modeling = this.bpmnModeler.get('modeling');
+    const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
+    const sequenceFlowElement = elementRegistry.get(currentElement.id);
+    console.log(sequenceFlowElement);
   }
 
   handleSaveFile = () => {
@@ -320,7 +336,8 @@ class BpmnContainer extends Component {
       showServiceRequirement,
       showParticipantSelector,
       selectedServiceMethod,
-      showConditionList } = this.state
+      showConditionList,
+      currentElement } = this.state
     const { workflow, availableServices } = this.props;
 
     return (
@@ -374,7 +391,8 @@ class BpmnContainer extends Component {
 
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button color="accent-1" primary icon={<Upload size="small" />} label="Submit" onClick={this.onSubmitDiagram} />
+            <Button color="accent-1" primary icon={<Upload size="small" />}
+              label="Submit" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
 
@@ -391,6 +409,7 @@ class BpmnContainer extends Component {
 
         <ConditionList
           show={showConditionList}
+          gatewayElement={currentElement}
           onCloseConditionList={() => this.setState({ showConditionList: false })}
           variables={variables}
           operators={operators}

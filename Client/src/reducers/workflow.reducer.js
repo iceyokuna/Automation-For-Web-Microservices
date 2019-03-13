@@ -119,6 +119,13 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowContants.APPLY_CONDITIONS_TO_GATEWAY: {
+      const nextState = { ...state };
+      const { gatewayId, conditions } = action;
+      nextState.appliedConditions[gatewayId] = conditions;
+      return nextState;
+    }
+
     default:
       return state
   }

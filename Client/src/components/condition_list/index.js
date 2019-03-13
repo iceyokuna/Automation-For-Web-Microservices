@@ -4,9 +4,11 @@ import ConditionItem from 'components/condition_item'
 import { Box, Layer, Text, Button } from 'grommet'
 import { Add } from 'grommet-icons'
 
+import { connect } from 'react-redux'
+import { workflowActions } from 'actions';
 
 
-export default class ConditionList extends Component {
+class ConditionList extends Component {
 
   state = {
     conditions: [
@@ -48,14 +50,19 @@ export default class ConditionList extends Component {
   }
 
   applyConditions = () => {
-    
+    const { gatewayElement } = this.props;
+    const { conditions } = this.state;
+    this.props.dispatch(
+      workflowActions.applyConditionsToGateWay(
+        gatewayElement.id,
+        conditions)
+    );
   }
 
 
   changeCondition = (index, condition) => {
     const { conditions } = this.state;
     conditions[index] = condition;
-    console.log(conditions)
     this.setState({
       conditions: conditions
     })
@@ -108,3 +115,5 @@ export default class ConditionList extends Component {
     )
   }
 }
+
+export default connect()(ConditionList);
