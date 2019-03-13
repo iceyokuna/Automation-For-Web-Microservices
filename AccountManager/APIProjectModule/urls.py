@@ -4,15 +4,16 @@ from rest_framework import routers
 
 
 from APIProjectModule.views import WorkflowView, CollaboratorView
-routers = routers.DefaultRouter()
+#routers = routers.DefaultRouter()
 
 #routers.register('admin', views.AdminView)
 #routers.register('workflow', views.WorkflowView)
-routers.register('collaborator', CollaboratorView)
+#routers.register('collaborator/<int:workflow_id>', CollaboratorView.as_view())
 
 urlpatterns = [
     path('workflow', WorkflowView.as_view()),
-    #path('api/collaborator', CollaboratorView),
-    path('', include(routers.urls))
+    path('collaborator/<int:workflow_id>', CollaboratorView.as_view()),
+    path('collaborator/', CollaboratorView.as_view()),
+    #path('', include(routers.urls))
     
 ]
