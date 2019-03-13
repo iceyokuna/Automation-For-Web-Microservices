@@ -121,11 +121,6 @@ class BpmnContainer extends Component {
       });
 
       switch (currentElement.$type) {
-        case "bpmn:ExclusiveGateway": {
-          this.setState({
-            showConditionList: true
-          })
-        } break;
         case 'bpmn:Lane': {
           this.setState({
             showParticipantSelector: true,
@@ -379,6 +374,7 @@ class BpmnContainer extends Component {
           allServices={availableServices.data}
           currentElement={this.state.currentElement}
           onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
+          onShowConditions={() => this.setState({ showConditionList: true })}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
         <ZoomControls
           onZoomIn={this.handleZoomIn}

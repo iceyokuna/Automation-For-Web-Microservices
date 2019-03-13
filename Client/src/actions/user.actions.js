@@ -8,7 +8,7 @@ export const userActions = {
   logout,
   register,
   getAll,
-  delete: _delete
+  deleteUser
 };
 
 function login(username, password) {
@@ -93,7 +93,7 @@ function getAll() {
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
+function deleteUser(id) {
   return dispatch => {
     dispatch(request(id));
 
