@@ -111,26 +111,28 @@ class BpmnContainer extends Component {
       this.setState({
         currentElement: currentElement
       });
+      console.log(event);
+    })
+
+    eventBus.on('element.dblclick', (event) => {
+      const currentElement = event.element.businessObject;
+      this.setState({
+        currentElement: currentElement
+      });
 
       switch (currentElement.$type) {
         case "bpmn:ExclusiveGateway": {
           this.setState({
             showConditionList: true
           })
-        }
+        } break;
+        case 'bpmn:Lane': {
+          this.setState({
+            showParticipantSelector: true,
+          })
+        } break;
         default:
           break;
-      }
-      console.log(event);
-    })
-
-    eventBus.on('element.dblclick', (event) => {
-      const targetObject = event.element.businessObject;
-      if (targetObject.$type == 'bpmn:Lane') {
-        this.setState({
-          showParticipantSelector: true,
-          currentElement: event.element.businessObject,
-        })
       }
     })
   }

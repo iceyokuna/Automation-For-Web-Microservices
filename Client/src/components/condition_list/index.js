@@ -90,9 +90,11 @@ class ConditionList extends Component {
         onClickOutside={this.close}
         onEsc={this.close}
       >
-        <Box gap="small" pad="medium" width="800px">
+        <Box gap="small" pad="medium" width="800px" >
           <Text weight="bold" size="xlarge">Conditions for this gateway</Text>
-          {this.renderConditionItems()}
+          <Box height="300px" overflow={{ vertical: 'auto' }}>
+            {this.renderConditionItems()}
+          </Box>
 
           <Box direction="row" justify="end" gap="small">
             <Button
