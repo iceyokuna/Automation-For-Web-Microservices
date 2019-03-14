@@ -98,7 +98,7 @@ class BpmnProperty extends Component {
 
       case "bpmn:ExclusiveGateway": {
         return (
-          <GatewayProperty onShowConditions={this.props.onShowConditions} />
+          <GatewayProperty onShowConditions={onShowConditions} />
         );
       } break;
       default:

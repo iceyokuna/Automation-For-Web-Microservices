@@ -81,11 +81,18 @@ export default class ConditionItem extends Component {
             size="small"
             dropHeight="medium"
             placeholder="Variable 2"
-            value={variable2.name}
+            value={variable2.name || variable2}
             options={allVariables}
             onChange={({ option }) => {
               this.setState({ variable2: option },
                 () => this.onChangeCondition());
+            }}
+            onSearch={text => {
+              setTimeout(() => {
+                this.setState({
+                  variable2: text
+                });
+              }, 500);
             }}
           >
             {(option, index) => (

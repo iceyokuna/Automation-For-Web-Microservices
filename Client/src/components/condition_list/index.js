@@ -32,6 +32,11 @@ class ConditionList extends Component {
   }
 
 
+  componentDidMount = () => {
+    console.log(this.props.workflowConditions);
+  }
+  
+
   addMoreCondition = () => {
     const { conditions } = this.state;
     conditions.push({
@@ -118,4 +123,11 @@ class ConditionList extends Component {
   }
 }
 
-export default connect()(ConditionList);
+const mapStateToProps = (state) => {
+  return {
+    workflowConditions: state.workflowConditions,
+  }
+}
+
+
+export default connect(mapStateToProps)(ConditionList);
