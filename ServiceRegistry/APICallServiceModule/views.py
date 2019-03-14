@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
+
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
@@ -36,6 +36,8 @@ class ServiceCallView(APIView):
         response = service.call_method(method_id, data)
 
         return response
+
+
 #
         #return Response({'detail': "GET Methid not available for ServiceCall"},
         #                status=HTTP_503_SERVICE_UNAVAILABLE)

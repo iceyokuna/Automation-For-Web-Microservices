@@ -9,5 +9,6 @@ routers.register('methods', views.MethodView)
 routers.register('connecting_methods', views.ConnectingMethodView)
 
 urlpatterns = [
-    path('', include(routers.urls))
+    path('', include(routers.urls)),
+    path('api/lookup/', views.ServiceLookupView.as_view())
 ]
