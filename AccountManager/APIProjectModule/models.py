@@ -8,7 +8,9 @@ class Workflow(models.Model):
     name = models.CharField(max_length=200)
     workflow = JSONField(null=False)
     user = models.ForeignKey(User, to_field="username", db_column="username", related_name='project_user', on_delete=models.CASCADE)
-    
+    tasks = JSONField(null=True)
+    conditions = JSONField(null=True)
+
     def __str__(self):
         return self.name
 '''
@@ -20,6 +22,14 @@ class Admin(models.Model):
     #def __str__(self):
     #    return self.name
 '''
+
+class Task(models.Model):
+    workflow = models.ForeignKey(Workflow, related_name='project_task', on_delete=models.CASCADE)
+
+class Condition(models.Model):
+    workflow = models.ForeignKey(Workflow, related_name='project_condition', on_delete=models.CASCADE)
+    condition = models.TextField(null=True) #what columns do you want to add?
+
 class Collaborator(models.Model):
     workflow = models.ForeignKey(Workflow, related_name='project_col', on_delete=models.CASCADE)
     collaborator = models.ForeignKey(User, related_name='collaborator', on_delete=models.CASCADE)
