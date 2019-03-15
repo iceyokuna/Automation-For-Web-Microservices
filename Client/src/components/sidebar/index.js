@@ -13,9 +13,21 @@ const iconColor = "#ffffff";
 
 export default class SideBar extends Component {
 
+  state = {
+    activeIndex: 0,
+  }
+
+  handleSelectMenu = (pathName, selectedIndex) => {
+    this.props.onSelectMenu(pathName);
+    this.setState({
+      activeIndex: selectedIndex
+    });
+  }
+
+
   render() {
     const { showMenuBar, history, location } = this.props;
-
+    const { activeIndex } = this.state;
     if (location.pathname === '/my_flows/create_form') return null;
     return (
       <Transition
@@ -35,19 +47,22 @@ export default class SideBar extends Component {
                 gap="small">
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    onClick={() => this.props.onSelectMenu('/my_flows')}
+                    background={activeIndex == 0 ? "light-4" : "dark-1"}
+                    onClick={() => this.handleSelectMenu('/my_flows', 0)}
                     icon={<Sort color={iconColor} />}
                     label="My Flows" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    onClick={() => this.props.onSelectMenu('/my_team')}
+                    background={activeIndex == 1 ? "light-4" : "dark-1"}
+                    onClick={() => this.handleSelectMenu('/my_team', 1)}
                     icon={<Group color={iconColor} />}
                     label="My Team" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    onClick={() => this.props.onSelectMenu('/setting')}
+                    background={activeIndex == 2 ? "light-4" : "dark-1"}
+                    onClick={() => this.handleSelectMenu('/setting', 2)}
                     icon={<Performance color={iconColor} />}
                     label="Setting" />
                 </Box>

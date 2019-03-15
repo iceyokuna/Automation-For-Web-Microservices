@@ -13,20 +13,15 @@ import { global } from 'style';
 
 import FlowItem from 'components/flow_item'
 
+import { myFlows } from './mockup'
+
 export default class MyFlow extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       activeTabIndex: 0,
-      myFlows: [
-        { title: 'IC Meeting', description: 'Application for helping reserve meeting date of my company', owner: 'Me', status: 'Active' },
-        { title: 'IC Meeting', description: 'Application for helping reserve meeting date of my company', owner: 'Me', status: 'Active' },
-        { title: 'IC Meeting', description: 'Application for helping reserve meeting date of my company', owner: 'Me', status: 'Active' },
-        { title: 'IC Meeting', description: 'Application for helping reserve meeting date of my company', owner: 'Me', status: 'Active' },
-        { title: 'IC Meeting', description: 'Application for helping reserve meeting date of my company', owner: 'Me', status: 'Active' },
-        { title: 'IC Meeting', description: 'Application for helping reserve meeting date of my company', owner: 'Me', status: 'Active' },
-      ],
+      myFlows: myFlows,
     }
   }
 

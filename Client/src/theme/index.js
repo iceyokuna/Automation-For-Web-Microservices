@@ -23,6 +23,7 @@ export default {
       "light-1": "#F2F2F2",
       "light-2": "#E8E8E8",
       "light-3": "#CCCCCC",
+      "light-4": "#6E7174",
     },
     "font": {
       "family": "'HPSimplified', Arial, sans-serif",
