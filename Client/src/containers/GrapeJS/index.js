@@ -54,7 +54,7 @@ export default class GrapeJSWrapper extends Component {
       indentWithTabs: true
     });
 
-    btnEdit.innerHTML = 'Edit';
+    btnEdit.innerHTML = 'Save';
     btnEdit.className = pfx + 'btn-prim ' + pfx + 'btn-import';
     btnEdit.onclick = function () {
       var code = codeViewer.editor.getValue();
@@ -88,7 +88,7 @@ export default class GrapeJSWrapper extends Component {
     pnm.addButton('options',
       [
         {
-          id: 'Save',
+          id: 'edit',
           className: 'fa fa-edit',
           command: 'html-edit',
           attributes: {
