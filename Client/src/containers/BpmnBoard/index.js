@@ -27,7 +27,7 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload } from 'grommet-icons'
+import { Upload, UserAdd } from 'grommet-icons'
 
 import styled from 'styled-components'
 
@@ -41,6 +41,12 @@ const NextButtonWrapper = styled.div`
   position: absolute;
   top: 10px;
   right: 340px;
+`
+
+const InviteButton = styled(Button)`
+position: absolute;
+top: 22px;
+right: 494px;
 `
 
 let scale = 1;
@@ -263,6 +269,11 @@ class BpmnContainer extends Component {
     })
   }
 
+  onInvite = () => {
+    alert('Invite');
+  }
+  
+
   onSubmitDiagram = () => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
@@ -393,6 +404,9 @@ class BpmnContainer extends Component {
               label="Submit" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
+
+        <InviteButton color="accent-3"
+          primary label="Invite" icon={<UserAdd />} onClick={this.onInvite} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
