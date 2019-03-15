@@ -19,6 +19,6 @@ from APICallServiceModule.views import ServiceCallView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('APIModule.urls')),
-    path('call_service', ServiceCallView.as_view())
+    path('api/', include('APIModule.urls')),
+    path('api/call_service/', ServiceCallView.as_view())
 ]
