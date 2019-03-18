@@ -21,7 +21,7 @@ function login(username, password) {
           const token = res.data.token;
           if (token) { localStorage.setItem('user', token); }
           dispatch(success(token));
-          history.push('/my_flows');
+          history.push('/home/my_flows');
         },
         error => {
           dispatch(failure(error.toString()));

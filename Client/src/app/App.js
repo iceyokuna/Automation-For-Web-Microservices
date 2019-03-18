@@ -6,7 +6,7 @@ import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css"
 import React from 'react';
 
 import {
-  Home, Login, Register, ResetPassword,
+  Home, MyFlowsGroup, Login, Register, ResetPassword,
   NotFound, ModelWorkflow, Test, ExecuteFlow
 } from 'pages'
 
@@ -25,7 +25,7 @@ const App = () => (
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Switch>
-          <PrivateRoute path="/my_tasks" component={Home} />
+          <PrivateRoute path="/home" component={Home} />
           <Route exact path="/" component={Login} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />

@@ -10,6 +10,7 @@ const sideBarWidth = 200;
 const appBarHeight = 60;
 
 const iconColor = "#ffffff";
+const prefix = "/home";
 
 export default class SideBar extends Component {
 
@@ -18,7 +19,8 @@ export default class SideBar extends Component {
   }
 
   handleSelectMenu = (pathName, selectedIndex) => {
-    this.props.onSelectMenu(pathName);
+    const { match } = this.props;
+    this.props.onSelectMenu(match.url + pathName);
     this.setState({
       activeIndex: selectedIndex
     });

@@ -26,7 +26,8 @@ export default class MyFlow extends Component {
   }
 
   onCreateFlow = () => {
-    this.props.history.push('my_flows/create/add_information');
+    const { match } = this.props
+    this.props.history.push(match.url + '/create/add_information');
 
   }
 
