@@ -34,10 +34,10 @@ export default class SideBar extends Component {
     return (
       <Transition
         items={showMenuBar}
-        from={{ width: 0, opacity: 0 }}
-        enter={{ width: sideBarWidth, opacity: 1 }}
-        leave={{ width: 0, opacity: 0 }}
-        config={config.wobbly}>
+        from={{ transform: `translateX(-${sideBarWidth}px)` }}
+        enter={{ transform: `translateX(0px)` }}
+        leave={{ transform: `translateX(-${sideBarWidth}px)` }}
+      >
         {toggle =>
           toggle
             ? props =>
