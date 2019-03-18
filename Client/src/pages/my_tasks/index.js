@@ -9,10 +9,12 @@ import { Add } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
-export default class MyTasks extends Component {
+import TaskItemInbox from 'components/task_item_inbox';
 
+export default class MyTasks extends Component {
   renderTasks = () => {
-    
+
+    return ([<TaskItemInbox />, <TaskItemInbox />]);
   }
 
 
@@ -35,10 +37,9 @@ export default class MyTasks extends Component {
           </Row>
         </Box>
 
-        <Row >
+        <Box direction="column" gap="small">
           {this.renderTasks()}
-        </Row>
-
+        </Box>
 
       </div>
     )
