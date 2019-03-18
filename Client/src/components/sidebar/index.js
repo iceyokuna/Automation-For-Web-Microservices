@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { Box } from 'grommet';
-import { Group, Sort, Performance } from 'grommet-icons';
+import { Group, Sort, Performance, Task } from 'grommet-icons';
 
 import { Transition, config } from 'react-spring'
 import PlainButton from 'components/plain_button'
@@ -48,21 +48,28 @@ export default class SideBar extends Component {
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
                     background={activeIndex == 0 ? "light-4" : "dark-1"}
-                    onClick={() => this.handleSelectMenu('/my_flows', 0)}
+                    onClick={() => this.handleSelectMenu('/my_tasks', 0)}
+                    icon={<Task color={iconColor} />}
+                    label="My Tasks" />
+                </Box>
+                <Box fill="horizontal">
+                  <PlainButton hoverIndicator
+                    background={activeIndex == 1 ? "light-4" : "dark-1"}
+                    onClick={() => this.handleSelectMenu('/my_flows', 1)}
                     icon={<Sort color={iconColor} />}
                     label="My Flows" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    background={activeIndex == 1 ? "light-4" : "dark-1"}
-                    onClick={() => this.handleSelectMenu('/my_team', 1)}
+                    background={activeIndex == 2 ? "light-4" : "dark-1"}
+                    onClick={() => this.handleSelectMenu('/my_team', 2)}
                     icon={<Group color={iconColor} />}
                     label="My Team" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    background={activeIndex == 2 ? "light-4" : "dark-1"}
-                    onClick={() => this.handleSelectMenu('/setting', 2)}
+                    background={activeIndex == 3 ? "light-4" : "dark-1"}
+                    onClick={() => this.handleSelectMenu('/setting', 3)}
                     icon={<Performance color={iconColor} />}
                     label="Setting" />
                 </Box>

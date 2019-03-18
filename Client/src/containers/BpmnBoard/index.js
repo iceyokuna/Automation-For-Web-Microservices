@@ -46,7 +46,7 @@ const NextButtonWrapper = styled.div`
 const InviteButton = styled(Button)`
 position: absolute;
 top: 22px;
-right: 494px;
+right: 505px;
 `
 
 let scale = 1;
@@ -272,7 +272,7 @@ class BpmnContainer extends Component {
   onInvite = () => {
     alert('Invite');
   }
-  
+
 
   onSubmitDiagram = () => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
@@ -400,7 +400,7 @@ class BpmnContainer extends Component {
 
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button color="accent-1" primary icon={<Upload size="small" />}
+            <Button color="accent-1" primary icon={<Upload />}
               label="Submit" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>

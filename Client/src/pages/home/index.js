@@ -15,6 +15,7 @@ import NotFound from 'pages/not_found'
 import MyFlows from 'pages/my_flows';
 import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
+import MyTasks from 'pages/my_tasks'
 
 import { Route, Switch } from 'react-router-dom'
 
@@ -41,7 +42,8 @@ export default class Home extends Component {
                   onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
                 <div style={global.globalContainer}>
                   <Switch>
-                    <Route exact path={match.url} component={MyFlows} />
+                    <Route exact path={match.url} component={MyTasks} />
+                    <Route exact path={match.url + "/my_flows"} component={MyFlows} />
                     <Route path={match.url + "/create"} component={CreateFlow} />
                     <Route path={match.url + "/:flow_id/edit_diagram"} component={Workflow} />
                     <Route path={match.url + "/:flow_id"} component={FlowDetail} />
