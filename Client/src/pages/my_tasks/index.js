@@ -11,6 +11,11 @@ import { global } from 'style';
 
 export default class MyTasks extends Component {
 
+  renderTasks = () => {
+    
+  }
+
+
   render() {
     return (
       <div style={global.mainContainer}>
@@ -31,7 +36,7 @@ export default class MyTasks extends Component {
         </Box>
 
         <Row >
-          {/* {this.renderFlows()} */}
+          {this.renderTasks()}
         </Row>
 
 

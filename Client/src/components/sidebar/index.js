@@ -49,28 +49,32 @@ export default class SideBar extends Component {
                 gap="small">
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    background={activeIndex == 0 ? "light-4" : "dark-1"}
+                    color="light-0"
+                    background={activeIndex == 0 ? "light-4" : "default"}
                     onClick={() => this.handleSelectMenu('/my_tasks', 0)}
                     icon={<Task color={iconColor} />}
                     label="My Tasks" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    background={activeIndex == 1 ? "light-4" : "dark-1"}
+                    color="light-0"
+                    background={activeIndex == 1 ? "light-4" : "default"}
                     onClick={() => this.handleSelectMenu('/my_flows', 1)}
                     icon={<Sort color={iconColor} />}
                     label="My Flows" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    background={activeIndex == 2 ? "light-4" : "dark-1"}
+                    color="light-0"
+                    background={activeIndex == 2 ? "light-4" : "default"}
                     onClick={() => this.handleSelectMenu('/my_team', 2)}
                     icon={<Group color={iconColor} />}
                     label="My Team" />
                 </Box>
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator
-                    background={activeIndex == 3 ? "light-4" : "dark-1"}
+                    color="light-0"
+                    background={activeIndex == 3 ? "light-4" : "default"}
                     onClick={() => this.handleSelectMenu('/setting', 3)}
                     icon={<Performance color={iconColor} />}
                     label="Setting" />
