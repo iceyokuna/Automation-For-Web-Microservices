@@ -13,6 +13,8 @@ import TaskItemInbox from 'components/task_item_inbox';
 
 import axios from 'axios';
 
+import moment from 'moment'
+
 export default class MyTasks extends Component {
 
   state = {
@@ -46,6 +48,7 @@ export default class MyTasks extends Component {
         isEven={index % 2 == 0}
         actionType={item.actionType}
         actionDescription={item.actionDescription}
+        createdAt={moment(item.createdAt).format('lll')}
         onApprove={() => this.onApproveTask(item)}
         onReject={() => this.onRejectTask(item)} />);
   }
@@ -78,7 +81,7 @@ export default class MyTasks extends Component {
             <Box style={{ flex: 6 }}>
               <Text textAlign="center" weight="bold">Action</Text>
             </Box>
-            <Box style={{ flex: 1 }}>
+            <Box style={{ flex: 3 }}>
               <Text textAlign="center" weight="bold">Date</Text>
             </Box>
           </Box>
