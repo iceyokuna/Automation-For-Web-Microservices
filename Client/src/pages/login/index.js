@@ -8,11 +8,8 @@ import { connect } from 'react-redux'
 import { userActions } from 'actions';
 
 import { styles } from './style'
-import appTheme from 'theme';
-
-import Loader from 'react-loader-spinner'
-
-const colors = appTheme.global.colors;
+import { colors } from 'theme';
+import Spinner from 'react-spinkit'
 
 class Login extends Component {
   constructor(props) {
@@ -52,11 +49,9 @@ class Login extends Component {
     if (this.props.loggingIn) {
       return (
         <Box align="center" pad='small'>
-          <Loader
-            type="Oval"
-            color={colors.brand}
-            height="50"
-            width="50" />
+          <Spinner
+            fadeIn="quarter"
+            name="line-scale" color={colors.brand} />
         </Box>
       )
     } else {
