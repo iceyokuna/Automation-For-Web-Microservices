@@ -74,8 +74,8 @@ export default class MyTasks extends Component {
         </Box>
 
         <Box direction="column" gap="small">
-          <Box direction="row" align="center">
-            <Box style={{ flex: 2 }}>
+          <Box direction="row" align="center" margin={{horizontal: 'medium'}}>
+            <Box style={{ flex: 3 }}>
               <Text textAlign="center" weight="bold">Workflow</Text>
             </Box>
             <Box style={{ flex: 6 }}>

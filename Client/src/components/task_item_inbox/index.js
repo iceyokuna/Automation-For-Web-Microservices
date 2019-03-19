@@ -5,9 +5,9 @@ import { Checkmark, Close } from 'grommet-icons'
 
 const index = ({ onApprove, onReject, isEven, ...props }) => {
   return (
-    <Box round={{ size: "small" }} direction="row"
+    <Box round={{ size: "small" }} direction="row" margin={{horizontal: 'medium'}}
       background={isEven === true ? "light-0" : "#FFEBEB"} pad="xsmall" height="40px">
-      <Box style={{ flex: 2 }} align="center" justify="center">
+      <Box style={{ flex: 3 }} align="center" justify="center">
         <Text weight="bold" truncate>{props.workflowName}</Text>
       </Box>
       <Box style={{ flex: 6 }} align="center" justify="start" direction="row" gap="small">
