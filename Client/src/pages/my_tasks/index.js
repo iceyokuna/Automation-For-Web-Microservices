@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import {
   Box, Button,
-  Heading,
+  Heading, Text
 } from 'grommet';
 
 import { Add } from 'grommet-icons';
@@ -11,10 +11,43 @@ import { global } from 'style';
 
 import TaskItemInbox from 'components/task_item_inbox';
 
-export default class MyTasks extends Component {
-  renderTasks = () => {
+import axios from 'axios';
 
-    return ([<TaskItemInbox />, <TaskItemInbox />]);
+export default class MyTasks extends Component {
+
+  state = {
+    myTasks: [],
+  }
+
+  componentDidMount = () => {
+    axios.get('https://5c8f65998447f30014cb826b.mockapi.io/api/endUserTasks').
+      then(res => {
+        this.setState({
+          myTasks: res.data
+        })
+      }).catch(err => {
+        console.error(err);
+      })
+  }
+
+  onApproveTask = (item) => {
+
+  }
+
+  onRejectTask = (item) => {
+
+  }
+
+  renderTasks = () => {
+    const { myTasks } = this.state;
+
+    return myTasks.map((item, index) =>
+      <TaskItemInbox workflowName={item.workflowName}
+        isEven={index % 2 == 0}
+        actionType={item.actionType}
+        actionDescription={item.actionDescription}
+        onApprove={() => this.onApproveTask(item)}
+        onReject={() => this.onRejectTask(item)} />);
   }
 
 
@@ -38,6 +71,17 @@ export default class MyTasks extends Component {
         </Box>
 
         <Box direction="column" gap="small">
+          <Box direction="row" align="center">
+            <Box style={{ flex: 2 }}>
+              <Text textAlign="center" weight="bold">Workflow</Text>
+            </Box>
+            <Box style={{ flex: 6 }}>
+              <Text textAlign="center" weight="bold">Action</Text>
+            </Box>
+            <Box style={{ flex: 1 }}>
+              <Text textAlign="center" weight="bold">Date</Text>
+            </Box>
+          </Box>
           {this.renderTasks()}
         </Box>
 
