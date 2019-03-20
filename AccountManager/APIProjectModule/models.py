@@ -8,8 +8,8 @@ class Workflow(models.Model):
     name = models.CharField(max_length=200)
     workflow = JSONField(null=False)
     user = models.ForeignKey(User, to_field="username", db_column="username", related_name='project_user', on_delete=models.CASCADE)
-    tasks = JSONField(null=True)
-    conditions = JSONField(null=True)
+    appliedMethod = JSONField(null=True)
+    appliedConditions = JSONField(null=True)
 
     def __str__(self):
         return self.name
