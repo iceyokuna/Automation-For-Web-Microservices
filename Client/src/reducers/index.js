@@ -8,6 +8,7 @@ import { workflow } from './workflow.reducer';
 import { workflowConditions } from './workflow.conditions.reducer';
 import { socket } from './socket.reducer';
 import { availableServices } from './available_services.reducer'
+import { inboxTasks } from './inbox_tasks.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   workflow,
   workflowConditions,
   socket,
-  availableServices
+  availableServices,
+  inboxTasks,
 });
 
 export default rootReducer;

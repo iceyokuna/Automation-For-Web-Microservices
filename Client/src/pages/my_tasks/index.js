@@ -11,25 +11,23 @@ import { global } from 'style';
 
 import TaskItemInbox from 'components/task_item_inbox';
 
-import axios from 'axios';
-
 import moment from 'moment'
 
-export default class MyTasks extends Component {
+import { connect } from 'react-redux'
+
+import { inboxTasksActions } from 'actions'
+import Spinner from 'react-spinkit'
+
+import { colors } from 'theme';
+
+class MyTasks extends Component {
 
   state = {
     myTasks: [],
   }
 
   componentDidMount = () => {
-    axios.get('https://5c8f65998447f30014cb826b.mockapi.io/api/endUserTasks').
-      then(res => {
-        this.setState({
-          myTasks: res.data
-        })
-      }).catch(err => {
-        console.error(err);
-      })
+    this.props.dispatch(inboxTasksActions.getAllInboxTasks());
   }
 
   onApproveTask = (item) => {
@@ -41,9 +39,17 @@ export default class MyTasks extends Component {
   }
 
   renderTasks = () => {
-    const { myTasks } = this.state;
-
-    return myTasks.map((item, index) =>
+    const { inboxTasks } = this.props;
+    if (inboxTasks.isLoading) {
+      return (
+        <Box justify="center" align="center" pad={{ top: "medium" }}>
+          <Spinner
+            fadeIn="quarter"
+            name="line-scale"
+            color={colors.brand} />
+        </Box>);
+    }
+    return inboxTasks.data.map((item, index) =>
       <TaskItemInbox workflowName={item.workflowName}
         isEven={index % 2 == 0}
         actionType={item.actionType}
@@ -74,12 +80,12 @@ export default class MyTasks extends Component {
         </Box>
 
         <Box direction="column" gap="small">
-          <Box direction="row" align="center" margin={{horizontal: 'medium'}}>
+          <Box direction="row" align="center" margin={{ horizontal: 'medium' }}>
             <Box style={{ flex: 3 }}>
               <Text textAlign="center" weight="bold">Workflow</Text>
             </Box>
             <Box style={{ flex: 6 }}>
-              <Text textAlign="center" weight="bold">Action</Text>
+              <Text textAlign="center" weight="bold" >Action</Text>
             </Box>
             <Box style={{ flex: 3 }}>
               <Text textAlign="center" weight="bold">Date</Text>
@@ -92,3 +98,11 @@ export default class MyTasks extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    inboxTasks: state.inboxTasks,
+  }
+}
+
+export default connect(mapStateToProps)(MyTasks);
