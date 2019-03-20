@@ -38,6 +38,15 @@ class MyTasks extends Component {
 
   }
 
+
+  onClickTask = () => {
+    const { match, history } = this.props;
+
+    history.push(match.url + "/task#2232");
+  }
+
+
+
   renderTasks = () => {
     const { inboxTasks } = this.props;
     if (inboxTasks.isLoading) {
@@ -55,6 +64,7 @@ class MyTasks extends Component {
         actionType={item.actionType}
         actionDescription={item.actionDescription}
         createdAt={moment(item.createdAt).format('lll')}
+        onClick={this.onClickTask}
         onApprove={() => this.onApproveTask(item)}
         onReject={() => this.onRejectTask(item)} />);
   }
@@ -68,12 +78,6 @@ class MyTasks extends Component {
             <Col lg={8} sm={8} xs={12}>
               <Box direction="row" align="center">
                 <Heading size='small' margin={{ right: 'medium' }}>My Tasks</Heading>
-              </Box>
-            </Col>
-
-            <Col lg={4} sm={4} xs={12}>
-              <Box direction="row" align="center" fill justify="end">
-                <Button label="New Flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
               </Box>
             </Col>
           </Row>

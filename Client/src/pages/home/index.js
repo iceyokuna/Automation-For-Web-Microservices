@@ -16,6 +16,7 @@ import MyFlows from 'pages/my_flows';
 import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
 import MyTasks from 'pages/my_tasks'
+import InboxTaskDetail from 'pages/inbox_task_detail'
 
 import { Route, Switch } from 'react-router-dom'
 
@@ -46,7 +47,7 @@ export default class Home extends Component {
       <div style={global.globalContainer}>
         <Switch>
           <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
-          <Route path={match.url + "/my_tasks/:taskId"} component={MyTasks} />
+          <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
 
 
           <Route exact path={match.url + "/my_flows"} component={MyFlows} />
