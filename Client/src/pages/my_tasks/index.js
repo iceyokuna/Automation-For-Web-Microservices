@@ -95,7 +95,10 @@ class MyTasks extends Component {
               <Text textAlign="center" weight="bold">Date</Text>
             </Box>
           </Box>
-          {this.renderTasks()}
+
+          <Box pad={{ bottom: 'large' }}>
+            {this.renderTasks()}
+          </Box>
         </Box>
 
       </div>

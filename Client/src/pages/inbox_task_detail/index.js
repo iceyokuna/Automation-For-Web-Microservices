@@ -87,8 +87,6 @@ class InboxTaskDetail extends Component {
               <Text weight="bold">Submitted Form</Text>
               <Style css={submittedForm.css} />
               <div dangerouslySetInnerHTML={{ __html: submittedForm.html }} />
-              <div dangerouslySetInnerHTML={{ __html: submittedForm.html }} />
-              <div dangerouslySetInnerHTML={{ __html: submittedForm.html }} />
               <TextArea value={this.state.comment} />
               <Box direction="row" justify="end" gap="xsmall">
                 <Button label="Approve" color="accent-1"
