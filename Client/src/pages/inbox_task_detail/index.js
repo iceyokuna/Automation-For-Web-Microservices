@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import {
   Box, Button,
-  Heading, Text
+  Heading, Text, TextArea
 } from 'grommet';
 
 import { Row, Col } from 'react-flexbox-grid'
@@ -18,18 +18,27 @@ import Spinner from 'react-spinkit'
 
 import { colors } from 'theme';
 
+import { UniversalStyle as Style } from 'react-css-component'
+
+import { Checkmark, Close } from 'grommet-icons';
+
+
 class InboxTaskDetail extends Component {
+
+  state = {
+    comment: ''
+  }
 
   componentDidMount = () => {
     this.props.dispatch(inboxTasksActions.getAllInboxTasks());
   }
 
 
-  onApproveTask = (item) => {
+  onApproveTask = () => {
 
   }
 
-  onRejectTask = (item) => {
+  onRejectTask = () => {
 
   }
 
@@ -49,13 +58,12 @@ class InboxTaskDetail extends Component {
     if (inboxTasks.data.length > 0) {
 
       const { workflowName, fromUsername, createdAt,
-        actionType, actionDescription } = inboxTasks.data[0];
+        actionType, actionDescription, submittedForm } = inboxTasks.data[0];
 
       return (
         <Row>
-
           <Col xs={12} sm={12} lg={5}>
-            <Box round={{ size: 'small' }} pad="small"
+            <Box round={{ size: 'small' }} pad="medium"
               gap="small" background="light-0" margin="xsmall">
               <Text weight="bold" size="medium">{workflowName}</Text>
               <Box direction="row" justify="between">
@@ -67,14 +75,27 @@ class InboxTaskDetail extends Component {
                   {moment(createdAt).format('LT')}
                 </Text>
               </Box>
+              <Box border={{ side: "bottom", size: "small" }} />
               <Text weight="bold">{`[${actionType}]`}</Text>
               <Text>{actionDescription}</Text>
             </Box>
           </Col>
 
           <Col xs={12} sm={12} lg={7}  >
-            <Box round={{ size: 'small' }} pad="small"
+            <Box round={{ size: 'small' }} pad="medium"
               margin="xsmall" gap="small" background="light-0">
+              <Text weight="bold">Submitted Form</Text>
+              <Style css={submittedForm.css} />
+              <div dangerouslySetInnerHTML={{ __html: submittedForm.html }} />
+              <div dangerouslySetInnerHTML={{ __html: submittedForm.html }} />
+              <div dangerouslySetInnerHTML={{ __html: submittedForm.html }} />
+              <TextArea value={this.state.comment} />
+              <Box direction="row" justify="end" gap="xsmall">
+                <Button label="Approve" color="accent-1"
+                  icon={<Checkmark />} primary onClick={this.onApproveTask} />
+                <Button label="Reject" color="accent-1"
+                  icon={<Close />} onClick={this.onRejectTask} />
+              </Box>
             </Box>
           </Col>
 
@@ -92,7 +113,9 @@ class InboxTaskDetail extends Component {
             <Heading size='small' margin={{ right: 'medium' }}>My Tasks</Heading>
           </Box>
         </Box>
-        {this.renderInformation()}
+        <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
+          {this.renderInformation()}
+        </Box>
       </div >
     )
   }
