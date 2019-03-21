@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 const index = ({ onApprove, onReject, onClick, isEven, ...props }) => {
   return (
     <Box round={{ size: "small" }} direction="row" margin={{ horizontal: 'medium' }}
-      background={isEven === true ? "light-0" : "#FFEBEB"} pad="xsmall" height="40px">
+      background={isEven === true ? "light-0" : "#FFFDEA"} pad="xsmall" height="40px">
       <Box style={{ flex: 3 }} align="center" justify="center">
 
         <Button onClick={onClick}>

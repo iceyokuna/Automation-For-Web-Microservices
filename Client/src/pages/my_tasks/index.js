@@ -96,7 +96,7 @@ class MyTasks extends Component {
             </Box>
           </Box>
 
-          <Box pad={{ bottom: 'large' }}>
+          <Box pad={{ bottom: 'large' }} gap="xsmall">
             {this.renderTasks()}
           </Box>
         </Box>
