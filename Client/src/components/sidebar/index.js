@@ -3,19 +3,19 @@ import React, { Component } from 'react'
 import { Box } from 'grommet';
 import { Group, Sort, Performance, Task } from 'grommet-icons';
 
-import { Transition, config } from 'react-spring'
+import { Transition } from 'react-spring'
 import PlainButton from 'components/plain_button'
 
 const sideBarWidth = 200;
 const appBarHeight = 60;
 
 const iconColor = "#ffffff";
-const prefix = "/home";
+const menus = ["my_tasks", "my_flows", "my_team", "setting"];
 
 export default class SideBar extends Component {
 
   state = {
-    activeIndex: 0,
+    activeIndex: null,
   }
 
   handleSelectMenu = (pathName, selectedIndex) => {
@@ -25,6 +25,20 @@ export default class SideBar extends Component {
       activeIndex: selectedIndex
     });
   }
+
+  componentDidMount = () => {
+    const { location } = this.props;
+    const partialUrl = location.pathname.split("/");
+    const current = partialUrl[2];
+
+    for (let index in menus) {
+      if (menus[index] == current) {
+        this.setState({ activeIndex: index });
+        break;
+      }
+    }
+  }
+
 
 
   render() {
