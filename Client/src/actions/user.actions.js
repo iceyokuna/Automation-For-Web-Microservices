@@ -8,7 +8,7 @@ export const userActions = {
   logout,
   register,
   getAll,
-  delete: _delete
+  deleteUser
 };
 
 function login(username, password) {
@@ -21,7 +21,7 @@ function login(username, password) {
           const token = res.data.token;
           if (token) { localStorage.setItem('user', token); }
           dispatch(success(token));
-          history.push('/my_flows');
+          history.push('/home/my_tasks');
         },
         error => {
           dispatch(failure(error.toString()));
@@ -34,7 +34,7 @@ function login(username, password) {
     //   const token = 1234788989
     //   localStorage.setItem('user', token);
     //   dispatch(success(token));
-    //   history.push('/my_flows');
+    //   history.push('/home/my_flows');
     // }, 500)
 
   };
@@ -93,7 +93,7 @@ function getAll() {
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
+function deleteUser(id) {
   return dispatch => {
     dispatch(request(id));
 

@@ -20,9 +20,8 @@ const defaultState = {
   // generatedForms: [
 
   // ],
-  appliedMethods: {
-
-  },
+  appliedMethods: {},
+  appliedConditions: {},
   executingForm: null,
   formsDone: false,
 
@@ -49,9 +48,13 @@ const defaultState = {
   }
 }
 
-
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+    case workflowContants.ADD_NEW_COLLABORATORS: {
+      const nextState = { ...state };
+      nextState.collaborators = [...state.collaborators, ...action.newCollaborators]
+      return nextState;
+    }
 
     case workflowContants.SEND_WORKFLOW_DATA_REQUEST: {
       const nextState = { ...state };

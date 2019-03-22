@@ -16,7 +16,7 @@ import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
 import CollaboratorItem from 'components/collaborator_item'
-import TaskItem from 'components/taskItem'
+import TaskItem from 'components/task_item'
 
 import moment from 'moment'
 

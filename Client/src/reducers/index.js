@@ -5,8 +5,10 @@ import { registration } from './registration.reducer';
 import { users } from './users.reducer';
 import { alert } from './alert.reducer';
 import { workflow } from './workflow.reducer';
+import { workflowConditions } from './workflow.conditions.reducer';
 import { socket } from './socket.reducer';
 import { availableServices } from './available_services.reducer'
+import { inboxTasks } from './inbox_tasks.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -14,8 +16,10 @@ const rootReducer = combineReducers({
   users,
   alert,
   workflow,
+  workflowConditions,
   socket,
-  availableServices
+  availableServices,
+  inboxTasks,
 });
 
 export default rootReducer;

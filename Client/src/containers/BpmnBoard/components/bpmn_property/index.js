@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import { services } from './mockup_service_data'
 
 import TaskProperty from './task_property'
+import GatewayProperty from './gateway_property'
 
 import { connect } from 'react-redux'
 
@@ -84,7 +85,7 @@ class BpmnProperty extends Component {
 
   renderSpecialProperties() {
     const { nodeType, isAsyncTask } = this.state;
-    const { allServices, onSelectServiceMethod } = this.props;
+    const { allServices, onSelectServiceMethod, onShowConditions } = this.props;
     const services = allServices.length == 0 ? services : allServices;
 
     switch (nodeType) {
@@ -93,7 +94,13 @@ class BpmnProperty extends Component {
           <TaskProperty services={services}
             onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
         )
-      }
+      } break;
+
+      case "bpmn:ExclusiveGateway": {
+        return (
+          <GatewayProperty onShowConditions={onShowConditions} />
+        );
+      } break;
       default:
         break;
     }
