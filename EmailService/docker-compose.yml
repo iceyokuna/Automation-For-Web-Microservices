@@ -8,3 +8,10 @@ services:
       - .:/code
     ports:
       - "8005:8000"
+  web2:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8001
+    volumes:
+      - .:/code2
+    ports:
+      - "8006:8001"
