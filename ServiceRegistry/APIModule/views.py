@@ -19,7 +19,8 @@ class MethodView(viewsets.ModelViewSet):
     serializer_class = MethodSerializer
 
 class ConnectingMethodView(viewsets.ModelViewSet):
-    queryset = Connecting_method.objects.all()
+   
+    queryset = Connecting_method.objects.all()#filter(method__id = m_id).values()
     serializer_class = ConnectingMethodSerializer
 
 class AllServicesView(viewsets.ModelViewSet):
