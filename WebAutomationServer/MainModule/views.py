@@ -47,6 +47,8 @@ def saveFlow(request):
         pickle.dump(workflowEngine, f)
 
     print("------saved workflow object successfully--------")
+    #print all finite state machine defination
+    workflowEngine.showDefination()
     msg = {}
     msg['message'] = 'done'
     return HttpResponse(json.dumps(msg),content_type= "application/json")
