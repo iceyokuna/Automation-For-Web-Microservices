@@ -4,4 +4,5 @@ export const globalConstants = {
   USER_LOGOUT_URL: 'http://178.128.214.101:8003/api/logout',
 
   GET_ALL_SERVICES_URL: 'http://178.128.214.101:8004/all_services/',
+  GET_ALL_INBOX_TASKS_URL: 'https://5c8f65998447f30014cb826b.mockapi.io/api/endUserTasks',
 };

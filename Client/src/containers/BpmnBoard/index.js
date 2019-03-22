@@ -27,7 +27,7 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload } from 'grommet-icons'
+import { Upload, UserAdd } from 'grommet-icons'
 
 import styled from 'styled-components'
 
@@ -41,6 +41,12 @@ const NextButtonWrapper = styled.div`
   position: absolute;
   top: 10px;
   right: 340px;
+`
+
+const InviteButton = styled(Button)`
+position: absolute;
+top: 22px;
+right: 505px;
 `
 
 let scale = 1;
@@ -107,19 +113,27 @@ class BpmnContainer extends Component {
     // Binding events
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
+      const currentElement = event.element.businessObject;
       this.setState({
-        currentElement: event.element.businessObject
+        currentElement: currentElement
       });
       console.log(event);
     })
 
     eventBus.on('element.dblclick', (event) => {
-      const targetObject = event.element.businessObject;
-      if (targetObject.$type == 'bpmn:Lane') {
-        this.setState({
-          showParticipantSelector: true,
-          currentElement: event.element.businessObject,
-        })
+      const currentElement = event.element.businessObject;
+      this.setState({
+        currentElement: currentElement
+      });
+
+      switch (currentElement.$type) {
+        case 'bpmn:Lane': {
+          this.setState({
+            showParticipantSelector: true,
+          })
+        } break;
+        default:
+          break;
       }
     })
   }
@@ -229,7 +243,12 @@ class BpmnContainer extends Component {
   };
 
   handleCreate = () => {
+    const { currentElement } = this.state
+    const modeling = this.bpmnModeler.get('modeling');
+    const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
+    const sequenceFlowElement = elementRegistry.get(currentElement.id);
+    console.log(sequenceFlowElement);
   }
 
   handleSaveFile = () => {
@@ -249,6 +268,11 @@ class BpmnContainer extends Component {
       sidebarVisible: !this.state.sidebarVisible
     })
   }
+
+  onInvite = () => {
+    alert('Invite');
+  }
+
 
   onSubmitDiagram = () => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
@@ -320,7 +344,8 @@ class BpmnContainer extends Component {
       showServiceRequirement,
       showParticipantSelector,
       selectedServiceMethod,
-      showConditionList } = this.state
+      showConditionList,
+      currentElement } = this.state
     const { workflow, availableServices } = this.props;
 
     return (
@@ -360,6 +385,7 @@ class BpmnContainer extends Component {
           allServices={availableServices.data}
           currentElement={this.state.currentElement}
           onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
+          onShowConditions={() => this.setState({ showConditionList: true })}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
         <ZoomControls
           onZoomIn={this.handleZoomIn}
@@ -374,9 +400,13 @@ class BpmnContainer extends Component {
 
         <NextButtonWrapper>
           <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button color="accent-1" primary icon={<Upload size="small" />} label="Submit" onClick={this.onSubmitDiagram} />
+            <Button color="accent-1" primary icon={<Upload />}
+              label="Submit" onClick={this.onSubmitDiagram} />
           </Box>
         </NextButtonWrapper>
+
+        <InviteButton color="accent-3"
+          primary label="Invite" icon={<UserAdd />} onClick={this.onInvite} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
@@ -391,6 +421,7 @@ class BpmnContainer extends Component {
 
         <ConditionList
           show={showConditionList}
+          gatewayElement={currentElement}
           onCloseConditionList={() => this.setState({ showConditionList: false })}
           variables={variables}
           operators={operators}
