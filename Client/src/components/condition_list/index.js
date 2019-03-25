@@ -4,9 +4,11 @@ import ConditionItem from 'components/condition_item'
 import { Box, Layer, Text, Button } from 'grommet'
 import { Add } from 'grommet-icons'
 
+import { connect } from 'react-redux'
+import { workflowActions } from 'actions';
 
 
-export default class ConditionList extends Component {
+class ConditionList extends Component {
 
   state = {
     conditions: [
@@ -30,6 +32,11 @@ export default class ConditionList extends Component {
   }
 
 
+  componentDidMount = () => {
+    console.log(this.props.workflowConditions);
+  }
+  
+
   addMoreCondition = () => {
     const { conditions } = this.state;
     conditions.push({
@@ -48,12 +55,22 @@ export default class ConditionList extends Component {
   }
 
   applyConditions = () => {
-
+    const { gatewayElement } = this.props;
+    const { conditions } = this.state;
+    this.props.dispatch(
+      workflowActions.applyConditionsToGateWay(
+        gatewayElement.id,
+        conditions)
+    );
   }
 
 
   changeCondition = (index, condition) => {
-    console.log(index, condition)
+    const { conditions } = this.state;
+    conditions[index] = condition;
+    this.setState({
+      conditions: conditions
+    })
   }
 
 
@@ -78,9 +95,11 @@ export default class ConditionList extends Component {
         onClickOutside={this.close}
         onEsc={this.close}
       >
-        <Box gap="small" pad="medium" width="800px">
+        <Box gap="small" pad="medium" width="800px" >
           <Text weight="bold" size="xlarge">Conditions for this gateway</Text>
-          {this.renderConditionItems()}
+          <Box height="300px" overflow={{ vertical: 'auto' }}>
+            {this.renderConditionItems()}
+          </Box>
 
           <Box direction="row" justify="end" gap="small">
             <Button
@@ -103,3 +122,12 @@ export default class ConditionList extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    workflowConditions: state.workflowConditions,
+  }
+}
+
+
+export default connect(mapStateToProps)(ConditionList);

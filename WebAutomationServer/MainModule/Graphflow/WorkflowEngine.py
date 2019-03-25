@@ -4,6 +4,7 @@ from MainModule.Graphflow.Core.StartEvent import StartEvent
 from MainModule.Graphflow.Core.EndEvent import EndEvent
 from MainModule.Graphflow.Core.ExclusiveGateway import ExclusiveGateway
 from MainModule.Graphflow.Core.SequenceFlow import SequenceFlow
+from MainModule.Graphflow.Core.TimeEvent import TimeEvent
 from MainModule.Graphflow.Core.IOtypes import *
 import pickle
 import requests
@@ -49,13 +50,28 @@ class WorkflowEngine:
                 name = element['attributes']['name']
                 inputType = None
                 outputType = None
-                Task = ServiceTask(Id, name, inputType, outputType, lane_owner)
-                Task.setHTML(element_ref_html[element['attributes']['id']])
-                self.state[element['attributes']['id']] = Task
+                task = ServiceTask(Id, name, inputType, outputType, lane_owner)
+                task.setHTML(element_ref_html[element['attributes']['id']])
+                self.state[element['attributes']['id']] = task
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
                 self.transition[(element['attributes']['sourceRef'],"")] = element['attributes']['targetRef']
+
+            #Intermediate Event
+            elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
+                Id = element['attributes']['id']
+                name = element['attributes']['name']
+                inputType = None
+                outputType = None
+                eventDefination = element['elements'][2]['name']
+                event = TimeEvent(Id, name, inputType, outputType, eventDefination)
+                self.state[element['attributes']['id']] = task
+
+            #Parallel
+            elif(element['name'] == 'bpmn2.parallelGateway'):
+                pass
+    
 
     def start(self):
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
@@ -76,6 +92,8 @@ class WorkflowEngine:
         if (self.state[self.currentState["current"]].getInputInterface() == None):
             return
 
+        # request to server
+        '''
         request_input = {}
         for key in userInput:
             if(key == 'email'):
@@ -85,6 +103,7 @@ class WorkflowEngine:
 
         data = request_input
         res = requests.post('http://127.0.0.1:8001/api/email', json= data)
+        '''
 
 
     def setServiceOutput(self, serviceOutput):
@@ -126,6 +145,13 @@ class WorkflowEngine:
             print("User Input -> " + str(self.state[element].getInput()))
             print("-----------------------------------")
 
-
+    #use to show all finite state machine formal defination
+    def showDefination(self):
+        print()
+        print("STATE (Q) -> " + str(self.state) + "\n")
+        print("Current Execution -> " + str(self.currentState) + "\n")
+        print("END STATE -> " + str(self.endState) + "\n")
+        print("TRANSITION FUNCTION ->  " + str(self.transition) + "\n")
+        print()
 
 

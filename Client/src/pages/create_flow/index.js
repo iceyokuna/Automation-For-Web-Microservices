@@ -11,8 +11,9 @@ export default class CreateFlow extends Component {
 
   render() {
     const { match } = this.props;
+    console.log(match)
     return (
-      <Box fill flex align="center">
+      <Box fill flex>
         <Route path={match.url + "/add_information"} component={AddFlowInfo} />
         <Route path={match.url + "/design_workflow"} component={ModelWorkflow} />
         <Route path={match.url + "/design_form"} component={CreateForm} />

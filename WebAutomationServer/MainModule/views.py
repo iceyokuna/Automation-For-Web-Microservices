@@ -25,7 +25,7 @@ def saveFlow(request):
     #bpmn data
     workflow_detail = json.loads(resquest['workflowData']['bpmnJson'])
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
-#   print(elements_list)
+    print(elements_list)
 
     #HTML form data
     HTML_List = (resquest['workflowData']['generatedForms'])
@@ -47,6 +47,8 @@ def saveFlow(request):
         pickle.dump(workflowEngine, f)
 
     print("------saved workflow object successfully--------")
+    #print all finite state machine defination
+    workflowEngine.showDefination()
     msg = {}
     msg['message'] = 'done'
     return HttpResponse(json.dumps(msg),content_type= "application/json")

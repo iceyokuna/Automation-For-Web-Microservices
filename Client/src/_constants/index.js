@@ -4,3 +4,4 @@ export * from './workflow.constants';
 export * from './socket.contants';
 export * from './available_services.constants';
 export * from './global.constants';
+export * from './inbox_task.constants';

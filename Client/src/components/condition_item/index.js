@@ -32,12 +32,8 @@ export default class ConditionItem extends Component {
     targetNode: '',
   }
 
-  changeCondition = () => {
+  onChangeCondition = () => {
     this.props.onChange(this.state);
-  }
-
-  componentDidUpdate = (prevProps, prevState) => {
-    this.changeCondition();
   }
 
 
@@ -46,8 +42,8 @@ export default class ConditionItem extends Component {
     const { allVariables, allOperators, allBpmnNodes } = this.props
 
     return (
-      <Box direction="row" gap="small">
-        <Box>
+      <Box height="60px" flex={false}>
+        <Box direction="row" gap="small">
           <Select
             size="small"
             dropHeight="medium"
@@ -55,16 +51,15 @@ export default class ConditionItem extends Component {
             value={variable1.name}
             options={allVariables}
             onChange={({ option }) => {
-              this.setState({ variable1: option });
+              this.setState({ variable1: option },
+                () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
               <Variable name={option.name} type={option.type} />
             )}
           </Select>
-        </Box>
 
-        <Box>
           <Select
             size="small"
             dropHeight="medium"
@@ -72,7 +67,8 @@ export default class ConditionItem extends Component {
             value={operator}
             options={allOperators}
             onChange={({ option }) => {
-              this.setState({ operator: option });
+              this.setState({ operator: option },
+                () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
@@ -80,17 +76,23 @@ export default class ConditionItem extends Component {
             )}
 
           </Select>
-        </Box>
 
-        <Box>
           <Select
             size="small"
             dropHeight="medium"
             placeholder="Variable 2"
-            value={variable2.name}
+            value={variable2.name || variable2}
             options={allVariables}
             onChange={({ option }) => {
-              this.setState({ variable2: option });
+              this.setState({ variable2: option },
+                () => this.onChangeCondition());
+            }}
+            onSearch={text => {
+              setTimeout(() => {
+                this.setState({
+                  variable2: text
+                });
+              }, 500);
             }}
           >
             {(option, index) => (
@@ -98,23 +100,22 @@ export default class ConditionItem extends Component {
             )}
 
           </Select>
-        </Box>
 
-        <Box
-          pad="small"
-          justify="center"
-          align="center">
-          <FormNextLink />
-        </Box>
+          <Box
+            pad="small"
+            justify="center"
+            align="center">
+            <FormNextLink />
+          </Box>
 
-        <Box>
           <Select
             size="small"
             placeholder="Target Node"
             value={targetNode}
             options={allBpmnNodes}
             onChange={({ option }) => {
-              this.setState({ targetNode: option });
+              this.setState({ targetNode: option },
+                () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
@@ -122,7 +123,7 @@ export default class ConditionItem extends Component {
             )}
 
           </Select>
-        </Box>
+        </Box >
       </Box>
     )
   }

@@ -15,6 +15,8 @@ import NotFound from 'pages/not_found'
 import MyFlows from 'pages/my_flows';
 import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
+import MyTasks from 'pages/my_tasks'
+import InboxTaskDetail from 'pages/inbox_task_detail'
 
 import { Route, Switch } from 'react-router-dom'
 
@@ -27,8 +29,39 @@ export default class Home extends Component {
     showMenuBar: false,
   }
 
-  render() {
+  toggleMenubar = (e) => {
+    this.setState({ showMenuBar: !this.state.showMenuBar });
+  }
+
+  navigateTo = (pathName) => {
+    history.push(pathName);
+    this.toggleMenubar();
+  }
+
+  renderRoutes = () => {
     const { match } = this.props;
+
+    console.log(match)
+
+    return (
+      <div style={global.globalContainer}>
+        <Switch>
+          <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
+          <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
+
+
+          <Route exact path={match.url + "/my_flows"} component={MyFlows} />
+          <Route path={match.url + "/my_flows/create"} component={CreateFlow} />
+          <Route path={match.url + "/my_flows/:flow_id/edit_diagram"} component={Workflow} />
+          <Route path={match.url + "/my_flows/:flow_id"} component={FlowDetail} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    );
+  }
+
+
+  render() {
     const { showMenuBar } = this.state;
     return (
       <Box flex fill="vertical">
@@ -39,45 +72,18 @@ export default class Home extends Component {
               <FillParent>
                 <SideBar showMenuBar={showMenuBar}
                   onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
-                <div style={global.globalContainer}>
-                  <Switch>
-                    <Route exact path={match.url} component={MyFlows} />
-                    <Route path={match.url + "/create"} component={CreateFlow} />
-                    <Route path={match.url + "/:flow_id/edit_diagram"} component={Workflow} />
-                    <Route path={match.url + "/:flow_id"} component={FlowDetail} />
-                    <Route component={NotFound} />
-                  </Switch>
-                </div>
+                {this.renderRoutes()}
               </FillParent>
             ) : (
                 <FillParent>
                   <DropMenuInline showMenuBar={showMenuBar}
                     onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
-                  <div style={global.globalContainer}>
-                    <Switch >
-                      <Route exact path={match.url} component={MyFlows} />
-                      <Route path={match.url + "/create"} component={CreateFlow} />
-                      <Route path={match.url + "/:flow_id/edit_diagram"} component={Workflow} />
-                      <Route path={match.url + "/:flow_id"} component={FlowDetail} />
-                      <Route component={NotFound} />
-                    </Switch>
-                  </div>
+                  {this.renderRoutes()}
                 </FillParent>
               )
           }
         </Media>
-
-
       </Box >
     )
-  }
-
-  toggleMenubar = (e) => {
-    this.setState({ showMenuBar: !this.state.showMenuBar });
-  }
-
-  navigateTo = (pathName) => {
-    history.push(pathName);
-    this.toggleMenubar();
   }
 }

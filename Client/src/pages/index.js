@@ -8,7 +8,9 @@ import ModelWorkflow from './workflow';
 import CreateForm from './create_form';
 import Test from './test'
 import ExecuteFlow from './execute_flow';
+import MyTasks from './my_tasks'
 
 export {
-  Home, Login, MyFlows, NotFound, Register, ResetPassword, ModelWorkflow, CreateForm, Test, ExecuteFlow
+  Home, Login, MyFlows, NotFound, Register, ResetPassword,
+  ModelWorkflow, CreateForm, Test, ExecuteFlow, MyTasks,
 }
