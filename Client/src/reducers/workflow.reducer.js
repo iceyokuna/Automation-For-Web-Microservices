@@ -28,9 +28,10 @@ const defaultState = {
   recentForm: null,
   appName: 'Default name',
   appDescription: '',
-  collaborators: [],
+  collaboratorsToInvite: [],
 
   loadingWorkflowData: false,
+  showMemberDialog: false,
 
   gateWayConditions: {
     "Task_04qtp5o": {
@@ -50,9 +51,16 @@ const defaultState = {
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowContants.TOGGLE_MEMBER_DIALOG: {
+      const nextState = { ...state };
+      nextState.showMemberDialog = !state.showMemberDialog;
+      return nextState;
+    }
+
     case workflowContants.ADD_NEW_COLLABORATORS: {
       const nextState = { ...state };
-      nextState.collaborators = [...state.collaborators, ...action.newCollaborators]
+      nextState.collaboratorsToInvite = [...state.collaboratorsToInvite, ...action.newCollaborators]
       return nextState;
     }
 
@@ -102,8 +110,8 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SET_APP_INFO: {
-      const { appName, appDescription, collaborators } = action;
-      const nextState = { ...state, appName, appDescription, collaborators };
+      const { appName, appDescription, collaboratorsToInvite } = action;
+      const nextState = { ...state, appName, appDescription, collaboratorsToInvite };
       return nextState
     }
 

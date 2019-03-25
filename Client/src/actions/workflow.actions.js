@@ -14,11 +14,19 @@ export const workflowActions = {
 
   setBpmnJson,
   setAppInfo,
+  toggleMemberDialog,
 
   // RESTful
   sendWorkflowData,
   getWorkflowByAppName,
 };
+
+
+function toggleMemberDialog() {
+  return {
+    type: workflowContants.TOGGLE_MEMBER_DIALOG
+  }
+}
 
 
 function setExecutingForm(form) {
@@ -67,12 +75,12 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function setAppInfo(appName, appDescription, collaborators) {
+function setAppInfo(appName, appDescription, collaboratorsToInvite) {
   return {
     type: workflowContants.SET_APP_INFO,
     appName,
     appDescription,
-    collaborators
+    collaboratorsToInvite
   }
 }
 

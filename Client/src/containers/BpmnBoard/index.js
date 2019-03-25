@@ -11,8 +11,9 @@ import EditingTools from './components/EditingTools';
 import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
 import ParticipantSelector from './components/participant_selector';
+import MemberDialog from './components/member_dialog';
 
-import ConditionList from 'components/condition_list'
+import ConditionList from 'components/condition_list';
 
 import "./style/app.less";
 
@@ -27,7 +28,7 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload, UserAdd } from 'grommet-icons'
+import { Upload, Group } from 'grommet-icons'
 
 import styled from 'styled-components'
 
@@ -270,9 +271,8 @@ class BpmnContainer extends Component {
   }
 
   onInvite = () => {
-    alert('Invite');
+    this.props.dispatch(workflowActions.toggleMemberDialog());
   }
-
 
   onSubmitDiagram = () => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
@@ -375,6 +375,8 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
+        <MemberDialog />
+
         <FileControls
           onOpenFile={this.handleOpen}
           onCreate={this.handleCreate}
@@ -406,7 +408,7 @@ class BpmnContainer extends Component {
         </NextButtonWrapper>
 
         <InviteButton color="accent-3"
-          primary label="Invite" icon={<UserAdd />} onClick={this.onInvite} />
+          primary label="Member" icon={<Group />} onClick={this.onInvite} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
