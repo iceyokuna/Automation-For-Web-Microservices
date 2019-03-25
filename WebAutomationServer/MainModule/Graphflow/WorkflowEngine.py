@@ -79,12 +79,18 @@ class WorkflowEngine:
         return (element_object.getHTML())
         
     def next(self):
+        #get object from next transition
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+
+        #check that is end state or not
         if(self.currentState["current"] in self.endState):
             #DEBUG_LOG_WHEN_EXECUTION_DONE
             self.showLog()
             return "DONE"
+        
+        #Tasks case return HTML and perform services (2 cases have/not have form)
         element_object = self.state[self.currentState["current"]]
+
         return (element_object.getHTML())
 
     def setUserInput(self, userInput):
