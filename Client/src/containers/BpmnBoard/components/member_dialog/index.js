@@ -10,6 +10,8 @@ import CollaboratorInviter from 'components/collaborator_inviter'
 import { Row, Col } from 'react-flexbox-grid'
 import { workflowActions } from 'actions';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 export class index extends Component {
 
   state = {
@@ -70,9 +72,15 @@ export class index extends Component {
               </Heading>
 
               <Box background="light-1" round={{ size: 'small' }}>
-                <Row style={{ height: 250, overflowY: 'auto' }}>
-                  {this.renderCollaboratorItems()}
-                </Row>
+                <Scrollbars
+                  autoHide
+                  style={{ height: 250 }}
+                >
+                  <Row >
+                    {this.renderCollaboratorItems()}
+                  </Row>
+                </Scrollbars>
+
               </Box>
 
               <Text size="medium">

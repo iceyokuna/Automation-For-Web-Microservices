@@ -6,6 +6,7 @@ import Avatar from 'react-avatar';
 import DropContent from 'components/dropdown_content'
 import PlainButton from 'components/plain_button'
 
+import { Scrollbars } from 'react-custom-scrollbars'
 
 export default class index extends Component {
 
@@ -55,12 +56,14 @@ export default class index extends Component {
 
   render() {
     return (
-      <Accordion
-        style={{ overflowY: 'auto' }}
-        onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
-      >
-        {this.renderServiceItem()}
-      </Accordion>
+      <Scrollbars autoHeightMax={400} autoHeight autoHide>
+        <Accordion
+          style={{ overflow: 'hidden' }}
+          onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
+        >
+          {this.renderServiceItem()}
+        </Accordion>
+      </Scrollbars>
     );
   }
 }

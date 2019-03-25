@@ -42,6 +42,7 @@
     "react-avatar": "^3.4.6",
     "react-chips": "^0.8.0",
     "react-css-component": "^1.0.2",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^3.0.2",
     "react-dom": "^16.6.3",
