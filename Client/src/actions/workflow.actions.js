@@ -91,17 +91,22 @@ function addNewCollaborators(newCollaborators) {
   }
 }
 
-function sendWorkflowData(appName, appDescription, workflowData) {
+function sendWorkflowData(appName, appDescription,
+  bpmnJson,
+  appliedMethods,
+  generatedForms) {
   return dispatch => {
     dispatch(request());
 
     setTimeout(() => {
-      console.log(workflowData)
-      workflowService.sendWorkflowData(appName, appDescription, workflowData).then(
-        res => {
-          dispatch(success())
-          history.push('/execute_flow/flow1133');
-        }).catch(err => dispatch(failure(err)));
+      workflowService.sendWorkflowData(appName, appDescription,
+        bpmnJson,
+        appliedMethods,
+        generatedForms).then(
+          res => {
+            dispatch(success())
+            history.push('/execute_flow/flow1133');
+          }).catch(err => dispatch(failure(err)));
     }, 1000);
 
 

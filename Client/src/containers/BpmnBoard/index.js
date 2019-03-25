@@ -290,14 +290,17 @@ class BpmnContainer extends Component {
             console.error(err);
           } else {
             const bpmnJson = converter.xml2json(xml, { compact: false, spaces: 2 });
-            const workflowData = {
-              bpmnJson,
-              generatedForms,
-              appliedMethods,
-            }
+            // const workflowData = {
+            //   bpmnJson,
+            //   generatedForms,
+            //   appliedMethods,
+            // }
             this.props.dispatch(workflowActions.sendWorkflowData(
-              appName, appDescription,
-              workflowData
+              appName, 
+              appDescription,
+              bpmnJson,
+              appliedMethods,
+              generatedForms
             ));
           }
         });

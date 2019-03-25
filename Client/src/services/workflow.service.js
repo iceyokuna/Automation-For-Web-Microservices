@@ -1,8 +1,10 @@
 import axios from 'axios'
+import { globalConstants } from '_constants';
 
 const domainName = "http://178.128.214.101:8002"
 
 const localhost = "http://127.0.0.1:8000"
+
 
 export const workflowService = {
   getAllServices,
@@ -20,8 +22,23 @@ function getAllMethodsByServiceId(serviceId) {
 }
 
 // Send both form and bpmn json together
-function sendWorkflowData(appName, appDescription, workflowData) {
-  return axios.post(localhost + '/create_workflow/', { appName, appDescription, workflowData })
+function sendWorkflowData(appName, appDescription,
+  bpmnJson,
+  appliedMethods,
+  generatedForms) {
+  const token = localStorage.getItem('user').toString();
+  return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
+    {
+      appName, appDescription,
+      bpmnJson,
+      appliedMethods,
+      generatedForms
+    },
+    {
+      headers: {
+        Authorization: "Token " + token,
+      }
+    })
 }
 
 function getWorkflowByAppName(appName) {
