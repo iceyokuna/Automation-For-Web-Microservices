@@ -15,6 +15,17 @@ export class index extends Component {
   state = {
     selectedCollaborators: [],
     userIds: ["iceyo#1177", "pym#887", "bas#998"],
+    collaborators: [
+      { name: 'Phat Thaveepholcharoen', type: 'Admin' },
+      { name: 'Iceyo Kuna', type: 'Manager' },
+      { name: 'Treesakul', type: 'User' },
+      { name: 'User#14', type: 'User' },
+      { name: 'User#77', type: 'User' },
+      { name: 'User#77', type: 'User' },
+      { name: 'User#77', type: 'User' },
+      { name: 'User#77', type: 'User' },
+      { name: 'User#77', type: 'User' },
+    ],
   }
 
   onChangecollaborators = (chips) => {
@@ -31,8 +42,18 @@ export class index extends Component {
     // Todo : insert async function
 
 
-    this.props.dispatch(workflowActions.toggleMemberDialog());
+    this.onColseDialog();
   }
+
+  renderCollaboratorItems = () => {
+    const { collaborators } = this.state;
+
+    return collaborators.map((item, index) =>
+      <Col sm={12} xs={6} md={6} lg={6}>
+        <CollaboratorItem key={index} name={item.name} type={item.type} />
+      </Col>)
+  }
+
 
   render() {
     const { showMemberDialog } = this.props;
@@ -40,35 +61,17 @@ export class index extends Component {
     return (
       <Fragment>
         {showMemberDialog && (
-          <Layer>
+          <Layer
+            onEsc={this.onColseDialog}
+            onClickOutside={this.onColseDialog}>
             <Box pad="medium" gap="small" width="850px" direction="column">
               <Heading level={2} margin="none">
-                Members
+                Collaborators
               </Heading>
 
-              <Box background="light-1" pad="small" round={{ size: 'small' }}>
+              <Box background="light-1" round={{ size: 'small' }}>
                 <Row style={{ height: 250, overflowY: 'auto' }}>
-                  <Col sm={12} xs={6} md={6} lg={6}>
-                    <CollaboratorItem name="Phat Thaveepholcharoen" type="Member" />
-                  </Col>
-                  <Col sm={12} xs={6} md={6} lg={6}>
-                    <CollaboratorItem name="Phat Thaveepholcharoen" type="Member" />
-                  </Col>
-                  <Col sm={12} xs={6} md={6} lg={6}>
-                    <CollaboratorItem name="Phat Thaveepholcharoen" type="Member" />
-                  </Col>
-                  <Col sm={12} xs={6} md={6} lg={6}>
-                    <CollaboratorItem name="Phat Thaveepholcharoen" type="Member" />
-                  </Col>
-                  <Col sm={12} xs={6} md={6} lg={6}>
-                    <CollaboratorItem name="Phat Thaveepholcharoen" type="Member" />
-                  </Col>
-                  <Col sm={12} xs={6} md={6} lg={6}>
-                    <CollaboratorItem name="Phat Thaveepholcharoen" type="Member" />
-                  </Col>
-                  <Col sm={12} xs={6} md={6} lg={6}>
-                    <CollaboratorItem name="Phat Thaveepholcharoen" type="Member" />
-                  </Col>
+                  {this.renderCollaboratorItems()}
                 </Row>
               </Box>
 

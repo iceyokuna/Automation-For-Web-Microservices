@@ -408,7 +408,7 @@ class BpmnContainer extends Component {
         </NextButtonWrapper>
 
         <InviteButton color="accent-3"
-          primary label="Member" icon={<Group />} onClick={this.onInvite} />
+          primary label="Collaborators" icon={<Group />} onClick={this.onInvite} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
