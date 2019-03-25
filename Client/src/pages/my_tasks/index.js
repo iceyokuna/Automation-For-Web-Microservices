@@ -84,19 +84,19 @@ class MyTasks extends Component {
         </Box>
 
         <Box direction="column" gap="small">
-          <Box direction="row" align="center" margin={{ horizontal: 'medium' }}>
-            <Box style={{ flex: 3 }}>
+          <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium' }}>
+            <Box round={{ size: 'small' }} style={{ flex: 3 }} background="neutral-1">
               <Text textAlign="center" weight="bold">Workflow</Text>
             </Box>
-            <Box style={{ flex: 6 }}>
+            <Box round={{ size: 'small' }} style={{ flex: 6 }} background="accent-1">
               <Text textAlign="center" weight="bold" >Action</Text>
             </Box>
-            <Box style={{ flex: 3 }}>
+            <Box round={{ size: 'small' }} style={{ flex: 2 }} background="accent-3">
               <Text textAlign="center" weight="bold">Date</Text>
             </Box>
           </Box>
 
-          <Box pad={{ bottom: 'large' }} gap="xsmall">
+          <Box pad={{ bottom: 'large' }} round={{ size: 'small' }}>
             {this.renderTasks()}
           </Box>
         </Box>
