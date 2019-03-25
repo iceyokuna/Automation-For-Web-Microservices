@@ -57,7 +57,7 @@ class MainConsumer(WebsocketConsumer):
                     {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}
                 ))
                 return None
-
+ 
             with open('HTMLs.pkl', 'wb') as f:
                 pickle.dump(workflowEngine_load, f)
 
