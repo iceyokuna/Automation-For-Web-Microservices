@@ -25,6 +25,7 @@ function getAllMethodsByServiceId(serviceId) {
 function sendWorkflowData(appName, appDescription,
   bpmnJson,
   appliedMethods,
+  appliedConditions,
   generatedForms) {
   const token = localStorage.getItem('user').toString();
   return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
@@ -32,6 +33,7 @@ function sendWorkflowData(appName, appDescription,
       appName, appDescription,
       bpmnJson,
       appliedMethods,
+      appliedConditions,
       generatedForms
     },
     {

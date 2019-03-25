@@ -32,11 +32,6 @@ class ConditionList extends Component {
   }
 
 
-  componentDidMount = () => {
-    console.log(this.props.workflowConditions);
-  }
-
-
   addMoreCondition = () => {
     const { conditions } = this.state;
     conditions.push({
@@ -62,6 +57,8 @@ class ConditionList extends Component {
         gatewayElement.id,
         conditions)
     );
+
+    this.close();
   }
 
 

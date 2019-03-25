@@ -94,6 +94,7 @@ function addNewCollaborators(newCollaborators) {
 function sendWorkflowData(appName, appDescription,
   bpmnJson,
   appliedMethods,
+  appliedConditions,
   generatedForms) {
   return dispatch => {
     dispatch(request());
@@ -102,6 +103,7 @@ function sendWorkflowData(appName, appDescription,
       workflowService.sendWorkflowData(appName, appDescription,
         bpmnJson,
         appliedMethods,
+        appliedConditions,
         generatedForms).then(
           res => {
             dispatch(success())

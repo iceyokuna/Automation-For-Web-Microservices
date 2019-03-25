@@ -9,20 +9,7 @@ const defaultState = {
     { name: 'Single', type: 'Boolean' },
     { name: 'Name', type: 'String' },
   ],
-  gateWayConditions: {
-    "Task_04qtp5o": {
-      "variable1": {
-        "name": null,
-        "type": null
-      },
-      "variable2": {
-        "name": null,
-        "type": null
-      },
-      "operator": null,
-      "targetNode": null
-    }
-  }
+  appliedConditions: {},
 }
 
 export function workflowConditions(state = defaultState, action) {

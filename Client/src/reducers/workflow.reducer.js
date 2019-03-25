@@ -21,7 +21,6 @@ const defaultState = {
 
   // ],
   appliedMethods: {},
-  appliedConditions: {},
   executingForm: null,
   formsDone: false,
 
@@ -32,21 +31,6 @@ const defaultState = {
 
   loadingWorkflowData: false,
   showMemberDialog: false,
-
-  gateWayConditions: {
-    "Task_04qtp5o": {
-      "variable1": {
-        "name": null,
-        "type": null
-      },
-      "variable2": {
-        "name": null,
-        "type": null
-      },
-      "operator": null,
-      "targetNode": null
-    }
-  }
 }
 
 export function workflow(state = defaultState, action) {
