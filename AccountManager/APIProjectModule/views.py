@@ -22,10 +22,16 @@ class WorkflowView(APIView):
         return Response({'workflow':queryset},status=HTTP_200_OK)
 
     def post(self, request):
-        Workflow.objects.create(user= request.user, workflow = request.POST.get('workflow'), name = request.POST.get('name'))
-        return Response(status=HTTP_200_OK)
-   
+        if(request.POST.get('id')):
+            Workflow.objects.filter(id= request.POST.get('id')).update(workflow = request.POST.get('workflow'),appliedMethod = request.POST.get('appliedMethod'),appliedConditions = request.POST.get('appliedConditions') )
+            return Response({"detail":"successfully updated"},status=HTTP_200_OK)
 
+        Workflow.objects.create(user= request.user, workflow = request.POST.get('workflow'), name = request.POST.get('name'), appliedMethod = request.POST.get('appliedMethod'),appliedConditions = request.POST.get('appliedConditions') )
+
+        return Response({"detail":"successfully created"},status=HTTP_200_OK)
+   
+    #def put(self, request):
+    
 
 class CollaboratorView(APIView):
     def get(self, request, workflow_id = 0):

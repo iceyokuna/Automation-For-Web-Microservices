@@ -26,6 +26,6 @@ class EmailView(APIView):
 
         #if(send_mail( subject, message, email_from, [recipient_list] )):
         if(send_mail( subject, message, email_from, recipient_list )):
-            return Response(request.data, status=HTTP_200_OK)
+            return Response({"detail": "successful"}, status=HTTP_200_OK)
 
-        return Response( status=HTTP_400_BAD_REQUEST)
+        return Response({"detail": "failed"}, status=HTTP_400_BAD_REQUEST)
