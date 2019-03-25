@@ -128,16 +128,21 @@ class BpmnContainer extends Component {
       });
 
       switch (currentElement.$type) {
-        case 'bpmn:Lane': {
-          this.setState({
-            showParticipantSelector: true,
-          })
-        } break;
+        case 'bpmn:Lane':
+          this.showParticipantSelector();
+          break;
         default:
           break;
       }
     })
   }
+
+  showParticipantSelector = () => {
+    this.setState({
+      showParticipantSelector: true,
+    })
+  }
+
 
 
   attachFormToXML = (newForms) => {
@@ -386,6 +391,7 @@ class BpmnContainer extends Component {
         <BpmnProperty
           allServices={availableServices.data}
           currentElement={this.state.currentElement}
+          onAssignTask={this.showParticipantSelector}
           onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
           onShowConditions={() => this.setState({ showConditionList: true })}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />

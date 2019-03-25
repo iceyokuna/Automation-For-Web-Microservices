@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { local } from './style';
 
 import { Box, TextInput, Button, Heading, Text, FormField, CheckBox } from 'grommet';
-import { FormAdd, Checkmark, Close } from 'grommet-icons';
+import { FormAdd, Checkmark, Close, Stakeholder } from 'grommet-icons';
 import { global } from 'style';
 import { Link, Redirect } from 'react-router-dom'
 
@@ -85,7 +85,7 @@ class BpmnProperty extends Component {
 
   renderSpecialProperties() {
     const { nodeType, isAsyncTask } = this.state;
-    const { allServices, onSelectServiceMethod, onShowConditions } = this.props;
+    const { allServices, onSelectServiceMethod, onShowConditions, onAssignTask } = this.props;
     const services = allServices.length == 0 ? services : allServices;
 
     switch (nodeType) {
@@ -94,13 +94,19 @@ class BpmnProperty extends Component {
           <TaskProperty services={services}
             onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
         )
-      } break;
+      }
+
+      case "bpmn:Lane": {
+        return (
+          <Button label="Assign Task" icon={<Stakeholder />} onClick={onAssignTask} />
+        )
+      }
 
       case "bpmn:ExclusiveGateway": {
         return (
           <GatewayProperty onShowConditions={onShowConditions} />
         );
-      } break;
+      }
       default:
         break;
     }
