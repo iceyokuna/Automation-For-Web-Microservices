@@ -66,11 +66,16 @@ class WorkflowEngine:
                 outputType = None
                 eventDefination = element['elements'][2]['name']
                 event = TimeEvent(Id, name, inputType, outputType, eventDefination)
-                self.state[element['attributes']['id']] = task
+                self.state[element['attributes']['id']] = event
 
             #Parallel
             elif(element['name'] == 'bpmn2.parallelGateway'):
-                pass
+                Id = element['attributes']['id']
+                name = element['attributes']['name']
+                inputType = None
+                outputType = None
+                gateway = ParallelGateway(Id, name, inputType, outputType)
+                self.state[element['attributes']['id']] = gateway
     
 
     def start(self):
