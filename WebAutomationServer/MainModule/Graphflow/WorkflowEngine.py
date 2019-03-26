@@ -24,7 +24,10 @@ class WorkflowEngine:
 
         #token html
         for html in HTML_list:
-            element_ref_html[html['taskId']] = html['formData']
+            try:
+                element_ref_html[html['taskId']] = html['formData']
+            except:
+                continue
 
         #token lane
         for element in elements_list:
@@ -52,8 +55,11 @@ class WorkflowEngine:
                 inputType = None
                 outputType = None
                 task = ServiceTask(Id, name, inputType, outputType, lane_owner)
-                task.setHTML(element_ref_html[element['attributes']['id']])
-                self.state[element['attributes']['id']] = task
+                try:
+                    task.setHTML(element_ref_html[element['attributes']['id']])
+                    self.state[element['attributes']['id']] = task
+                except:
+                    self.state[element['attributes']['id']] = task
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
@@ -88,12 +94,19 @@ class WorkflowEngine:
         #get object from next transition
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
 
+        #build for demo parallel !!!!!!
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+        print("service email !!!!!!!!!!!!!!!!!!!!")
+        print("service line !!!!!!!!!!!!!!!!!!!!")
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+
         #check that is end state or not
         if(self.currentState["current"] in self.endState):
             #DEBUG_LOG_WHEN_EXECUTION_DONE
             self.showLog()
             return "DONE"
-        
+
         #Tasks case return HTML and perform services (2 cases have/not have form)
         element_object = self.state[self.currentState["current"]]
 
