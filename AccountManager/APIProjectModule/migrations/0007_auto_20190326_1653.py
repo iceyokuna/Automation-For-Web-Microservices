@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
         ('APIProjectModule', '0006_auto_20190325_1638'),
     ]
     
-'''
+
     operations = [
         
         migrations.RemoveField(
@@ -63,4 +63,3 @@ class Migration(migrations.Migration):
             name='Task',
         ),
     ]
-'''
