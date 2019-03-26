@@ -6,12 +6,14 @@ from django.contrib.auth.models import User
 class Workflow(models.Model):
     #id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    workflow = JSONField(null=False)
+    bpmnJson = JSONField(null=False)
     description = models.TextField(null=True)
     user = models.ForeignKey(User, to_field="username", db_column="username", related_name='project_user', on_delete=models.CASCADE)
-    appliedMethod = JSONField(null=True)
+    appliedMethods = JSONField(null=True)
     appliedConditions = JSONField(null=True)
-    generatedForm = JSONField(null=True)
+    generatedForms = JSONField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
