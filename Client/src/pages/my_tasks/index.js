@@ -49,15 +49,7 @@ class MyTasks extends Component {
 
   renderTasks = () => {
     const { inboxTasks } = this.props;
-    if (inboxTasks.isLoading) {
-      return (
-        <Box justify="center" align="center" pad={{ top: "medium" }}>
-          <Spinner
-            fadeIn="quarter"
-            name="line-scale"
-            color={colors.brand} />
-        </Box>);
-    }
+
     return inboxTasks.data.map((item, index) =>
       <TaskItemInbox workflowName={item.workflowName}
         isEven={index % 2 == 0}
@@ -71,6 +63,7 @@ class MyTasks extends Component {
 
 
   render() {
+    const { inboxTasks } = this.props;
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
@@ -83,7 +76,12 @@ class MyTasks extends Component {
           </Row>
         </Box>
 
-        <Box direction="column" gap="small">
+        {inboxTasks.isLoading == true ? (<Box justify="center" align="center" pad={{ top: "medium" }}>
+          <Spinner
+            fadeIn="quarter"
+            name="line-scale"
+            color={colors.brand} />
+        </Box>) : (<Box direction="column" gap="small" animation="fadeIn" >
           <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium' }}>
             <Box round={{ size: 'small' }} style={{ flex: 3 }} background="neutral-1">
               <Text textAlign="center" weight="bold">Workflow</Text>
@@ -99,8 +97,7 @@ class MyTasks extends Component {
           <Box pad={{ bottom: 'large' }} round={{ size: 'small' }}>
             {this.renderTasks()}
           </Box>
-        </Box>
-
+        </Box>)}
       </div>
     )
   }

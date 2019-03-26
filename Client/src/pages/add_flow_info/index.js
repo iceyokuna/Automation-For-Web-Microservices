@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { workflowActions } from 'actions'
 
 import { Box, Button, Heading, Text, TextInput, FormField, TextArea } from 'grommet'
-import { FormNext } from 'grommet-icons'
+import { Add } from 'grommet-icons'
 import CollaboratorInviter from 'components/collaborator_inviter';
 
 class AddFlowInfo extends Component {
@@ -67,13 +67,13 @@ class AddFlowInfo extends Component {
                 onChange={this.onChangeDescription} />
             </FormField>
 
-            <CollaboratorInviter
+            {/* <CollaboratorInviter
               onChangecollaborators={this.onChangecollaborators}
               selectedCollaborators={selectedCollaborators}
-              userIds={userIds} />
+              userIds={userIds} /> */}
 
             <Box margin={{ top: 'small' }}>
-              < Button color="accent-1" primary icon={< FormNext />} label="Next" onClick={this.onNextStep} />
+              < Button color="accent-1" primary icon={< Add />} label="Create" onClick={this.onNextStep} />
             </Box>
 
           </Box>

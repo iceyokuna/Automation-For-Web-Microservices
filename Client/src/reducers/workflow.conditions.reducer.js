@@ -4,7 +4,7 @@ const defaultState = {
   nextFlowElements: [],
   showConditionList: false,
   operators: ['==', '!=', '<', '<=', '>', '>='],
-  variables: [
+  allVariables: [
     { name: 'Salary', type: 'Number' },
     { name: 'Single', type: 'Boolean' },
     { name: 'Name', type: 'String' },
@@ -18,6 +18,7 @@ export function workflowConditions(state = defaultState, action) {
       const nextState = { ...state };
       const { gatewayId, conditions } = action;
       nextState.appliedConditions[gatewayId] = conditions;
+      // nextState.allVariables.push({})
       return nextState;
     }
 
