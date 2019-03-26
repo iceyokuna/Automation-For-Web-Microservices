@@ -8,6 +8,8 @@ class Service(models.Model):
     name = models.CharField(max_length=200)
     info = models.TextField(null=True)
     url = models.TextField(null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.name
@@ -22,6 +24,8 @@ class Method(models.Model):
     service = models.ForeignKey(Service, related_name='methods', on_delete=models.CASCADE)
     input_interface = JSONField(null=True)
     output_interface = JSONField(null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
