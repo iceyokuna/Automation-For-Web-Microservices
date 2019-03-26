@@ -10,12 +10,15 @@ class Migration(migrations.Migration):
     dependencies = [
         ('APIProjectModule', '0006_auto_20190325_1638'),
     ]
-
+    
+'''
     operations = [
+        
         migrations.RemoveField(
             model_name='condition',
             name='workflow',
         ),
+        
         migrations.RemoveField(
             model_name='task',
             name='workflow',
@@ -51,10 +54,13 @@ class Migration(migrations.Migration):
             name='updated_at',
             field=models.DateTimeField(auto_now=True),
         ),
+        
         migrations.DeleteModel(
             name='Condition',
         ),
+        
         migrations.DeleteModel(
             name='Task',
         ),
     ]
+'''
