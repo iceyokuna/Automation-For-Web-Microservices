@@ -3,6 +3,7 @@ from MainModule.Graphflow.Core.UserTask import UserTask
 from MainModule.Graphflow.Core.StartEvent import StartEvent
 from MainModule.Graphflow.Core.EndEvent import EndEvent
 from MainModule.Graphflow.Core.ExclusiveGateway import ExclusiveGateway
+from MainModule.Graphflow.Core.ParallelGateway import ParallelGateway
 from MainModule.Graphflow.Core.SequenceFlow import SequenceFlow
 from MainModule.Graphflow.Core.TimeEvent import TimeEvent
 from MainModule.Graphflow.Core.IOtypes import *
@@ -12,10 +13,11 @@ import requests
 class WorkflowEngine:
     def __init__(self):
         self.state = {} #Q
-        self.transition = {} #delta
         self.currentState = {"previous":set(),"current":set()} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
+        self.transition = {} #delta
 
+    #Parsing workflow
     def initialize(self, elements_list, HTML_list = None):
         
         element_ref_lane_owner = {}
@@ -54,9 +56,9 @@ class WorkflowEngine:
                 task.setHTML(element_ref_html[element['attributes']['id']])
                 self.state[element['attributes']['id']] = task
 
-            #Flows
+            #Flows (need NFA for parallel)
             elif(element['name'] == 'bpmn2:sequenceFlow'):
-                self.transition[(element['attributes']['sourceRef'],"")] = element['attributes']['targetRef']
+                self.transition[(element['attributes']['sourceRef'],"")] = [element['attributes']['targetRef']]
 
             #Intermediate Event
             elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
@@ -77,27 +79,33 @@ class WorkflowEngine:
                 gateway = ParallelGateway(Id, name, inputType, outputType)
                 self.state[element['attributes']['id']] = gateway
     
-
+# start flow execute until return first HTML (need loop for future development)
     def start(self):
-        self.currentState["current"] = self.transition[(list(self.currentState["current"])[0],"")]
+        flow_object_before_move = self.transition[(list(self.currentState["current"])[0],"")][0]
+        self.currentState["current"] = self.transition[(flow_object_before_move,"")][0]
+        self.currentState["current"].remove(flow_object_before_move)
         element_object = self.state[list(self.currentState["current"])[0]]
         return (element_object.getHTML())
         
+# continue execution until reach html form or reach end node
     def next(self):
         #get object from next transition
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")][0]
 
         #check that is end state or not
         if(self.currentState["current"] in self.endState):
             #DEBUG_LOG_WHEN_EXECUTION_DONE
             self.showLog()
             return "DONE"
+
+        
         
         #Tasks case return HTML and perform services (2 cases have/not have form)
         element_object = self.state[self.currentState["current"]]
 
         return (element_object.getHTML())
 
+# keep user input to Task Object
     def setUserInput(self, userInput):
         self.state[self.currentState["current"]].setInput(userInput)
         if (self.state[self.currentState["current"]].getInputInterface() == None):
@@ -119,6 +127,7 @@ class WorkflowEngine:
 
     def setServiceOutput(self, serviceOutput):
         self.state[self.currentState["current"]].setOutput(serviceOutput)
+
 
     def execute(self):
         #request and get respond back and store to self.output
