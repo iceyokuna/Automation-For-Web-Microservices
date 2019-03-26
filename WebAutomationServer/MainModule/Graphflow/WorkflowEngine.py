@@ -3,6 +3,7 @@ from MainModule.Graphflow.Core.UserTask import UserTask
 from MainModule.Graphflow.Core.StartEvent import StartEvent
 from MainModule.Graphflow.Core.EndEvent import EndEvent
 from MainModule.Graphflow.Core.ExclusiveGateway import ExclusiveGateway
+from MainModule.Graphflow.Core.ParallelGateway import ParallelGateway
 from MainModule.Graphflow.Core.SequenceFlow import SequenceFlow
 from MainModule.Graphflow.Core.TimeEvent import TimeEvent
 from MainModule.Graphflow.Core.IOtypes import *
