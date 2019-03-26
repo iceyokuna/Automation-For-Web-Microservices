@@ -23,12 +23,12 @@ class WorkflowView(APIView):
 
     def post(self, request):
         if(request.POST.get('id')):
-            Workflow.objects.filter(id=request.POST.get('id')).update(bpmnJson=request.POST.get(
-                'bpmnJson'), appliedMethod=request.POST.get('appliedMethod'), appliedConditions=request.POST.get('appliedConditions'))
+            Workflow.objects.filter(id=request.data.get('id')).update(bpmnJson=request.data.get(
+                'bpmnJson'), appliedMethod=request.data.get('appliedMethod'), appliedConditions=request.data.get('appliedConditions'))
             return Response({"detail": "successfully updated"}, status=HTTP_200_OK)
        
-        Workflow.objects.create(user=request.user, bpmnJson=request.POST.get('bpmnJson'), name=request.POST.get('name'), description=request.POST.get(
-            'description'), appliedMethods=request.POST.get('appliedMethods'), appliedConditions=request.POST.get('appliedConditions'), generatedForms=request.POST.get('generatedForms'))
+        Workflow.objects.create(user=request.user, bpmnJson=request.data.get('bpmnJson'), name=request.data.get('name'), description=request.data.get(
+            'description'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'), generatedForms=request.data.get('generatedForms'))
 
         return Response({"detail": "successfully created"}, status=HTTP_200_OK)
 
