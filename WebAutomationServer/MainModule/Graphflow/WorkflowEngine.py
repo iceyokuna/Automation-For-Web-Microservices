@@ -3,7 +3,6 @@ from MainModule.Graphflow.Core.UserTask import UserTask
 from MainModule.Graphflow.Core.StartEvent import StartEvent
 from MainModule.Graphflow.Core.EndEvent import EndEvent
 from MainModule.Graphflow.Core.ExclusiveGateway import ExclusiveGateway
-from MainModule.Graphflow.Core.ParallelGateway import ParallelGateway
 from MainModule.Graphflow.Core.SequenceFlow import SequenceFlow
 from MainModule.Graphflow.Core.TimeEvent import TimeEvent
 from MainModule.Graphflow.Core.IOtypes import *
@@ -13,7 +12,7 @@ import requests
 class WorkflowEngine:
     def __init__(self):
         self.state = {} #Q
-        self.currentState = {"previous":set(),"current":set()} #S (dict because need to set previous(future feature) and current)
+        self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
         self.transition = {} #delta
 
@@ -38,7 +37,7 @@ class WorkflowEngine:
 
             #Start Event
             elif(element['name'] == 'bpmn2:startEvent'):
-                self.currentState["current"].add(element['attributes']['id'])
+                self.currentState["current"] = element['attributes']['id']
 
             #End Event
             elif(element['name'] == 'bpmn2:endEvent'):
@@ -57,10 +56,7 @@ class WorkflowEngine:
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
-                try:
-                    self.transition[(element['attributes']['sourceRef'],"")] = self.transition[(element['attributes']['sourceRef'],"")].append([element['attributes']['targetRef']])
-                except:
-                    self.transition[(element['attributes']['sourceRef'],"")] = [element['attributes']['targetRef']]
+                self.transition[(element['attributes']['sourceRef'],"")] = element['attributes']['targetRef']
 
             #Intermediate Event
             elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
@@ -83,10 +79,8 @@ class WorkflowEngine:
     
 
     def start(self):
-        temp_current = list(self.currentState["current"])[0]
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")][0]
-        self.currentState["current"] = self.currentState["current"].remove(temp_current)
-        element_object = self.state[list(self.currentState["current"])[0]]
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+        element_object = self.state[self.currentState["current"]]
         return (element_object.getHTML())
         
     def next(self):
