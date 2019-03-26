@@ -33,11 +33,10 @@ import { Upload, Group } from 'grommet-icons'
 
 import styled from 'styled-components'
 
-import Loader from 'react-loader-spinner'
 import { workflowActions, availableServicesActions, socketActions } from 'actions'
 
-import appTheme from 'theme';
-const colors = appTheme.global.colors;
+import Spinner from 'react-spinkit'
+import { colors } from 'theme';
 
 const NextButtonWrapper = styled.div`
   position: absolute;
@@ -372,14 +371,13 @@ class BpmnContainer extends Component {
             onEsc={this.onCloseLoadingDialog}
 
           >
-            <Box pad="medium" gap="small" width="large" width="300px"
+            <Box pad="medium" gap="small" width="large" width="350px"
               direction="row" justify='center' align="center">
               <Text>Submitting your workflow ...</Text>
-              <Loader
-                type="Oval"
-                color={colors.brand}
-                height="24"
-                width="24" />
+              <Spinner
+                fadeIn="quarter"
+                name="three-bounce"
+                color={colors.brand} />
 
             </Box>
           </Layer>)
