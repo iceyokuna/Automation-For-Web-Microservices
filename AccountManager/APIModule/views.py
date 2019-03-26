@@ -39,7 +39,7 @@ class LoginView(APIView):
 
         token, _ = Token.objects.get_or_create(user=user)
         request.session.set_expiry(600) 
-        return Response({'token': token.key},
+        return Response({'token': token.key, 'username':user.username, 'firstName':user.first_name,'lastName':user.last_name},
                         status=HTTP_200_OK)
 
 @permission_classes((IsAuthenticated,))
