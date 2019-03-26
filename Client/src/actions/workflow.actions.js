@@ -99,8 +99,20 @@ function sendWorkflowData(appName, appDescription,
   return dispatch => {
     dispatch(request());
 
+    // setTimeout(() => {
+    //   workflowService.sendWorkflowData(appName, appDescription,
+    //     bpmnJson,
+    //     appliedMethods,
+    //     appliedConditions,
+    //     generatedForms).then(
+    //       res => {
+    //         dispatch(success())
+    //         history.push('/execute_flow/flow1133');
+    //       }).catch(err => dispatch(failure(err)));
+    // }, 1000);
+
     setTimeout(() => {
-      workflowService.sendWorkflowData(appName, appDescription,
+      workflowService.sendWorkflowDataToSocket(appName, appDescription,
         bpmnJson,
         appliedMethods,
         appliedConditions,
