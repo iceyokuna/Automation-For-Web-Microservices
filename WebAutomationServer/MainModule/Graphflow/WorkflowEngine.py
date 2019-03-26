@@ -56,7 +56,10 @@ class WorkflowEngine:
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
-                self.transition[(element['attributes']['sourceRef'],"")] = element['attributes']['targetRef']
+                try:
+                    self.transition[(element['attributes']['sourceRef'],"")] = self.transition[(element['attributes']['sourceRef'],"")].append([element['attributes']['targetRef']])
+                except:
+                    self.transition[(element['attributes']['sourceRef'],"")] = [element['attributes']['targetRef']]
 
             #Intermediate Event
             elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
