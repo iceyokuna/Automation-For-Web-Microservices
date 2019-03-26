@@ -12,7 +12,7 @@ import requests
 class WorkflowEngine:
     def __init__(self):
         self.state = {} #Q
-        self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
+        self.currentState = {"previous":set(),"current":set()} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
         self.transition = {} #delta
 
