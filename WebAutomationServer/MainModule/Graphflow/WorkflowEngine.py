@@ -37,7 +37,7 @@ class WorkflowEngine:
 
             #Start Event
             elif(element['name'] == 'bpmn2:startEvent'):
-                self.currentState["current"] = element['attributes']['id']
+                self.currentState["current"].add(element['attributes']['id'])
 
             #End Event
             elif(element['name'] == 'bpmn2:endEvent'):
