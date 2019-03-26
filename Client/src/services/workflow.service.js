@@ -32,8 +32,6 @@ function sendWorkflowData(
 
   const token = localStorage.getItem('user').toString();
 
-  alert(appName)
-
   return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
     {
       name: appName,

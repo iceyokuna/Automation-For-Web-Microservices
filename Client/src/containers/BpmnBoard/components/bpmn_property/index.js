@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { local } from './style';
 
 import { Box, TextInput, Button, Heading, Text, FormField, CheckBox } from 'grommet';
-import { FormAdd, Checkmark, Close, Stakeholder } from 'grommet-icons';
+import {
+  FormAdd, Checkmark,
+  Close, Stakeholder,
+  Alarm,
+} from 'grommet-icons';
 import { global } from 'style';
 import { Link, Redirect } from 'react-router-dom'
 
@@ -26,6 +30,7 @@ class BpmnProperty extends Component {
       nodeId: '',
       nodeName: '',
       nodeType: null,
+      eventType: null,
       isAsyncTask: false,
       toCreateForm: false,
     }
@@ -50,7 +55,9 @@ class BpmnProperty extends Component {
       this.setState({
         nodeId: currentElement.id,
         nodeName: currentElement.name || '',
-        nodeType: currentElement.$type
+        nodeType: currentElement.$type,
+        eventType: currentElement.eventDefinitions != null
+          ? currentElement.eventDefinitions[0].$type : null,
       });
     }
   }
@@ -84,32 +91,46 @@ class BpmnProperty extends Component {
   }
 
   renderSpecialProperties() {
-    const { nodeType, isAsyncTask } = this.state;
-    const { allServices, onSelectServiceMethod, onShowConditions, onAssignTask } = this.props;
+    const { nodeType, isAsyncTask, eventType } = this.state;
+    const { allServices, onSelectServiceMethod,
+      onShowConditions, onAssignTask, onSetTimer } = this.props;
     const services = allServices.length == 0 ? services : allServices;
+
+    let element = null;
+
+    console.log(nodeType, eventType)
 
     switch (nodeType) {
       case 'bpmn:Task': {
-        return (
-          <TaskProperty services={services}
-            onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
-        )
+        element = <TaskProperty services={services}
+          onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
       }
 
       case "bpmn:Lane": {
-        return (
-          <Button label="Assign Task" icon={<Stakeholder />} onClick={onAssignTask} />
-        )
+        element = <Button label="Assign Task" icon={<Stakeholder />} onClick={onAssignTask} />
       }
 
       case "bpmn:ExclusiveGateway": {
-        return (
-          <GatewayProperty onShowConditions={onShowConditions} />
-        );
+        element = <GatewayProperty onShowConditions={onShowConditions} />
       }
+
+      case "bpmn:IntermediateCatchEvent": {
+        if (eventType === "bpmn:TimerEventDefinition") {
+          element = <Button label="Set Timer" icon={<Alarm />} onClick={onSetTimer} />
+        }
+      }
+
+      case "bpmn:StartEvent": {
+        if (eventType === "bpmn:TimerEventDefinition") {
+          element = <Button label="Set Timer" icon={<Alarm />} onClick={onSetTimer} />
+        }
+      }
+
       default:
         break;
     }
+
+    return element;
   }
 
   renderCreateFormButton = () => {
