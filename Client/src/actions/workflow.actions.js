@@ -14,11 +14,19 @@ export const workflowActions = {
 
   setBpmnJson,
   setAppInfo,
+  toggleMemberDialog,
 
   // RESTful
   sendWorkflowData,
   getWorkflowByAppName,
 };
+
+
+function toggleMemberDialog() {
+  return {
+    type: workflowContants.TOGGLE_MEMBER_DIALOG
+  }
+}
 
 
 function setExecutingForm(form) {
@@ -67,12 +75,12 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function setAppInfo(appName, appDescription, collaborators) {
+function setAppInfo(appName, appDescription, collaboratorsToInvite) {
   return {
     type: workflowContants.SET_APP_INFO,
     appName,
     appDescription,
-    collaborators
+    collaboratorsToInvite
   }
 }
 
@@ -83,17 +91,24 @@ function addNewCollaborators(newCollaborators) {
   }
 }
 
-function sendWorkflowData(appName, appDescription, workflowData) {
+function sendWorkflowData(appName, appDescription,
+  bpmnJson,
+  appliedMethods,
+  appliedConditions,
+  generatedForms) {
   return dispatch => {
     dispatch(request());
 
     setTimeout(() => {
-      console.log(workflowData)
-      workflowService.sendWorkflowData(appName, appDescription, workflowData).then(
-        res => {
-          dispatch(success())
-          history.push('/execute_flow/flow1133');
-        }).catch(err => dispatch(failure(err)));
+      workflowService.sendWorkflowData(appName, appDescription,
+        bpmnJson,
+        appliedMethods,
+        appliedConditions,
+        generatedForms).then(
+          res => {
+            dispatch(success())
+            history.push('/execute_flow/flow1133');
+          }).catch(err => dispatch(failure(err)));
     }, 1000);
 
 

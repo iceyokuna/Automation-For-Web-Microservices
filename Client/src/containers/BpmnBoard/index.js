@@ -11,8 +11,9 @@ import EditingTools from './components/EditingTools';
 import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
 import ParticipantSelector from './components/participant_selector';
+import MemberDialog from './components/member_dialog';
 
-import ConditionList from 'components/condition_list'
+import ConditionList from 'components/condition_list';
 
 import "./style/app.less";
 
@@ -27,7 +28,7 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload, UserAdd } from 'grommet-icons'
+import { Upload, Group } from 'grommet-icons'
 
 import styled from 'styled-components'
 
@@ -127,16 +128,21 @@ class BpmnContainer extends Component {
       });
 
       switch (currentElement.$type) {
-        case 'bpmn:Lane': {
-          this.setState({
-            showParticipantSelector: true,
-          })
-        } break;
+        case 'bpmn:Lane':
+          this.showParticipantSelector();
+          break;
         default:
           break;
       }
     })
   }
+
+  showParticipantSelector = () => {
+    this.setState({
+      showParticipantSelector: true,
+    })
+  }
+
 
 
   attachFormToXML = (newForms) => {
@@ -270,9 +276,8 @@ class BpmnContainer extends Component {
   }
 
   onInvite = () => {
-    alert('Invite');
+    this.props.dispatch(workflowActions.toggleMemberDialog());
   }
-
 
   onSubmitDiagram = () => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
@@ -284,13 +289,19 @@ class BpmnContainer extends Component {
           if (err) {
             console.error(err);
           } else {
-            const bpmnJson = JSON.parse(converter.xml2json(xml, { compact: false, spaces: 2 }));
-         
+            const bpmnJson = JSON.parse(
+              converter.xml2json(xml, { compact: false, spaces: 2 }));
+
+            const { workflowConditions } = this.props;
+            const { appliedConditions } = workflowConditions;
+
             this.props.dispatch(workflowActions.sendWorkflowData(
-              appName, appDescription,
+              appName,
+              appDescription,
               bpmnJson,
-              generatedForms,
               appliedMethods,
+              appliedConditions,
+              generatedForms
             ));
           }
         });
@@ -373,6 +384,8 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
+        <MemberDialog />
+
         <FileControls
           onOpenFile={this.handleOpen}
           onCreate={this.handleCreate}
@@ -382,6 +395,7 @@ class BpmnContainer extends Component {
         <BpmnProperty
           allServices={availableServices.data}
           currentElement={this.state.currentElement}
+          onAssignTask={this.showParticipantSelector}
           onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
           onShowConditions={() => this.setState({ showConditionList: true })}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
@@ -404,7 +418,7 @@ class BpmnContainer extends Component {
         </NextButtonWrapper>
 
         <InviteButton color="accent-3"
-          primary label="Invite" icon={<UserAdd />} onClick={this.onInvite} />
+          primary label="Collaborators" icon={<Group />} onClick={this.onInvite} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
@@ -431,10 +445,11 @@ class BpmnContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { workflow, availableServices } = state;
+  const { workflow, availableServices, workflowConditions } = state;
   return {
     workflow,
-    availableServices
+    workflowConditions,
+    availableServices,
   };
 };
 

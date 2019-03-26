@@ -12,7 +12,8 @@ export default function TaskProperty({ services, onSelectServiceMethod }) {
               checked={isAsyncTask}
               onChange={event => this.setState({ isAsyncTask: event.target.checked })} /> */}
       <Box fill="horizontal">
-        <ServiceList services={services} onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
+        <ServiceList services={services}
+          onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
       </Box>
     </Box>
   )

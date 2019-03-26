@@ -33,7 +33,8 @@ export default class index extends Component {
     const { name, type } = this.props
     const { openDropdown } = this.state
     return (
-      <Box direction="row" gap="small" margin={{ vertical: 'small' }}>
+      <Box direction="row" gap="small" margin='xsmall'
+        background="light-0" pad="xsmall" round={{ size: 'small' }}>
         <Avatar size="48px" name={name} round />
         <Box direction="row" flex justify="between">
           <Box flex direction="column" justify="between">

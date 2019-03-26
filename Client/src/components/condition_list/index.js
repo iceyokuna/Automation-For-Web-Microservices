@@ -32,11 +32,6 @@ class ConditionList extends Component {
   }
 
 
-  componentDidMount = () => {
-    console.log(this.props.workflowConditions);
-  }
-  
-
   addMoreCondition = () => {
     const { conditions } = this.state;
     conditions.push({
@@ -62,6 +57,8 @@ class ConditionList extends Component {
         gatewayElement.id,
         conditions)
     );
+
+    this.close();
   }
 
 
@@ -86,7 +83,8 @@ class ConditionList extends Component {
 
 
   render() {
-    const { show, } = this.props;
+    const { show, appliedMethods } = this.props;
+
     return (
       show &&
       <Layer
@@ -126,6 +124,7 @@ class ConditionList extends Component {
 const mapStateToProps = (state) => {
   return {
     workflowConditions: state.workflowConditions,
+    appliedMethods: state.workflow.appliedMethods,
   }
 }
 
