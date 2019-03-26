@@ -12,8 +12,9 @@ import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
 import ParticipantSelector from './components/participant_selector';
 import MemberDialog from './components/member_dialog';
-
+import TimerTrigger from 'components/timer_trigger';
 import ConditionList from 'components/condition_list';
+
 
 import "./style/app.less";
 
@@ -385,6 +386,7 @@ class BpmnContainer extends Component {
         }
 
         <MemberDialog />
+        <TimerTrigger />
 
         <FileControls
           onOpenFile={this.handleOpen}

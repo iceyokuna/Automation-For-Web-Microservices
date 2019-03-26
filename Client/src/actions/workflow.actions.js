@@ -15,6 +15,7 @@ export const workflowActions = {
   setBpmnJson,
   setAppInfo,
   toggleMemberDialog,
+  toggleTimerDialog,
 
   // RESTful
   sendWorkflowData,
@@ -25,6 +26,12 @@ export const workflowActions = {
 function toggleMemberDialog() {
   return {
     type: workflowContants.TOGGLE_MEMBER_DIALOG
+  }
+}
+
+function toggleTimerDialog() {
+  return {
+    type: workflowContants.TOGGLE_TIMER_DIALOG
   }
 }
 

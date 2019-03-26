@@ -104,8 +104,8 @@ export class index extends Component {
                 userIds={userIds} />
 
               <Box direction="row" justify="end" align="center" gap="small">
-                <Button icon={<UserAdd />} label="Invite" primary onClick={this.onInvite} />
-                <Button icon={<Close />} label="Close" onClick={this.onColseDialog} />
+                <Button label="Invite" primary onClick={this.onInvite} />
+                <Button label="Close" onClick={this.onColseDialog} />
               </Box>
 
             </Box>

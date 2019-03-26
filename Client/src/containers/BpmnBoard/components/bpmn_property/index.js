@@ -19,6 +19,7 @@ import TaskProperty from './task_property'
 import GatewayProperty from './gateway_property'
 
 import { connect } from 'react-redux'
+import { workflowActions } from 'actions';
 
 
 class BpmnProperty extends Component {
@@ -90,10 +91,15 @@ class BpmnProperty extends Component {
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
   }
 
+  onSetTimer = () => {
+    this.props.dispatch(workflowActions.toggleTimerDialog());
+  }
+
+
   renderSpecialProperties() {
     const { nodeType, isAsyncTask, eventType } = this.state;
     const { allServices, onSelectServiceMethod,
-      onShowConditions, onAssignTask, onSetTimer } = this.props;
+      onShowConditions, onAssignTask } = this.props;
     const services = allServices.length == 0 ? services : allServices;
 
     let element = null;
@@ -104,27 +110,27 @@ class BpmnProperty extends Component {
       case 'bpmn:Task': {
         element = <TaskProperty services={services}
           onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
-      }
+      } break;
 
       case "bpmn:Lane": {
         element = <Button label="Assign Task" icon={<Stakeholder />} onClick={onAssignTask} />
-      }
+      } break;
 
       case "bpmn:ExclusiveGateway": {
         element = <GatewayProperty onShowConditions={onShowConditions} />
-      }
+      } break;
 
       case "bpmn:IntermediateCatchEvent": {
         if (eventType === "bpmn:TimerEventDefinition") {
-          element = <Button label="Set Timer" icon={<Alarm />} onClick={onSetTimer} />
+          element = <Button label="Set Timer" icon={<Alarm />} onClick={this.onSetTimer} />
         }
-      }
+      } break;
 
       case "bpmn:StartEvent": {
         if (eventType === "bpmn:TimerEventDefinition") {
-          element = <Button label="Set Timer" icon={<Alarm />} onClick={onSetTimer} />
+          element = <Button label="Set Timer" icon={<Alarm />} onClick={this.onSetTimer} />
         }
-      }
+      } break;
 
       default:
         break;
@@ -139,7 +145,7 @@ class BpmnProperty extends Component {
         to={{
           pathname: 'design_form',
         }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-        <Button icon={<FormAdd />} fill label="Create Form" />
+        <Button fill label="Create Form" />
       </Link>
     );
   }
