@@ -176,7 +176,7 @@ class BpmnProperty extends Component {
 
         {this.renderSpecialProperties()}
         {this.renderCreateFormButton()}
-        {this.renderConfirmChange()}
+        {/* {this.renderConfirmChange()} */}
 
       </Box>
     )
