@@ -83,13 +83,16 @@ class MyTasks extends Component {
             color={colors.brand} />
         </Box>) : (<Box direction="column" gap="small" animation="fadeIn" >
           <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium' }}>
-            <Box round={{ size: 'small' }} style={{ flex: 3 }} background="neutral-1">
+            <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
+              border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
               <Text textAlign="center" weight="bold">Workflow</Text>
             </Box>
-            <Box round={{ size: 'small' }} style={{ flex: 6 }} background="accent-1">
+            <Box style={{ flex: 6 }} pad={{ vertical: 'small' }}
+              border={{ side: 'bottom', color: 'accent-2', size: 'small' }}>
               <Text textAlign="center" weight="bold" >Action</Text>
             </Box>
-            <Box round={{ size: 'small' }} style={{ flex: 2 }} background="accent-3">
+            <Box style={{ flex: 2 }} pad={{ vertical: 'small' }}
+              border={{ side: 'bottom', color: 'accent-3', size: 'small' }}>
               <Text textAlign="center" weight="bold">Date</Text>
             </Box>
           </Box>
