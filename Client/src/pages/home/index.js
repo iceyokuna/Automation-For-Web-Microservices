@@ -40,16 +40,11 @@ export default class Home extends Component {
 
   renderRoutes = () => {
     const { match } = this.props;
-
-    console.log(match)
-
     return (
       <div style={global.globalContainer}>
         <Switch>
           <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
           <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
-
-
           <Route exact path={match.url + "/my_flows"} component={MyFlows} />
           <Route path={match.url + "/my_flows/create"} component={CreateFlow} />
           <Route path={match.url + "/my_flows/:flow_id/edit_diagram"} component={Workflow} />

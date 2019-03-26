@@ -22,17 +22,23 @@ function getAllMethodsByServiceId(serviceId) {
 }
 
 // Send both form and bpmn json together
-function sendWorkflowData(appName, appDescription,
+function sendWorkflowData(
+  appName,
+  appDescription,
   bpmnJson,
   appliedMethods,
   appliedConditions,
   generatedForms) {
+
   const token = localStorage.getItem('user').toString();
+
+  alert(appName)
+
   return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
     {
       name: appName,
       description: appDescription,
-      workflow: bpmnJson,
+      bpmnJson,
       appliedMethods,
       appliedConditions,
       generatedForms

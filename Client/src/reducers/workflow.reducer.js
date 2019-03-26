@@ -26,7 +26,7 @@ const defaultState = {
 
   recentForm: null,
   appName: 'Default name',
-  appDescription: '',
+  appDescription: 'Default description',
   collaboratorsToInvite: [],
 
   loadingWorkflowData: false,
