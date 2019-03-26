@@ -83,8 +83,10 @@ class WorkflowEngine:
     
 
     def start(self):
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-        element_object = self.state[self.currentState["current"]]
+        temp_current = list(self.currentState["current"])[0]
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")][0]
+        self.currentState["current"] = self.currentState["current"].remove(temp_current)
+        element_object = self.state[list(self.currentState["current"])[0]]
         return (element_object.getHTML())
         
     def next(self):
