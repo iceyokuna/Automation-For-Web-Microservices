@@ -66,11 +66,16 @@ class WorkflowEngine:
                 outputType = None
                 eventDefination = element['elements'][2]['name']
                 event = TimeEvent(Id, name, inputType, outputType, eventDefination)
-                self.state[element['attributes']['id']] = task
+                self.state[element['attributes']['id']] = event
 
             #Parallel
             elif(element['name'] == 'bpmn2.parallelGateway'):
-                pass
+                Id = element['attributes']['id']
+                name = element['attributes']['name']
+                inputType = None
+                outputType = None
+                gateway = ParallelGateway(Id, name, inputType, outputType)
+                self.state[element['attributes']['id']] = gateway
     
 
     def start(self):
@@ -79,12 +84,18 @@ class WorkflowEngine:
         return (element_object.getHTML())
         
     def next(self):
+        #get object from next transition
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+
+        #check that is end state or not
         if(self.currentState["current"] in self.endState):
             #DEBUG_LOG_WHEN_EXECUTION_DONE
             self.showLog()
             return "DONE"
+        
+        #Tasks case return HTML and perform services (2 cases have/not have form)
         element_object = self.state[self.currentState["current"]]
+
         return (element_object.getHTML())
 
     def setUserInput(self, userInput):
