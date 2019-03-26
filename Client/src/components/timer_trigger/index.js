@@ -16,23 +16,26 @@ export class index extends Component {
 
   state = {
     showTimerDialog: false,
-    date: new Date(),
+    targetTime: new Date(),
   }
 
-
-  onSetTimer = () => {
-
-
-    this.onColseDialog();
+  onTimeChange = (dateTime) => {
+    this.setState({ targetTime: dateTime });
   }
 
   onColseDialog = () => {
     this.props.dispatch(workflowActions.toggleTimerDialog());
   }
 
+  onSetTimer = () => {
+    console.log(this.state.targetTime);
+    this.onColseDialog();
+  }
+
+
   render() {
     const { workflowTimers } = this.props;
-    const { date } = this.state;
+    const { targetTime } = this.state;
     return (
       <Fragment>
         {workflowTimers.showTimerDialog && (
@@ -47,11 +50,11 @@ export class index extends Component {
               <Box id="datepicker-container" margin={{ bottom: 'small' }}>
                 <Flatpickr
                   data-enable-time
-                  value={date}
+                  value={targetTime}
                   options={{
                     inline: true
                   }}
-                  onChange={date => { this.setState({ date }) }} />
+                  onChange={(dateTime) => this.onTimeChange(dateTime)} />
               </Box>
 
               <Box direction="row" justify="end" align="center" gap="small">

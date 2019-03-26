@@ -1,7 +1,7 @@
 import { workflowContants } from '_constants';
 
 const defaultState = {
-  showTimerDialog: false,
+  showTimerDialog: true,
   appliedTimers: {},
 }
 
