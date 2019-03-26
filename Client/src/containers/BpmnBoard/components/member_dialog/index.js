@@ -12,6 +12,8 @@ import { workflowActions } from 'actions';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
+import axios from 'axios';
+
 export class index extends Component {
 
   state = {
@@ -43,6 +45,16 @@ export class index extends Component {
   onInvite = () => {
     // Todo : insert async function
 
+    const { selectedCollaborators } = this.state;
+    const token = localStorage.getItem('user').toString();
+    axios.post("http://178.128.214.101:8003/api/collaborator/", {
+      collaborators: selectedCollaborators,
+      workflow_id: 1,
+    }, {
+        headers: {
+          Authorization: "Token " + token,
+        }
+      }).then((res) => console.log(res.data)).catch(err => console.error(err));
 
     this.onColseDialog();
   }
