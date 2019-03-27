@@ -50,7 +50,7 @@ export default class ParticipantSelector extends Component {
           >
             <Box pad="medium" gap="small" width="medium">
               <Heading level={2} margin="none">
-                Choose a participant for this lane
+                Choose a collaborator for this lane
               </Heading>
 
               <Select
