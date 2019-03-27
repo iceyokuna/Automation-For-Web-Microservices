@@ -96,10 +96,8 @@ class BpmnProperty extends Component {
   }
 
   onDefineInput = () => {
-    
+    this.props.dispatch(workflowActions.togglePreInputDialog());
   }
-
-
 
   renderSpecialProperties() {
     const { nodeType, isAsyncTask, eventType } = this.state;
