@@ -49,7 +49,7 @@ export class index extends Component {
     const token = localStorage.getItem('user').toString();
     axios.post("http://178.128.214.101:8003/api/collaborator/", {
       collaborators: selectedCollaborators,
-      workflow_id: 1,
+      workflow_id: 49,
     }, {
         headers: {
           Authorization: "Token " + token,

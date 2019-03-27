@@ -44,7 +44,7 @@ export class index extends Component {
             onClickOutside={this.onColseDialog}>
             <Box pad="medium" gap="small" width="360px" direction="column">
               <Heading level={2} margin="none">
-                Set timer trigger
+                Set a timer
               </Heading>
 
               <Box id="datepicker-container" margin={{ bottom: 'small' }}>
