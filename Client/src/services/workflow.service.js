@@ -30,7 +30,8 @@ function sendWorkflowData(
   appliedConditions,
   generatedForms) {
 
-  const token = localStorage.getItem('user').toString();
+  let token = localStorage.getItem('user');
+  token = JSON.parse(token).token;
 
   return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
     {

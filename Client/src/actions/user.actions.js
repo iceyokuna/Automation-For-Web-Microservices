@@ -18,9 +18,10 @@ function login(username, password) {
     userService.login(username, password)
       .then(
         res => {
-          const token = res.data.token;
-          if (token) { localStorage.setItem('user', token); }
-          dispatch(success(token));
+          let user = res.data;
+          user = JSON.stringify(user);
+          if (user) { localStorage.setItem('user', user); }
+          dispatch(success(user));
           history.push('/home/my_tasks');
         },
         error => {

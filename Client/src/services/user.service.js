@@ -19,7 +19,8 @@ function login(username, password) {
 }
 
 function logout() {
-  const token = localStorage.getItem('user').toString();
+  let token = localStorage.getItem('user');
+  token = JSON.parse(token).token;
   return axios.post(globalConstants.USER_LOGOUT_URL, null, {
     headers: {
       Authorization: "Token " + token,
