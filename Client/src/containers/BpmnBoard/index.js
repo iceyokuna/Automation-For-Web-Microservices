@@ -116,6 +116,7 @@ class BpmnContainer extends Component {
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
       const currentElement = event.element.businessObject;
+      this.props.dispatch(workflowActions.setCurrentElement(currentElement));
       this.setState({
         currentElement: currentElement
       });

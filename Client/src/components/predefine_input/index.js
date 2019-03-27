@@ -73,7 +73,7 @@ export class index extends Component {
             onClickOutside={this.onColseDialog}>
             <Box pad="medium" gap="small" width="500px" direction="column">
               <Heading level={2} margin="none">
-                Predefine Value of Input Interface
+                Pre-define Value for Input Interface
               </Heading>
               <Text>* Parameters required to use this service</Text>
               <Box gap="small">

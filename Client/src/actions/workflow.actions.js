@@ -14,6 +14,7 @@ export const workflowActions = {
 
   setBpmnJson,
   setAppInfo,
+  setCurrentElement,
   toggleMemberDialog,
   toggleTimerDialog,
   togglePreInputDialog,
@@ -23,6 +24,12 @@ export const workflowActions = {
   getWorkflowByAppName,
 };
 
+function setCurrentElement(bpmnNode) {
+  return {
+    type: workflowContants.SET_CURRENT_ELEMENT,
+    bpmnNode,
+  }
+}
 
 function toggleMemberDialog() {
   return {
