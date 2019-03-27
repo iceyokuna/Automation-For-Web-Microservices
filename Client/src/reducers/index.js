@@ -7,6 +7,7 @@ import { alert } from './alert.reducer';
 import { workflow } from './workflow.reducer';
 import { workflowConditions } from './workflow.conditions.reducer';
 import { workflowTimers } from './workflow.timers.reducer';
+import { workflowPreInputs } from './workflow.predefine_input.reducer'
 import { socket } from './socket.reducer';
 import { availableServices } from './available_services.reducer'
 import { inboxTasks } from './inbox_tasks.reducer';
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   workflow,
   workflowConditions,
   workflowTimers,
+  workflowPreInputs,
   socket,
   availableServices,
   inboxTasks,

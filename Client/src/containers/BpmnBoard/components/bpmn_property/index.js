@@ -5,7 +5,7 @@ import { Box, TextInput, Button, Heading, Text, FormField, CheckBox } from 'grom
 import {
   FormAdd, Checkmark,
   Close, Stakeholder,
-  Alarm,
+  Alarm, Edit,
 } from 'grommet-icons';
 import { global } from 'style';
 import { Link, Redirect } from 'react-router-dom'
@@ -95,6 +95,11 @@ class BpmnProperty extends Component {
     this.props.dispatch(workflowActions.toggleTimerDialog());
   }
 
+  onDefineInput = () => {
+    
+  }
+
+
 
   renderSpecialProperties() {
     const { nodeType, isAsyncTask, eventType } = this.state;
@@ -108,8 +113,10 @@ class BpmnProperty extends Component {
 
     switch (nodeType) {
       case 'bpmn:Task': {
-        element = <TaskProperty services={services}
-          onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
+        element = [<TaskProperty services={services}
+          onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />,
+        <Button label="Define Input" icon={<Edit />} onClick={this.onDefineInput} />
+        ]
       } break;
 
       case "bpmn:Lane": {
