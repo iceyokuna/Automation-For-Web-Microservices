@@ -19,9 +19,9 @@ function login(username, password) {
       .then(
         res => {
           let user = res.data;
-          user = JSON.stringify(user);
-          if (user) { localStorage.setItem('user', user); }
           dispatch(success(user));
+          user = JSON.stringify(user);
+          localStorage.setItem('user', user);
           history.push('/home/my_tasks');
         },
         error => {
