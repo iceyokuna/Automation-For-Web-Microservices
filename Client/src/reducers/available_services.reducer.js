@@ -13,14 +13,14 @@ export function availableServices(state = defaultState, action) {
             const nextState = { ...state };
             nextState.loading = true;
             return nextState;
-        };
+        }
 
         case services.GET_ALL_SERVICES_SUCCESS: {
             const nextState = { ...state };
             nextState.data = action.allServices;
             nextState.loading = false;
             return nextState;
-        };
+        }
 
         default:
             return state

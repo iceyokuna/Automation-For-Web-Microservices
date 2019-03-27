@@ -1,15 +1,12 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import {
   Heading, Text, Box, Button,
   Layer, TextInput, FormField,
 } from 'grommet'
-import { UserAdd } from 'grommet-icons'
 
 import { workflowActions } from 'actions';
-
 
 export class index extends Component {
 

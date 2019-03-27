@@ -10,7 +10,7 @@ export function workflowCurrentNode(state = defaultState, action) {
       const nextState = { ...state };
       nextState.currentNode = action.bpmnNode;
       return nextState;
-    } break;
+    }
 
     default:
       return state

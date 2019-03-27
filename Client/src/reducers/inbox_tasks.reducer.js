@@ -12,21 +12,21 @@ export function inboxTasks(state = initialState, action) {
         isLoading: true,
         data: [],
       }
-    } break;
+    }
 
     case inboxTasksConstants.GET_ALL_INBOX_TASKS_SUCCESS: {
       return {
         isLoading: false,
         data: action.inboxTasks,
       }
-    } break;
+    }
     case inboxTasksConstants.GET_ALL_INBOX_TASKS_FAILURE: {
       return {
         isLoading: false,
         error: action.error,
         data: state.data,
       }
-    } break;
+    }
     default:
       return state
   }

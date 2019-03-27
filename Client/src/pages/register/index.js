@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { styles } from './style'
 
 import { Box, FormField, TextInput, Button, Image, } from 'grommet';
 import { UserNew } from 'grommet-icons';

@@ -52,6 +52,7 @@ class MyTasks extends Component {
 
     return inboxTasks.data.map((item, index) =>
       <TaskItemInbox workflowName={item.workflowName}
+        key={index}
         isEven={index % 2 == 0}
         actionType={item.actionType}
         actionDescription={item.actionDescription}
