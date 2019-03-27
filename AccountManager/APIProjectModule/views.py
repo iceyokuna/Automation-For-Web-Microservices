@@ -50,8 +50,8 @@ class CollaboratorView(APIView):
     def post(self, request):
         workflow_id = request.data.get('workflow_id')
         # request.POST.get('workflow'))
-        return Response({"detaili": workflow_id}, status=HTTP_200_OK)
         workflow = Workflow.objects.filter(id=workflow_id)[0]
+        return Response({"detaili": workflow_id}, status=HTTP_200_OK)
         collaborator_list = request.data.get('collaborators')
         for i in collaborator_list:
             user = User.objects.filter(id=i)[0]
