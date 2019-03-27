@@ -17,7 +17,15 @@ export function workflowPreInputs(state = defaultState, action) {
     case workflowContants.APPLY_PRE_INPUT: {
       const nextState = { ...state };
       return nextState;
-    }
+    } break;
+
+    case workflowContants.TOGGLE_PRE_INPUT_DIALOG: {
+      const nextState = {
+        ...state,
+        showPreInputDialog: !state.showPreInputDialog
+      };
+      return nextState;
+    } break;
 
     default:
       return state

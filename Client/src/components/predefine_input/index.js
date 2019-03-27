@@ -10,11 +10,17 @@ import { UserAdd } from 'grommet-icons'
 
 import { workflowActions } from 'actions';
 
+
 export class index extends Component {
 
   state = {
     preInputs: [],
     serviceMethod: null,
+    inputInterfaces: [
+      { variableName: 'email', value: 'treesakul@gmail.com' },
+      { variableName: 'subject', value: '' },
+      { variableName: 'message', value: '' },
+    ]
   }
 
   onTimeChange = (dateTime) => {
@@ -22,13 +28,39 @@ export class index extends Component {
   }
 
   onColseDialog = () => {
-    // this.props.dispatch(workflowActions.toggleTimerDialog());
+    this.props.dispatch(workflowActions.togglePreInputDialog());
   }
 
   onSetPreInput = () => {
-    console.log(this.state.targetTime);
+    console.log(this.state.inputInterfaces);
     this.onColseDialog();
   }
+
+  onChangePreInput = (event, index) => {
+    const { inputInterfaces } = this.state;
+    inputInterfaces[index].value = event.target.value;
+
+    this.setState({
+      inputInterfaces: inputInterfaces,
+    })
+  }
+
+
+  renderPreInputValues = () => {
+    const { inputInterfaces } = this.state;
+    return inputInterfaces.map((item, index) =>
+      <Fragment>
+        <Text weight="bold" size="small">
+          {item.variableName}
+        </Text>
+        <FormField>
+          <TextInput value={item.value}
+            onChange={(event) => this.onChangePreInput(event, index)} />
+        </FormField>
+      </Fragment>
+    )
+  }
+
 
   render() {
     const { workflowPreInputs } = this.props;
@@ -39,19 +71,18 @@ export class index extends Component {
           <Layer
             onEsc={this.onColseDialog}
             onClickOutside={this.onColseDialog}>
-            <Box pad="medium" gap="small" width="360px" direction="column">
+            <Box pad="medium" gap="small" width="500px" direction="column">
               <Heading level={2} margin="none">
                 Predefine Input
               </Heading>
 
-              <Text size="bold">
-                Input Interface
-              </Text>
-
+              <Text weight="bold">Input Interface</Text>
+              <Text>* Parameters required to use this service</Text>
               <Box gap="small">
-                <Text>
-
-                </Text>
+                {/* <Text weight="bold" size="small">
+                
+                </Text> */}
+                {this.renderPreInputValues()}
               </Box>
 
               <Box direction="row" justify="end" align="center" gap="small">

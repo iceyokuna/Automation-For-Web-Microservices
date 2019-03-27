@@ -16,6 +16,7 @@ export const workflowActions = {
   setAppInfo,
   toggleMemberDialog,
   toggleTimerDialog,
+  togglePreInputDialog,
 
   // RESTful
   sendWorkflowData,
@@ -32,6 +33,12 @@ function toggleMemberDialog() {
 function toggleTimerDialog() {
   return {
     type: workflowContants.TOGGLE_TIMER_DIALOG
+  }
+}
+
+function togglePreInputDialog() {
+  return {
+    type: workflowContants.TOGGLE_PRE_INPUT_DIALOG
   }
 }
 
