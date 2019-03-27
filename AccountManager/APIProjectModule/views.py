@@ -47,7 +47,7 @@ class CollaboratorView(APIView):
             'id', 'collaborator__id', 'collaborator__first_name', 'collaborator__last_name')
         return Response({'collaborators': queryset}, status=HTTP_200_OK)
 
-    def post(self, request,  workflow_id):
+    def post(self, request):
         workflow_id = request.data.get('workflow_id')
         # request.POST.get('workflow'))
         workflow = Workflow.objects.filter(id=workflow_id).first()
