@@ -125,23 +125,26 @@ function addNewCollaborators(newCollaborators) {
 }
 
 function sendWorkflowData(appName, appDescription,
-  bpmnJson,
-  appliedMethods,
-  appliedConditions,
-  generatedForms) {
+  workflowData) {
   return dispatch => {
     dispatch(request());
+
+    const { bpmnJson,
+      appliedMethods,
+      appliedConditions,
+      generatedForms } = workflowData;
 
     setTimeout(() => {
       workflowService.sendWorkflowData(appName, appDescription,
         bpmnJson,
         appliedMethods,
         appliedConditions,
-        generatedForms).then(
-          res => {
-            dispatch(success())
-            history.push('/execute_flow/flow1133');
-          }).catch(err => dispatch(failure(err)));
+        generatedForms,
+      ).then(
+        res => {
+          dispatch(success())
+          history.push('/execute_flow/flow1133');
+        }).catch(err => dispatch(failure(err)));
     }, 1000);
 
 

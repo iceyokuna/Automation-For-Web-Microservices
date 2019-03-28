@@ -293,14 +293,16 @@ class BpmnContainer extends Component {
 
             const { workflowConditions } = this.props;
             const { appliedConditions } = workflowConditions;
-
-            this.props.dispatch(workflowActions.sendWorkflowData(
-              appName,
-              appDescription,
+            const workflowData = {
               bpmnJson,
               appliedMethods,
               appliedConditions,
               generatedForms
+            }
+            this.props.dispatch(workflowActions.sendWorkflowData(
+              appName,
+              appDescription,
+              workflowData
             ));
           }
         });
