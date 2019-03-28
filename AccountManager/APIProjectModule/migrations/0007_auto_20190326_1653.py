@@ -51,9 +51,7 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(auto_now=True),
         ),
         
-        migrations.DeleteModel(
-            name='Condition',
-        ),
+       
         
         migrations.DeleteModel(
             name='Task',
