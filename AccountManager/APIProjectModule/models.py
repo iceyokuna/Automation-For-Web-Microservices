@@ -11,6 +11,7 @@ class Workflow(models.Model):
     user = models.ForeignKey(User, to_field="username", db_column="username", related_name='project_user', on_delete=models.CASCADE)
     appliedMethods = JSONField(null=True)
     appliedConditions = JSONField(null=True)
+    appliedPreInputs = JSONField(null=True)
     generatedForms = JSONField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
