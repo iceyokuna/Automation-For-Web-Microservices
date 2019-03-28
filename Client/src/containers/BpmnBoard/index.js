@@ -39,7 +39,7 @@ import { workflowActions, availableServicesActions, socketActions } from 'action
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
 
-const NextButtonWrapper = styled.div`
+const NextButtonWrapper = styled(Box)`
   position: absolute;
   top: 10px;
   right: 340px;
@@ -48,7 +48,7 @@ const NextButtonWrapper = styled.div`
 const InviteButton = styled(Button)`
 position: absolute;
 top: 22px;
-right: 505px;
+right: 415px;
 `
 
 let scale = 1;
@@ -413,15 +413,16 @@ class BpmnContainer extends Component {
           onUndo={this.handleUndo}
         />
 
-        <NextButtonWrapper>
-          <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button color="accent-1" primary icon={<Upload />}
-              label="Submit" onClick={this.onSubmitDiagram} />
-          </Box>
+        <NextButtonWrapper pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
+          <Button color="accent-1" primary icon={<Upload size="18px" />}
+            title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
         </NextButtonWrapper>
 
-        <InviteButton color="accent-3"
-          primary label="Collaborators" icon={<Group />} onClick={this.onInvite} />
+        <InviteButton
+          color="accent-3"
+          primary plain={false} title="Collaborators"
+          icon={<Group size="18px" />}
+          onClick={this.onInvite} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
