@@ -13,16 +13,29 @@ export class index extends Component {
   state = {
     preInputs: [],
     serviceMethod: null,
-    inputInterface: []
-  }
-
-
-  onTimeChange = (dateTime) => {
-    this.setState({ targetTime: dateTime });
   }
 
   onColseDialog = () => {
     this.props.dispatch(workflowActions.togglePreInputDialog());
+  }
+
+  onSetPreInput = () => {
+    const { workflow } = this.props;
+    const { preInputs } = this.state;
+    const elementId = workflow.currentNode.id;
+    const method = workflow.appliedMethods[elementId].method;
+    this.props.dispatch(workflowActions.applyPreInputsToTask(elementId, preInputs, method));
+    this.setState({ preInputs: [] });
+    this.onColseDialog();
+  }
+
+  onChangePreInput = (event, index) => {
+    const { preInputs } = this.state;
+    preInputs[index].value = event.target.value;
+
+    this.setState({
+      preInputs: preInputs,
+    })
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -36,30 +49,15 @@ export class index extends Component {
           value: ''
         })
       })
-      this.setState({ inputInterface: listOfInputs });
+      if (this.state.preInputs.length == 0) {
+        this.setState({ preInputs: listOfInputs });
+      }
     }
   }
 
-
-  onSetPreInput = () => {
-    console.log(this.state.inputInterface);
-
-    // this.onColseDialog();
-  }
-
-  onChangePreInput = (event, index) => {
-    const { inputInterface } = this.state;
-    inputInterface[index].value = event.target.value;
-
-    this.setState({
-      inputInterface: inputInterface,
-    })
-  }
-
-
   renderPreInputValues = () => {
-    const { inputInterface } = this.state;
-    return inputInterface.map((item, index) =>
+    const { preInputs } = this.state;
+    return preInputs.map((item, index) =>
       <div key={item.variableName}>
         <Text weight="bold" size="small">
           {item.variableName}
@@ -75,7 +73,6 @@ export class index extends Component {
 
   render() {
     const { workflowPreInputs } = this.props;
-    const { targetTime } = this.state;
     return (
       <Fragment>
         {workflowPreInputs.showPreInputDialog && (

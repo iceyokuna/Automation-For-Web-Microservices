@@ -27,8 +27,13 @@ export const workflowActions = {
   getWorkflowByAppName,
 };
 
-function applyPreInputsToTask() {
-  
+function applyPreInputsToTask(elementId, preInputs, method) {
+  return {
+    type: workflowContants.APPLY_PRE_INPUT,
+    elementId,
+    preInputs,
+    method,
+  }
 }
 
 function setCurrentElement(bpmnNode) {
