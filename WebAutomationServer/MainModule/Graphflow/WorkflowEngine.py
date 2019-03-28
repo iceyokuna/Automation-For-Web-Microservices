@@ -97,7 +97,7 @@ class WorkflowEngine:
         #build for demo parallel !!!!!!
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         print("service email !!!!!!!!!!!!!!!!!!!!")
-        request_input = {"email":["iceyokuna@gmail.com"],"message":"Execution Successfully !!!","subject":"AutoWeb execution information [please do not reply]"}
+        request_input = {"email":["iceyokuna@hotmail.com"],"message":"Execution Successfully !!!","subject":"AutoWeb execution information [please do not reply]"}
         requests.post('http://127.0.0.1:8001/api/email', json= request_input)
         print("service line !!!!!!!!!!!!!!!!!!!!")
         requests.get(url = "https://safe-beyond-22181.herokuapp.com/notify")
