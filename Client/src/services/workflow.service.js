@@ -3,14 +3,15 @@ import { globalConstants } from '_constants';
 
 const domainName = "http://178.128.214.101:8002"
 
-const localhost = "http://127.0.0.1:8000"
+const engineUrl = "http://127.0.0.1:8000/create_workflow/"
 
 
 export const workflowService = {
   getAllServices,
   getAllMethodsByServiceId,
   sendWorkflowData,
-  getWorkflowByAppName
+  sendWorkflowDataToEngine,
+  getWorkflowByAppName,
 };
 
 function getAllServices() {
@@ -28,12 +29,42 @@ function sendWorkflowData(
   bpmnJson,
   appliedMethods,
   appliedConditions,
-  generatedForms) {
+  generatedForms
+) {
 
   let token = localStorage.getItem('user');
   token = JSON.parse(token).token;
 
   return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
+    {
+      name: appName,
+      description: appDescription,
+      bpmnJson,
+      appliedMethods,
+      appliedConditions,
+      generatedForms
+    },
+    {
+      headers: {
+        Authorization: "Token " + token,
+      }
+    })
+}
+
+
+function sendWorkflowDataToEngine(
+  appName,
+  appDescription,
+  bpmnJson,
+  appliedMethods,
+  appliedConditions,
+  generatedForms
+) {
+
+  let token = localStorage.getItem('user');
+  token = JSON.parse(token).token;
+
+  return axios.post(engineUrl,
     {
       name: appName,
       description: appDescription,

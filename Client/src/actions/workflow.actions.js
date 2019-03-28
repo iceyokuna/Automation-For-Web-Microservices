@@ -24,6 +24,7 @@ export const workflowActions = {
 
   // RESTful
   sendWorkflowData,
+  sendWorkflowDataToEngine,
   getWorkflowByAppName,
 };
 
@@ -170,6 +171,55 @@ function sendWorkflowData(appName, appDescription,
   }
 
 }
+
+function sendWorkflowDataToEngine(appName, appDescription,
+  workflowData) {
+  return dispatch => {
+    dispatch(request());
+
+    const { bpmnJson,
+      appliedMethods,
+      appliedConditions,
+      generatedForms } = workflowData;
+
+    setTimeout(() => {
+      workflowService.sendWorkflowDataToEngine(appName, appDescription,
+        bpmnJson,
+        appliedMethods,
+        appliedConditions,
+        generatedForms,
+      ).then(
+        res => {
+          dispatch(success())
+          history.push('/execute_flow/flow1133');
+        }).catch(err => dispatch(failure(err)));
+    }, 1000);
+
+
+    function request() {
+      return {
+        type: workflowContants.SEND_WORKFLOW_DATA_REQUEST
+      }
+    }
+
+    function success(data) {
+      return {
+        type: workflowContants.SEND_WORKFLOW_DATA_SUCCESS,
+        data
+      }
+    }
+
+    function failure(err) {
+      console.error(err);
+      return {
+        type: workflowContants.SEND_WORKFLOW_DATA_FAILURE
+      }
+    }
+  }
+
+}
+
+
 
 function getWorkflowByAppName(appName) {
   return dispatch => {

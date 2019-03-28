@@ -46,7 +46,7 @@ class MainConsumer(WebsocketConsumer):
                 workflowEngine_load = pickle.load(f)
                 
             #set Input from client to current state node
-            workflowEngine_load.setUserInput(message['formInputValues'])
+ #           workflowEngine_load.setUserInput(message['formInputValues'])
 
             #get next html
             HTML = workflowEngine_load.next()

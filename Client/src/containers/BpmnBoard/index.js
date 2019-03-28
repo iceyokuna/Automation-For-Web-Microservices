@@ -29,25 +29,15 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload, Group } from 'grommet-icons'
-
-import styled from 'styled-components'
+import { Upload, Group, Test } from 'grommet-icons'
 
 import { workflowActions, availableServicesActions } from 'actions'
 
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
+import { InviteButton, NextButton, SendWorkflowButton } from './style'
 
-const InviteButton = styled(Button)`
-  position: absolute;
-  top: 22px;
-  right: 415px;
-`
-const NextButton = styled(Button)`
-  position: absolute;
-  top: 22px;
-  right: 360px;
-`
+
 let scale = 1;
 
 const variables = [
@@ -278,7 +268,7 @@ class BpmnContainer extends Component {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
-  onSubmitDiagram = () => {
+  onSubmitDiagram = (mode) => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
@@ -299,11 +289,20 @@ class BpmnContainer extends Component {
               appliedConditions,
               generatedForms
             }
-            this.props.dispatch(workflowActions.sendWorkflowData(
-              appName,
-              appDescription,
-              workflowData
-            ));
+
+            if (mode === "ToEngine") {
+              this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
+                appName,
+                appDescription,
+                workflowData
+              ));
+            } else {
+              this.props.dispatch(workflowActions.sendWorkflowData(
+                appName,
+                appDescription,
+                workflowData
+              ));
+            }
           }
         });
       }
@@ -394,6 +393,7 @@ class BpmnContainer extends Component {
           onSaveFile={this.handleSaveFile}
           onSaveImage={this.handleSaveImage}
         />
+
         <BpmnProperty
           allServices={availableServices.data}
           currentElement={this.state.currentElement}
@@ -401,6 +401,7 @@ class BpmnContainer extends Component {
           onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
           onShowConditions={() => this.setState({ showConditionList: true })}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
+
         <ZoomControls
           onZoomIn={this.handleZoomIn}
           onZoomOut={this.handleZoomOut}
@@ -410,6 +411,13 @@ class BpmnContainer extends Component {
           onSave={this.handleSaveJson}
           onRedo={this.handleRedo}
           onUndo={this.handleUndo}
+        />
+
+        <SendWorkflowButton
+          color="accent-4" primary plain={false}
+          icon={<Test size="18px" color="#ffffff" />}
+          title="Send workflow directly to engine"
+          onClick={() => this.onSubmitDiagram("ToEngine")}
         />
 
         <InviteButton
