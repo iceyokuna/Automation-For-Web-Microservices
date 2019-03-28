@@ -22,27 +22,18 @@ function getAllMethodsByServiceId(serviceId) {
   return axios.post(domainName + '/get_all_methods/', { serviceId })
 }
 
-// Send both form and bpmn json together
 function sendWorkflowData(
   appName,
   appDescription,
-  bpmnJson,
-  appliedMethods,
-  appliedConditions,
-  generatedForms
+  workflowData,
 ) {
-
   let token = localStorage.getItem('user');
   token = JSON.parse(token).token;
-
   return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
     {
       name: appName,
       description: appDescription,
-      bpmnJson,
-      appliedMethods,
-      appliedConditions,
-      generatedForms
+      ...workflowData
     },
     {
       headers: {
@@ -55,23 +46,15 @@ function sendWorkflowData(
 function sendWorkflowDataToEngine(
   appName,
   appDescription,
-  bpmnJson,
-  appliedMethods,
-  appliedConditions,
-  generatedForms
+  workflowData,
 ) {
-
   let token = localStorage.getItem('user');
   token = JSON.parse(token).token;
-
   return axios.post(engineUrl,
     {
       name: appName,
       description: appDescription,
-      bpmnJson,
-      appliedMethods,
-      appliedConditions,
-      generatedForms
+      ...workflowData
     },
     {
       headers: {

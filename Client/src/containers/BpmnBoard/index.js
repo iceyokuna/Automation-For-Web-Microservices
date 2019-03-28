@@ -281,13 +281,16 @@ class BpmnContainer extends Component {
             const bpmnJson = JSON.parse(
               converter.xml2json(xml, { compact: false, spaces: 2 }));
 
-            const { workflowConditions } = this.props;
+            const { workflowConditions, workflowPreInputs } = this.props;
             const { appliedConditions } = workflowConditions;
+            const { appliedPreInputs } = workflowPreInputs;
+
             const workflowData = {
               bpmnJson,
               appliedMethods,
               appliedConditions,
-              generatedForms
+              appliedPreInputs,
+              generatedForms,
             }
 
             if (mode === "ToEngine") {
@@ -454,11 +457,13 @@ class BpmnContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { workflow, availableServices, workflowConditions } = state;
+  const { workflow, availableServices
+    , workflowConditions, workflowPreInputs } = state;
   return {
     workflow,
     workflowConditions,
     availableServices,
+    workflowPreInputs,
   };
 };
 

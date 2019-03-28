@@ -129,18 +129,8 @@ function sendWorkflowData(appName, appDescription,
   workflowData) {
   return dispatch => {
     dispatch(request());
-
-    const { bpmnJson,
-      appliedMethods,
-      appliedConditions,
-      generatedForms } = workflowData;
-
     setTimeout(() => {
-      workflowService.sendWorkflowData(appName, appDescription,
-        bpmnJson,
-        appliedMethods,
-        appliedConditions,
-        generatedForms,
+      workflowService.sendWorkflowData(appName, appDescription, workflowData
       ).then(
         res => {
           dispatch(success())
@@ -176,18 +166,9 @@ function sendWorkflowDataToEngine(appName, appDescription,
   workflowData) {
   return dispatch => {
     dispatch(request());
-
-    const { bpmnJson,
-      appliedMethods,
-      appliedConditions,
-      generatedForms } = workflowData;
-
     setTimeout(() => {
       workflowService.sendWorkflowDataToEngine(appName, appDescription,
-        bpmnJson,
-        appliedMethods,
-        appliedConditions,
-        generatedForms,
+        workflowData
       ).then(
         res => {
           dispatch(success())
