@@ -26,11 +26,7 @@ class FlowDetail extends Component {
   constructor(props) {
     super(props)
 
-    const { myFlows, match } = this.props;
-    const currentFlow = myFlows.find((flow) => flow.id == match.params.flow_id);
-
     this.state = {
-      currentFlow: currentFlow,
       newAppName: '',
       newDescription: '',
       openEditMenu: undefined,
@@ -65,10 +61,6 @@ class FlowDetail extends Component {
     this.setState({ newDescription: e.target.value });
   }
 
-  onSelectFlow = () => {
-
-  }
-
   onCloseEditMenu = () => {
     this.setState({
       openEditMenu: false,
@@ -80,8 +72,10 @@ class FlowDetail extends Component {
   }
 
   navigateToModeler = () => {
-    const { history, match } = this.props;
-    history.push(match.url + '/edit_diagram');
+    const { history, match, currentFlow } = this.props;
+    history.push(match.url + '/edit_diagram', {
+      id: currentFlow.id
+    });
   }
 
   renderCollaboratorsList = () => {
@@ -99,7 +93,7 @@ class FlowDetail extends Component {
   }
 
   renderDescriptionBox = () => {
-    const { currentFlow } = this.state;
+    const { currentFlow } = this.props;
     return (
       <Box margin="small" pad="small"
         round={{ size: 'small' }} background="light-0" >
@@ -177,10 +171,9 @@ class FlowDetail extends Component {
     )
   }
 
-
-
   render() {
-    const { openEditMenu, currentFlow } = this.state;
+    const { openEditMenu } = this.state;
+    const { currentFlow } = this.props;
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
@@ -220,7 +213,7 @@ class FlowDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    myFlows: state.workflowMyFlows.myFlows,
+    currentFlow: state.workflowMyFlows.currentFlow,
   }
 }
 

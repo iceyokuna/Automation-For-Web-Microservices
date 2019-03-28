@@ -13,7 +13,9 @@ export const workflowActions = {
   applyPreInputsToTask,
 
   setExecutingForm,
-  // getNextForm,
+  setCurrentFlow,
+  setupExistingWorkflow,
+  setupNewWorkflow,
 
   setBpmnJson,
   setAppInfo,
@@ -102,6 +104,30 @@ function applyConditionsToGateWay(gatewayId, conditions) {
   }
 }
 
+function setupExistingWorkflow() {
+  return (dispatch, getState) => {
+    const currentFlow = getState().workflowMyFlows.currentFlow;
+    dispatch({
+      type: workflowContants.SETUP_EXISTING_WORKFLOW,
+      currentFlow,
+    })
+  }
+}
+
+function setupNewWorkflow() {
+  return {
+    type: workflowContants.SETUP_NEW_WORKFLOW
+  }
+}
+
+function setCurrentFlow(currentFlow) {
+  return {
+    type: workflowContants.SET_CURRENT_FLOW,
+    currentFlow,
+  }
+
+}
+
 function setBpmnJson(bpmnAppJson) {
   return {
     type: workflowContants.SET_BPMN_JSON,
@@ -109,12 +135,12 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function setAppInfo(appName, appDescription, collaboratorsToInvite) {
+function setAppInfo(appName, appDescription, mode) {
   return {
     type: workflowContants.SET_APP_INFO,
     appName,
     appDescription,
-    collaboratorsToInvite
+    mode,
   }
 }
 

@@ -65,6 +65,13 @@ class BpmnContainer extends Component {
   };
 
   componentDidMount() {
+    const { workflow } = this.props;
+    if (workflow.mode == "CREATE_NEW") {
+      this.props.dispatch(workflowActions.setupNewWorkflow());
+    } else {
+      this.props.dispatch(workflowActions.setupExistingWorkflow());
+    }
+
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
       container: "#canvas",
@@ -458,12 +465,14 @@ class BpmnContainer extends Component {
 
 function mapStateToProps(state) {
   const { workflow, availableServices
-    , workflowConditions, workflowPreInputs } = state;
+    , workflowConditions,
+    workflowPreInputs, workflowMyFlows } = state;
   return {
     workflow,
     workflowConditions,
     availableServices,
     workflowPreInputs,
+    workflowMyFlows,
   };
 };
 

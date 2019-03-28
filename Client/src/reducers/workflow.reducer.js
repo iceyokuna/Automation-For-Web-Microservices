@@ -34,9 +34,21 @@ const defaultState = {
   showMemberDialog: false,
 }
 
+const initState = { ...defaultState };
+
 export function workflow(state = defaultState, action) {
   switch (action.type) {
 
+    case workflowContants.SETUP_EXISTING_WORKFLOW: {
+      const { currentFlow } = action;
+      const nextState = { ...state, ...currentFlow };
+      return nextState;
+    }
+
+    case workflowContants.SETUP_NEW_WORKFLOW: {
+      initState.appName = "New app";
+      return initState;
+    }
 
     case workflowContants.SET_CURRENT_ELEMENT: {
       const nextState = { ...state };
@@ -102,8 +114,8 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SET_APP_INFO: {
-      const { appName, appDescription, collaboratorsToInvite } = action;
-      const nextState = { ...state, appName, appDescription, collaboratorsToInvite };
+      const { appName, appDescription, mode } = action;
+      const nextState = { ...state, appName, appDescription, mode };
       return nextState
     }
 

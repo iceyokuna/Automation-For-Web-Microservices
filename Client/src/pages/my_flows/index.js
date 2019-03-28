@@ -39,13 +39,15 @@ class MyFlows extends Component {
   onCreateFlow = () => {
     const { match } = this.props
     this.props.history.push(match.url + '/create/add_information');
-
   }
 
   onActiveTab = index => this.setState({ activeTabIndex: index });
 
   onSelectFlow = flow => {
-    const { history, match } = this.props;
+    const { history, match, dispatch, workflowMyFlows } = this.props;
+    const { myFlows } = workflowMyFlows;
+    const currentFlow = myFlows.find((item) => item.id == flow.id);
+    dispatch(workflowActions.setCurrentFlow(currentFlow));
     history.push(match.url + '/' + flow.id);
   }
 
