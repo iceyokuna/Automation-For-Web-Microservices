@@ -48,9 +48,9 @@ export default class ParticipantSelector extends Component {
             onClickOutside={this.onClose}
             onEsc={this.onClose}
           >
-            <Box pad="medium" gap="small" width="medium">
+            <Box pad="medium" gap="medium" width="medium">
               <Heading level={2} margin="none">
-                Choose a collaborator for this lane
+                Choose a collaborator
               </Heading>
 
               <Select
@@ -77,7 +77,7 @@ export default class ParticipantSelector extends Component {
               </Select>
 
               <Box justify="end" direction="row" gap="small">
-                <Button label="Ok" icon={<Checkmark />} onClick={this.selectParticipant} primary />
+                <Button label="Ok" onClick={this.selectParticipant} primary />
               </Box>
 
             </Box>
