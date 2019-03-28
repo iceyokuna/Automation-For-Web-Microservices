@@ -100,7 +100,7 @@ class BpmnProperty extends Component {
   }
 
   renderSpecialProperties() {
-    const { nodeType, isAsyncTask, eventType } = this.state;
+    const { nodeType, eventType } = this.state;
     const { allServices, onSelectServiceMethod,
       onShowConditions, onAssignTask } = this.props;
     const services = allServices.length == 0 ? services : allServices;
@@ -111,9 +111,13 @@ class BpmnProperty extends Component {
 
     switch (nodeType) {
       case 'bpmn:Task': {
-        element = [<TaskProperty services={services}
-          onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />,
-        <Button label="Define Input" icon={<Edit />} onClick={this.onDefineInput} />
+        element = [
+          <TaskProperty
+            key={1}
+            onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)}
+            services={services}
+          />,
+          <Button label="Define Input" icon={<Edit />} onClick={this.onDefineInput} key={2} />
         ]
       } break;
 
@@ -186,10 +190,6 @@ class BpmnProperty extends Component {
       </Box>
     )
   }
-}
-
-BpmnProperty.propTypes = {
-  allServices: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {

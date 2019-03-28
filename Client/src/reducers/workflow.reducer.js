@@ -23,6 +23,7 @@ const defaultState = {
   appliedMethods: {},
   executingForm: null,
   formsDone: false,
+  currentNode: null,
 
   recentForm: null,
   appName: 'Default name',
@@ -35,6 +36,12 @@ const defaultState = {
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowContants.SET_CURRENT_ELEMENT: {
+      const nextState = { ...state };
+      nextState.currentNode = action.bpmnNode;
+      return nextState;
+    }
 
     case workflowContants.TOGGLE_MEMBER_DIALOG: {
       const nextState = { ...state };

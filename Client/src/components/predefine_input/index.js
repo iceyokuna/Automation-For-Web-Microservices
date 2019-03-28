@@ -46,7 +46,7 @@ export class index extends Component {
   renderPreInputValues = () => {
     const { inputInterfaces } = this.state;
     return inputInterfaces.map((item, index) =>
-      <Fragment>
+      <div key={item.variableName}>
         <Text weight="bold" size="small">
           {item.variableName}
         </Text>
@@ -54,7 +54,7 @@ export class index extends Component {
           <TextInput value={item.value}
             onChange={(event) => this.onChangePreInput(event, index)} />
         </FormField>
-      </Fragment>
+      </div>
     )
   }
 
@@ -92,6 +92,7 @@ export class index extends Component {
 
 const mapStateToProps = (state) => ({
   workflowPreInputs: state.workflowPreInputs,
+  workflow: state.workflow,
 })
 
 export default connect(mapStateToProps)(index)
