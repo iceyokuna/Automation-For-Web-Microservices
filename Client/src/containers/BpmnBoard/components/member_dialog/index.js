@@ -12,6 +12,8 @@ import { workflowActions } from 'actions';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
+import axios from 'axios';
+
 export class index extends Component {
 
   state = {
@@ -43,6 +45,15 @@ export class index extends Component {
   onInvite = () => {
     // Todo : insert async function
 
+    const { selectedCollaborators } = this.state;
+    // console.log(this.props.authentication);
+    const token = this.props.authentication.user.token
+    console.log(token)
+    axios.get("http://178.128.214.101:8003/api/workflow", {
+      headers: {
+        Authorization: "Token " + token,
+      }
+    }).then((res) => console.log(res.data)).catch(err => console.error(err));
 
     this.onColseDialog();
   }
@@ -92,8 +103,8 @@ export class index extends Component {
                 userIds={userIds} />
 
               <Box direction="row" justify="end" align="center" gap="small">
-                <Button icon={<UserAdd />} label="Invite" primary onClick={this.onInvite} />
-                <Button icon={<Close />} label="Close" onClick={this.onColseDialog} />
+                <Button label="Invite" primary onClick={this.onInvite} />
+                <Button label="Close" onClick={this.onColseDialog} />
               </Box>
 
             </Box>
@@ -106,6 +117,7 @@ export class index extends Component {
 
 const mapStateToProps = (state) => ({
   showMemberDialog: state.workflow.showMemberDialog,
+  authentication: state.authentication,
 })
 
 

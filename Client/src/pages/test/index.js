@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { ClientStyle as Style } from 'react-css-component'
-import { socketActions } from 'actions'
 import { connect } from 'react-redux'
 
 import ConditionList from 'components/condition_list'

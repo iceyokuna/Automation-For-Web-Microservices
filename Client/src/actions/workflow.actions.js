@@ -7,24 +7,60 @@ export const workflowActions = {
   addNewForm,
   addNameToId,
   addNewCollaborators,
+
   applyMethodToTask,
   applyConditionsToGateWay,
+  applyPreInputsToTask,
+
   setExecutingForm,
-  // getNextForm,
+  setCurrentFlow,
+  setupExistingWorkflow,
+  setupNewWorkflow,
 
   setBpmnJson,
   setAppInfo,
+  setCurrentElement,
   toggleMemberDialog,
+  toggleTimerDialog,
+  togglePreInputDialog,
 
   // RESTful
   sendWorkflowData,
-  getWorkflowByAppName,
+  sendWorkflowDataToEngine,
+  getMyFlows,
 };
 
+function applyPreInputsToTask(elementId, preInputs, method) {
+  return {
+    type: workflowContants.APPLY_PRE_INPUT,
+    elementId,
+    preInputs,
+    method,
+  }
+}
+
+function setCurrentElement(bpmnNode) {
+  return {
+    type: workflowContants.SET_CURRENT_ELEMENT,
+    bpmnNode,
+  }
+}
 
 function toggleMemberDialog() {
   return {
     type: workflowContants.TOGGLE_MEMBER_DIALOG
+  }
+}
+
+function toggleTimerDialog() {
+  return {
+    type: workflowContants.TOGGLE_TIMER_DIALOG
+  }
+}
+
+function togglePreInputDialog() {
+  return {
+    type: workflowContants.TOGGLE_PRE_INPUT_DIALOG
   }
 }
 
@@ -68,6 +104,30 @@ function applyConditionsToGateWay(gatewayId, conditions) {
   }
 }
 
+function setupExistingWorkflow() {
+  return (dispatch, getState) => {
+    const currentFlow = getState().workflowMyFlows.currentFlow;
+    dispatch({
+      type: workflowContants.SETUP_EXISTING_WORKFLOW,
+      currentFlow,
+    })
+  }
+}
+
+function setupNewWorkflow() {
+  return {
+    type: workflowContants.SETUP_NEW_WORKFLOW
+  }
+}
+
+function setCurrentFlow(currentFlow) {
+  return {
+    type: workflowContants.SET_CURRENT_FLOW,
+    currentFlow,
+  }
+
+}
+
 function setBpmnJson(bpmnAppJson) {
   return {
     type: workflowContants.SET_BPMN_JSON,
@@ -75,12 +135,12 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function setAppInfo(appName, appDescription, collaboratorsToInvite) {
+function setAppInfo(appName, appDescription, mode) {
   return {
     type: workflowContants.SET_APP_INFO,
     appName,
     appDescription,
-    collaboratorsToInvite
+    mode,
   }
 }
 
@@ -92,35 +152,16 @@ function addNewCollaborators(newCollaborators) {
 }
 
 function sendWorkflowData(appName, appDescription,
-  bpmnJson,
-  appliedMethods,
-  appliedConditions,
-  generatedForms) {
+  workflowData) {
   return dispatch => {
     dispatch(request());
-
-    // setTimeout(() => {
-    //   workflowService.sendWorkflowData(appName, appDescription,
-    //     bpmnJson,
-    //     appliedMethods,
-    //     appliedConditions,
-    //     generatedForms).then(
-    //       res => {
-    //         dispatch(success())
-    //         history.push('/execute_flow/flow1133');
-    //       }).catch(err => dispatch(failure(err)));
-    // }, 1000);
-
     setTimeout(() => {
-      workflowService.sendWorkflowDataToSocket(appName, appDescription,
-        bpmnJson,
-        appliedMethods,
-        appliedConditions,
-        generatedForms).then(
-          res => {
-            dispatch(success())
-            history.push('/execute_flow/flow1133');
-          }).catch(err => dispatch(failure(err)));
+      workflowService.sendWorkflowData(appName, appDescription, workflowData
+      ).then(
+        res => {
+          dispatch(success())
+          history.push('/home/my_flows');
+        }).catch(err => dispatch(failure(err)));
     }, 1000);
 
 
@@ -147,21 +188,30 @@ function sendWorkflowData(appName, appDescription,
 
 }
 
-function getWorkflowByAppName(appName) {
+function sendWorkflowDataToEngine(appName, appDescription,
+  workflowData) {
   return dispatch => {
-
     dispatch(request());
+    setTimeout(() => {
+      workflowService.sendWorkflowDataToEngine(appName, appDescription,
+        workflowData
+      ).then(
+        res => {
+          dispatch(success())
+          history.push('/execute_flow/flow1133');
+        }).catch(err => dispatch(failure(err)));
+    }, 1000);
+
 
     function request() {
       return {
-        type: workflowContants.GET_WORKFLOW_BY_APP_NAME_REQUEST,
-        appName,
+        type: workflowContants.SEND_WORKFLOW_DATA_REQUEST
       }
     }
 
     function success(data) {
       return {
-        type: workflowContants.GET_WORKFLOW_BY_APP_NAME_SUCCESS,
+        type: workflowContants.SEND_WORKFLOW_DATA_SUCCESS,
         data
       }
     }
@@ -169,7 +219,42 @@ function getWorkflowByAppName(appName) {
     function failure(err) {
       console.error(err);
       return {
-        type: workflowContants.GET_WORKFLOW_BY_APP_NAME_FAILURE
+        type: workflowContants.SEND_WORKFLOW_DATA_FAILURE
+      }
+    }
+  }
+
+}
+
+
+
+function getMyFlows() {
+  return dispatch => {
+    dispatch(request());
+    workflowService.getMyFlows().then(
+      (res) => {
+        dispatch(success(res.data.workflow));
+      }
+    ).catch(err => dispatch(failure(err)));
+
+    function request() {
+      return {
+        type: workflowContants.GET_MY_FLOWS_REQUEST,
+      }
+    }
+
+    function success(myFlows) {
+      return {
+        type: workflowContants.GET_MY_FLOWS_SUCCESS,
+        myFlows
+      }
+    }
+
+    function failure(err) {
+      console.error(err);
+      return {
+        type: workflowContants.GET_MY_FLOWS_FAILURE,
+        err,
       }
     }
   }

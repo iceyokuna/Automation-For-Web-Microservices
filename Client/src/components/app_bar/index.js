@@ -49,7 +49,8 @@ class AppBar extends Component {
   }
 
   renderForSignedin() {
-    if (localStorage.getItem('user') == null) return null;
+    const { user } = this.props;
+    if (user == null) return null;
     else {
       const { openNotificationPanel, openAccountPanel } = this.state;
       return (
@@ -74,7 +75,7 @@ class AppBar extends Component {
             onClose={() => this.setState({ openAccountPanel: undefined })}
             dropContent={
               <DropContent
-                title={this.state.username}
+                title={user.username}
                 items={[{ label: 'Account Setting' }, { label: 'Logout' }]}
                 onSelect={this.onSelectAccountPanel}
                 onClose={this.onCloseDropdown} />}
@@ -83,7 +84,7 @@ class AppBar extends Component {
             <Media query="(min-width: 599px)">
               {matches =>
                 matches ? (
-                  <PlainButton icon={<User color={iconColor} />} label={this.state.username} />
+                  <PlainButton icon={<User color={iconColor} />} label={user.username} />
                 ) : (
                     <PlainButton icon={<User color={iconColor} />} />
                   )
@@ -121,7 +122,13 @@ class AppBar extends Component {
 const style = {
   position: 'fixed',
   width: '100%',
-  zIndex: 11,
+  zIndex: 1 ,
 }
 
-export default connect(null, null)(AppBar);
+const mapStateToProps = (state) => {
+  return {
+    user: state.authentication.user,
+  }
+}
+
+export default connect(mapStateToProps)(AppBar);

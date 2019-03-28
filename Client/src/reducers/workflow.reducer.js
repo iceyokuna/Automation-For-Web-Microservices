@@ -23,18 +23,39 @@ const defaultState = {
   appliedMethods: {},
   executingForm: null,
   formsDone: false,
+  currentNode: null,
 
   recentForm: null,
   appName: 'Default name',
   appDescription: 'Default description',
   collaboratorsToInvite: [],
 
-  loadingWorkflowData: false,
+  sendingWorkflowData: false,
   showMemberDialog: false,
 }
 
+const initState = { ...defaultState };
+
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowContants.SETUP_EXISTING_WORKFLOW: {
+      const { currentFlow } = action;
+      const nextState = { ...state, ...currentFlow };
+      return nextState;
+    }
+
+    case workflowContants.SETUP_NEW_WORKFLOW: {
+      const { appName, appDescription } = state;
+      const nextState = { ...initState, appName, appDescription };
+      return nextState;
+    }
+
+    case workflowContants.SET_CURRENT_ELEMENT: {
+      const nextState = { ...state };
+      nextState.currentNode = action.bpmnNode;
+      return nextState;
+    }
 
     case workflowContants.TOGGLE_MEMBER_DIALOG: {
       const nextState = { ...state };
@@ -50,19 +71,19 @@ export function workflow(state = defaultState, action) {
 
     case workflowContants.SEND_WORKFLOW_DATA_REQUEST: {
       const nextState = { ...state };
-      nextState.loadingWorkflowData = true;
+      nextState.sendingWorkflowData = true;
       return nextState;
     }
 
     case workflowContants.SEND_WORKFLOW_DATA_SUCCESS: {
       const nextState = { ...state };
-      nextState.loadingWorkflowData = false;
+      nextState.sendingWorkflowData = false;
       return nextState;
     }
 
     case workflowContants.SEND_WORKFLOW_DATA_FAILURE: {
       const nextState = { ...state };
-      nextState.loadingWorkflowData = false;
+      nextState.sendingWorkflowData = false;
       return nextState;
     }
 
@@ -94,8 +115,8 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SET_APP_INFO: {
-      const { appName, appDescription, collaboratorsToInvite } = action;
-      const nextState = { ...state, appName, appDescription, collaboratorsToInvite };
+      const { appName, appDescription, mode } = action;
+      const nextState = { ...state, appName, appDescription, mode };
       return nextState
     }
 

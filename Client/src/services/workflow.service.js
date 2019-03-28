@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { globalConstants } from '_constants';
+import { getToken } from '_helpers';
 
 const domainName = "http://178.128.214.101:8002"
 
@@ -10,8 +11,8 @@ export const workflowService = {
   getAllServices,
   getAllMethodsByServiceId,
   sendWorkflowData,
-  sendWorkflowDataToSocket,
-  getWorkflowByAppName,
+  sendWorkflowDataToEngine,
+  getMyFlows,
 };
 
 function getAllServices() {
@@ -22,51 +23,47 @@ function getAllMethodsByServiceId(serviceId) {
   return axios.post(domainName + '/get_all_methods/', { serviceId })
 }
 
-// Send both form and bpmn json together
 function sendWorkflowData(
   appName,
   appDescription,
-  bpmnJson,
-  appliedMethods,
-  appliedConditions,
-  generatedForms) {
-  const token = localStorage.getItem('user').toString()
-  return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
+  workflowData,
+) {
+  return axios.post(globalConstants.USER_WORKFLOW_URL,
     {
       name: appName,
       description: appDescription,
-      bpmnJson,
-      appliedMethods,
-      appliedConditions,
-      generatedForms
+      ...workflowData
     },
     {
       headers: {
-        Authorization: "Token " + token,
+        Authorization: "Token " + getToken(),
       }
     })
 }
 
 
-function sendWorkflowDataToSocket(
+function sendWorkflowDataToEngine(
   appName,
   appDescription,
-  bpmnJson,
-  appliedMethods,
-  appliedConditions,
-  generatedForms) {
-  const token = localStorage.getItem('user').toString()
+  workflowData,
+) {
   return axios.post(engineUrl,
     {
       name: appName,
       description: appDescription,
-      bpmnJson,
-      appliedMethods,
-      appliedConditions,
-      generatedForms
+      ...workflowData
+    },
+    {
+      headers: {
+        Authorization: "Token " + getToken(),
+      }
     })
 }
 
-function getWorkflowByAppName(appName) {
-  return axios.post(domainName + '/get_workflow/', appName)
+function getMyFlows() {
+  return axios.get(globalConstants.USER_WORKFLOW_URL, {
+    headers: {
+      Authorization: "Token " + getToken(),
+    }
+  })
 }

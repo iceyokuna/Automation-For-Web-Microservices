@@ -5,7 +5,7 @@ import ServiceList from 'components/service_list'
 
 export default function TaskProperty({ services, onSelectServiceMethod }) {
   return (
-    <Box gap="small">
+    <Box gap="small" margin={{ bottom: 'small' }}>
       {/* <CheckBox
               toggle
               label="Asynchronous"
