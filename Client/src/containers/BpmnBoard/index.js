@@ -376,7 +376,7 @@ class BpmnContainer extends Component {
           >
             <Box pad="medium" gap="small" width="large" width="350px"
               direction="row" justify='center' align="center">
-              <Text>Submitting your workflow ...</Text>
+              <Text>Submitting your workflow</Text>
               <Spinner
                 fadeIn="quarter"
                 name="three-bounce"
