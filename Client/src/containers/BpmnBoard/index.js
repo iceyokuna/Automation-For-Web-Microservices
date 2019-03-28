@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import BpmnModeler from "bpmn-js/lib/Modeler";
 import BpmnModeler from "./custom-modeler";
 import magicModdleDescriptor from "./descriptors/magic";
 import qaPackage from './descriptors/qa';
@@ -34,23 +33,21 @@ import { Upload, Group } from 'grommet-icons'
 
 import styled from 'styled-components'
 
-import { workflowActions, availableServicesActions, socketActions } from 'actions'
+import { workflowActions, availableServicesActions } from 'actions'
 
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
 
-const NextButtonWrapper = styled(Box)`
-  position: absolute;
-  top: 10px;
-  right: 340px;
-`
-
 const InviteButton = styled(Button)`
-position: absolute;
-top: 22px;
-right: 415px;
+  position: absolute;
+  top: 22px;
+  right: 415px;
 `
-
+const NextButton = styled(Button)`
+  position: absolute;
+  top: 22px;
+  right: 360px;
+`
 let scale = 1;
 
 const variables = [
@@ -413,16 +410,14 @@ class BpmnContainer extends Component {
           onUndo={this.handleUndo}
         />
 
-        <NextButtonWrapper pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-          <Button color="accent-1" primary icon={<Upload size="18px" />}
-            title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
-        </NextButtonWrapper>
-
         <InviteButton
           color="accent-3"
           primary plain={false} title="Collaborators"
           icon={<Group size="18px" />}
           onClick={this.onInvite} />
+
+        <NextButton color="accent-1" primary icon={<Upload size="18px" />}
+          title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
