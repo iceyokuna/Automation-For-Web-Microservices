@@ -114,13 +114,17 @@ class BpmnProperty extends Component {
 
     switch (nodeType) {
       case 'bpmn:Task': {
+        const { workflow } = this.props;
+        const elementId = workflow.currentNode.id;
+        const disabled = workflow.appliedMethods[elementId] != null ? false : true;
         element = [
           <TaskProperty
             key={1}
             onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)}
             services={services}
           />,
-          <Button label="Define Input" icon={<Edit />} onClick={this.onDefineInput} key={2} />
+          <Button label="Define Input" disabled={disabled}
+            icon={<Edit />} onClick={this.onDefineInput} key={2} />
         ]
       } break;
 
@@ -197,7 +201,8 @@ class BpmnProperty extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    workflow: state.workflow
+    workflow: state.workflow,
+    workflowPreInputs: state.workflowPreInputs,
   }
 }
 
