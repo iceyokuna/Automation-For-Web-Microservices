@@ -100,9 +100,11 @@ class MyFlows extends Component {
           </Row>
         </Box>
 
-        <Row >
-          {this.renderFlows()}
-        </Row>
+        <Box pad={{ bottom: 'large' }}>
+          <Row >
+            {this.renderFlows()}
+          </Row>
+        </Box>
 
 
       </div>

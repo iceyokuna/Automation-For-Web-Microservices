@@ -82,26 +82,26 @@ class MyTasks extends Component {
             fadeIn="quarter"
             name="line-scale"
             color={colors.brand} />
-        </Box>) : (<Box direction="column" gap="small" animation="fadeIn" >
-          <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium' }}>
-            <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
-              border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
-              <Text textAlign="center" weight="bold">Workflow</Text>
-            </Box>
-            <Box style={{ flex: 6 }} pad={{ vertical: 'small' }}
-              border={{ side: 'bottom', color: 'accent-2', size: 'small' }}>
-              <Text textAlign="center" weight="bold" >Action</Text>
-            </Box>
-            <Box style={{ flex: 2 }} pad={{ vertical: 'small' }}
-              border={{ side: 'bottom', color: 'accent-3', size: 'small' }}>
-              <Text textAlign="center" weight="bold">Date</Text>
-            </Box>
-          </Box>
-
-          <Box pad={{ bottom: 'large' }} round={{ size: 'small' }}>
-            {this.renderTasks()}
-          </Box>
-        </Box>)}
+        </Box>) : (
+            <Box direction="column" gap="small" animation="fadeIn" >
+              <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium' }}>
+                <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
+                  border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
+                  <Text textAlign="center" weight="bold">Workflow</Text>
+                </Box>
+                <Box style={{ flex: 6 }} pad={{ vertical: 'small' }}
+                  border={{ side: 'bottom', color: 'accent-2', size: 'small' }}>
+                  <Text textAlign="center" weight="bold" >Action</Text>
+                </Box>
+                <Box style={{ flex: 2 }} pad={{ vertical: 'small' }}
+                  border={{ side: 'bottom', color: 'accent-3', size: 'small' }}>
+                  <Text textAlign="center" weight="bold">Date</Text>
+                </Box>
+              </Box>
+              <Box pad={{ bottom: 'large' }} round={{ size: 'small' }}>
+                {this.renderTasks()}
+              </Box>
+            </Box>)}
       </div>
     )
   }
