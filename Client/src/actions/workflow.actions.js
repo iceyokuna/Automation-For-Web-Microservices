@@ -25,7 +25,7 @@ export const workflowActions = {
   // RESTful
   sendWorkflowData,
   sendWorkflowDataToEngine,
-  getWorkflowByAppName,
+  getMyFlows,
 };
 
 function applyPreInputsToTask(elementId, preInputs, method) {
@@ -202,29 +202,33 @@ function sendWorkflowDataToEngine(appName, appDescription,
 
 
 
-function getWorkflowByAppName(appName) {
+function getMyFlows() {
   return dispatch => {
-
     dispatch(request());
+    workflowService.getMyFlows().then(
+      (res) => {
+        dispatch(success(res.data.workflow));
+      }
+    ).catch(err => dispatch(failure(err)));
 
     function request() {
       return {
-        type: workflowContants.GET_WORKFLOW_BY_APP_NAME_REQUEST,
-        appName,
+        type: workflowContants.GET_MY_FLOWS_REQUEST,
       }
     }
 
-    function success(data) {
+    function success(myFlows) {
       return {
-        type: workflowContants.GET_WORKFLOW_BY_APP_NAME_SUCCESS,
-        data
+        type: workflowContants.GET_MY_FLOWS_SUCCESS,
+        myFlows
       }
     }
 
     function failure(err) {
       console.error(err);
       return {
-        type: workflowContants.GET_WORKFLOW_BY_APP_NAME_FAILURE
+        type: workflowContants.GET_MY_FLOWS_FAILURE,
+        err,
       }
     }
   }

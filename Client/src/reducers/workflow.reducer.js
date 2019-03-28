@@ -30,12 +30,13 @@ const defaultState = {
   appDescription: 'Default description',
   collaboratorsToInvite: [],
 
-  loadingWorkflowData: false,
+  sendingWorkflowData: false,
   showMemberDialog: false,
 }
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+
 
     case workflowContants.SET_CURRENT_ELEMENT: {
       const nextState = { ...state };
@@ -57,19 +58,19 @@ export function workflow(state = defaultState, action) {
 
     case workflowContants.SEND_WORKFLOW_DATA_REQUEST: {
       const nextState = { ...state };
-      nextState.loadingWorkflowData = true;
+      nextState.sendingWorkflowData = true;
       return nextState;
     }
 
     case workflowContants.SEND_WORKFLOW_DATA_SUCCESS: {
       const nextState = { ...state };
-      nextState.loadingWorkflowData = false;
+      nextState.sendingWorkflowData = false;
       return nextState;
     }
 
     case workflowContants.SEND_WORKFLOW_DATA_FAILURE: {
       const nextState = { ...state };
-      nextState.loadingWorkflowData = false;
+      nextState.sendingWorkflowData = false;
       return nextState;
     }
 

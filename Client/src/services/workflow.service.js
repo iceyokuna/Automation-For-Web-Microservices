@@ -11,7 +11,7 @@ export const workflowService = {
   getAllMethodsByServiceId,
   sendWorkflowData,
   sendWorkflowDataToEngine,
-  getWorkflowByAppName,
+  getMyFlows,
 };
 
 function getAllServices() {
@@ -27,9 +27,7 @@ function sendWorkflowData(
   appDescription,
   workflowData,
 ) {
-  let token = localStorage.getItem('user');
-  token = JSON.parse(token).token;
-  return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
+  return axios.post(globalConstants.USER_WORKFLOW_URL,
     {
       name: appName,
       description: appDescription,
@@ -37,7 +35,7 @@ function sendWorkflowData(
     },
     {
       headers: {
-        Authorization: "Token " + token,
+        Authorization: "Token " + getToken(),
       }
     })
 }
@@ -48,8 +46,6 @@ function sendWorkflowDataToEngine(
   appDescription,
   workflowData,
 ) {
-  let token = localStorage.getItem('user');
-  token = JSON.parse(token).token;
   return axios.post(engineUrl,
     {
       name: appName,
@@ -58,11 +54,22 @@ function sendWorkflowDataToEngine(
     },
     {
       headers: {
-        Authorization: "Token " + token,
+        Authorization: "Token " + getToken(),
       }
     })
 }
 
-function getWorkflowByAppName(appName) {
-  return axios.post(domainName + '/get_workflow/', appName)
+function getMyFlows() {
+  return axios.get(globalConstants.USER_WORKFLOW_URL, {
+    headers: {
+      Authorization: "Token " + getToken(),
+    }
+  })
+}
+
+
+function getToken() {
+  let token = localStorage.getItem('user');
+  token = JSON.parse(token).token;
+  return token;
 }

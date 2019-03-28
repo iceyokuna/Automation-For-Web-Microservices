@@ -49,14 +49,14 @@ export default class FlowItem extends Component {
 
 
   render() {
-    const { onSelectFlow, description, owner, title, status } = this.props;
+    const { onSelectFlow, description, owner, name, status } = this.props;
 
     return (
       <Box fill onMouseEnter={this.showSnackbar} onMouseLeave={this.hideSnackbar}>
         <Box round={{ size: "small" }} margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
           <Box pad="xsmall">
             <Button onClick={onSelectFlow} >
-              <Text weight="bold">{title}</Text>
+              <Text weight="bold">{name}</Text>
             </Button>
           </Box>
           <Box pad="xsmall">

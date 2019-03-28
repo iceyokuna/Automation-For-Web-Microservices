@@ -46,16 +46,14 @@ export class index extends Component {
     // Todo : insert async function
 
     const { selectedCollaborators } = this.state;
-    console.log(this.props.authentication);
-    // const token = localStorage.getItem('user').toString();
-    // axios.post("http://178.128.214.101:8003/api/collaborator/", {
-    //   collaborators: selectedCollaborators,
-    //   workflow_id: 49,
-    // }, {
-    //     headers: {
-    //       Authorization: "Token " + token,
-    //     }
-    //   }).then((res) => console.log(res.data)).catch(err => console.error(err));
+    // console.log(this.props.authentication);
+    const token = this.props.authentication.user.token
+    console.log(token)
+    axios.get("http://178.128.214.101:8003/api/workflow", {
+      headers: {
+        Authorization: "Token " + token,
+      }
+    }).then((res) => console.log(res.data)).catch(err => console.error(err));
 
     this.onColseDialog();
   }
