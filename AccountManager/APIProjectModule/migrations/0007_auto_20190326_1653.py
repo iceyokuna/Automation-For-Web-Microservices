@@ -14,11 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         
-        migrations.RemoveField(
-            model_name='condition',
-            name='workflow',
-        ),
-        
+      
         migrations.RemoveField(
             model_name='task',
             name='workflow',
