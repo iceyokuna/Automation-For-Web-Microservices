@@ -7,8 +7,11 @@ export const workflowActions = {
   addNewForm,
   addNameToId,
   addNewCollaborators,
+
   applyMethodToTask,
   applyConditionsToGateWay,
+  applyPreInputsToTask,
+
   setExecutingForm,
   // getNextForm,
 
@@ -23,6 +26,10 @@ export const workflowActions = {
   sendWorkflowData,
   getWorkflowByAppName,
 };
+
+function applyPreInputsToTask() {
+  
+}
 
 function setCurrentElement(bpmnNode) {
   return {

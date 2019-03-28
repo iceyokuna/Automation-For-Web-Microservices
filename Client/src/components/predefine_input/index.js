@@ -13,12 +13,9 @@ export class index extends Component {
   state = {
     preInputs: [],
     serviceMethod: null,
-    inputInterfaces: [
-      { variableName: 'email', value: 'treesakul@gmail.com' },
-      { variableName: 'subject', value: '' },
-      { variableName: 'message', value: '' },
-    ]
+    inputInterface: []
   }
+
 
   onTimeChange = (dateTime) => {
     this.setState({ targetTime: dateTime });
@@ -28,24 +25,41 @@ export class index extends Component {
     this.props.dispatch(workflowActions.togglePreInputDialog());
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    const { appliedMethods, currentNode } = nextProps.workflow;
+    if (currentNode && appliedMethods[currentNode.id]) {
+      const inputInterface = appliedMethods[currentNode.id].method.input_interface;
+      const listOfInputs = [];
+      Object.keys(inputInterface).map((item, index) => {
+        listOfInputs.push({
+          variableName: item,
+          value: ''
+        })
+      })
+      this.setState({ inputInterface: listOfInputs });
+    }
+  }
+
+
   onSetPreInput = () => {
-    console.log(this.state.inputInterfaces);
-    this.onColseDialog();
+    console.log(this.state.inputInterface);
+
+    // this.onColseDialog();
   }
 
   onChangePreInput = (event, index) => {
-    const { inputInterfaces } = this.state;
-    inputInterfaces[index].value = event.target.value;
+    const { inputInterface } = this.state;
+    inputInterface[index].value = event.target.value;
 
     this.setState({
-      inputInterfaces: inputInterfaces,
+      inputInterface: inputInterface,
     })
   }
 
 
   renderPreInputValues = () => {
-    const { inputInterfaces } = this.state;
-    return inputInterfaces.map((item, index) =>
+    const { inputInterface } = this.state;
+    return inputInterface.map((item, index) =>
       <div key={item.variableName}>
         <Text weight="bold" size="small">
           {item.variableName}

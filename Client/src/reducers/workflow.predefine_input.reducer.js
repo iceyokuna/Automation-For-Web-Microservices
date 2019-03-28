@@ -3,11 +3,10 @@ import { workflowContants } from '_constants';
 const defaultState = {
   showPreInputDialog: true,
   appliedPreInputs: {
-    "Task_23232": {
-
-    },
-    "Task_55555": {
-
+    Task_23232: {
+      email: 'iceyo@gmail.com',
+      title: 'title',
+      message: 'this is message',
     },
   },
 }
@@ -16,6 +15,7 @@ export function workflowPreInputs(state = defaultState, action) {
   switch (action.type) {
     case workflowContants.APPLY_PRE_INPUT: {
       const nextState = { ...state };
+      // nextState.appliedPreInputs[]
       return nextState;
     }
 
