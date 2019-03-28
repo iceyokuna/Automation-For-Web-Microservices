@@ -27,6 +27,7 @@ class ConditionList extends Component {
     ],
   }
 
+
   close = () => {
     this.props.onCloseConditionList();
   }
@@ -70,6 +71,20 @@ class ConditionList extends Component {
     })
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    const { appliedMethods, workflow } = nextProps;
+
+    if (workflow.currentNode) {
+      try {
+        const currentId = workflow.currentNode.id;
+        console.log(workflow)
+        console.log(appliedMethods[currentId])
+      } catch (e) { }
+    }
+
+  }
+
+
 
   renderConditionItems = () => {
     const { variables, operators, bpmnNodes } = this.props
@@ -84,6 +99,7 @@ class ConditionList extends Component {
 
   render() {
     const { show, appliedMethods } = this.props;
+
 
     return (
       show &&
@@ -123,6 +139,7 @@ class ConditionList extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    workflow: state.workflow,
     workflowConditions: state.workflowConditions,
     appliedMethods: state.workflow.appliedMethods,
   }

@@ -10,7 +10,7 @@ import {
   NotFound, ModelWorkflow, Test, ExecuteFlow
 } from 'pages'
 
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 import { Grommet } from 'grommet';
 import appTheme from 'theme';
@@ -36,7 +36,8 @@ const App = () => (
           <Route exact path="/test_component" component={Test} />
           <Route exact path="/execute_flow/:flowId" component={ExecuteFlow} />
 
-          <Route component={NotFound} />
+          {/* <Route component={NotFound} /> */}
+          <Redirect from="*" to="/home/my_flows" />
         </Switch>
       </Grommet>
     </Provider>

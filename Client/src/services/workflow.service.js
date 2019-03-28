@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { globalConstants } from '_constants';
+import { getToken } from '_helpers';
 
 const domainName = "http://178.128.214.101:8002"
 
@@ -65,11 +66,4 @@ function getMyFlows() {
       Authorization: "Token " + getToken(),
     }
   })
-}
-
-
-function getToken() {
-  let token = localStorage.getItem('user');
-  token = JSON.parse(token).token;
-  return token;
 }

@@ -22,7 +22,7 @@ function login(username, password) {
           dispatch(success(user));
           user = JSON.stringify(user);
           localStorage.setItem('user', user);
-          history.push('/home/my_tasks');
+          history.push('/home/my_flows');
         },
         error => {
           dispatch(failure(error.toString()));
