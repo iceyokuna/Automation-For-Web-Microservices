@@ -46,8 +46,9 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SETUP_NEW_WORKFLOW: {
-      initState.appName = "New app";
-      return initState;
+      const { appName, appDescription } = state;
+      const nextState = { ...initState, appName, appDescription };
+      return nextState;
     }
 
     case workflowContants.SET_CURRENT_ELEMENT: {

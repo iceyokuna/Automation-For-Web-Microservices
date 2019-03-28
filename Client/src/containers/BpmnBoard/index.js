@@ -373,7 +373,7 @@ class BpmnContainer extends Component {
           <div id="canvas" />
         </div>
 
-        {workflow.loadingWorkflowData && (
+        {workflow.sendingWorkflowData && (
           <Layer
             position="center"
             modal
