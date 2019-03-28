@@ -18,19 +18,22 @@ import { global } from 'style';
 import CollaboratorItem from 'components/collaborator_item'
 import TaskItem from 'components/task_item'
 
-import moment from 'moment'
+import moment from 'moment';
+import { connect } from 'react-redux';
 
-export default class FlowDetail extends Component {
+class FlowDetail extends Component {
 
   constructor(props) {
     super(props)
 
+    const { myFlows, match } = this.props;
+    const currentFlow = myFlows.find((flow) => flow.id == match.params.flow_id);
+
     this.state = {
+      currentFlow: currentFlow,
       newAppName: '',
       newDescription: '',
       openEditMenu: undefined,
-      description: 'Application for helping reserve meeting date of my company \
-      ..................................................................',
       collaborators: [
         { name: 'Phat Thaveepholcharoen', type: 'Admin' },
         { name: 'Iceyo Kuna', type: 'Manager' },
@@ -81,14 +84,10 @@ export default class FlowDetail extends Component {
     history.push(match.url + '/edit_diagram');
   }
 
-
-
   renderCollaboratorsList = () => {
     const { collaborators } = this.state;
-
     const views = collaborators.map((item, index) =>
       <CollaboratorItem key={index} name={item.name} type={item.type} />)
-
     return views;
   }
 
@@ -100,7 +99,7 @@ export default class FlowDetail extends Component {
   }
 
   renderDescriptionBox = () => {
-    const { description } = this.state;
+    const { currentFlow } = this.state;
     return (
       <Box margin="small" pad="small"
         round={{ size: 'small' }} background="light-0" >
@@ -108,7 +107,7 @@ export default class FlowDetail extends Component {
           <Text size="large" weight="bold">Description</Text>
         </Box>
         <Box pad="small">
-          <Paragraph >{description}</Paragraph>
+          <Paragraph >{currentFlow.description}</Paragraph>
         </Box>
       </Box>
     );
@@ -181,15 +180,12 @@ export default class FlowDetail extends Component {
 
 
   render() {
-    const { openEditMenu } = this.state;
-    const { match } = this.props;
-    const flowTitle = match.params.flow_id;
-
+    const { openEditMenu, currentFlow } = this.state;
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
-            <Heading size='small' margin={{ right: 'medium' }}>{flowTitle}</Heading>
+            <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
             <DropButton
               dropAlign={{ top: "bottom", right: "right" }}
               open={openEditMenu}
@@ -204,18 +200,28 @@ export default class FlowDetail extends Component {
           </Box>
         </Box>
 
-        <Row >
-          <Col lg={6} md={6} xl={6}>
-            <Box direction="column">
-              {this.renderDescriptionBox()}
-              {this.renderCollaboratorsBox()}
-            </Box>
-          </Col>
-          <Col lg={6} md={6} xl={6}>
-            {this.renderTaskBox()}
-          </Col>
-        </Row>
+        <Box margin={{ bottom: 'large' }}>
+          <Row >
+            <Col lg={6} md={6} xl={6}>
+              <Box direction="column">
+                {this.renderDescriptionBox()}
+                {this.renderCollaboratorsBox()}
+              </Box>
+            </Col>
+            <Col lg={6} md={6} xl={6}>
+              {this.renderTaskBox()}
+            </Col>
+          </Row>
+        </Box>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    myFlows: state.workflowMyFlows.myFlows,
+  }
+}
+
+export default connect(mapStateToProps)(FlowDetail);
