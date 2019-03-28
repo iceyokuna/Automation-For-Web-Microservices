@@ -23,12 +23,12 @@ class WorkflowView(APIView):
 
     def post(self, request):
         if(request.POST.get('id')):
-            Workflow.objects.filter(id=request.POST.get('id')).update(bpmnJson=request.POST.get(
-                'bpmnJson'), appliedMethod=request.POST.get('appliedMethod'), appliedConditions=request.POST.get('appliedConditions'))
+            Workflow.objects.filter(id=request.data.get('id')).update(bpmnJson=request.data.get(
+                'bpmnJson'), appliedMethod=request.data.get('appliedMethod'), appliedConditions=request.data.get('appliedConditions'),appliedPreInputs=request.data.get('appliedPreInputs'))
             return Response({"detail": "successfully updated"}, status=HTTP_200_OK)
        
-        Workflow.objects.create(user=request.user, bpmnJson=request.POST.get('bpmnJson'), name=request.POST.get('name'), description=request.POST.get(
-            'description'), appliedMethods=request.POST.get('appliedMethods'), appliedConditions=request.POST.get('appliedConditions'), generatedForms=request.POST.get('generatedForms'))
+        Workflow.objects.create(user=request.user, bpmnJson=request.data.get('bpmnJson'), name=request.data.get('name'), description=request.data.get(
+            'description'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'),  appliedPreInputs=request.data.get('appliedPreInputs'), generatedForms=request.data.get('generatedForms'))
 
         return Response({"detail": "successfully created"}, status=HTTP_200_OK)
 
@@ -47,15 +47,16 @@ class CollaboratorView(APIView):
             'id', 'collaborator__id', 'collaborator__first_name', 'collaborator__last_name')
         return Response({'collaborators': queryset}, status=HTTP_200_OK)
 
-    def post(self, request,  workflow_id=0):
+    def post(self, request):
         workflow_id = request.data.get('workflow_id')
         # request.POST.get('workflow'))
-        workflow = Workflow.objects.filter(id=workflow_id)[0]
+        workflow = Workflow.objects.filter(id=workflow_id).first()
+        
         collaborator_list = request.data.get('collaborators')
         for i in collaborator_list:
-            user = User.objects.filter(id=i)[0]
+            user = User.objects.filter(id=i).first()
             Collaborator.objects.create(workflow=workflow,  collaborator=user)
-        return Response({"successfully saved"}, status=HTTP_200_OK)
+        return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
 
 
 '''
