@@ -94,7 +94,7 @@ class MyFlows extends Component {
 
             <Col lg={4} sm={4} xs={12}>
               <Box direction="row" align="center" fill justify="end">
-                <Button label="New Flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
+                <Button label="New Flow" primary icon={<Add color="light-0"/>} color="accent-1" onClick={() => this.onCreateFlow()} />
               </Box>
             </Col>
           </Row>

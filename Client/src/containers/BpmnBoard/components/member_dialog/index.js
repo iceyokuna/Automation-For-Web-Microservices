@@ -49,13 +49,16 @@ export class index extends Component {
     // console.log(this.props.authentication);
     const token = this.props.authentication.user.token
     console.log(token)
-    axios.get("http://178.128.214.101:8003/api/workflow", {
-      headers: {
-        Authorization: "Token " + token,
-      }
-    }).then((res) => console.log(res.data)).catch(err => console.error(err));
+    axios.post("http://178.128.214.101:8003/api/collaborator/", {
+      workflow_id: 3,
+      collaborators: ["iceyo", "test1"]
+    }, {
+        headers: {
+          Authorization: "Token " + token,
+        }
+      }).then((res) => console.log(res.data)).catch(err => console.error(err));
 
-    this.onColseDialog();
+    // this.onColseDialog();
   }
 
   renderCollaboratorItems = () => {

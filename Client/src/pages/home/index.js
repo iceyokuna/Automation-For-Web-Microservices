@@ -18,7 +18,7 @@ import Workflow from 'pages/workflow'
 import MyTasks from 'pages/my_tasks'
 import InboxTaskDetail from 'pages/inbox_task_detail'
 
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 import Media from 'react-media'
 
@@ -49,7 +49,7 @@ export default class Home extends Component {
           <Route path={match.url + "/my_flows/:flow_id"} component={FlowDetail} />
           <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
           <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
-          <Route component={NotFound} />
+          <Redirect from="*" to="/home/my_flows" />
         </Switch>
       </div>
     );
