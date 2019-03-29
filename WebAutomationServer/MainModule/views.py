@@ -18,9 +18,7 @@ def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
 
     #app name
-    app_name = (resquest['appName'])
-
-    print(resquest)
+    app_name = (resquest['name'])
 
     #bpmn data
     workflow_detail = resquest['bpmnJson']

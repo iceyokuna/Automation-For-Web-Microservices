@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import Chips, { Chip } from 'react-chips'
+import React from 'react'
+import Chips from 'react-chips'
 import theme, { chipTheme } from './chips_theme'
 
 export default function index({ selectedCollaborators, userIds, onChangecollaborators }) {

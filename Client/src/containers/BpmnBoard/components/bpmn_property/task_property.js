@@ -5,12 +5,12 @@ import ServiceList from 'components/service_list'
 
 export default function TaskProperty({ services, onSelectServiceMethod }) {
   return (
-    <Box gap="small">
-      {/* <CheckBox
-              toggle
-              label="Asynchronous"
-              checked={isAsyncTask}
-              onChange={event => this.setState({ isAsyncTask: event.target.checked })} /> */}
+    <Box gap="small" margin={{ bottom: 'small' }}>
+      <CheckBox
+        toggle
+        label="Asynchronous"
+        checked={true}
+        onChange={event => {}} />
       <Box fill="horizontal">
         <ServiceList services={services}
           onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />

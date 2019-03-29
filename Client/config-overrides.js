@@ -15,7 +15,7 @@ module.exports = function override(config, env) {
     loader: 'babel-loader',
     query: {
       presets: ['@babel/preset-env', '@babel/preset-react'],
-      plugins: ['transform-object-rest-spread', '@babel/plugin-proposal-class-properties']
+      plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/plugin-proposal-class-properties']
     }
   })
 

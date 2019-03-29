@@ -1,16 +1,18 @@
 import axios from 'axios'
 import { globalConstants } from '_constants';
+import { getToken } from '_helpers';
 
 const domainName = "http://178.128.214.101:8002"
 
-const localhost = "http://127.0.0.1:8000"
+const engineUrl = "http://127.0.0.1:8000/create_workflow/"
 
 
 export const workflowService = {
   getAllServices,
   getAllMethodsByServiceId,
   sendWorkflowData,
-  getWorkflowByAppName
+  sendWorkflowDataToEngine,
+  getMyFlows,
 };
 
 function getAllServices() {
@@ -21,35 +23,47 @@ function getAllMethodsByServiceId(serviceId) {
   return axios.post(domainName + '/get_all_methods/', { serviceId })
 }
 
-// Send both form and bpmn json together
 function sendWorkflowData(
   appName,
   appDescription,
-  bpmnJson,
-  appliedMethods,
-  appliedConditions,
-  generatedForms) {
-
-  const token = localStorage.getItem('user').toString();
-
-  alert(appName)
-
-  return axios.post(globalConstants.USER_CREATE_WORKFLOW_URL,
+  workflowData,
+) {
+  return axios.post(globalConstants.USER_WORKFLOW_URL,
     {
       name: appName,
       description: appDescription,
-      bpmnJson,
-      appliedMethods,
-      appliedConditions,
-      generatedForms
+      ...workflowData
     },
     {
       headers: {
-        Authorization: "Token " + token,
+        Authorization: "Token " + getToken(),
       }
     })
 }
 
-function getWorkflowByAppName(appName) {
-  return axios.post(domainName + '/get_workflow/', appName)
+
+function sendWorkflowDataToEngine(
+  appName,
+  appDescription,
+  workflowData,
+) {
+  return axios.post(engineUrl,
+    {
+      name: appName,
+      description: appDescription,
+      ...workflowData
+    },
+    {
+      headers: {
+        Authorization: "Token " + getToken(),
+      }
+    })
+}
+
+function getMyFlows() {
+  return axios.get(globalConstants.USER_WORKFLOW_URL, {
+    headers: {
+      Authorization: "Token " + getToken(),
+    }
+  })
 }
