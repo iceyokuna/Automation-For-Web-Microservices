@@ -54,7 +54,7 @@ class CollaboratorView(APIView):
         
         collaborator_list = request.data.get('collaborators')
         for i in collaborator_list:
-            user = User.objects.filter(username=i).first()
+            user = User.objects.filter(id=i).first()
             Collaborator.objects.create(workflow=workflow,  collaborator=user)
         return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
 
