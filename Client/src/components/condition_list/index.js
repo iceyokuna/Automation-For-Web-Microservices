@@ -62,7 +62,6 @@ class ConditionList extends Component {
     this.close();
   }
 
-
   changeCondition = (index, condition) => {
     const { conditions } = this.state;
     conditions[index] = condition;
@@ -71,71 +70,27 @@ class ConditionList extends Component {
     })
   }
 
-  getAllVariables = (appliedMethods) => {
-    const keys = Object.keys(appliedMethods);
-
-    const variables = [];
-    keys.map((elementId, index) => {
-      const method = appliedMethods[elementId].method;
-      const inputInterface = method.input_interface;
-      const outputInterface = method.output_interface;
-      Object.keys(inputInterface).map((variable, varIndex) => {
-        // variables[variable] = inputInterface[variable];
-        variables.push({
-          variableOf: {
-            serviceId: method.service,
-            methodId: method.id
-          },
-          name: variable,
-          type: inputInterface[variable].type,
-        })
-      })
-      Object.keys(outputInterface).map((variable, varIndex) => {
-        // variables[variable] = outputInterface[variable];
-        variables.push({
-          variableOf: {
-            serviceId: method.service,
-            methodId: method.id
-          },
-          name: variable,
-          type: outputInterface[variable].type,
-        })
-      })
-    })
-
-    return variables;
-
-  }
-
-
   componentWillReceiveProps = (nextProps) => {
-    const { appliedMethods, workflow } = nextProps;
-    
-    const allVariables = this.getAllVariables(appliedMethods);
-    console.log(allVariables);
 
   }
-
-
 
   renderConditionItems = () => {
-    const { variables, operators, bpmnNodes, workflowConditions } = this.props
+    const { workflowConditions } = this.props
     console.log(workflowConditions)
+    const { operators, allVariables, bpmnNodes } = workflowConditions;
     return this.state.conditions.map((item, index) =>
       <ConditionItem
         onChange={(condition) => this.changeCondition(index, condition)}
-        allVariables={variables}
+        allVariables={allVariables}
         allOperators={operators}
         allBpmnNodes={bpmnNodes}
         condition={item}
       />)
   }
 
-
   render() {
-    const { show, appliedMethods } = this.props;
-
-
+    const { show, workflowConditions } = this.props;
+    console.log(workflowConditions);
     return (
       show &&
       <Layer
@@ -176,7 +131,6 @@ const mapStateToProps = (state) => {
   return {
     workflow: state.workflow,
     workflowConditions: state.workflowConditions,
-    appliedMethods: state.workflow.appliedMethods,
   }
 }
 

@@ -29,7 +29,7 @@ export default {
   "global": {
     control: {
       border: {
-        radius: "24px"
+        radius: "12px"
       }
     },
     "colors": colors,

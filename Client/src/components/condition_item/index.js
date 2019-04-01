@@ -27,10 +27,7 @@ export default class ConditionItem extends Component {
 
   constructor(props) {
     super(props);
-
     const { variable1, variable2, operator, targetNode } = props.condition;
-
-
     this.state = {
       variable1: variable1 || '',
       variable2: variable2 || '',
