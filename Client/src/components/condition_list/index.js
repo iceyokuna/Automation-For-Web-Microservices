@@ -74,17 +74,33 @@ class ConditionList extends Component {
   getAllVariables = (appliedMethods) => {
     const keys = Object.keys(appliedMethods);
 
-    const variables = {};
+    const variables = [];
     keys.map((elementId, index) => {
       console.log(elementId);
       const method = appliedMethods[elementId].method;
       const inputInterface = method.input_interface;
       const outputInterface = method.output_interface;
       Object.keys(inputInterface).map((variable, varIndex) => {
-        variables[variable] = inputInterface[variable];
+        // variables[variable] = inputInterface[variable];
+        variables.push({
+          variableOf: {
+            serviceId: method.service,
+            methodId: method.id
+          },
+          name: variable,
+          type: inputInterface[variable].type,
+        })
       })
       Object.keys(outputInterface).map((variable, varIndex) => {
-        variables[variable] = outputInterface[variable];
+        // variables[variable] = outputInterface[variable];
+        variables.push({
+          variableOf: {
+            serviceId: method.service,
+            methodId: method.id
+          },
+          name: variable,
+          type: outputInterface[variable].type,
+        })
       })
     })
 
