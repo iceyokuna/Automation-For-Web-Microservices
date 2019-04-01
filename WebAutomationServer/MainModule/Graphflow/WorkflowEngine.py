@@ -9,6 +9,7 @@ from MainModule.Graphflow.Core.TimeEvent import TimeEvent
 from MainModule.Graphflow.Core.IOtypes import *
 import pickle
 import requests
+import asyncio
 
 class WorkflowEngine:
     def __init__(self):
@@ -96,10 +97,10 @@ class WorkflowEngine:
 
         #build for demo parallel !!!!!!
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-        print("service email !!!!!!!!!!!!!!!!!!!!")
+#        print("service email")
         request_input = {"email":["iceyokuna@hotmail.com"],"message":"Execution Successfully !!!","subject":"AutoWeb execution information [please do not reply]"}
         requests.post('http://127.0.0.1:8001/api/email', json= request_input)
-        print("service line !!!!!!!!!!!!!!!!!!!!")
+#        print("service line!")
         requests.get(url = "https://safe-beyond-22181.herokuapp.com/notify")
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
