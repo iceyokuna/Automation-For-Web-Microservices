@@ -76,7 +76,6 @@ class ConditionList extends Component {
 
     const variables = [];
     keys.map((elementId, index) => {
-      console.log(elementId);
       const method = appliedMethods[elementId].method;
       const inputInterface = method.input_interface;
       const outputInterface = method.output_interface;
@@ -111,26 +110,25 @@ class ConditionList extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     const { appliedMethods, workflow } = nextProps;
-
+    
     const allVariables = this.getAllVariables(appliedMethods);
     console.log(allVariables);
-
-    // this.setState({
-
-    // })
 
   }
 
 
 
   renderConditionItems = () => {
-    const { variables, operators, bpmnNodes } = this.props
+    const { variables, operators, bpmnNodes, workflowConditions } = this.props
+    console.log(workflowConditions)
     return this.state.conditions.map((item, index) =>
       <ConditionItem
         onChange={(condition) => this.changeCondition(index, condition)}
         allVariables={variables}
         allOperators={operators}
-        allBpmnNodes={bpmnNodes} />)
+        allBpmnNodes={bpmnNodes}
+        condition={item}
+      />)
   }
 
 

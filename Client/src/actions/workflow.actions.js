@@ -88,12 +88,59 @@ function addNameToId(name, value) {
   };
 }
 
+function getAllVariables(appliedMethods) {
+  const keys = Object.keys(appliedMethods);
+  const variables = [];
+  keys.map((elementId, index) => {
+    const method = appliedMethods[elementId].method;
+    const inputInterface = method.input_interface;
+    const outputInterface = method.output_interface;
+    Object.keys(inputInterface).map((variable, varIndex) => {
+      // variables[variable] = inputInterface[variable];
+      variables.push({
+        variableOf: {
+          serviceId: method.service,
+          methodId: method.id
+        },
+        name: variable,
+        type: inputInterface[variable].type,
+      })
+    })
+    Object.keys(outputInterface).map((variable, varIndex) => {
+      // variables[variable] = outputInterface[variable];
+      variables.push({
+        variableOf: {
+          serviceId: method.service,
+          methodId: method.id
+        },
+        name: variable,
+        type: outputInterface[variable].type,
+      })
+    })
+  })
+
+  return variables;
+}
+
 function applyMethodToTask(taskId, method) {
-  return {
-    type: workflowContants.APPLY_METHOD_TO_TASK,
-    taskId,
-    method,
+  return (dispatch, getState) => {
+
+    dispatch({
+      type: workflowContants.APPLY_METHOD_TO_TASK,
+      taskId,
+      method,
+    });
+
+    const { appliedMethods } = getState().workflow;
+    const allVariables = getAllVariables(appliedMethods);
+
+    dispatch({
+      type: workflowContants.UPDATE_CONDITION_VARIABLES,
+      allVariables
+    })
+
   }
+
 }
 
 function applyConditionsToGateWay(gatewayId, conditions) {

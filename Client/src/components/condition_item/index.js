@@ -25,11 +25,18 @@ const Option = ({ value }) => {
 
 export default class ConditionItem extends Component {
 
-  state = {
-    variable1: {},
-    variable2: {},
-    operator: '',
-    targetNode: '',
+  constructor(props) {
+    super(props);
+
+    const { variable1, variable2, operator, targetNode } = props.condition;
+
+
+    this.state = {
+      variable1: variable1 || '',
+      variable2: variable2 || '',
+      operator: operator || '',
+      targetNode: targetNode || '',
+    }
   }
 
   onChangeCondition = () => {
@@ -39,7 +46,7 @@ export default class ConditionItem extends Component {
 
   render() {
     const { variable1, operator, variable2, targetNode } = this.state
-    const { allVariables, allOperators, allBpmnNodes } = this.props
+    const { allVariables, allOperators, allBpmnNodes, condition } = this.props
 
     return (
       <Box height="60px" flex={false}>
