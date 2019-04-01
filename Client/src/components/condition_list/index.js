@@ -77,9 +77,14 @@ class ConditionList extends Component {
     const variables = {};
     keys.map((elementId, index) => {
       console.log(elementId);
-      const inputInterface = appliedMethods[elementId].method.input_interface;
+      const method = appliedMethods[elementId].method;
+      const inputInterface = method.input_interface;
+      const outputInterface = method.output_interface;
       Object.keys(inputInterface).map((variable, varIndex) => {
         variables[variable] = inputInterface[variable];
+      })
+      Object.keys(outputInterface).map((variable, varIndex) => {
+        variables[variable] = outputInterface[variable];
       })
     })
 
