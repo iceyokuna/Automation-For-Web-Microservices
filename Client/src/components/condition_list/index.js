@@ -71,16 +71,32 @@ class ConditionList extends Component {
     })
   }
 
+  getAllVariables = (appliedMethods) => {
+    const keys = Object.keys(appliedMethods);
+
+    const variables = {};
+    keys.map((elementId, index) => {
+      console.log(elementId);
+      const inputInterface = appliedMethods[elementId].method.input_interface;
+      Object.keys(inputInterface).map((variable, varIndex) => {
+        variables[variable] = inputInterface[variable];
+      })
+    })
+
+    return variables;
+
+  }
+
+
   componentWillReceiveProps = (nextProps) => {
     const { appliedMethods, workflow } = nextProps;
 
-    if (workflow.currentNode) {
-      try {
-        const currentId = workflow.currentNode.id;
-        console.log(workflow)
-        console.log(appliedMethods[currentId])
-      } catch (e) { }
-    }
+    const allVariables = this.getAllVariables(appliedMethods);
+    console.log(allVariables);
+
+    // this.setState({
+
+    // })
 
   }
 
