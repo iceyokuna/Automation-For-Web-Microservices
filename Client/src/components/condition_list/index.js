@@ -11,20 +11,7 @@ import { workflowActions } from 'actions';
 class ConditionList extends Component {
 
   state = {
-    conditions: [
-      {
-        "variable1": {
-          "name": "Salary",
-          "type": "Number"
-        },
-        "variable2": {
-          "name": "Salary",
-          "type": "Number"
-        },
-        "operator": "==",
-        "targetNode": "TASK_1132"
-      },
-    ],
+    conditions: [],
   }
 
 
