@@ -39,12 +39,12 @@ class CollaboratorView(APIView):
     def get(self, request, workflow_id=0):
 
         if (workflow_id == 0):
-            queryset = Collaborator.objects.all().values('id', 'collaborator__id',
+            queryset = Collaborator.objects.all().values('id', 'collaborator__id','collaborator__username',
                                                          'collaborator__first_name', 'collaborator__last_name')
             return Response({'workflows': queryset}, status=HTTP_200_OK)
 
         queryset = Collaborator.objects.filter(workflow=workflow_id).values(
-            'id', 'collaborator__id', 'collaborator__first_name', 'collaborator__last_name')
+            'id', 'collaborator__id', 'collaborator__username','collaborator__first_name', 'collaborator__last_name')
         return Response({'collaborators': queryset}, status=HTTP_200_OK)
 
     def post(self, request):
