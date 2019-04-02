@@ -21,28 +21,17 @@ import TaskItem from 'components/task_item'
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { workflowActions } from 'actions';
+import Spinner from 'react-spinkit';
+import { colors } from 'theme';
 
 class FlowDetail extends Component {
 
   constructor(props) {
     super(props)
-
-
     this.state = {
       newAppName: '',
       newDescription: '',
       openEditMenu: undefined,
-      collaborators: [
-        { name: 'Phat Thaveepholcharoen', type: 'Admin' },
-        { name: 'Iceyo Kuna', type: 'Manager' },
-        { name: 'Treesakul', type: 'User' },
-        { name: 'User#14', type: 'User' },
-        { name: 'User#77', type: 'User' },
-        { name: 'User#77', type: 'User' },
-        { name: 'User#77', type: 'User' },
-        { name: 'User#77', type: 'User' },
-        { name: 'User#77', type: 'User' },
-      ],
       tasks: [
         { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
@@ -75,16 +64,35 @@ class FlowDetail extends Component {
 
   navigateToModeler = () => {
     const { history, match, currentFlow, dispatch } = this.props;
-
     dispatch(workflowActions.setWorkflowId(currentFlow.id));
     history.push(match.url + '/edit_diagram');
   }
 
-  renderCollaboratorsList = () => {
-    const { collaborators } = this.state;
-    const views = collaborators.map((item, index) =>
-      <CollaboratorItem key={index} name={item.name} type={item.type} />)
-    return views;
+  componentDidMount = () => {
+    const { dispatch, currentFlow } = this.props;
+    dispatch(workflowActions.getAllCollaborators(currentFlow.id));
+  }
+
+  renderCollaboratorItems = () => {
+    const { workflowCollaborators } = this.props;
+    const { collaborators, loadingCollaborators } = workflowCollaborators;
+    if (loadingCollaborators == true) {
+      return (
+        <Box align="center" pad='small'>
+          <Spinner
+            fadeIn="quarter"
+            name="line-scale" color={colors.brand} />
+        </Box>
+      );
+    }
+
+    return collaborators.map((item, index) =>
+      <Col >
+        <CollaboratorItem key={index}
+          userName={item.collaborator__username}
+          firstName={item.collaborator__first_name}
+          lastName={item.collaborator__last_name} />
+      </Col>)
   }
 
   renderTaskList = () => {
@@ -116,10 +124,9 @@ class FlowDetail extends Component {
         <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
           <Text size="large" weight="bold">Collaborators</Text>
         </Box>
-        <Box pad="small">
+        <Box pad="small" fill="horizontal">
           {/* List of collaborators*/}
-          {this.renderCollaboratorsList()}
-
+          {this.renderCollaboratorItems()}
         </Box>
       </Box>
     )
@@ -216,6 +223,8 @@ class FlowDetail extends Component {
 const mapStateToProps = (state) => {
   return {
     currentFlow: state.workflowMyFlows.currentFlow,
+    workflowCollaborators: state.workflowCollaborators,
+    workflow: state.workflow,
   }
 }
 

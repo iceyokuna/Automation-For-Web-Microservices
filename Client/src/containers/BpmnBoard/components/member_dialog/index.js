@@ -20,33 +20,12 @@ export class index extends Component {
   state = {
     selectedCollaborators: [],
     userIds: ["iceyo#1177", "pym#887", "bas#998"],
-    collaborators: [
-      { name: 'Phat Thaveepholcharoen', type: 'Admin' },
-      { name: 'Iceyo Kuna', type: 'Manager' },
-      { name: 'Treesakul', type: 'User' },
-      { name: 'User#14', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-    ],
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedCollaborators: [],
-      userIds: ["iceyo#1177", "pym#887", "bas#998"],
-    }
   }
 
   componentDidMount = () => {
     const { dispatch, workflow } = this.props;
     dispatch(workflowActions.getAllCollaborators(workflow.workflowId));
   }
-
 
   onChangecollaborators = (chips) => {
     this.setState({
@@ -59,31 +38,16 @@ export class index extends Component {
   }
 
   onInvite = () => {
-    // Todo : insert async function
-
     const { selectedCollaborators } = this.state;
     const { workflow, dispatch } = this.props;
     dispatch(workflowActions.addNewCollaborators(workflow.workflowId, selectedCollaborators));
-    // console.log(this.props.authentication);
-    // const token = this.props.authentication.user.token
-    // console.log(token)
-    // axios.post("http://178.128.214.101:8003/api/collaborator/", {
-    //   workflow_id: 3,
-    //   collaborators: ["iceyo", "test1"]
-    // }, {
-    //     headers: {
-    //       Authorization: "Token " + token,
-    //     }
-    //   }).then((res) => console.log(res.data)).catch(err => console.error(err));
-
-    // this.onColseDialog();
+    this.onColseDialog();
   }
 
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
-    const { collaborators } = workflowCollaborators;
-
-    if (collaborators.loadingCollaborators === true) {
+    const { collaborators, loadingCollaborators } = workflowCollaborators;
+    if (loadingCollaborators == true) {
       return (
         <Box align="center" pad='small'>
           <Spinner
