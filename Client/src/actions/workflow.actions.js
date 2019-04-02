@@ -30,7 +30,47 @@ export const workflowActions = {
   sendWorkflowData,
   sendWorkflowDataToEngine,
   getMyFlows,
+  getAllCollaborators,
 };
+
+function getAllCollaborators(workflowId) {
+  return dispatch => {
+
+    dispatch(request())
+    axios.get(globalConstants.COLLABORATORS_URL + workflowId, {
+      headers: {
+        Authorization: "Token " + getToken(),
+      }
+    }).then(
+      res => {
+        dispatch(success(res.data.collaborators));
+      }
+    ).catch(err => {
+      dispatch(failure(err));
+    })
+  }
+
+  function request() {
+    return {
+      type: workflowContants.GET_ALL_COLLABORATORS_REQUEST,
+    }
+  }
+
+  function success(data) {
+    return {
+      type: workflowContants.GET_ALL_COLLABORATORS_SUCCESS,
+      collaborators: data,
+    }
+  }
+
+  function failure(err) {
+    return {
+      type: workflowContants.GET_ALL_COLLABORATORS_FAILURE,
+      err,
+    }
+  }
+
+}
 
 function setWorkflowId(workflowId) {
   return {
@@ -232,7 +272,7 @@ function addNewCollaborators(workflow_id, collaborators) {
   return (dispatch, getState) => {
 
     dispatch(request());
-    axios.post(globalConstants.ADD_NEW_COLLABORATORS_URL, {
+    axios.post(globalConstants.COLLABORATORS_URL, {
       workflow_id,
       collaborators,
     }, {

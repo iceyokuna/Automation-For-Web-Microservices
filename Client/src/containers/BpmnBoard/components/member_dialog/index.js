@@ -11,8 +11,9 @@ import { Row, Col } from 'react-flexbox-grid'
 import { workflowActions } from 'actions';
 
 import { Scrollbars } from 'react-custom-scrollbars';
+import Spinner from 'react-spinkit';
+import { colors } from 'theme';
 
-import axios from 'axios';
 
 export class index extends Component {
 
@@ -31,6 +32,21 @@ export class index extends Component {
       { name: 'User#77', type: 'User' },
     ],
   }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedCollaborators: [],
+      userIds: ["iceyo#1177", "pym#887", "bas#998"],
+    }
+  }
+
+  componentDidMount = () => {
+    const { dispatch, workflow } = this.props;
+    dispatch(workflowActions.getAllCollaborators(workflow.workflowId));
+  }
+
 
   onChangecollaborators = (chips) => {
     this.setState({
@@ -64,11 +80,25 @@ export class index extends Component {
   }
 
   renderCollaboratorItems = () => {
-    const { collaborators } = this.state;
+    const { workflowCollaborators } = this.props;
+    const { collaborators } = workflowCollaborators;
+
+    if (collaborators.loadingCollaborators === true) {
+      return (
+        <Box align="center" pad='small'>
+          <Spinner
+            fadeIn="quarter"
+            name="line-scale" color={colors.brand} />
+        </Box>
+      );
+    }
 
     return collaborators.map((item, index) =>
       <Col sm={12} xs={6} md={6} lg={6}>
-        <CollaboratorItem key={index} name={item.name} type={item.type} />
+        <CollaboratorItem key={index}
+          userName={item.collaborator__username}
+          firstName={item.collaborator__first_name}
+          lastName={item.collaborator__last_name} />
       </Col>)
   }
 
@@ -124,6 +154,7 @@ const mapStateToProps = (state) => ({
   showMemberDialog: state.workflow.showMemberDialog,
   authentication: state.authentication,
   workflow: state.workflow,
+  workflowCollaborators: state.workflowCollaborators,
 })
 
 

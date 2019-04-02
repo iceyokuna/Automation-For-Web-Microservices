@@ -30,16 +30,16 @@ export default class index extends Component {
 
 
   render() {
-    const { name, type } = this.props
+    const { firstName, lastName, userName } = this.props
     const { openDropdown } = this.state
     return (
-      <Box direction="row" gap="small" margin='xsmall'
+      <Box direction="row" gap="small" margin='xsmall' align="center"
         background="light-0" pad="xsmall" round={{ size: 'small' }}>
-        <Avatar size="48px" name={name} round />
+        <Avatar size="48px" name={firstName} round />
         <Box direction="row" flex justify="between">
-          <Box flex direction="column" justify="between">
-            <Text >{name}</Text>
-            <Text size="small" color="dark-6">{type}</Text>
+          <Box flex direction="column">
+            <Text >{firstName + " " + lastName}</Text>
+            <Text size="small" color="dark-6">{userName}</Text>
           </Box>
           <DropButton
             dropAlign={{ top: "bottom", right: "right" }}

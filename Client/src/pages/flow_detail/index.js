@@ -27,6 +27,7 @@ class FlowDetail extends Component {
   constructor(props) {
     super(props)
 
+
     this.state = {
       newAppName: '',
       newDescription: '',
