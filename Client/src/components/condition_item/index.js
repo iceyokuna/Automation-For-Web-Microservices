@@ -121,6 +121,13 @@ export default class ConditionItem extends Component {
               this.setState({ targetNode: option },
                 () => this.onChangeCondition());
             }}
+            onSearch={text => {
+              setTimeout(() => {
+                this.setState({
+                  targetNode: text
+                });
+              }, 500);
+            }}
           >
             {(option, index) => (
               <Option value={option} />
