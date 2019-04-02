@@ -1,7 +1,6 @@
- FROM python:3
- ENV PYTHONUNBUFFERED 1
+ FROM node:10
  RUN mkdir /code
  WORKDIR /code
- COPY requirements.txt /code/
- RUN pip3 install -r requirements.txt
+ COPY package.json /code/
+ RUN npm install
  COPY . /code/
