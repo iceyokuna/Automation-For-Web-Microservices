@@ -69,7 +69,7 @@ class ParticipantSelector extends Component {
                 placeholder="ID/Name of your team member"
                 value={value}
                 options={options}
-                onChange={({ option }) => { this.setState({ value: option.id }); }}
+                onChange={({ option }) => { this.setState({ value: option.collaborator__username }); }}
                 onClose={() => this.setState({ options: defaultOptions })}
                 onSearch={text => {
                   const exp = new RegExp(text);
