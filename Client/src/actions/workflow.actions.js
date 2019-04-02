@@ -193,17 +193,18 @@ function setBpmnJson(bpmnAppJson) {
 
 function createNewWorkflow(appName, appDescription, mode) {
   return (dispatch) => {
-    // dispatch(request());
-    // axios.post(globalConstants.CREATE_NEW_WORKFLOW_URL, {
-    //   appName,
-    //   appDescription,
-    //   mode,
-    // })
-    dispatch({
-      type: workflowContants.CREATE_NEW_WORKFLOW,
-      appName,
-      appDescription,
-      mode,
+    dispatch(request());
+    workflowService.sendWorkflowData(appName, appDescription, {
+      bpmnJson: {},
+      appliedMethods: {},
+      appliedConditions: {},
+      appliedPreInputs: {},
+      generatedForms: {},
+    }).then(res => {
+      dispatch(success(res.data));
+    }).catch(err => {
+      console.error(err);
+      dispatch(failure());
     })
   }
 
@@ -212,10 +213,11 @@ function createNewWorkflow(appName, appDescription, mode) {
       type: workflowContants.CREATE_NEW_WORKFLOW_REQUEST,
     }
   }
-  function success(workflowObject) {
+  function success(workflowObject, mode) {
     return {
       type: workflowContants.CREATE_NEW_WORKFLOW_SUCCESS,
       workflowObject,
+      mode,
     }
   }
   function failure(error) {

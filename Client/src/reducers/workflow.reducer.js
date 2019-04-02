@@ -120,10 +120,18 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
-    case workflowContants.CREATE_NEW_WORKFLOW: {
-      const { appName, appDescription, mode } = action;
-      const nextState = { ...state, appName, appDescription, mode };
-      return nextState
+    case workflowContants.CREATE_NEW_WORKFLOW_SUCCESS: {
+      const { workflowObject, mode } = action;
+      const { workflow_description, workflow_id, workflow_name } = workflowObject;
+      const nextState = {
+        ...state,
+        appName: workflow_name,
+        workflowId: workflow_id,
+        appDescription: workflow_description,
+        mode,
+      };
+
+      return nextState;
     }
 
     case workflowContants.SET_BPMN_JSON: {
