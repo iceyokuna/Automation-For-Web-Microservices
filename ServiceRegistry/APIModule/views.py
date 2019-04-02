@@ -34,5 +34,7 @@ class ServiceLookupView(APIView):
                         status=HTTP_503_SERVICE_UNAVAILABLE)
     def post(self, request):
         method_id = request.data.get('method_id')
-        queryset = Method.objects.filter(id = method_id).values('id','name','path')[0]
-        return Response(queryset,status=HTTP_200_OK)
+        service_id = request.data.get('service_id')
+        queryset_method = Method.objects.filter(id = method_id).values('id','name','path')[0]
+        queryset_service = Service.objects.filter(id = service_id).values('id','name','url')[0]
+        return Response({'service':queryset_service,'method':queryset_method},status=HTTP_200_OK)

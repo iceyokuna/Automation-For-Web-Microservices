@@ -26,6 +26,8 @@ urlpatterns = [
     path('api/validate_token',ValidateTokenView.as_view()),
     path('api/register', RegisterView.as_view()),
     path('api/change_password', ChangePasswordView.as_view() ),
+    path('api/', include('APIRegistrationModule.urls')),
     path('api/', include('APIProjectModule.urls'))
+    
     # path('api/register', views.UserCreate.as_view()),
 ]

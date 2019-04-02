@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  autoweb:
+    build: .
+    command: npm start
+    volumes:
+      - .:/code
+    ports:
+      - "80:80"
