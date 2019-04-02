@@ -18,10 +18,11 @@ function login(username, password) {
     userService.login(username, password)
       .then(
         res => {
-          const token = res.data.token;
-          if (token) { localStorage.setItem('user', token); }
-          dispatch(success(token));
-          history.push('/home/my_tasks');
+          let user = res.data;
+          dispatch(success(user));
+          user = JSON.stringify(user);
+          localStorage.setItem('user', user);
+          history.push('/home/my_flows');
         },
         error => {
           dispatch(failure(error.toString()));

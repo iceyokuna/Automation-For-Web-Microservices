@@ -3,6 +3,7 @@ from MainModule.Graphflow.Core.UserTask import UserTask
 from MainModule.Graphflow.Core.StartEvent import StartEvent
 from MainModule.Graphflow.Core.EndEvent import EndEvent
 from MainModule.Graphflow.Core.ExclusiveGateway import ExclusiveGateway
+from MainModule.Graphflow.Core.ParallelGateway import ParallelGateway
 from MainModule.Graphflow.Core.SequenceFlow import SequenceFlow
 from MainModule.Graphflow.Core.TimeEvent import TimeEvent
 from MainModule.Graphflow.Core.IOtypes import *
@@ -12,9 +13,9 @@ import requests
 class WorkflowEngine:
     def __init__(self):
         self.state = {} #Q
-        self.transition = {} #delta
         self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
+        self.transition = {} #delta
 
     def initialize(self, elements_list, HTML_list = None):
         
@@ -23,7 +24,10 @@ class WorkflowEngine:
 
         #token html
         for html in HTML_list:
-            element_ref_html[html['taskId']] = html['formData']
+            try:
+                element_ref_html[html['taskId']] = html['formData']
+            except:
+                continue
 
         #token lane
         for element in elements_list:
@@ -51,8 +55,11 @@ class WorkflowEngine:
                 inputType = None
                 outputType = None
                 task = ServiceTask(Id, name, inputType, outputType, lane_owner)
-                task.setHTML(element_ref_html[element['attributes']['id']])
-                self.state[element['attributes']['id']] = task
+                try:
+                    task.setHTML(element_ref_html[element['attributes']['id']])
+                    self.state[element['attributes']['id']] = task
+                except:
+                    self.state[element['attributes']['id']] = task
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
@@ -87,12 +94,22 @@ class WorkflowEngine:
         #get object from next transition
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
 
+        #build for demo parallel !!!!!!
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+        print("service email !!!!!!!!!!!!!!!!!!!!")
+        request_input = {"email":["iceyokuna@gmail.com"],"message":"Execution Successfully !!!","subject":"AutoWeb execution information [please do not reply]"}
+        requests.post('http://127.0.0.1:8001/api/email', json= request_input)
+        print("service line !!!!!!!!!!!!!!!!!!!!")
+        requests.get(url = "https://safe-beyond-22181.herokuapp.com/notify")
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+
         #check that is end state or not
         if(self.currentState["current"] in self.endState):
             #DEBUG_LOG_WHEN_EXECUTION_DONE
             self.showLog()
             return "DONE"
-        
+
         #Tasks case return HTML and perform services (2 cases have/not have form)
         element_object = self.state[self.currentState["current"]]
 

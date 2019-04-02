@@ -1,15 +1,6 @@
 import React, { Component } from 'react'
-import { styles } from './style'
-
 import { Box, FormField, TextInput, Button, Image } from 'grommet';
 import { Refresh } from 'grommet-icons';
-import { Link } from 'react-router-dom'
-
-import converter from 'xml-js'
-
-import bpmnXml from 'example_data/flow1.bpmn'
-
-
 
 export default class ResetPassword extends Component {
   constructor(props) {
@@ -25,14 +16,7 @@ export default class ResetPassword extends Component {
 
   onResetPassword = () => {
     // this.props.history.replace('/login');
-
     // Todos
-
-    const json = converter.xml2json(bpmnXml, { compact: false, spaces: 2 });
-    console.log(json)
-
-    const xml = converter.json2xml(json, { compact: false, spaces: 2 });
-    console.log(xml)
   }
 
   render() {

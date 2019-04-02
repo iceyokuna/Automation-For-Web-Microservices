@@ -71,4 +71,6 @@ body {
 .bjs-powered-by {
   box-shadow: none !important;
   transform: translateY(-10px);
+  z-index: 5 !important;
 }
+

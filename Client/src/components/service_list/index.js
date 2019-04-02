@@ -56,7 +56,7 @@ export default class index extends Component {
 
   render() {
     return (
-      <Scrollbars autoHeightMax={400} autoHeight autoHide>
+      <Scrollbars autoHeightMax={360} autoHeight autoHide>
         <Accordion
           style={{ overflow: 'hidden' }}
           onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}

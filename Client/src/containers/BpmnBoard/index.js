@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import BpmnModeler from "bpmn-js/lib/Modeler";
 import BpmnModeler from "./custom-modeler";
 import magicModdleDescriptor from "./descriptors/magic";
 import qaPackage from './descriptors/qa';
@@ -12,8 +11,10 @@ import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
 import ParticipantSelector from './components/participant_selector';
 import MemberDialog from './components/member_dialog';
-
+import TimerTrigger from 'components/timer_trigger';
 import ConditionList from 'components/condition_list';
+import PredefineInput from 'components/predefine_input';
+
 
 import "./style/app.less";
 
@@ -28,27 +29,14 @@ import download from 'downloadjs';
 import converter from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload, Group } from 'grommet-icons'
+import { Upload, Group, Test } from 'grommet-icons'
 
-import styled from 'styled-components'
+import { workflowActions, availableServicesActions } from 'actions'
 
-import Loader from 'react-loader-spinner'
-import { workflowActions, availableServicesActions, socketActions } from 'actions'
+import Spinner from 'react-spinkit'
+import { colors } from 'theme';
+import { InviteButton, NextButton, SendWorkflowButton } from './style'
 
-import appTheme from 'theme';
-const colors = appTheme.global.colors;
-
-const NextButtonWrapper = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 340px;
-`
-
-const InviteButton = styled(Button)`
-position: absolute;
-top: 22px;
-right: 505px;
-`
 
 let scale = 1;
 
@@ -77,6 +65,13 @@ class BpmnContainer extends Component {
   };
 
   componentDidMount() {
+    const { workflow } = this.props;
+    if (workflow.mode == "CREATE_NEW") {
+      this.props.dispatch(workflowActions.setupNewWorkflow());
+    } else {
+      this.props.dispatch(workflowActions.setupExistingWorkflow());
+    }
+
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
       container: "#canvas",
@@ -115,6 +110,7 @@ class BpmnContainer extends Component {
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
       const currentElement = event.element.businessObject;
+      this.props.dispatch(workflowActions.setCurrentElement(currentElement));
       this.setState({
         currentElement: currentElement
       });
@@ -279,7 +275,7 @@ class BpmnContainer extends Component {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
-  onSubmitDiagram = () => {
+  onSubmitDiagram = (mode) => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
@@ -292,17 +288,31 @@ class BpmnContainer extends Component {
             const bpmnJson = JSON.parse(
               converter.xml2json(xml, { compact: false, spaces: 2 }));
 
-            const { workflowConditions } = this.props;
+            const { workflowConditions, workflowPreInputs } = this.props;
             const { appliedConditions } = workflowConditions;
+            const { appliedPreInputs } = workflowPreInputs;
 
-            this.props.dispatch(workflowActions.sendWorkflowData(
-              appName,
-              appDescription,
+            const workflowData = {
               bpmnJson,
               appliedMethods,
               appliedConditions,
-              generatedForms
-            ));
+              appliedPreInputs,
+              generatedForms,
+            }
+
+            if (mode === "ToEngine") {
+              this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
+                appName,
+                appDescription,
+                workflowData
+              ));
+            } else {
+              this.props.dispatch(workflowActions.sendWorkflowData(
+                appName,
+                appDescription,
+                workflowData
+              ));
+            }
           }
         });
       }
@@ -363,7 +373,7 @@ class BpmnContainer extends Component {
           <div id="canvas" />
         </div>
 
-        {workflow.loadingWorkflowData && (
+        {workflow.sendingWorkflowData && (
           <Layer
             position="center"
             modal
@@ -371,20 +381,21 @@ class BpmnContainer extends Component {
             onEsc={this.onCloseLoadingDialog}
 
           >
-            <Box pad="medium" gap="small" width="large" width="300px"
+            <Box pad="medium" gap="small" width="large" width="350px"
               direction="row" justify='center' align="center">
-              <Text>Submitting your workflow ...</Text>
-              <Loader
-                type="Oval"
-                color={colors.brand}
-                height="24"
-                width="24" />
+              <Text>Submitting your workflow</Text>
+              <Spinner
+                fadeIn="quarter"
+                name="three-bounce"
+                color={colors.brand} />
 
             </Box>
           </Layer>)
         }
 
         <MemberDialog />
+        <TimerTrigger />
+        <PredefineInput />
 
         <FileControls
           onOpenFile={this.handleOpen}
@@ -392,6 +403,7 @@ class BpmnContainer extends Component {
           onSaveFile={this.handleSaveFile}
           onSaveImage={this.handleSaveImage}
         />
+
         <BpmnProperty
           allServices={availableServices.data}
           currentElement={this.state.currentElement}
@@ -399,6 +411,7 @@ class BpmnContainer extends Component {
           onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
           onShowConditions={() => this.setState({ showConditionList: true })}
           onSelectServiceMethod={(serviceMethod) => this.showServiceMethodRequirement(serviceMethod)} />
+
         <ZoomControls
           onZoomIn={this.handleZoomIn}
           onZoomOut={this.handleZoomOut}
@@ -410,15 +423,21 @@ class BpmnContainer extends Component {
           onUndo={this.handleUndo}
         />
 
-        <NextButtonWrapper>
-          <Box pad={{ horizontal: 'xsmall' }} gap='small' margin="small">
-            <Button color="accent-1" primary icon={<Upload />}
-              label="Submit" onClick={this.onSubmitDiagram} />
-          </Box>
-        </NextButtonWrapper>
+        <SendWorkflowButton
+          color="accent-4" primary plain={false}
+          icon={<Test size="18px" color="#ffffff" />}
+          title="Send workflow directly to engine"
+          onClick={() => this.onSubmitDiagram("ToEngine")}
+        />
 
-        <InviteButton color="accent-3"
-          primary label="Collaborators" icon={<Group />} onClick={this.onInvite} />
+        <InviteButton
+          color="accent-3"
+          primary plain={false} title="Collaborators"
+          icon={<Group size="18px" />}
+          onClick={this.onInvite} />
+
+        <NextButton color="accent-1" primary icon={<Upload size="18px" />}
+          title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
@@ -445,11 +464,15 @@ class BpmnContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { workflow, availableServices, workflowConditions } = state;
+  const { workflow, availableServices
+    , workflowConditions,
+    workflowPreInputs, workflowMyFlows } = state;
   return {
     workflow,
     workflowConditions,
     availableServices,
+    workflowPreInputs,
+    workflowMyFlows,
   };
 };
 
