@@ -20,6 +20,7 @@ import TaskItem from 'components/task_item'
 
 import moment from 'moment';
 import { connect } from 'react-redux';
+import { workflowActions } from 'actions';
 
 class FlowDetail extends Component {
 
@@ -72,10 +73,10 @@ class FlowDetail extends Component {
   }
 
   navigateToModeler = () => {
-    const { history, match, currentFlow } = this.props;
-    history.push(match.url + '/edit_diagram', {
-      id: currentFlow.id
-    });
+    const { history, match, currentFlow, dispatch } = this.props;
+
+    dispatch(workflowActions.setWorkflowId(currentFlow.id));
+    history.push(match.url + '/edit_diagram');
   }
 
   renderCollaboratorsList = () => {

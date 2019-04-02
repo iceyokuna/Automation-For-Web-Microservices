@@ -1,7 +1,7 @@
 import { workflowContants, globalConstants } from '_constants';
 import { workflowService } from 'services'
 import { socketActions } from 'actions'
-import { history } from '_helpers';
+import { history, getToken } from '_helpers';
 import axios from 'axios';
 
 export const workflowActions = {
@@ -228,20 +228,34 @@ function createNewWorkflow(appName, appDescription, mode) {
 
 }
 
-function addNewCollaborators(newCollaborators) {
+function addNewCollaborators(workflow_id, collaborators) {
   return (dispatch, getState) => {
-    axios.post(globalConstants.ADD_NEW_COLLABORATORS_URL)
+
+    dispatch(request());
+    axios.post(globalConstants.ADD_NEW_COLLABORATORS_URL, {
+      workflow_id,
+      collaborators,
+    }, {
+        headers: {
+          Authorization: "Token " + getToken(),
+        }
+      }).then(res => {
+        console.log(res.data);
+        dispatch(success(res.data));
+      }).catch(err => {
+        dispatch(failure(err))
+      })
   }
 
   function request() {
     return {
-      type: workflowContants.SEND_WORKFLOW_DATA_REQUEST
+      type: workflowContants.ADD_NEW_COLLABORATORS_REQUEST
     }
   }
 
   function success(data) {
     return {
-      type: workflowContants.SEND_WORKFLOW_DATA_SUCCESS,
+      type: workflowContants.ADD_NEW_COLLABORATORS_SUCCESS,
       data
     }
   }
@@ -249,7 +263,7 @@ function addNewCollaborators(newCollaborators) {
   function failure(err) {
     console.error(err);
     return {
-      type: workflowContants.SEND_WORKFLOW_DATA_FAILURE
+      type: workflowContants.ADD_NEW_COLLABORATORS_FAILURE
     }
   }
 

@@ -46,8 +46,10 @@ export class index extends Component {
     // Todo : insert async function
 
     const { selectedCollaborators } = this.state;
+    const { workflow, dispatch } = this.props;
+    dispatch(workflowActions.addNewCollaborators(workflow.workflowId, selectedCollaborators));
     // console.log(this.props.authentication);
-    const token = this.props.authentication.user.token
+    // const token = this.props.authentication.user.token
     // console.log(token)
     // axios.post("http://178.128.214.101:8003/api/collaborator/", {
     //   workflow_id: 3,
@@ -121,6 +123,7 @@ export class index extends Component {
 const mapStateToProps = (state) => ({
   showMemberDialog: state.workflow.showMemberDialog,
   authentication: state.authentication,
+  workflow: state.workflow,
 })
 
 
