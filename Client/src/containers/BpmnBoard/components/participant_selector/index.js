@@ -4,6 +4,8 @@ import { Box, Heading, Layer, Button, Text, Select } from 'grommet'
 
 import { Close, Checkmark } from 'grommet-icons'
 import Avatar from 'react-avatar';
+import { connect } from 'react-redux';
+
 
 const defaultOptions = [];
 for (let i = 1; i <= 200; i += 1) {
@@ -11,20 +13,28 @@ for (let i = 1; i <= 200; i += 1) {
 }
 
 
-const ParticipantItem = ({ username, id }) => (
+const ParticipantItem = ({ firstName, lastName, userName }) => (
   <Box direction="row" gap="small" pad="small" >
-    <Avatar size="48px" name={username} round />
+    <Avatar size="48px" name={firstName} round />
     <Box flex direction="column" justify="between">
-      <Text >{username}</Text>
-      <Text size="small" color="dark-6">@{id}</Text>
+      <Text >{firstName + " " + lastName}</Text>
+      <Text size="small" color="dark-6">{userName}</Text>
     </Box>
   </Box>
 );
 
-export default class ParticipantSelector extends Component {
-  state = {
-    options: defaultOptions,
-    value: "",
+class ParticipantSelector extends Component {
+
+  constructor(props) {
+    super(props);
+
+    const { collaborators } = props;
+
+    this.state = {
+      defaultOptions: collaborators,
+      options: collaborators,
+      value: "",
+    }
   }
 
   onClose = () => {
@@ -37,10 +47,10 @@ export default class ParticipantSelector extends Component {
   }
 
   render() {
-    const { options, value } = this.state;
-    const { show } = this.props;
+    const { options, value, defaultOptions } = this.state;
+    const { show, collaborators } = this.props;
     return (
-      <Box>
+      <Box >
         {show && (
           <Layer
             position="center"
@@ -48,7 +58,7 @@ export default class ParticipantSelector extends Component {
             onClickOutside={this.onClose}
             onEsc={this.onClose}
           >
-            <Box pad="medium" gap="medium" width="medium">
+            <Box width="500px" pad="medium" gap="medium" >
               <Heading level={2} margin="none">
                 Choose a collaborator
               </Heading>
@@ -65,13 +75,17 @@ export default class ParticipantSelector extends Component {
                   const exp = new RegExp(text);
                   this.setState({
                     options: defaultOptions.filter(option =>
-                      (exp.test(option.username) || exp.test(option.id)))
+                      (exp.test(option.collaborator__first_name)
+                        || exp.test(option.collaborator__username))
+                    )
                   });
                 }}
               >
 
                 {(option, index) => (
-                  <ParticipantItem username={option.username} id={option.id} />
+                  <ParticipantItem firstName={option.collaborator__first_name}
+                    lastName={option.collaborator__last_name}
+                    userName={option.collaborator__username} />
                 )}
 
               </Select>
@@ -88,3 +102,11 @@ export default class ParticipantSelector extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    collaborators: state.workflowCollaborators.collaborators,
+  }
+}
+
+export default connect(mapStateToProps)(ParticipantSelector);
