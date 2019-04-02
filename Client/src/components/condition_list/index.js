@@ -58,7 +58,15 @@ class ConditionList extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-
+    const { workflow } = nextProps;
+    if (workflow.currentNode != null) {
+      const { workflowConditions } = nextProps;
+      const currentId = workflow.currentNode.id;
+      const currentConditions = workflowConditions.appliedConditions[currentId];
+      this.state = {
+        conditions: currentConditions || [],
+      }
+    }
   }
 
   renderConditionItems = () => {
