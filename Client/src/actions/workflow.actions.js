@@ -1,7 +1,8 @@
-import { workflowContants } from '_constants';
+import { workflowContants, globalConstants } from '_constants';
 import { workflowService } from 'services'
 import { socketActions } from 'actions'
 import { history } from '_helpers';
+import axios from 'axios';
 
 export const workflowActions = {
   addNewForm,
@@ -17,6 +18,7 @@ export const workflowActions = {
   setupExistingWorkflow,
   setupNewWorkflow,
 
+  setWorkflowId,
   setBpmnJson,
   setAppInfo,
   setCurrentElement,
@@ -29,6 +31,13 @@ export const workflowActions = {
   sendWorkflowDataToEngine,
   getMyFlows,
 };
+
+function setWorkflowId(workflowId) {
+  return {
+    type: workflowContants.SET_WORKFLOW_ID,
+    workflowId,
+  }
+}
 
 function applyPreInputsToTask(elementId, preInputs, method) {
   return {
@@ -192,10 +201,30 @@ function setAppInfo(appName, appDescription, mode) {
 }
 
 function addNewCollaborators(newCollaborators) {
-  return {
-    type: workflowContants.ADD_NEW_COLLABORATORS,
-    newCollaborators,
+  return (dispatch, getState) => {
+    axios.post(globalConstants.ADD_NEW_COLLABORATORS_URL)
   }
+
+  function request() {
+    return {
+      type: workflowContants.SEND_WORKFLOW_DATA_REQUEST
+    }
+  }
+
+  function success(data) {
+    return {
+      type: workflowContants.SEND_WORKFLOW_DATA_SUCCESS,
+      data
+    }
+  }
+
+  function failure(err) {
+    console.error(err);
+    return {
+      type: workflowContants.SEND_WORKFLOW_DATA_FAILURE
+    }
+  }
+
 }
 
 function sendWorkflowData(appName, appDescription,

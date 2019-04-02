@@ -15,28 +15,28 @@ function login(username, password) {
   return dispatch => {
     dispatch(request({ username }));
 
-    // userService.login(username, password)
-    //   .then(
-    //     res => {
-    //       let user = res.data;
-    //       dispatch(success(user));
-    //       user = JSON.stringify(user);
-    //       localStorage.setItem('user', user);
-    //       history.push('/home/my_flows');
-    //     },
-    //     error => {
-    //       dispatch(failure(error.toString()));
-    //       dispatch(alertActions.error(error.toString()));
-    //     }
-    //   );
+    userService.login(username, password)
+      .then(
+        res => {
+          let user = res.data;
+          dispatch(success(user));
+          user = JSON.stringify(user);
+          localStorage.setItem('user', user);
+          history.push('/home/my_flows');
+        },
+        error => {
+          dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
+        }
+      );
 
     // Fake login
-    setTimeout(() => {
-      const token = 1234788989
-      localStorage.setItem('user', token);
-      dispatch(success(token));
-      history.push('/home/my_flows');
-    }, 500)
+    // setTimeout(() => {
+    //   const token = 1234788989
+    //   localStorage.setItem('user', token);
+    //   dispatch(success(token));
+    //   history.push('/home/my_flows');
+    // }, 500)
 
   };
 
