@@ -4,10 +4,11 @@ const defaultState = {
   nextFlowElements: [],
   showConditionList: false,
   operators: ['==', '!=', '<', '<=', '>', '>='],
-  allVariables: [
-    { name: 'Salary', type: 'Number' },
-    { name: 'Single', type: 'Boolean' },
-    { name: 'Name', type: 'String' },
+  allVariables: [],
+  bpmnNodes: [
+    'TASK_1132',
+    'TASK_2233E',
+    'LANE_133ww'
   ],
   appliedConditions: {},
 }
@@ -18,7 +19,13 @@ export function workflowConditions(state = defaultState, action) {
       const nextState = { ...state };
       const { gatewayId, conditions } = action;
       nextState.appliedConditions[gatewayId] = conditions;
-      // nextState.allVariables.push({})
+      return nextState;
+    }
+
+    case workflowContants.UPDATE_CONDITION_VARIABLES: {
+      const nextState = { ...state };
+      const { allVariables } = state;
+      nextState.allVariables = [...allVariables, ...action.allVariables];
       return nextState;
     }
 

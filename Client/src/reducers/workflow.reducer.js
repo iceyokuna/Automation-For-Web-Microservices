@@ -20,6 +20,7 @@ const defaultState = {
   // generatedForms: [
 
   // ],
+  workflowId: null,
   appliedMethods: {},
   executingForm: null,
   formsDone: false,
@@ -38,6 +39,11 @@ const initState = { ...defaultState };
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+    case workflowContants.SET_WORKFLOW_ID: {
+      const nextState = { ...state };
+      nextState.workflowId = action.workflowId;
+      return nextState;
+    }
 
     case workflowContants.SETUP_EXISTING_WORKFLOW: {
       const { currentFlow } = action;
@@ -114,7 +120,7 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
-    case workflowContants.SET_APP_INFO: {
+    case workflowContants.CREATE_NEW_WORKFLOW: {
       const { appName, appDescription, mode } = action;
       const nextState = { ...state, appName, appDescription, mode };
       return nextState

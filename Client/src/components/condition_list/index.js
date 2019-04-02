@@ -7,46 +7,32 @@ import { Add } from 'grommet-icons'
 import { connect } from 'react-redux'
 import { workflowActions } from 'actions';
 
+const emptyCondition = {
+  "variable1": {
+    "name": null,
+    "type": null
+  },
+  "variable2": {
+    "name": null,
+    "type": null
+  },
+  "operator": null,
+  "targetNode": null
+};
 
 class ConditionList extends Component {
 
   state = {
-    conditions: [
-      {
-        "variable1": {
-          "name": "Salary",
-          "type": "Number"
-        },
-        "variable2": {
-          "name": "Salary",
-          "type": "Number"
-        },
-        "operator": "==",
-        "targetNode": "TASK_1132"
-      },
-    ],
+    conditions: [],
   }
-
 
   close = () => {
     this.props.onCloseConditionList();
   }
 
-
   addMoreCondition = () => {
     const { conditions } = this.state;
-    conditions.push({
-      "variable1": {
-        "name": null,
-        "type": null
-      },
-      "variable2": {
-        "name": null,
-        "type": null
-      },
-      "operator": null,
-      "targetNode": null
-    });
+    conditions.push(emptyCondition);
     this.setState({ conditions: conditions });
   }
 
@@ -59,9 +45,9 @@ class ConditionList extends Component {
         conditions)
     );
 
+    this.setState({ conditions: [] });
     this.close();
   }
-
 
   changeCondition = (index, condition) => {
     const { conditions } = this.state;
@@ -72,35 +58,34 @@ class ConditionList extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { appliedMethods, workflow } = nextProps;
-
-    if (workflow.currentNode) {
-      try {
-        const currentId = workflow.currentNode.id;
-        console.log(workflow)
-        console.log(appliedMethods[currentId])
-      } catch (e) { }
+    const { workflow } = nextProps;
+    if (workflow.currentNode != null) {
+      const { workflowConditions } = nextProps;
+      const currentId = workflow.currentNode.id;
+      const currentConditions = workflowConditions.appliedConditions[currentId];
+      this.state = {
+        conditions: currentConditions || [],
+      }
     }
-
   }
 
-
-
   renderConditionItems = () => {
-    const { variables, operators, bpmnNodes } = this.props
+    const { workflowConditions } = this.props
+    console.log(workflowConditions)
+    const { operators, allVariables, bpmnNodes } = workflowConditions;
     return this.state.conditions.map((item, index) =>
       <ConditionItem
         onChange={(condition) => this.changeCondition(index, condition)}
-        allVariables={variables}
+        allVariables={allVariables}
         allOperators={operators}
-        allBpmnNodes={bpmnNodes} />)
+        allBpmnNodes={bpmnNodes}
+        condition={item}
+      />)
   }
 
-
   render() {
-    const { show, appliedMethods } = this.props;
-
-
+    const { show, workflowConditions } = this.props;
+    console.log(workflowConditions);
     return (
       show &&
       <Layer
@@ -141,7 +126,6 @@ const mapStateToProps = (state) => {
   return {
     workflow: state.workflow,
     workflowConditions: state.workflowConditions,
-    appliedMethods: state.workflow.appliedMethods,
   }
 }
 
