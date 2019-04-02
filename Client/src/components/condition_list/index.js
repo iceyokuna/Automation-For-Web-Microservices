@@ -7,6 +7,18 @@ import { Add } from 'grommet-icons'
 import { connect } from 'react-redux'
 import { workflowActions } from 'actions';
 
+const emptyCondition = {
+  "variable1": {
+    "name": null,
+    "type": null
+  },
+  "variable2": {
+    "name": null,
+    "type": null
+  },
+  "operator": null,
+  "targetNode": null
+};
 
 class ConditionList extends Component {
 
@@ -14,26 +26,13 @@ class ConditionList extends Component {
     conditions: [],
   }
 
-
   close = () => {
     this.props.onCloseConditionList();
   }
 
-
   addMoreCondition = () => {
     const { conditions } = this.state;
-    conditions.push({
-      "variable1": {
-        "name": null,
-        "type": null
-      },
-      "variable2": {
-        "name": null,
-        "type": null
-      },
-      "operator": null,
-      "targetNode": null
-    });
+    conditions.push(emptyCondition);
     this.setState({ conditions: conditions });
   }
 
@@ -46,6 +45,7 @@ class ConditionList extends Component {
         conditions)
     );
 
+    this.setState({ conditions: [] });
     this.close();
   }
 

@@ -20,7 +20,7 @@ export const workflowActions = {
 
   setWorkflowId,
   setBpmnJson,
-  setAppInfo,
+  createNewWorkflow,
   setCurrentElement,
   toggleMemberDialog,
   toggleTimerDialog,
@@ -191,13 +191,39 @@ function setBpmnJson(bpmnAppJson) {
   }
 }
 
-function setAppInfo(appName, appDescription, mode) {
-  return {
-    type: workflowContants.SET_APP_INFO,
-    appName,
-    appDescription,
-    mode,
+function createNewWorkflow(appName, appDescription, mode) {
+  return (dispatch) => {
+    // dispatch(request());
+    // axios.post(globalConstants.CREATE_NEW_WORKFLOW_URL, {
+    //   appName,
+    //   appDescription,
+    //   mode,
+    // })
+    dispatch({
+      type: workflowContants.CREATE_NEW_WORKFLOW,
+      appName,
+      appDescription,
+      mode,
+    })
   }
+
+  function request() {
+    return {
+      type: workflowContants.CREATE_NEW_WORKFLOW_REQUEST,
+    }
+  }
+  function success(workflowObject) {
+    return {
+      type: workflowContants.CREATE_NEW_WORKFLOW_SUCCESS,
+      workflowObject,
+    }
+  }
+  function failure(error) {
+    return {
+      type: workflowContants.CREATE_NEW_WORKFLOW_FAILURE,
+    }
+  }
+
 }
 
 function addNewCollaborators(newCollaborators) {

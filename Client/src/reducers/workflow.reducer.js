@@ -120,7 +120,7 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
-    case workflowContants.SET_APP_INFO: {
+    case workflowContants.CREATE_NEW_WORKFLOW: {
       const { appName, appDescription, mode } = action;
       const nextState = { ...state, appName, appDescription, mode };
       return nextState
