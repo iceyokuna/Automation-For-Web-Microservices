@@ -41,6 +41,7 @@ export class index extends Component {
     const { selectedCollaborators } = this.state;
     const { workflow, dispatch } = this.props;
     dispatch(workflowActions.addNewCollaborators(workflow.workflowId, selectedCollaborators));
+    dispatch(workflowActions.getAllCollaborators(workflow.workflowId));
     this.onColseDialog();
   }
 
@@ -65,7 +66,6 @@ export class index extends Component {
           lastName={item.collaborator__last_name} />
       </Col>)
   }
-
 
   render() {
     const { showMemberDialog } = this.props;
