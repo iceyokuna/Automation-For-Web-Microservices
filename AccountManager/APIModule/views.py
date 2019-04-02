@@ -63,3 +63,4 @@ class ValidateTokenView(APIView):
     def post(self, request):    
         return Response({'detail':'Successfully validated'}, status=HTTP_400_BAD_REQUEST)
 
+

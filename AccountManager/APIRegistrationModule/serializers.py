@@ -32,3 +32,8 @@ class ChangePasswordSerializer(serializers.Serializer):
         validate_password(value)
         return value
 
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username','first_name', 'last_name')
+
