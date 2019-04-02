@@ -11,11 +11,21 @@ class Register extends Component {
     super(props);
     this.state = {
       username: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPass: '',
       passwordError: null,
     };
+  }
+
+  onChangeFirstName = (e) => {
+    this.setState({ firstName: e.target.value });
+  }
+
+  onChangeLastName = (e) => {
+    this.setState({ lastName: e.target.value });
   }
 
   onChangeUsername = (e) => {
@@ -36,7 +46,8 @@ class Register extends Component {
 
 
   onRegister = () => {
-    const { username, email, password, confirmPass } = this.state;
+    const { firstName, lastName, username, email,
+      password, confirmPass } = this.state;
 
     if (password !== confirmPass) {
       this.setState({ passwordError: 'Password must be the same' });
@@ -47,8 +58,8 @@ class Register extends Component {
       username: username,
       email: email,
       password: password,
-      first_name: 'Anonymous_firstname',
-      last_name: 'Anonymouse_lastname',
+      first_name: firstName,
+      last_name: lastName,
     };
     this.setState({ passwordError: null });
     this.props.dispatch(userActions.register(userInfo))
@@ -63,6 +74,22 @@ class Register extends Component {
           round={{ size: 'small' }}
           animation='fadeIn'>
           <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
+          <FormField >
+            <TextInput
+              ref='firstNameInput'
+              autoFocus
+              placeholder="First Name"
+              value={this.state.firstName}
+              onChange={this.onChangeFirstName} />
+          </FormField>
+          <FormField >
+            <TextInput
+              ref='lastNameInput'
+              autoFocus
+              placeholder="Last Name"
+              value={this.state.lastName}
+              onChange={this.onChangeLastName} />
+          </FormField>
           <FormField >
             <TextInput
               ref='usernameInput'
