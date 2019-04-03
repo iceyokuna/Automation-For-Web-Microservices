@@ -1,25 +1,25 @@
 import { workflowContants } from '_constants';
 
 const defaultState = {
-  generatedForms: [
-    {
-      "taskId": "Task_0qz6rn4",
-      "formData": {
-        "formHtml": "<form class=\"form\"><div class=\"form-group\"><label class=\"label\">Subject</label><input placeholder=\"Type your email subject\" id=\"subject\" name=\"subject\" class=\"input\"/></div><div class=\"form-group\"><label class=\"label\">Receiver Emails</label><input type=\"email\" placeholder=\"Type your receiver emails\" id=\"email\" name=\"email\" class=\"input\"/></div><div class=\"form-group\"><label class=\"label\">Message</label><textarea id=\"message\" name=\"message\" placeholder=\"Message body\" class=\"textarea\"></textarea></div><div class=\"form-group\"></div></form>",
-        "formCss": "* { box-sizing: border-box; } body {margin: 0;}.textarea{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eeeeee;border:none;}.input{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eee;border:none;}.form{border-radius:3px;padding:10px 15px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);color:#444444;}.label{width:100%;display:block;}"
-      }
-    },
-    {
-      "taskId": "Task_04hkkce",
-      "formData": {
-        "formHtml": "<form class=\"form\"><div class=\"form-group\"><label class=\"label\">Salary</label><input placeholder=\"Tell your salary\" id=\"salary\" name=\"salary\" class=\"input\"/></div></form>",
-        "formCss": "* { box-sizing: border-box; } body {margin: 0;}.form{border-radius:3px;padding:10px 15px;box-shadow:0 1px 4px 0;color:#444444;}.input{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eee;border:none;}.label{width:100%;display:block;}"
-      }
-    },
-  ],
   // generatedForms: [
-
+  //   {
+  //     "taskId": "Task_0qz6rn4",
+  //     "formData": {
+  //       "formHtml": "<form class=\"form\"><div class=\"form-group\"><label class=\"label\">Subject</label><input placeholder=\"Type your email subject\" id=\"subject\" name=\"subject\" class=\"input\"/></div><div class=\"form-group\"><label class=\"label\">Receiver Emails</label><input type=\"email\" placeholder=\"Type your receiver emails\" id=\"email\" name=\"email\" class=\"input\"/></div><div class=\"form-group\"><label class=\"label\">Message</label><textarea id=\"message\" name=\"message\" placeholder=\"Message body\" class=\"textarea\"></textarea></div><div class=\"form-group\"></div></form>",
+  //       "formCss": "* { box-sizing: border-box; } body {margin: 0;}.textarea{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eeeeee;border:none;}.input{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eee;border:none;}.form{border-radius:3px;padding:10px 15px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);color:#444444;}.label{width:100%;display:block;}"
+  //     }
+  //   },
+  //   {
+  //     "taskId": "Task_04hkkce",
+  //     "formData": {
+  //       "formHtml": "<form class=\"form\"><div class=\"form-group\"><label class=\"label\">Salary</label><input placeholder=\"Tell your salary\" id=\"salary\" name=\"salary\" class=\"input\"/></div></form>",
+  //       "formCss": "* { box-sizing: border-box; } body {margin: 0;}.form{border-radius:3px;padding:10px 15px;box-shadow:0 1px 4px 0;color:#444444;}.input{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eee;border:none;}.label{width:100%;display:block;}"
+  //     }
+  //   },
   // ],
+  generatedForms: [
+
+  ],
   workflowId: null,
   appliedMethods: {},
   executingForm: null,

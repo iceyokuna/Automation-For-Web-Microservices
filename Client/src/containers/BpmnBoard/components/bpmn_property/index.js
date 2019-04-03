@@ -85,10 +85,10 @@ class BpmnProperty extends Component {
     const currentTask = {
       taskId: nodeId,
       selectedService: appliedMethods[nodeId],
-      currentForm: generatedForms[currentFormIndex].formData
+      currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData
     }
-
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
+
   }
 
   onSetTimer = () => {
@@ -159,7 +159,7 @@ class BpmnProperty extends Component {
     return (
       <Link style={{ width: '100%' }}
         to={{
-          pathname: 'design_form',
+          pathname: '/home/design_form',
         }} target="_blank" onClick={() => this.onGotoCreateForm()}>
         <Button fill label="Create Form" />
       </Link>

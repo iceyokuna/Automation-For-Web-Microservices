@@ -36,8 +36,8 @@ const App = () => (
           <Route exact path="/test_component" component={Test} />
           <Route exact path="/execute_flow/:flowId" component={ExecuteFlow} />
 
-          {/* <Route component={NotFound} /> */}
-          <Redirect from="*" to="/home/my_flows" />
+          <Route component={NotFound} />
+          {/* <Redirect from="*" to="/home/my_flows" /> */}
         </Switch>
       </Grommet>
     </Provider>
