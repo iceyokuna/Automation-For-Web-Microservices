@@ -22,15 +22,20 @@ class WorkflowView(APIView):
         return Response({'workflow': queryset}, status=HTTP_200_OK)
 
     def post(self, request):
-        if(request.POST.get('id')):
-            workflow = Workflow.objects.filter(id=request.data.get('id')).update(bpmnJson=request.data.get(
-                'bpmnJson'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'),appliedPreInputs=request.data.get('appliedPreInputs'))
-            return Response({"detail": "successfully updated"}, status=HTTP_200_OK)
+        if(request.data.get('id')):
+            owner = Workflow.objects.filter(id=request.data.get('id')).values('user')
+            if(request.user.username == owner[0].get('user')):
+                new_data =request.data.get('data')
+                workflow = Workflow.objects.filter(id=request.data.get('id')).update(**new_data)
+
+                return Response({"detail": "successfully updated by "+request.user.username}, status=HTTP_200_OK)
+            else:
+                return Response({"detail": "Access to the workflow denied by "+request.user.username}, status=HTTP_200_OK) 
        
         workflow = Workflow.objects.create(user=request.user, bpmnJson=request.data.get('bpmnJson'), name=request.data.get('name'), description=request.data.get(
             'description'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'),  appliedPreInputs=request.data.get('appliedPreInputs'), generatedForms=request.data.get('generatedForms'))
 
-        return Response({"detail": "successfully created", "workflow_id":workflow.id, "workflow_name":workflow.name,"workflow_description":workflow.description, }, status=HTTP_200_OK)
+        return Response({"detail": "successfully created by "+request.user.username, "workflow_id":workflow.id, "workflow_name":workflow.name,"workflow_description":workflow.description, }, status=HTTP_200_OK)
 
     # def put(self, request):
 
@@ -39,12 +44,12 @@ class CollaboratorView(APIView):
     def get(self, request, workflow_id=0):
 
         if (workflow_id == 0):
-            queryset = Collaborator.objects.all().values('id', 'collaborator__id',
+            queryset = Collaborator.objects.all().values('id', 'collaborator__id','collaborator__username',
                                                          'collaborator__first_name', 'collaborator__last_name')
             return Response({'workflows': queryset}, status=HTTP_200_OK)
 
         queryset = Collaborator.objects.filter(workflow=workflow_id).values(
-            'id', 'collaborator__id', 'collaborator__first_name', 'collaborator__last_name')
+            'id', 'collaborator__id', 'collaborator__username','collaborator__first_name', 'collaborator__last_name')
         return Response({'collaborators': queryset}, status=HTTP_200_OK)
 
     def post(self, request):
