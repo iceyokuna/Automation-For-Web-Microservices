@@ -206,6 +206,10 @@ function setupExistingWorkflow() {
     dispatch({
       type: workflowContants.SETUP_EXISTING_WORKFLOW,
       currentFlow,
+    });
+    dispatch({
+      type: workflowContants.SET_WORKFLOW_CONDITIONS,
+      appliedConditions: currentFlow.appliedConditions,
     })
   }
 }

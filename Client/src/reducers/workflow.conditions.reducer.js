@@ -15,6 +15,11 @@ const defaultState = {
 
 export function workflowConditions(state = defaultState, action) {
   switch (action.type) {
+    case workflowContants.SET_WORKFLOW_CONDITIONS: {
+      console.log(action);
+      return { ...state, appliedConditions: action.appliedConditions }
+    }
+
     case workflowContants.APPLY_CONDITIONS_TO_GATEWAY: {
       const nextState = { ...state };
       const { gatewayId, conditions } = action;
