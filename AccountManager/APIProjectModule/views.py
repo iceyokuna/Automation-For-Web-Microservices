@@ -22,9 +22,10 @@ class WorkflowView(APIView):
         return Response({'workflow': queryset}, status=HTTP_200_OK)
 
     def post(self, request):
-        if(request.POST.get('id')):
-            workflow = Workflow.objects.filter(id=request.data.get('id')).update(bpmnJson=request.data.get(
-                'bpmnJson'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'),appliedPreInputs=request.data.get('appliedPreInputs'))
+        if(request.data.get('id')):
+            new_data =request.data.get('data')
+            workflow = Workflow.objects.filter(id=request.data.get('id')).update(**new_data)
+
             return Response({"detail": "successfully updated"}, status=HTTP_200_OK)
        
         workflow = Workflow.objects.create(user=request.user, bpmnJson=request.data.get('bpmnJson'), name=request.data.get('name'), description=request.data.get(
