@@ -20,18 +20,19 @@ export const workflowActions = {
 
   setWorkflowId,
   setBpmnJson,
-  createNewWorkflow,
   setCurrentElement,
   toggleMemberDialog,
   toggleTimerDialog,
   togglePreInputDialog,
 
   // RESTful
-  sendWorkflowData,
+  createNewWorkflow,
+  updateWorkflow,
   sendWorkflowDataToEngine,
   getMyFlows,
   getAllCollaborators,
 };
+
 
 function getAllCollaborators(workflowId) {
   return dispatch => {
@@ -238,7 +239,7 @@ function setBpmnJson(bpmnAppJson) {
 function createNewWorkflow(appName, appDescription, mode) {
   return (dispatch) => {
     dispatch(request());
-    workflowService.sendWorkflowData(appName, appDescription, {
+    workflowService.createNewWorkflow(appName, appDescription, {
       bpmnJson: {},
       appliedMethods: {},
       appliedConditions: {},
@@ -313,12 +314,15 @@ function addNewCollaborators(workflow_id, collaborators) {
 
 }
 
-function sendWorkflowData(appName, appDescription,
+function updateWorkflow(appName, appDescription,
   workflowData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(request());
+    const currentWorkflowId = getState().workflow.workflowId;
     setTimeout(() => {
-      workflowService.sendWorkflowData(appName, appDescription, workflowData
+      workflowService.updateWorkflow(
+        appName, appDescription,
+        workflowData, currentWorkflowId
       ).then(
         res => {
           dispatch(success())

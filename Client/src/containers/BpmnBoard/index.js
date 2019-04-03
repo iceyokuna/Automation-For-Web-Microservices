@@ -307,7 +307,7 @@ class BpmnContainer extends Component {
                 workflowData
               ));
             } else {
-              this.props.dispatch(workflowActions.sendWorkflowData(
+              this.props.dispatch(workflowActions.updateWorkflow(
                 appName,
                 appDescription,
                 workflowData

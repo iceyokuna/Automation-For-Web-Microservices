@@ -10,7 +10,8 @@ const engineUrl = "http://127.0.0.1:8000/create_workflow/"
 export const workflowService = {
   getAllServices,
   getAllMethodsByServiceId,
-  sendWorkflowData,
+  createNewWorkflow,
+  updateWorkflow,
   sendWorkflowDataToEngine,
   getMyFlows,
 };
@@ -23,13 +24,36 @@ function getAllMethodsByServiceId(serviceId) {
   return axios.post(domainName + '/get_all_methods/', { serviceId })
 }
 
-function sendWorkflowData(
+function updateWorkflow(
   appName,
   appDescription,
   workflowData,
+  workflowId, ) {
+
+  return axios.post(globalConstants.USER_WORKFLOW_URL, {
+    id: workflowId,
+    data: {
+      name: appName,
+      description: appDescription,
+      ...workflowData
+    }
+  }, {
+      headers: {
+        Authorization: "Token " + getToken(),
+      }
+    })
+
+}
+
+function createNewWorkflow(
+  appName,
+  appDescription,
+  workflowData,
+  workflowId,
 ) {
   return axios.post(globalConstants.USER_WORKFLOW_URL,
     {
+      id: workflowId,
       name: appName,
       description: appDescription,
       ...workflowData
