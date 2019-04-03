@@ -226,7 +226,6 @@ function setCurrentFlow(currentFlow) {
     type: workflowContants.SET_CURRENT_FLOW,
     currentFlow,
   }
-
 }
 
 function setBpmnJson(bpmnAppJson) {
@@ -246,7 +245,7 @@ function createNewWorkflow(appName, appDescription, mode) {
       appliedPreInputs: {},
       generatedForms: [],
     }).then(res => {
-      dispatch(success(res.data));
+      dispatch(success(res.data, mode));
     }).catch(err => {
       console.error(err);
       dispatch(failure());

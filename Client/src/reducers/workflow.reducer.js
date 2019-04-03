@@ -33,6 +33,7 @@ const defaultState = {
 
   sendingWorkflowData: false,
   showMemberDialog: false,
+  mode: null,
 }
 
 const initState = { ...defaultState };
