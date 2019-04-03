@@ -44,11 +44,11 @@ class MyFlows extends Component {
   onActiveTab = index => this.setState({ activeTabIndex: index });
 
   onSelectFlow = flow => {
-    const { history, match, dispatch, workflowMyFlows } = this.props;
+    const { match, dispatch, workflowMyFlows } = this.props;
     const { myFlows } = workflowMyFlows;
     const currentFlow = myFlows.find((item) => item.id == flow.id);
-    dispatch(workflowActions.setCurrentFlow(currentFlow));
-    history.push(match.url + '/' + flow.id);
+    const redirectUrl = match.url + '/' + flow.id;
+    dispatch(workflowActions.setCurrentFlow(currentFlow, redirectUrl));
   }
 
   renderFlows = () => {

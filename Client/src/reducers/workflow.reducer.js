@@ -30,6 +30,7 @@ const defaultState = {
   appName: 'Default name',
   appDescription: 'Default description',
   collaboratorsToInvite: [],
+  bpmnJson: null,
 
   sendingWorkflowData: false,
   showMemberDialog: false,

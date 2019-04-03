@@ -36,7 +36,6 @@ class AddFlowInfo extends Component {
     const { workflowName, description, selectedCollaborators } = this.state;
     const { dispatch } = this.props;
     dispatch(workflowActions.createNewWorkflow(workflowName, description, "CREATE_NEW"));
-    this.props.history.push('design_workflow');
   }
 
   render() {

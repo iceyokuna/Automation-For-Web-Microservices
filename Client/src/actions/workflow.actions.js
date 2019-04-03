@@ -221,10 +221,13 @@ function setupNewWorkflow() {
   }
 }
 
-function setCurrentFlow(currentFlow) {
-  return {
-    type: workflowContants.SET_CURRENT_FLOW,
-    currentFlow,
+function setCurrentFlow(currentFlow, redirectUrl) {
+  return dispatch => {
+    dispatch({
+      type: workflowContants.SET_CURRENT_FLOW,
+      currentFlow,
+      redirectUrl
+    });
   }
 }
 
@@ -246,6 +249,7 @@ function createNewWorkflow(appName, appDescription, mode) {
       generatedForms: [],
     }).then(res => {
       dispatch(success(res.data, mode));
+      history.push('design_workflow');
     }).catch(err => {
       console.error(err);
       dispatch(failure());

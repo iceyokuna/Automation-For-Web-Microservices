@@ -26,7 +26,7 @@ import lintModule from 'bpmn-js-bpmnlint';
 
 import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
-import converter from 'xml-js'
+import converter, { xml2js, json2xml } from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
 import { Upload, Group, Test } from 'grommet-icons'
@@ -40,37 +40,29 @@ import { InviteButton, NextButton, SendWorkflowButton } from './style'
 
 let scale = 1;
 
-const variables = [
-  { name: 'Salary', type: 'Number' },
-  { name: 'Single', type: 'Boolean' },
-  { name: 'Name', type: 'String' },
-];
-
-const operators = ['==', '!=', '<', '<=', '>', '>='];
-
-const bpmnNodes = [
-  'TASK_1132',
-  'TASK_2233E',
-  'LANE_133ww'
-];
-
 class BpmnContainer extends Component {
 
-  state = {
-    currentElement: null,
-    selectedServiceMethod: null,
-    showServiceRequirement: false,
-    showParticipantSelector: false,
-    showConditionList: false,
-  };
+  constructor(props) {
+    super(props);
+    const { dispatch, workflow } = props;
+
+    this.state = {
+      currentElement: null,
+      selectedServiceMethod: null,
+      showServiceRequirement: false,
+      showParticipantSelector: false,
+      showConditionList: false,
+    };
+
+    if (workflow.mode == "CREATE_NEW") {
+      dispatch(workflowActions.setupNewWorkflow());
+    } else {
+      dispatch(workflowActions.setupExistingWorkflow());
+    }
+  }
 
   componentDidMount() {
-    const { workflow } = this.props;
-    if (workflow.mode == "CREATE_NEW") {
-      this.props.dispatch(workflowActions.setupNewWorkflow());
-    } else {
-      this.props.dispatch(workflowActions.setupExistingWorkflow());
-    }
+    const { workflow, dispatch } = this.props;
 
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
@@ -91,17 +83,16 @@ class BpmnContainer extends Component {
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
     // Request all availale services to be selected on the properties panel
-    this.props.dispatch(availableServicesActions.getAllServices());
-
-    // render xml
+    dispatch(availableServicesActions.getAllServices());
     this.renderDiagram(xmlStr);
     this.bindEvenCallback();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { xml, bpmn } = nextProps;
-    if (xml && xml !== this.props.xml) {
-      this.renderDiagram(xml);
+    const { workflow } = nextProps;
+    if (this.props.workflow.bpmnJson == null && workflow.bpmnJson != null) {
+      const bpmnXml = json2xml(workflow.bpmnJson) || xmlStr;
+      this.renderDiagram(bpmnXml);
     }
   }
 
@@ -454,9 +445,7 @@ class BpmnContainer extends Component {
           show={showConditionList}
           gatewayElement={currentElement}
           onCloseConditionList={() => this.setState({ showConditionList: false })}
-          variables={variables}
-          operators={operators}
-          bpmnNodes={bpmnNodes} />
+        />
 
       </Box>
     );

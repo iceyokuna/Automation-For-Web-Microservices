@@ -1,4 +1,5 @@
 import { workflowContants } from '_constants';
+import { history } from '_helpers';
 
 const defaultState = {
   myFlows: [],
@@ -13,6 +14,7 @@ export function workflowMyFlows(state = defaultState, action) {
     case workflowContants.SET_CURRENT_FLOW: {
       const nextState = { ...state };
       nextState.currentFlow = action.currentFlow;
+      history.push(action.redirectUrl)
       return nextState;
     }
 
