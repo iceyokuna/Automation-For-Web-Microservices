@@ -92,17 +92,7 @@ class WorkflowEngine:
         
     def next(self):
         #get object from next transition
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-
-        #build for demo parallel !!!!!!
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-        print("service email !!!!!!!!!!!!!!!!!!!!")
-        request_input = {"email":["iceyokuna@gmail.com"],"message":"Execution Successfully !!!","subject":"AutoWeb execution information [please do not reply]"}
-        requests.post('http://127.0.0.1:8001/api/email', json= request_input)
-        print("service line !!!!!!!!!!!!!!!!!!!!")
-        requests.get(url = "https://safe-beyond-22181.herokuapp.com/notify")
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]        
 
         #check that is end state or not
         if(self.currentState["current"] in self.endState):
