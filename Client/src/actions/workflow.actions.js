@@ -244,7 +244,7 @@ function createNewWorkflow(appName, appDescription, mode) {
       appliedMethods: {},
       appliedConditions: {},
       appliedPreInputs: {},
-      generatedForms: {},
+      generatedForms: [],
     }).then(res => {
       dispatch(success(res.data));
     }).catch(err => {
