@@ -1,6 +1,6 @@
 import { workflowContants, globalConstants } from '_constants';
 import { workflowService } from 'services'
-import { socketActions } from 'actions'
+import { toast } from 'react-toastify'
 import { history, getToken } from '_helpers';
 import axios from 'axios';
 
@@ -288,8 +288,9 @@ function addNewCollaborators(workflow_id, collaborators) {
           Authorization: "Token " + getToken(),
         }
       }).then(res => {
-        console.log(res.data);
+        toast.success("Invite successfully");
         dispatch(success(res.data));
+        dispatch(getAllCollaborators(workflow_id));
       }).catch(err => {
         dispatch(failure(err))
       })

@@ -20,10 +20,15 @@ import { store, history } from '_helpers';
 
 import PrivateRoute from 'components/private_route'
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => (
   <Router history={history}>
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <ToastContainer hideProgressBar position="top-center"
+          autoClose={3000} toastClassName="toast-container" />
         <Switch>
           <PrivateRoute path="/home" component={Home} />
           <Route exact path="/" component={Login} />

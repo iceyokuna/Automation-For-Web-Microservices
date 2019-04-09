@@ -37,7 +37,7 @@ class MyFlows extends Component {
 
 
   onCreateFlow = () => {
-    const { match } = this.props
+    const { match } = this.props;
     this.props.history.push(match.url + '/create/add_information');
   }
 
