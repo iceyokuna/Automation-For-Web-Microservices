@@ -27,13 +27,14 @@ const defaultState = {
   currentNode: null,
 
   recentForm: null,
-  appName: 'Default name',
-  appDescription: 'Default description',
+  name: 'Default name',
+  description: 'Default description',
   collaboratorsToInvite: [],
   bpmnJson: null,
 
   sendingWorkflowData: false,
   showMemberDialog: false,
+  showEditInfoDialog: false,
   mode: null,
 }
 
@@ -47,15 +48,21 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowContants.TOGGLE_INFO_DIALOG: {
+      const nextState = { ...state, showEditInfoDialog: !state.showEditInfoDialog };
+      return nextState;
+    }
+
     case workflowContants.SETUP_EXISTING_WORKFLOW: {
       const { currentFlow } = action;
+      console.log(currentFlow);
       const nextState = { ...state, ...currentFlow };
       return nextState;
     }
 
     case workflowContants.SETUP_NEW_WORKFLOW: {
-      const { appName, appDescription } = state;
-      const nextState = { ...initState, appName, appDescription };
+      const { name, description } = state;
+      const nextState = { ...initState, name, description };
       return nextState;
     }
 
@@ -127,9 +134,9 @@ export function workflow(state = defaultState, action) {
       const { workflow_description, workflow_id, workflow_name } = workflowObject;
       const nextState = {
         ...state,
-        appName: workflow_name,
+        name: workflow_name,
         workflowId: workflow_id,
-        appDescription: workflow_description,
+        description: workflow_description,
         mode,
       };
 
@@ -137,8 +144,8 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SET_BPMN_JSON: {
-      const { bpmnAppJson } = action;
-      const nextState = { ...state, bpmnAppJson };
+      const { bpmnJson } = action;
+      const nextState = { ...state, bpmnJson };
       return nextState
     }
 

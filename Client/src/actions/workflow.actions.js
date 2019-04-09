@@ -24,6 +24,7 @@ export const workflowActions = {
   toggleMemberDialog,
   toggleTimerDialog,
   togglePreInputDialog,
+  toggleEditWorkflowDialog,
 
   // RESTful
   createNewWorkflow,
@@ -33,6 +34,11 @@ export const workflowActions = {
   getAllCollaborators,
 };
 
+function toggleEditWorkflowDialog() {
+  return {
+    type: workflowContants.TOGGLE_INFO_DIALOG
+  }
+}
 
 function getAllCollaborators(workflowId) {
   return dispatch => {
@@ -231,17 +237,17 @@ function setCurrentFlow(currentFlow, redirectUrl) {
   }
 }
 
-function setBpmnJson(bpmnAppJson) {
+function setBpmnJson(bpmnJson) {
   return {
     type: workflowContants.SET_BPMN_JSON,
-    bpmnAppJson
+    bpmnJson
   }
 }
 
-function createNewWorkflow(appName, appDescription, mode) {
+function createNewWorkflow(name, description, mode) {
   return (dispatch) => {
     dispatch(request());
-    workflowService.createNewWorkflow(appName, appDescription, {
+    workflowService.createNewWorkflow(name, description, {
       bpmnJson: {},
       appliedMethods: {},
       appliedConditions: {},
@@ -318,14 +324,14 @@ function addNewCollaborators(workflow_id, collaborators) {
 
 }
 
-function updateWorkflow(appName, appDescription,
+function updateWorkflow(name, description,
   workflowData) {
   return (dispatch, getState) => {
     dispatch(request());
     const currentWorkflowId = getState().workflow.workflowId;
     setTimeout(() => {
       workflowService.updateWorkflow(
-        appName, appDescription,
+        name, description,
         workflowData, currentWorkflowId
       ).then(
         res => {
@@ -358,12 +364,12 @@ function updateWorkflow(appName, appDescription,
 
 }
 
-function sendWorkflowDataToEngine(appName, appDescription,
+function sendWorkflowDataToEngine(name, description,
   workflowData) {
   return dispatch => {
     dispatch(request());
     setTimeout(() => {
-      workflowService.sendWorkflowDataToEngine(appName, appDescription,
+      workflowService.sendWorkflowDataToEngine(name, description,
         workflowData
       ).then(
         res => {

@@ -8,7 +8,7 @@ export const colors = {
   "neutral-3": "#A69136",
   "neutral-4": "#774677",
   "accent-1": "#c1613e",
-  "accent-2": "#E6C84B",
+  "accent-2": "#F9BC41",
   "accent-3": "#915591",
   "accent-4": '#FF4080',
   "status-critical": "#F04B37",

@@ -25,16 +25,16 @@ function getAllMethodsByServiceId(serviceId) {
 }
 
 function updateWorkflow(
-  appName,
-  appDescription,
+  name,
+  description,
   workflowData,
   workflowId, ) {
 
   return axios.post(globalConstants.USER_WORKFLOW_URL, {
     id: workflowId,
     data: {
-      name: appName,
-      description: appDescription,
+      name: name,
+      description: description,
       ...workflowData
     }
   }, {
@@ -46,16 +46,16 @@ function updateWorkflow(
 }
 
 function createNewWorkflow(
-  appName,
-  appDescription,
+  name,
+  description,
   workflowData,
   workflowId,
 ) {
   return axios.post(globalConstants.USER_WORKFLOW_URL,
     {
       id: workflowId,
-      name: appName,
-      description: appDescription,
+      name: name,
+      description: description,
       ...workflowData
     },
     {
@@ -67,14 +67,14 @@ function createNewWorkflow(
 
 
 function sendWorkflowDataToEngine(
-  appName,
-  appDescription,
+  name,
+  description,
   workflowData,
 ) {
   return axios.post(engineUrl,
     {
-      name: appName,
-      description: appDescription,
+      name: name,
+      description: description,
       ...workflowData
     },
     {

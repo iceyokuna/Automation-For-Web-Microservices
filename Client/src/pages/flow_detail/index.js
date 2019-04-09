@@ -29,7 +29,7 @@ class FlowDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      newAppName: '',
+      newname: '',
       newDescription: '',
       openEditMenu: undefined,
       tasks: [
@@ -45,8 +45,8 @@ class FlowDetail extends Component {
     }
   }
 
-  onChangeAppName = (e) => {
-    this.setState({ newAppName: e.target.value });
+  onChangename = (e) => {
+    this.setState({ newname: e.target.value });
   }
   onChangeDescription = (e) => {
     this.setState({ newDescription: e.target.value });
@@ -152,18 +152,15 @@ class FlowDetail extends Component {
   renderEditInformationDialog = () => {
     return (
       <Box pad="small" width="400px" round={{ size: 'small' }}>
-        <Box direction="row" justify="between" align="center">
-          <Heading level={3} margin="small">
-            Edit Information
-                    </Heading>
-          <Button icon={<FormUp />} onClick={this.onCloseEditMenu} />
-        </Box>
+        <Heading level={3} margin="small">
+          Edit Information
+          </Heading>
 
         <FormField >
           <TextInput
             placeholder="Application Name"
-            value={this.state.newAppName}
-            onChange={this.onChangeAppName} />
+            value={this.state.newname}
+            onChange={this.onChangename} />
         </FormField>
         <FormField>
           <TextArea
