@@ -92,8 +92,13 @@ class BpmnContainer extends Component {
     const { workflow } = nextProps;
     // If load a new workflow
     if (this.props.workflow.bpmnJson != workflow.bpmnJson) {
-      const bpmnXml = json2xml(workflow.bpmnJson) || xmlStr;
-      this.renderDiagram(bpmnXml);
+      try {
+        const bpmnXml = json2xml(workflow.bpmnJson)
+        this.renderDiagram(bpmnXml);
+      } catch (error) {
+        const bpmnXml = xmlStr;
+        this.renderDiagram(bpmnXml);
+      }
     }
   }
 

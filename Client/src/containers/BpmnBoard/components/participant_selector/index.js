@@ -46,6 +46,13 @@ class ParticipantSelector extends Component {
     this.onClose();
   }
 
+  handleChangeMembers = (option) => {
+    if (option != null) {
+      this.setState({ value: option.collaborator__username });
+    }
+  }
+
+
   render() {
     const { options, value, defaultOptions } = this.state;
     const { show, collaborators } = this.props;
@@ -69,7 +76,7 @@ class ParticipantSelector extends Component {
                 placeholder="ID/Name of your team member"
                 value={value}
                 options={options}
-                onChange={({ option }) => { this.setState({ value: option.collaborator__username }); }}
+                onChange={({ option }) => this.handleChangeMembers}
                 onClose={() => this.setState({ options: defaultOptions })}
                 onSearch={text => {
                   const exp = new RegExp(text);
