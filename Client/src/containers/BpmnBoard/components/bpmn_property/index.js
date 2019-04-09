@@ -124,7 +124,13 @@ class BpmnProperty extends Component {
             services={services}
           />,
           <Button label="Define Input" disabled={disabled}
-            icon={<Edit />} onClick={this.onDefineInput} key={2} />
+            icon={<Edit />} onClick={this.onDefineInput} key={2} />,
+          <Link style={{ width: '100%' }}
+            to={{
+              pathname: '/home/design_form',
+            }} target="_blank" onClick={() => this.onGotoCreateForm()}>
+            <Button disabled={disabled} fill label="Create Form" />
+          </Link>
         ]
       } break;
 
@@ -155,18 +161,6 @@ class BpmnProperty extends Component {
     return element;
   }
 
-  renderCreateFormButton = () => {
-    return (
-      <Link style={{ width: '100%' }}
-        to={{
-          pathname: '/home/design_form',
-        }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-        <Button fill label="Create Form" />
-      </Link>
-    );
-  }
-
-
   renderConfirmChange() {
     return (
       <Box direction="row" gap="xsmall" >
@@ -191,7 +185,6 @@ class BpmnProperty extends Component {
         </FormField>
 
         {this.renderSpecialProperties()}
-        {this.renderCreateFormButton()}
         {/* {this.renderConfirmChange()} */}
 
       </Box>
