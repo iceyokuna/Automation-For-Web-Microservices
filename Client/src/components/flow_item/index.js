@@ -33,8 +33,7 @@ export default class FlowItem extends Component {
   handleEdit = (e) => {
     // Prevents further propagation of the current event in the capturing and bubbling phases.
     e.stopPropagation();
-
-    console.log('edit')
+    this.props.onEdit();
   }
 
   handlePause = (e) => {

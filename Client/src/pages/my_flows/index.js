@@ -68,8 +68,9 @@ class MyFlows extends Component {
     return myFlows.map((item, index) =>
       <Col key={index} lg={4} md={4} sm={12} xs={12}>
         <FlowItem
+          onEdit={() => this.onSelectFlow(item)}
           delay={index}
-          onSelectFlow={() => { this.onSelectFlow(item) }}
+          onSelectFlow={() =>  this.onSelectFlow(item) }
           name={item.name}
           description={item.description}
           owner={item.user_id} />
