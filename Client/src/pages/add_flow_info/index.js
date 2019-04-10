@@ -43,12 +43,12 @@ class AddFlowInfo extends Component {
     return (
       <div style={{
         ...global.mainContainer,
-        backgroundColor: '#ffffff',
-        maxWidth: null
       }}>
-        <Box flex direction="column"
-          align="center" justify="center" fill='vertical'>
-          <Box pad='medium' width="400px" animation='fadeIn'>
+        <Box flex direction="column" align="center" justify="center"
+          fill='vertical'>
+          <Box pad='medium' width="400px" animation='fadeIn'
+            round={{ size: 'small' }} responsive={false}
+            background="light-0" >
             <Heading size="small" responsive={false} >
               Create a New Flow
           </Heading>
