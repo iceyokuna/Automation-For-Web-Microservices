@@ -32,8 +32,9 @@ class MyFlows extends Component {
 
   componentDidMount = () => {
     this.props.dispatch(workflowActions.getMyFlows());
-
   }
+
+
 
 
   onCreateFlow = () => {
@@ -95,7 +96,6 @@ class MyFlows extends Component {
 
             <Col lg={4} sm={4} xs={12}>
               <Box direction="row" align="center" fill justify="end">
-                <Button label="Notification" onClick={askForPermissioToReceiveNotifications} />
                 <Button label="New Flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
               </Box>
             </Col>
