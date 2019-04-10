@@ -43,6 +43,7 @@ class AddFlowInfo extends Component {
     return (
       <div style={{
         ...global.mainContainer,
+        maxWidth: null,
       }}>
         <Box flex direction="column" align="center" justify="center"
           fill='vertical'>
