@@ -58,6 +58,7 @@ class BpmnProperty extends Component {
         nodeName: currentElement.name || '',
         nodeType: currentElement.$type,
         eventType: currentElement.eventDefinitions != null
+          && currentElement.eventDefinitions.length > 0
           ? currentElement.eventDefinitions[0].$type : null,
       });
     }
