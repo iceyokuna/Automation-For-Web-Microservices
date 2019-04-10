@@ -5,6 +5,8 @@ import { UserNew } from 'grommet-icons';
 import { connect } from 'react-redux'
 import { userActions } from 'actions';
 import { withRouter } from 'react-router-dom';
+import { Row, Col } from 'react-flexbox-grid'
+import { global } from 'style'
 
 class Register extends Component {
   constructor(props) {
@@ -69,59 +71,74 @@ class Register extends Component {
     const { passwordError } = this.state;
 
     return (
-      <Box flex direction="column" align="center" justify="center" fill='vertical'>
-        <Box pad='medium' style={{ width: 350 }}
+      <Box flex direction="column" align="center"
+        justify="center" fill='vertical'
+        style={{ ...global.globalContainer, paddingTop: 0 }}>
+        <Box pad='medium' style={{ width: 450 }}
+          background="light-0" responsive={false}
           round={{ size: 'small' }}
           animation='fadeIn'>
           <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
-          <FormField >
-            <TextInput
-              ref='firstNameInput'
-              autoFocus
-              placeholder="First Name"
-              value={this.state.firstName}
-              onChange={this.onChangeFirstName} />
-          </FormField>
-          <FormField >
-            <TextInput
-              ref='lastNameInput'
-              autoFocus
-              placeholder="Last Name"
-              value={this.state.lastName}
-              onChange={this.onChangeLastName} />
-          </FormField>
-          <FormField >
-            <TextInput
-              ref='usernameInput'
-              autoFocus
-              placeholder="Username"
-              value={this.state.username}
-              onChange={this.onChangeUsername} />
-          </FormField>
-          <FormField >
-            <TextInput
-              ref='emailInput'
-              autoFocus
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.onChangeEmail} />
-          </FormField>
-          <FormField
-            error={passwordError}>
-            <TextInput
-              placeholder="Password"
-              type="password"
-              value={this.state.password}
-              onChange={this.onChangePassword} />
-          </FormField>
-          <FormField
-            error={passwordError}>
-            <TextInput
-              placeholder="Confirm password"
-              type="password"
-              value={this.state.confirmPass}
-              onChange={this.onChangeConfirmPass} />
-          </FormField>
+
+          <Row>
+            <Col xs={12} lg={6} md={6}>
+              <FormField >
+                <TextInput
+                  ref='firstNameInput'
+                  autoFocus
+                  placeholder="First Name"
+                  value={this.state.firstName}
+                  onChange={this.onChangeFirstName} />
+              </FormField>
+              <FormField >
+                <TextInput
+                  ref='lastNameInput'
+                  autoFocus
+                  placeholder="Last Name"
+                  value={this.state.lastName}
+                  onChange={this.onChangeLastName} />
+              </FormField>
+              <FormField >
+                <TextInput
+                  ref='usernameInput'
+                  autoFocus
+                  placeholder="Username"
+                  value={this.state.username}
+                  onChange={this.onChangeUsername} />
+              </FormField>
+            </Col>
+
+            <Col xs={12} lg={6} md={6}>
+              <FormField >
+                <TextInput
+                  ref='emailInput'
+                  autoFocus
+                  placeholder="Email"
+                  value={this.state.email}
+                  onChange={this.onChangeEmail} />
+              </FormField>
+              <FormField
+                error={passwordError}>
+                <TextInput
+                  placeholder="Password"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.onChangePassword} />
+              </FormField>
+              <FormField
+                error={passwordError}>
+                <TextInput
+                  placeholder="Confirm password"
+                  type="password"
+                  value={this.state.confirmPass}
+                  onChange={this.onChangeConfirmPass} />
+              </FormField>
+            </Col>
+
+          </Row>
+
+
+
           <Box pad="small">
             <Button primary icon={<UserNew />} label="Create an account" onClick={this.onRegister} />
           </Box>
