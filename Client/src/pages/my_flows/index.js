@@ -16,10 +16,9 @@ import FlowItem from 'components/flow_item'
 
 import { myFlows } from './mockup'
 import { workflowActions } from 'actions';
-
 import { connect } from 'react-redux';
-
 import Spinner from 'react-spinkit';
+import { askForPermissioToReceiveNotifications } from '_helpers'
 
 class MyFlows extends Component {
   constructor(props) {
@@ -33,6 +32,7 @@ class MyFlows extends Component {
 
   componentDidMount = () => {
     this.props.dispatch(workflowActions.getMyFlows());
+
   }
 
 
@@ -70,7 +70,7 @@ class MyFlows extends Component {
         <FlowItem
           onEdit={() => this.onSelectFlow(item)}
           delay={index}
-          onSelectFlow={() =>  this.onSelectFlow(item) }
+          onSelectFlow={() => this.onSelectFlow(item)}
           name={item.name}
           description={item.description}
           owner={item.user_id} />
@@ -95,6 +95,7 @@ class MyFlows extends Component {
 
             <Col lg={4} sm={4} xs={12}>
               <Box direction="row" align="center" fill justify="end">
+                <Button label="Notification" onClick={askForPermissioToReceiveNotifications} />
                 <Button label="New Flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
               </Box>
             </Col>

@@ -4,13 +4,20 @@ import ReactDOM from 'react-dom';
 
 import App from 'app/App';
 import registerServiceWorker from 'app/registerServiceWorker';
-
-import { configureFakeBackend } from '_helpers'
-
-configureFakeBackend();
+import { initializeFirebase, askForPermissioToReceiveNotifications } from '_helpers';
 
 ReactDOM.render(
   <App />,
   document.getElementById('root'));
 
+
+initializeFirebase();
+
+// askForPermissioToReceiveNotifications().then(value => {
+//   console.log(value);
+// }).catch(err => {
+
+// });
+
 registerServiceWorker();
+
