@@ -247,14 +247,16 @@ function setBpmnJson(bpmnJson) {
 function createNewWorkflow(name, description, mode) {
   return (dispatch) => {
     dispatch(request());
-    workflowService.createNewWorkflow(name, description, {
+    let workflowObject = {
       bpmnJson: {},
       appliedMethods: {},
       appliedConditions: {},
       appliedPreInputs: {},
       generatedForms: [],
-    }).then(res => {
-      dispatch(success(res.data, mode));
+    }
+    workflowService.createNewWorkflow(name, description, workflowObject).then(res => {
+      workflowObject = { ...workflowObject, ...res.data };
+      dispatch(success(workflowObject, mode));
       history.push('design_workflow');
     }).catch(err => {
       console.error(err);

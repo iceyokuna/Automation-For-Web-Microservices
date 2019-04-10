@@ -139,7 +139,6 @@ export function workflow(state = defaultState, action) {
         description: workflow_description,
         mode,
       };
-
       return nextState;
     }
 

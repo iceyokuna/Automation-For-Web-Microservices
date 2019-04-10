@@ -55,9 +55,7 @@ class BpmnContainer extends Component {
       showConditionList: false,
     };
 
-    if (workflow.mode == "CREATE_NEW") {
-      dispatch(workflowActions.setupNewWorkflow());
-    } else {
+    if (workflow.mode !== "CREATE_NEW") {
       dispatch(workflowActions.setupExistingWorkflow());
     }
   }

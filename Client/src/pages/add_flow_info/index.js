@@ -66,12 +66,6 @@ class AddFlowInfo extends Component {
                 value={description}
                 onChange={this.onChangeDescription} />
             </FormField>
-
-            {/* <CollaboratorInviter
-              onChangecollaborators={this.onChangecollaborators}
-              selectedCollaborators={selectedCollaborators}
-              userIds={userIds} /> */}
-
             <Box margin={{ top: 'small' }}>
               < Button color="accent-1" primary icon={<Next />} label="Next" onClick={this.onNextStep} />
             </Box>
