@@ -7,7 +7,8 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { userActions } from 'actions';
 
-import { styles } from './style'
+import { styles } from './style';
+import { global } from 'style';
 import { colors } from 'theme';
 import Spinner from 'react-spinkit'
 
@@ -63,8 +64,10 @@ class Login extends Component {
 
   render() {
     return (
-      <Box flex direction="column" align="center" justify="center" fill='vertical'>
-        <Box responsive={false} pad='medium' style={{ width: 350 }}
+      <Box flex direction="column" align="center" justify="center" fill='vertical'
+        style={{ ...global.globalContainer, paddingTop: 0 }}>
+        <Box responsive={false} pad='medium'
+          style={{ width: 350 }} background="light-0"
           round={{ size: 'small' }}
           animation='fadeIn'>
           <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
