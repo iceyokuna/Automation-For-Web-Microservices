@@ -299,6 +299,7 @@ function addNewCollaborators(workflow_id, collaborators) {
         dispatch(getAllCollaborators(workflow_id));
       }).catch(err => {
         dispatch(failure(err))
+        toast.error("Sorry, some of these members do not exist");
       })
   }
 
