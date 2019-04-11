@@ -16,7 +16,6 @@ import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
 import EditWorkflowInfo from 'components/edit_workflow_dialog';
 
-
 import "./style/app.less";
 
 import { connect } from 'react-redux';
