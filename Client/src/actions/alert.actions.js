@@ -1,16 +1,12 @@
 import { alertConstants } from '_constants';
-import firebase from 'firebase';
 
-firebase.initializeApp({
-    messagingSenderId: "807661190255"
-});
+import messaging from '_helpers/firebase_setup';
 
-const messaging = firebase.messaging();
 messaging.onMessage(payload => {
     console.log(payload);
 }, err => {
-
-});
+    console.error(err)
+})
 
 export const alertActions = {
     success,
