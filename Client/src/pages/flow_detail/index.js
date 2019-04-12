@@ -23,6 +23,7 @@ import { connect } from 'react-redux';
 import { workflowActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
+import { Redirect } from 'react-router-dom';
 
 class FlowDetail extends Component {
 
@@ -70,7 +71,11 @@ class FlowDetail extends Component {
 
   componentDidMount = () => {
     const { dispatch, currentFlow } = this.props;
-    dispatch(workflowActions.getAllCollaborators(currentFlow.id));
+    try {
+      dispatch(workflowActions.getAllCollaborators(currentFlow.id));
+    } catch (e) {
+      this.props.history.push('/home/my_flows');
+    }
   }
 
   renderCollaboratorItems = () => {
@@ -180,6 +185,9 @@ class FlowDetail extends Component {
   render() {
     const { openEditMenu } = this.state;
     const { currentFlow } = this.props;
+    if (currentFlow == null) {
+      return <Redirect to="/home/my_flows"/>;
+    }
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>

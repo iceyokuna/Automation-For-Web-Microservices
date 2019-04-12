@@ -55,7 +55,11 @@ class BpmnContainer extends Component {
     };
 
     if (workflow.mode !== "CREATE_NEW") {
-      dispatch(workflowActions.setupExistingWorkflow());
+      try {
+        dispatch(workflowActions.setupExistingWorkflow());
+      } catch (e) {
+        this.props.history.replace('/home/my_flows');
+      }
     }
   }
 
