@@ -12,6 +12,7 @@ export const workflowActions = {
   applyMethodToTask,
   applyConditionsToGateWay,
   applyPreInputsToTask,
+  applyTimerToElement,
 
   setExecutingForm,
   setCurrentFlow,
@@ -84,6 +85,15 @@ function setWorkflowId(workflowId) {
     type: workflowContants.SET_WORKFLOW_ID,
     workflowId,
   }
+}
+
+function applyTimerToElement(elementId, time) {
+  return {
+    type: workflowContants.APPLY_TIMER_TO_ELEMENT,
+    elementId,
+    time
+  }
+
 }
 
 function applyPreInputsToTask(elementId, preInputs, method) {
