@@ -59,7 +59,7 @@ export default class SideBar extends Component {
                 width={`${sideBarWidth}px`}
                 height="100%" align="start"
                 elevation="small" pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }}
-                background='dark-1' responsive={false}
+                background='dark-1' 
                 gap="small">
                 <Box fill="horizontal">
                   <PlainButton hoverIndicator

@@ -48,9 +48,9 @@ class AddFlowInfo extends Component {
         <Box flex direction="column" align="center" justify="center"
           fill='vertical'>
           <Box pad='medium' width="400px" animation='fadeIn'
-            round={{ size: 'small' }} responsive={false}
+            round={{ size: 'small' }} 
             background="light-0" >
-            <Heading size="small" responsive={false} >
+            <Heading size="small"  >
               Create a New Flow
           </Heading>
             <FormField >

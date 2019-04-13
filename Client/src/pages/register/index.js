@@ -75,7 +75,7 @@ class Register extends Component {
         justify="center" fill='vertical'
         style={{ ...global.globalContainer, paddingTop: 0 }}>
         <Box pad='medium' style={{ width: 450 }}
-          background="light-0" responsive={false}
+          background="light-0" 
           round={{ size: 'small' }}
           animation='fadeIn'>
           <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />

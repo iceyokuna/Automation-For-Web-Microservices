@@ -66,7 +66,7 @@ class Login extends Component {
     return (
       <Box flex direction="column" align="center" justify="center" fill='vertical'
         style={{ ...global.globalContainer, paddingTop: 0 }}>
-        <Box responsive={false} pad='medium'
+        <Box  pad='medium'
           style={{ width: 350 }} background="light-0"
           round={{ size: 'small' }}
           animation='fadeIn'>
