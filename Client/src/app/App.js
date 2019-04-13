@@ -12,8 +12,8 @@ import {
 } from 'pages'
 
 import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Grommet, Box } from 'grommet';
 
-import { Grommet } from 'grommet';
 import appTheme from 'theme';
 
 import { Provider } from 'react-redux';
@@ -21,6 +21,8 @@ import { store, history } from '_helpers';
 
 import PrivateRoute from 'components/private_route'
 import { ToastContainer } from 'react-toastify';
+
+Box.defaultProps.responsive = false;
 
 const App = () => (
   <Router history={history}>
