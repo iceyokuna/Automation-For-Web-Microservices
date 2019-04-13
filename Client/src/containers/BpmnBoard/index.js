@@ -15,6 +15,7 @@ import TimerTrigger from 'components/timer_trigger';
 import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
 import EditWorkflowInfo from 'components/edit_workflow_dialog';
+import FormTypeDialog from 'components/form_type_dialog';
 
 import "./style/app.less";
 
@@ -399,6 +400,7 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
+        <FormTypeDialog />
         <EditWorkflowInfo />
         <MemberDialog />
         <TimerTrigger />

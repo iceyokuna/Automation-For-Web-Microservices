@@ -79,18 +79,24 @@ class BpmnProperty extends Component {
     });
   }
 
-  onGotoCreateForm() {
-    const { appliedMethods, generatedForms } = this.props.workflow;
-    const { nodeId } = this.state;
-    const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
-    const currentTask = {
-      taskId: nodeId,
-      selectedService: appliedMethods[nodeId],
-      currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData
-    }
-    localStorage.setItem('currentTask', JSON.stringify(currentTask));
+  // onGotoCreateForm() {
+  //   const { appliedMethods, generatedForms } = this.props.workflow;
+  //   const { nodeId } = this.state;
+  //   const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
+  //   const currentTask = {
+  //     taskId: nodeId,
+  //     selectedService: appliedMethods[nodeId],
+  //     currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData
+  //   }
+  //   localStorage.setItem('currentTask', JSON.stringify(currentTask));
 
+  // }
+
+  onSelectFormType = () => {
+    const { dispatch } = this.props;
+    dispatch(workflowActions.toggleFormTypeDialog());
   }
+
 
   onSetTimer = () => {
     this.props.dispatch(workflowActions.toggleTimerDialog());
@@ -126,12 +132,13 @@ class BpmnProperty extends Component {
           />,
           <Button label="Define Input" disabled={disabled}
             icon={<Edit />} onClick={this.onDefineInput} key={2} />,
-          <Link style={{ width: '100%' }}
-            to={{
-              pathname: '/home/design_form',
-            }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-            <Button disabled={disabled} fill label="Create Form" />
-          </Link>
+          // <Link style={{ width: '100%' }}
+          //   to={{
+          //     pathname: '/home/design_form',
+          //   }} target="_blank" onClick={() => this.onSelectFormType()}>
+          <Button disabled={disabled} label="Create Form"
+            onClick={() => this.onSelectFormType()} />
+          // </Link>
         ]
       } break;
 

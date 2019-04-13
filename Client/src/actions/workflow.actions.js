@@ -26,6 +26,7 @@ export const workflowActions = {
   toggleTimerDialog,
   togglePreInputDialog,
   toggleEditWorkflowDialog,
+  toggleFormTypeDialog,
 
   // RESTful
   createNewWorkflow,
@@ -115,6 +116,12 @@ function setCurrentElement(bpmnNode) {
 function toggleMemberDialog() {
   return {
     type: workflowContants.TOGGLE_MEMBER_DIALOG
+  }
+}
+
+function toggleFormTypeDialog() {
+  return {
+    type: workflowContants.TOGGLE_FORM_TYPE_DIALOG,
   }
 }
 

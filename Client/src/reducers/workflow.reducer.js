@@ -35,6 +35,7 @@ const defaultState = {
   sendingWorkflowData: false,
   showMemberDialog: false,
   showEditInfoDialog: false,
+  showFormTypeDialog: false,
   mode: null,
 }
 
@@ -53,9 +54,13 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowContants.TOGGLE_FORM_TYPE_DIALOG: {
+      const nextState = { ...state, showFormTypeDialog: !state.showFormTypeDialog };
+      return nextState;
+    }
+
     case workflowContants.SETUP_EXISTING_WORKFLOW: {
       const { currentFlow } = action;
-      console.log(currentFlow);
       const nextState = { ...state, ...currentFlow };
       return nextState;
     }
@@ -106,10 +111,24 @@ export function workflow(state = defaultState, action) {
       const { forTask, form } = action;
       const nextState = { ...state };
       const indexToUpdate = nextState.generatedForms.findIndex((item => item.taskId == forTask));
-      if (indexToUpdate !== -1) {
-        nextState.generatedForms[indexToUpdate] = { taskId: forTask, formData: form };
-      } else {
-        nextState.generatedForms.push({ taskId: forTask, formData: form })
+      if (indexToUpdate !== -1) {  // Found existing form
+        nextState.generatedForms[indexToUpdate] = {
+          taskId: forTask,
+          formData: form,
+          forms: {
+            inputForm: form,
+            outputForm: form,
+          }
+        };
+      } else { // Create new
+        nextState.generatedForms.push({
+          taskId: forTask,
+          formData: form,
+          forms: {
+            inputForm: form,
+            outputForm: form,
+          }
+        })
       }
       nextState.recentForm = { taskId: forTask, form }
       return nextState;
