@@ -59,7 +59,7 @@ export class index extends Component {
                   to={{
                     pathname: '/home/design_form',
                   }} target="_blank" onClick={this.onGotoCreateForm('inputForm')}>
-                  <Button fill label="Input" color="accent-4" primary />
+                  <Button fill label="Input" color="accent-4" style={{color: '#fff'}} primary />
                 </Link>
 
                 <Link style={{ width: '100%' }}
