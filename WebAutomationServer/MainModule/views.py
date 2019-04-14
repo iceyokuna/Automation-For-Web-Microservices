@@ -16,10 +16,11 @@ def end_index(request):
 @csrf_exempt
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
-    print(resquest)
+#    print(resquest)
 
     #app name
     app_name = (resquest['name'])
+#    print(app_name)
 
     #bpmn data
     workflow_detail = resquest['bpmnJson']
@@ -31,7 +32,7 @@ def saveFlow(request):
 
     #Service Binding Infomation
     service_List = (resquest['appliedMethods'])
-#    print(service_List)
+    print(service_List)
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
@@ -46,7 +47,7 @@ def saveFlow(request):
 
     print("------saved workflow object successfully--------")
     #print all finite state machine defination
-    workflowEngine.showDefination()
+    #workflowEngine.showDefination()
     msg = {}
     msg['message'] = 'done'
     return HttpResponse(json.dumps(msg),content_type= "application/json")
