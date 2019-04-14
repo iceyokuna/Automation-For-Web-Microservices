@@ -89,6 +89,11 @@ class FlowDetail extends Component {
             name="line-scale" color={colors.brand} />
         </Box>
       );
+    } if (collaborators.length == 0) {
+      return (
+        <Box>
+          <Text>You have not invited any collaborator yet.</Text>
+        </Box>)
     }
 
     return collaborators.map((item, index) =>
@@ -186,7 +191,7 @@ class FlowDetail extends Component {
     const { openEditMenu } = this.state;
     const { currentFlow } = this.props;
     if (currentFlow == null) {
-      return <Redirect to="/home/my_flows"/>;
+      return <Redirect to="/home/my_flows" />;
     }
     return (
       <div style={global.mainContainer}>
