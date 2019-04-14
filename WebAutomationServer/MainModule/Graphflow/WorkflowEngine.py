@@ -18,8 +18,7 @@ class WorkflowEngine:
         self.transition = {} #delta
 
     #parsing workflow
-    def initialize(self, elements_list, HTML_list = None):
-        
+    def initialize(self, elements_list, HTML_list = None,service_list = None):
         element_ref_lane_owner = {}
         element_ref_html = {}
 
@@ -92,7 +91,29 @@ class WorkflowEngine:
                 outputType = None
                 gateway = ParallelGateway(Id, name, inputType, outputType)
                 self.state[element['attributes']['id']] = gateway
-    
+
+        #bind service
+        self.bindService(service_list)
+
+    #bind HTML form to each task
+    def bindHTMLForm(self, HTML_list):
+        pass
+
+    #bind service and serviceInterface to each task
+    def bindService(self, service_list):
+        if(service_list is None):
+            return
+        for service in service_list:
+            task = self.state[service]
+            #extract service's data from json serviceList
+            serviceId = service_list[service]['serviceId']
+            methodId = service_list[service]['method']['id']
+            serviceInputInterface = service_list[service]['method']['input_interface']
+            serviceOutputInterface = service_list[service]['method']['output_interface']
+            #bind to task
+            task.setServiceReference(serviceId, methodId)
+            task.setInputInterface(serviceInputInterface)
+            task.setOutputInterface(serviceOutputInterface)
 
     def start(self):
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
@@ -108,6 +129,10 @@ class WorkflowEngine:
 
         #Task case
         if(isinstance(element_object, ServiceTask)):
+            print(element_object.getServiceId())
+            print(element_object.getServiceMethodId())
+            print(element_object.getInputInterface())
+            print(element_object.getOutputInterface())
             return (element_object.getHTML())
 
         #End case
@@ -117,20 +142,6 @@ class WorkflowEngine:
             return "DONE"
 
         return "FAILED"
-
-    #bind service and serviceInterface to each task
-    def bindService(self, serviceList):
-        for service in serviceList:
-            task = self.state[service]
-            #extract service's data from json serviceList
-            serviceId = serviceList[service]['serviceId']
-            methodId = serviceList[service]['method']['id']
-            serviceInputInterface = serviceList[service]['method']['input_interface']
-            serviceOutputInterface = serviceList[service]['method']['output_interface']
-            #bind to task
-            task.setServiceReference(serviceId, methodId)
-            task.setInputInterface(serviceInputInterface)
-            task.setOutputInterface(serviceOutputInterface)
 
     def execute(self):
         #Test exectuion before deployment (calling local host email service)
