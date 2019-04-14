@@ -16,7 +16,7 @@ def end_index(request):
 @csrf_exempt
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
-    print(resquest)
+
     #app name
     app_name = (resquest['name'])
 
