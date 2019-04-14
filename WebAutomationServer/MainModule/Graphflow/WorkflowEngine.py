@@ -150,24 +150,7 @@ class WorkflowEngine:
         return "FAILED"
 
     def execute(self):
-        #Test exectuion before deployment (calling local host email service)
-        outputInterface = self.state[self.currentState["current"]].getOutputInterface()
-        userInput = self.state[self.currentState["current"]].getInput()
-        request_input = {}
-        for key in userInput:
-            request_input[key] = key['value']
-        print(request_input)
-
-    #use to debug when execution reach end node
-    def showLog(self):
-        for element in self.state:
-            print()
-            print("-----------------------------------")
-            print("TASK ID -> " + str(element))
-            print("Service URL -> " + str(self.state[element].getURL()))
-            print("Service Interface -> " + str(self.state[element].getInputInterface()))
-            print("User Input -> " + str(self.state[element].getInput()))
-            print("-----------------------------------")
+        pass
 
     #use to show all finite state machine formal defination
     def showDefination(self):
