@@ -49,7 +49,10 @@ class WorkflowEngine:
 
             #End Event
             elif(element['name'] == 'bpmn2:endEvent'):
-                
+                Id = element['attributes']['id']
+                name = element['attributes']['name']
+                end_event = StartEvent(Id, name, None, None)
+                self.state[element['attributes']['id']] = end_event
                 self.endState[element['attributes']['id']] = element['attributes']['name']
 
             #Tasks
