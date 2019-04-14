@@ -80,9 +80,11 @@ class WorkflowEngine:
                 gateway = ParallelGateway(Id, name, inputType, outputType)
                 self.state[element['attributes']['id']] = gateway
 
-        #bind service
+        #bind service and setup bpmn
         self.bindHTMLForm(HTML_list)
         self.bindService(service_list)
+        self.setPreDefindInput(preInput_list)
+        self.setupCondition(condition_list)
 
     #bind HTML form to each task
     def bindHTMLForm(self, HTML_list):
@@ -115,11 +117,17 @@ class WorkflowEngine:
 
     #set pre-input to task
     def setPreDefindInput(self, predefine_input_list):
-        pass
+        if(predefine_input_list is None):
+            return
+        for preinput_task in predefine_input_list:
+            task = self.state[preinput_task]
+            preinput = predefine_input_list[preinput_task]['preInputs']
+            task.setPreDefineInput(preinput)
 
     def start(self):
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         element_object = self.state[self.currentState["current"]]
+        print(element_object.getPreDefineInput())
         return (element_object.getHTML())
         
     def next(self):
