@@ -16,6 +16,7 @@ def end_index(request):
 @csrf_exempt
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
+    print(resquest)
 
     #app name
     app_name = (resquest['name'])
@@ -31,7 +32,6 @@ def saveFlow(request):
     #Service Binding Infomation
     service_List = (resquest['appliedMethods'])
 #    print(service_List)
-
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
