@@ -64,9 +64,10 @@ body {
 }
 
 .bjs-powered-by {
-  box-shadow: none !important;
   transform: translateY(-10px);
   z-index: 5 !important;
+  bottom: 10px !important;
+  right: 360px !important;
 }
 
 .Toastify__toast {
