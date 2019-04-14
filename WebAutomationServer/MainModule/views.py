@@ -24,16 +24,13 @@ def saveFlow(request):
     workflow_detail = resquest['bpmnJson']
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
 
-    #HTML form data
+    #HTML form and Applied Service data
     HTML_List = (resquest['generatedForms'])
+    service_List = (resquest['appliedMethods'])
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
-    workflowEngine.initialize(elements_list, HTML_List)
-
-    #Service Binding Infomation
-    service_List = (resquest['appliedMethods'])
-    WorkflowEngine.bindService(service_List)
+    workflowEngine.initialize(elements_list, HTML_List, service_List)
 
     #Workflow Engine Initiate construction and [save]!!!
     with open('HTMLs.pkl', 'wb') as f:
