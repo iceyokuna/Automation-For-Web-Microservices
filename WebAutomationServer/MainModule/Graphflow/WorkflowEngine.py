@@ -18,9 +18,9 @@ class WorkflowEngine:
         self.transition = {} #delta
 
     #parsing workflow
-    def initialize(self, elements_list, HTML_list = None,service_list = None):
+    def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None):
         element_ref_lane_owner = {}
-        
+
         #token lane
         for element in elements_list:
             if(element['name'] == 'bpmn2:laneSet'):
@@ -109,6 +109,14 @@ class WorkflowEngine:
             task.setInputInterface(serviceInputInterface)
             task.setOutputInterface(serviceOutputInterface)
 
+    #setup condition to gateway
+    def setupCondition(self, condition_list):
+        pass
+
+    #set pre-input to task
+    def setPreDefindInput(self, predefine_input_list):
+        pass
+
     def start(self):
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         element_object = self.state[self.currentState["current"]]
@@ -123,10 +131,6 @@ class WorkflowEngine:
 
         #Task case
         if(isinstance(element_object, ServiceTask)):
-            print(element_object.getServiceId())
-            print(element_object.getServiceMethodId())
-            print(element_object.getInputInterface())
-            print(element_object.getOutputInterface())
             return (element_object.getHTML())
 
         #End case
