@@ -97,7 +97,10 @@ class WorkflowEngine:
 
     #bind HTML form to each task
     def bindHTMLForm(self, HTML_list):
-        pass
+        if(HTML_list is None):
+            return
+        for form in HTML_list:
+            pass
 
     #bind service and serviceInterface to each task
     def bindService(self, service_list):
