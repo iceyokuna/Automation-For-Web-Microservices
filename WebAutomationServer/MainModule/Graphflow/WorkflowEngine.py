@@ -25,7 +25,7 @@ class WorkflowEngine:
         #token html
         for html in HTML_list:
             try:
-                element_ref_html[html['taskId']] = html['formData']
+                element_ref_html[html['taskId']] = html['forms']['inputForm']
             except:
                 continue
 
