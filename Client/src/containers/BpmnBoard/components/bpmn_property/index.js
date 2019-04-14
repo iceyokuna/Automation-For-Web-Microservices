@@ -79,24 +79,10 @@ class BpmnProperty extends Component {
     });
   }
 
-  // onGotoCreateForm() {
-  //   const { appliedMethods, generatedForms } = this.props.workflow;
-  //   const { nodeId } = this.state;
-  //   const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
-  //   const currentTask = {
-  //     taskId: nodeId,
-  //     selectedService: appliedMethods[nodeId],
-  //     currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData
-  //   }
-  //   localStorage.setItem('currentTask', JSON.stringify(currentTask));
-
-  // }
-
   onSelectFormType = () => {
     const { dispatch } = this.props;
     dispatch(workflowActions.toggleFormTypeDialog());
   }
-
 
   onSetTimer = () => {
     this.props.dispatch(workflowActions.toggleTimerDialog());

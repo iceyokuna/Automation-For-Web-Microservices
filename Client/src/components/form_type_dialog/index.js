@@ -24,10 +24,6 @@ export class index extends Component {
     this.props.dispatch(workflowActions.toggleFormTypeDialog());
   }
 
-  onUpdateInfo = () => {
-
-  }
-
   onGotoCreateForm(formType) {
     const { appliedMethods, generatedForms, currentNode } = this.props.workflow;
     const nodeId = currentNode.id;
@@ -36,10 +32,11 @@ export class index extends Component {
       formType: formType,
       taskId: nodeId,
       selectedService: appliedMethods[nodeId],
-      currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData,
+      currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].forms[formType],
     }
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
     window.open('/home/design_form'); // Open a new tab
+    this.props.dispatch(workflowActions.toggleFormTypeDialog());
   }
 
   render() {
