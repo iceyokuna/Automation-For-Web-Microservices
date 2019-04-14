@@ -33,12 +33,13 @@ export class index extends Component {
     const nodeId = currentNode.id;
     const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
     const currentTask = {
-      formType,
+      formType: formType,
       taskId: nodeId,
       selectedService: appliedMethods[nodeId],
       currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData,
     }
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
+    window.open('/home/design_form'); // Open a new tab
   }
 
   render() {
@@ -54,20 +55,11 @@ export class index extends Component {
                 Type of Form
               </Heading>
               <Box gap="small" pad={{ vertical: 'small' }}>
+                <Button fill label="Input" color="accent-4" style={{ color: '#fff' }}
+                  primary onClick={() => this.onGotoCreateForm('inputForm')} />
 
-                <Link style={{ width: '100%' }}
-                  to={{
-                    pathname: '/home/design_form',
-                  }} target="_blank" onClick={this.onGotoCreateForm('inputForm')}>
-                  <Button fill label="Input" color="accent-4" style={{color: '#fff'}} primary />
-                </Link>
-
-                <Link style={{ width: '100%' }}
-                  to={{
-                    pathname: '/home/design_form',
-                  }} target="_blank" onClick={this.onGotoCreateForm('outputForm')}>
-                  <Button fill label="Output" color="accent-3" primary />
-                </Link>
+                <Button fill label="Output" color="accent-3" primary
+                  onClick={() => this.onGotoCreateForm('outputForm')} />
               </Box>
 
             </Box>

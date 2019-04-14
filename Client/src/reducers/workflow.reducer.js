@@ -1,4 +1,5 @@
 import { workflowContants } from '_constants';
+import { toast } from 'react-toastify'
 
 const defaultState = {
   // generatedForms: [
@@ -26,7 +27,6 @@ const defaultState = {
   formsDone: false,
   currentNode: null,
 
-  recentForm: null,
   name: 'Default name',
   description: 'Default description',
   collaboratorsToInvite: [],
@@ -108,29 +108,29 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.ADD_NEW_FROM: {
-      const { forTask, form } = action;
+      const { forTask, form, formType, } = action;
       const nextState = { ...state };
+      const typeOfForm = formType === "inputForm" ? "Input form" : "Output form";
       const indexToUpdate = nextState.generatedForms.findIndex((item => item.taskId == forTask));
       if (indexToUpdate !== -1) {  // Found existing form
-        nextState.generatedForms[indexToUpdate] = {
-          taskId: forTask,
-          formData: form,
-          forms: {
-            inputForm: form,
-            outputForm: form,
-          }
-        };
+        nextState.generatedForms[indexToUpdate].taskId = forTask;
+        nextState.generatedForms[indexToUpdate].formData = form;
+        nextState.generatedForms[indexToUpdate].forms[formType] = form;
+        toast.success(`${typeOfForm} is updated`);
       } else { // Create new
+        const forms = {
+          inputForm: {},
+          outputForm: {},
+        };
+        forms[formType] = form;
         nextState.generatedForms.push({
           taskId: forTask,
           formData: form,
-          forms: {
-            inputForm: form,
-            outputForm: form,
-          }
-        })
+          forms: forms,
+        });
+        toast.success(`${typeOfForm} is added`);
       }
-      nextState.recentForm = { taskId: forTask, form }
+      nextState.showFormTypeDialog = false;
       return nextState;
     }
 

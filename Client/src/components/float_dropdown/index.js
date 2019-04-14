@@ -110,8 +110,8 @@ export default class FloatDropdown extends Component {
 
   render() {
     const { show } = this.state;
-    const { taskId, service } = this.props;
-
+    const { taskId, service, formType } = this.props;
+    const typeOfForm = formType == "outputForm" ? "Output form" : "Input form";
     return (
       <Container >
         <CollapseButtonContainer>
@@ -132,6 +132,7 @@ export default class FloatDropdown extends Component {
                 elevation="small" pad="medium" gap="xsmall" style={props}
               >
                 <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                  <Text color="accent-4" >{typeOfForm}</Text>
                   <Box direction="row" justify="between">
                     <Text size="xlarge" weight="bold" >{service.method.name}</Text>
                     <Text size="large" >{taskId}</Text>
