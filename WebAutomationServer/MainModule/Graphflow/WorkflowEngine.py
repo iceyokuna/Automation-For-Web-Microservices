@@ -107,9 +107,7 @@ class WorkflowEngine:
 
         #Task case
         if(isinstance(element_object, ServiceTask)):
-            print("yes!!")
-        else:
-            print("No")
+            return (element_object.getHTML())
 
         #End case
         if(self.currentState["current"] in self.endState):
@@ -117,7 +115,7 @@ class WorkflowEngine:
             #self.showLog()
             return "DONE"
 
-        return (element_object.getHTML())
+        return "FAILED"
 
     def setUserInput(self, userInput):
         self.state[self.currentState["current"]].setInput(userInput)
