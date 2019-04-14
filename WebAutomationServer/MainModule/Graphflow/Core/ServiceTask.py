@@ -5,6 +5,7 @@ class ServiceTask(Activity):
     def __init__(self , id, name, inputInterface , outputInterface, lane_owner_id = None):
         super().__init__(id, name, inputInterface , outputInterface)
         self.HTMLReference = None
+        self.preDefineInput = None
         self.serviceId =  None
         self.serviceMethodId =  None
         self.lane_owner_id = lane_owner_id
@@ -14,6 +15,12 @@ class ServiceTask(Activity):
 
     def getLaneOwner(self):
         return self.lane_owner_id
+
+    def setPreDefineInput(self, preDefineInput):
+        self.preDefineInput = preDefineInput
+
+    def getPreDefineInput(self):
+        return self.preDefineInput
 
     def setServiceReference(self,serviceId, serviceMethodId):
         self.serviceId = serviceMethodId
