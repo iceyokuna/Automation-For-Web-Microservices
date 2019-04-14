@@ -16,7 +16,7 @@ def end_index(request):
 @csrf_exempt
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
-
+    print(resquest)
     #app name
     app_name = (resquest['name'])
 
@@ -24,13 +24,15 @@ def saveFlow(request):
     workflow_detail = resquest['bpmnJson']
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
 
-    #HTML form and Applied Service data
-    HTML_List = (resquest['generatedForms'])
-    service_List = (resquest['appliedMethods'])
+    #Extract form data, service data, input output data
+    HTML_list = (resquest['generatedForms'])
+    service_list = (resquest['appliedMethods'])
+    preInput_list = (resquest['appliedPreInputs'])
+    condition_list = (resquest['appliedConditions'])
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
-    workflowEngine.initialize(elements_list, HTML_List, service_List)
+    workflowEngine.initialize(elements_list, HTML_list, service_list, preInput_list, condition_list)
 
     #Workflow Engine Initiate construction and [save]!!!
     with open('HTMLs.pkl', 'wb') as f:
