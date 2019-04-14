@@ -123,12 +123,6 @@ class WorkflowEngine:
             task = self.state[preinput_task]
             preinput = predefine_input_list[preinput_task]['preInputs']
             task.setPreDefineInput(preinput)
-
-    def start(self):
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-        element_object = self.state[self.currentState["current"]]
-        print(element_object.getPreDefineInput())
-        return (element_object.getHTML())
         
     def next(self):
         #get object from next transition
@@ -143,14 +137,13 @@ class WorkflowEngine:
 
         #End case
         if(self.currentState["current"] in self.endState):
-            #DEBUG_LOG_WHEN_EXECUTION_DONE
-            #self.showLog()
             return "DONE"
 
         return "FAILED"
 
-    def execute(self):
+    def execute(self, service_id, method_id, inputInterface, input, predefind_input):
         pass
+        
 
     #use to show all finite state machine formal defination
     def showDefination(self):
