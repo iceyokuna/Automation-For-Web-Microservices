@@ -23,7 +23,7 @@ def saveFlow(request):
     #bpmn data
     workflow_detail = resquest['bpmnJson']
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
-    print(elements_list)
+#    print(elements_list)
 
     #HTML form data
     HTML_List = (resquest['generatedForms'])
