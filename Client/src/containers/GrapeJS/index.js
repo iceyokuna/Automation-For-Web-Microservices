@@ -118,9 +118,6 @@ export default class GrapeJSWrapper extends Component {
   exportToHTMLCSS() {
     // Add javascript to the form
     // this.editor.addComponents('<script>alert(2)</script>');
-
-    // console.log(this.editor);
-    // console.log(this.panelManager.getPanels());
     // const options = this.panelManager.getPanel('commands');
     const formHtml = this.editor.getHtml(), formCss = this.editor.getCss();
     this.props.onExportForm({ formHtml, formCss });
@@ -317,7 +314,6 @@ export default class GrapeJSWrapper extends Component {
   render() {
     return (
       <div style={{ height: '100%', }}>
-        <div style={{ backgroundColor: 'red', position: 'fixed', top: 20 }}>TEST</div>
         <div id="gjs" />
       </div>
     )

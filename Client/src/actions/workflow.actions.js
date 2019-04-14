@@ -145,10 +145,11 @@ function setExecutingForm(form) {
   }
 }
 
-function addNewForm(form, taskId) {
+function addNewForm(formType, form, taskId) {
   return {
     type: workflowContants.ADD_NEW_FROM,
-    form: form,
+    formType,
+    form,
     forTask: taskId
   };
 }
