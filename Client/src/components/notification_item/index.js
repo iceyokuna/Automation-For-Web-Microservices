@@ -11,12 +11,12 @@ border-color: #bbbbbb;
 
 const dateColor = "#666666";
 
-const index = ({ workflowName, title, createdAd, onClick }) => {
+const index = ({ title, body, createdAd, onClick }) => {
   return (
     <Button onClick={onClick}>
       <Notification gap="small" pad="small">
-        <Text weight="bold">{workflowName}</Text>
-        <Text>{title}</Text>
+        <Text weight="bold">{title}</Text>
+        <Text>{body}</Text>
         <Text size="xsmall" color={dateColor}>
           {moment(createdAd).format('llll')}
         </Text>

@@ -24,6 +24,7 @@
     "file-loader": "^3.0.1",
     "firebase": "^5.9.3",
     "flatpickr": "^4.5.7",
+    "glamor": "^2.20.40",
     "grapesjs": "^0.14.50",
     "grapesjs-custom-code": "^0.1.1",
     "grapesjs-preset-webpage": "^0.1.10",

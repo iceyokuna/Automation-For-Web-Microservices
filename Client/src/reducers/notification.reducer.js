@@ -1,16 +1,26 @@
 import { notificationConstants } from '_constants';
-
 const initialState = {
   isLoading: false,
-  data: [
-    { title: "Smart Meter", body: "this is a body", },
-    { title: "KMITL Meeting", body: "this is a body", },
-    { title: "EIEI", body: "this is a body", },
-  ],
+  data: [],
 }
 
 export function notification(state = initialState, action) {
   switch (action.type) {
+
+    case notificationConstants.ADD_NEW_NOTIFICATION: {
+      const { payload } = action;
+      const data = payload.data["gcm.notification.data"];
+      const { notification } = payload;
+
+      const nextState = { ...state };
+      nextState.data.unshift({
+        title: notification.title,
+        body: notification.body,
+        data: JSON.parse(data),
+      })
+      return nextState;
+    }
+
     case notificationConstants.GET_ALL_NOTIFICATIONS_REQUEST: {
       return {
         isLoading: true,

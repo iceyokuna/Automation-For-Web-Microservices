@@ -3,7 +3,16 @@ import { notificationServices } from 'services';
 
 export const notificationActions = {
   getAllNotifications,
+  addNewNotification,
 };
+
+function addNewNotification(payload) {
+  return {
+    type: notificationConstants.ADD_NEW_NOTIFICATION,
+    payload,
+  }
+
+}
 
 function getAllNotifications() {
   return dispatch => {

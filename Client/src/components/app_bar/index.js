@@ -80,13 +80,14 @@ class AppBar extends Component {
 
     let elements = someNotifications.map((item, index) =>
       <NotificationItem
-        workflowName={item.workflowName} title={item.title} createdAt={item.createdAt}
+        key={index}
+        title={item.title} body={item.body} createdAt={item.createdAt}
         onClick={() => { this.onSelectNotification(item) }} />
     );
 
     if (notifications.length > notifiationLength) {
       elements.push(
-        <Button fill plain
+        <Button fill plain key="more"
           onClick={this.handleMoreNotifications} >
           <Box justify="center" align="center" pad="small">
             <Text size="small" weight="bold">See more</Text>
@@ -95,7 +96,7 @@ class AppBar extends Component {
       )
     }
 
-    return elements;
+    return <Box>{elements}</Box>;
 
   }
 
