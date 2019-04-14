@@ -1,6 +1,6 @@
 {
-    "appName": "IC Meeting",
-    "appDescription": "Description...",
+    "name": "IC Meeting",
+    "description": "Description...",
     "workflowData": {
         "bpmnJson": {},
         "generatedform": {

@@ -11,6 +11,10 @@ export function workflowCollaborators(state = defaultState, action) {
       return { ...state, loadingCollaborators: true };
     }
 
+    case workflowCollaborators.ADD_NEW_COLLABORATORS_SUCCESS: {
+      return { ...state, loadingCollaborators: false };
+    }
+
     case workflowContants.GET_ALL_COLLABORATORS_SUCCESS: {
       const nextState = { ...state };
       nextState.collaborators = action.collaborators;

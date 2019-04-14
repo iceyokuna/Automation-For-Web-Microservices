@@ -27,13 +27,15 @@ const defaultState = {
   currentNode: null,
 
   recentForm: null,
-  appName: 'Default name',
-  appDescription: 'Default description',
+  name: 'Default name',
+  description: 'Default description',
   collaboratorsToInvite: [],
   bpmnJson: null,
 
   sendingWorkflowData: false,
   showMemberDialog: false,
+  showEditInfoDialog: false,
+  showFormTypeDialog: false,
   mode: null,
 }
 
@@ -47,6 +49,16 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowContants.TOGGLE_INFO_DIALOG: {
+      const nextState = { ...state, showEditInfoDialog: !state.showEditInfoDialog };
+      return nextState;
+    }
+
+    case workflowContants.TOGGLE_FORM_TYPE_DIALOG: {
+      const nextState = { ...state, showFormTypeDialog: !state.showFormTypeDialog };
+      return nextState;
+    }
+
     case workflowContants.SETUP_EXISTING_WORKFLOW: {
       const { currentFlow } = action;
       const nextState = { ...state, ...currentFlow };
@@ -54,8 +66,8 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SETUP_NEW_WORKFLOW: {
-      const { appName, appDescription } = state;
-      const nextState = { ...initState, appName, appDescription };
+      const { name, description } = state;
+      const nextState = { ...initState, name, description };
       return nextState;
     }
 
@@ -99,10 +111,24 @@ export function workflow(state = defaultState, action) {
       const { forTask, form } = action;
       const nextState = { ...state };
       const indexToUpdate = nextState.generatedForms.findIndex((item => item.taskId == forTask));
-      if (indexToUpdate !== -1) {
-        nextState.generatedForms[indexToUpdate] = { taskId: forTask, formData: form };
-      } else {
-        nextState.generatedForms.push({ taskId: forTask, formData: form })
+      if (indexToUpdate !== -1) {  // Found existing form
+        nextState.generatedForms[indexToUpdate] = {
+          taskId: forTask,
+          formData: form,
+          forms: {
+            inputForm: form,
+            outputForm: form,
+          }
+        };
+      } else { // Create new
+        nextState.generatedForms.push({
+          taskId: forTask,
+          formData: form,
+          forms: {
+            inputForm: form,
+            outputForm: form,
+          }
+        })
       }
       nextState.recentForm = { taskId: forTask, form }
       return nextState;
@@ -127,18 +153,17 @@ export function workflow(state = defaultState, action) {
       const { workflow_description, workflow_id, workflow_name } = workflowObject;
       const nextState = {
         ...state,
-        appName: workflow_name,
+        name: workflow_name,
         workflowId: workflow_id,
-        appDescription: workflow_description,
+        description: workflow_description,
         mode,
       };
-
       return nextState;
     }
 
     case workflowContants.SET_BPMN_JSON: {
-      const { bpmnAppJson } = action;
-      const nextState = { ...state, bpmnAppJson };
+      const { bpmnJson } = action;
+      const nextState = { ...state, bpmnJson };
       return nextState
     }
 

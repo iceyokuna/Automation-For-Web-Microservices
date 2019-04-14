@@ -13,7 +13,7 @@ import { workflowActions } from 'actions';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
-
+import { toast } from 'react-toastify';
 
 export class index extends Component {
 
@@ -41,8 +41,6 @@ export class index extends Component {
     const { selectedCollaborators } = this.state;
     const { workflow, dispatch } = this.props;
     dispatch(workflowActions.addNewCollaborators(workflow.workflowId, selectedCollaborators));
-    dispatch(workflowActions.getAllCollaborators(workflow.workflowId));
-    this.onColseDialog();
   }
 
   renderCollaboratorItems = () => {

@@ -1,6 +1,6 @@
 import { workflowContants, globalConstants } from '_constants';
 import { workflowService } from 'services'
-import { socketActions } from 'actions'
+import { toast } from 'react-toastify'
 import { history, getToken } from '_helpers';
 import axios from 'axios';
 
@@ -12,6 +12,7 @@ export const workflowActions = {
   applyMethodToTask,
   applyConditionsToGateWay,
   applyPreInputsToTask,
+  applyTimerToElement,
 
   setExecutingForm,
   setCurrentFlow,
@@ -24,6 +25,8 @@ export const workflowActions = {
   toggleMemberDialog,
   toggleTimerDialog,
   togglePreInputDialog,
+  toggleEditWorkflowDialog,
+  toggleFormTypeDialog,
 
   // RESTful
   createNewWorkflow,
@@ -33,6 +36,11 @@ export const workflowActions = {
   getAllCollaborators,
 };
 
+function toggleEditWorkflowDialog() {
+  return {
+    type: workflowContants.TOGGLE_INFO_DIALOG
+  }
+}
 
 function getAllCollaborators(workflowId) {
   return dispatch => {
@@ -80,6 +88,15 @@ function setWorkflowId(workflowId) {
   }
 }
 
+function applyTimerToElement(elementId, time) {
+  return {
+    type: workflowContants.APPLY_TIMER_TO_ELEMENT,
+    elementId,
+    time
+  }
+
+}
+
 function applyPreInputsToTask(elementId, preInputs, method) {
   return {
     type: workflowContants.APPLY_PRE_INPUT,
@@ -99,6 +116,12 @@ function setCurrentElement(bpmnNode) {
 function toggleMemberDialog() {
   return {
     type: workflowContants.TOGGLE_MEMBER_DIALOG
+  }
+}
+
+function toggleFormTypeDialog() {
+  return {
+    type: workflowContants.TOGGLE_FORM_TYPE_DIALOG,
   }
 }
 
@@ -231,24 +254,26 @@ function setCurrentFlow(currentFlow, redirectUrl) {
   }
 }
 
-function setBpmnJson(bpmnAppJson) {
+function setBpmnJson(bpmnJson) {
   return {
     type: workflowContants.SET_BPMN_JSON,
-    bpmnAppJson
+    bpmnJson
   }
 }
 
-function createNewWorkflow(appName, appDescription, mode) {
+function createNewWorkflow(name, description, mode) {
   return (dispatch) => {
     dispatch(request());
-    workflowService.createNewWorkflow(appName, appDescription, {
+    let workflowObject = {
       bpmnJson: {},
       appliedMethods: {},
       appliedConditions: {},
       appliedPreInputs: {},
       generatedForms: [],
-    }).then(res => {
-      dispatch(success(res.data, mode));
+    }
+    workflowService.createNewWorkflow(name, description, workflowObject).then(res => {
+      workflowObject = { ...workflowObject, ...res.data };
+      dispatch(success(workflowObject, mode));
       history.push('design_workflow');
     }).catch(err => {
       console.error(err);
@@ -288,10 +313,12 @@ function addNewCollaborators(workflow_id, collaborators) {
           Authorization: "Token " + getToken(),
         }
       }).then(res => {
-        console.log(res.data);
+        toast.success("Invite successfully");
         dispatch(success(res.data));
+        dispatch(getAllCollaborators(workflow_id));
       }).catch(err => {
         dispatch(failure(err))
+        toast.error("Sorry, some of these members do not exist");
       })
   }
 
@@ -317,14 +344,14 @@ function addNewCollaborators(workflow_id, collaborators) {
 
 }
 
-function updateWorkflow(appName, appDescription,
+function updateWorkflow(name, description,
   workflowData) {
   return (dispatch, getState) => {
     dispatch(request());
     const currentWorkflowId = getState().workflow.workflowId;
     setTimeout(() => {
       workflowService.updateWorkflow(
-        appName, appDescription,
+        name, description,
         workflowData, currentWorkflowId
       ).then(
         res => {
@@ -357,12 +384,12 @@ function updateWorkflow(appName, appDescription,
 
 }
 
-function sendWorkflowDataToEngine(appName, appDescription,
+function sendWorkflowDataToEngine(name, description,
   workflowData) {
   return dispatch => {
     dispatch(request());
     setTimeout(() => {
-      workflowService.sendWorkflowDataToEngine(appName, appDescription,
+      workflowService.sendWorkflowDataToEngine(name, description,
         workflowData
       ).then(
         res => {

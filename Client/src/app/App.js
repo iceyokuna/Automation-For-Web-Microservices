@@ -2,6 +2,7 @@ import './index.css';
 import "bpmn-js/dist/assets/diagram-js.css"
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css"
 import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css"
+import 'react-toastify/dist/ReactToastify.css';
 
 import React from 'react';
 
@@ -11,19 +12,24 @@ import {
 } from 'pages'
 
 import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Grommet, Box } from 'grommet';
 
-import { Grommet } from 'grommet';
 import appTheme from 'theme';
 
 import { Provider } from 'react-redux';
 import { store, history } from '_helpers';
 
 import PrivateRoute from 'components/private_route'
+import { ToastContainer } from 'react-toastify';
+
+Box.defaultProps.responsive = false;
 
 const App = () => (
   <Router history={history}>
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <ToastContainer hideProgressBar position="top-center"
+          autoClose={3000} toastClassName="toast-container" />
         <Switch>
           <PrivateRoute path="/home" component={Home} />
           <Route exact path="/" component={Login} />

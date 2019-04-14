@@ -100,7 +100,7 @@ class AppBar extends Component {
     return (
       <Box
         style={style}
-        responsive={false}
+        
         direction="row"
         align="center"
         justify="between"
