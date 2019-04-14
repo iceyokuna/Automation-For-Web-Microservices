@@ -20,15 +20,7 @@ class WorkflowEngine:
     #parsing workflow
     def initialize(self, elements_list, HTML_list = None,service_list = None):
         element_ref_lane_owner = {}
-        element_ref_html = {}
-
-        #token html
-        for html in HTML_list:
-            try:
-                element_ref_html[html['taskId']] = html['forms']['inputForm']
-            except:
-                continue
-
+        
         #token lane
         for element in elements_list:
             if(element['name'] == 'bpmn2:laneSet'):
@@ -63,11 +55,7 @@ class WorkflowEngine:
                 inputType = None
                 outputType = None
                 task = ServiceTask(Id, name, inputType, outputType, lane_owner)
-                try:
-                    task.setHTML(element_ref_html[element['attributes']['id']])
-                    self.state[element['attributes']['id']] = task
-                except:
-                    self.state[element['attributes']['id']] = task
+                self.state[element['attributes']['id']] = task
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
@@ -93,6 +81,7 @@ class WorkflowEngine:
                 self.state[element['attributes']['id']] = gateway
 
         #bind service
+        self.bindHTMLForm(HTML_list)
         self.bindService(service_list)
 
     #bind HTML form to each task
@@ -100,7 +89,9 @@ class WorkflowEngine:
         if(HTML_list is None):
             return
         for form in HTML_list:
-            pass
+            task = self.state[form['taskId']]
+            html = form['forms']['inputForm']
+            task.setHTML(html)
 
     #bind service and serviceInterface to each task
     def bindService(self, service_list):
