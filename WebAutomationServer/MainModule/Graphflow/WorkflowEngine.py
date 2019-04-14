@@ -118,6 +118,20 @@ class WorkflowEngine:
 
         return "FAILED"
 
+    #bind service and serviceInterface to each task
+    def bindService(self, serviceList):
+        for service in serviceList:
+            task = self.state[service]
+            #extract service's data from json serviceList
+            serviceId = serviceList[service]['serviceId']
+            methodId = serviceList[service]['method']['id']
+            serviceInputInterface = serviceList[service]['method']['input_interface']
+            serviceOutputInterface = serviceList[service]['method']['output_interface']
+            #bind to task
+            task.setServiceReference(serviceId, methodId)
+            task.setInputInterface(serviceInputInterface)
+            task.setOutputInterface(serviceOutputInterface)
+
     def execute(self):
         #Test exectuion before deployment (calling local host email service)
         outputInterface = self.state[self.currentState["current"]].getOutputInterface()
@@ -126,10 +140,6 @@ class WorkflowEngine:
         for key in userInput:
             request_input[key] = key['value']
         print(request_input)
-        
-    
-    def bindService(self, serviceList):
-        pass
 
     #use to debug when execution reach end node
     def showLog(self):
