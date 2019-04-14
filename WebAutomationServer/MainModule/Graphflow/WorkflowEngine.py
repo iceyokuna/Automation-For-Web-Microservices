@@ -17,6 +17,7 @@ class WorkflowEngine:
         self.endState = {} #E
         self.transition = {} #delta
 
+    #parsing workflow
     def initialize(self, elements_list, HTML_list = None):
         
         element_ref_lane_owner = {}
@@ -117,33 +118,7 @@ class WorkflowEngine:
 
         return "FAILED"
 
-    def setUserInput(self, userInput):
-        self.state[self.currentState["current"]].setInput(userInput)
-        if (self.state[self.currentState["current"]].getInputInterface() == None):
-            return
-
-        # request to server
-        '''
-        request_input = {}
-        for key in userInput:
-            if(key == 'email'):
-                request_input[key] = [userInput[key]['value']]
-                continue
-            request_input[key] = userInput[key]['value']
-
-        data = request_input
-        res = requests.post('http://127.0.0.1:8001/api/email', json= data)
-        '''
-
-
-    def setServiceOutput(self, serviceOutput):
-        self.state[self.currentState["current"]].setOutput(serviceOutput)
-
     def execute(self):
-        #request and get respond back and store to self.output
-#        ServiceOutput = request......
-#        self.currentState["current"].setServiceOutput(ServiceOutput)
-
         #Test exectuion before deployment (calling local host email service)
         outputInterface = self.state[self.currentState["current"]].getOutputInterface()
         userInput = self.state[self.currentState["current"]].getInput()
@@ -154,15 +129,7 @@ class WorkflowEngine:
         
     
     def bindService(self, serviceList):
-        for service in serviceList:
-            service_data = serviceList[service]
-            # self.state[service].setURL(service_data['method']['url'])
-            self.state[service].setInputInterface(service_data['method']['input_interface'])
-            self.state[service].setOutputInterface(service_data['method']['output_interface'])
-#            print(self.state[service].getURL())
-#            print(self.state[service].getInputInterface())
-#            print(self.state[service].getOutInterface())
-#            print()
+        pass
 
     #use to debug when execution reach end node
     def showLog(self):
