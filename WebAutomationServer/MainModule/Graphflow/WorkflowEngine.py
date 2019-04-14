@@ -17,17 +17,9 @@ class WorkflowEngine:
         self.endState = {} #E
         self.transition = {} #delta
 
-    def initialize(self, elements_list, HTML_list = None):
-        
+    #parsing workflow
+    def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None):
         element_ref_lane_owner = {}
-        element_ref_html = {}
-
-        #token html
-        for html in HTML_list:
-            try:
-                element_ref_html[html['taskId']] = html['formData']
-            except:
-                continue
 
         #token lane
         for element in elements_list:
@@ -41,10 +33,18 @@ class WorkflowEngine:
 
             #Start Event
             elif(element['name'] == 'bpmn2:startEvent'):
+                Id = element['attributes']['id']
+                name = element['attributes']['name']
+                start_event = StartEvent(Id, name, None, None)
+                self.state[element['attributes']['id']] = start_event
                 self.currentState["current"] = element['attributes']['id']
 
             #End Event
             elif(element['name'] == 'bpmn2:endEvent'):
+                Id = element['attributes']['id']
+                name = element['attributes']['name']
+                end_event = StartEvent(Id, name, None, None)
+                self.state[element['attributes']['id']] = end_event
                 self.endState[element['attributes']['id']] = element['attributes']['name']
 
             #Tasks
@@ -55,11 +55,7 @@ class WorkflowEngine:
                 inputType = None
                 outputType = None
                 task = ServiceTask(Id, name, inputType, outputType, lane_owner)
-                try:
-                    task.setHTML(element_ref_html[element['attributes']['id']])
-                    self.state[element['attributes']['id']] = task
-                except:
-                    self.state[element['attributes']['id']] = task
+                self.state[element['attributes']['id']] = task
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
@@ -83,85 +79,78 @@ class WorkflowEngine:
                 outputType = None
                 gateway = ParallelGateway(Id, name, inputType, outputType)
                 self.state[element['attributes']['id']] = gateway
-    
+
+        #bind service and setup bpmn
+        self.bindHTMLForm(HTML_list)
+        self.bindService(service_list)
+        self.setPreDefindInput(preInput_list)
+        self.setupCondition(condition_list)
+
+    #bind HTML form to each task
+    def bindHTMLForm(self, HTML_list):
+        if(HTML_list is None):
+            return
+        for form in HTML_list:
+            task = self.state[form['taskId']]
+            html = form['forms']['inputForm']
+            task.setHTML(html)
+
+    #bind service and serviceInterface to each task
+    def bindService(self, service_list):
+        if(service_list is None):
+            return
+        for service in service_list:
+            task = self.state[service]
+            #extract service's data from json serviceList
+            serviceId = service_list[service]['serviceId']
+            methodId = service_list[service]['method']['id']
+            serviceInputInterface = service_list[service]['method']['input_interface']
+            serviceOutputInterface = service_list[service]['method']['output_interface']
+            #bind to task
+            task.setServiceReference(serviceId, methodId)
+            task.setInputInterface(serviceInputInterface)
+            task.setOutputInterface(serviceOutputInterface)
+
+    #setup condition to gateway
+    def setupCondition(self, condition_list):
+        pass
+
+    #set pre-input to task
+    def setPreDefindInput(self, predefine_input_list):
+        if(predefine_input_list is None):
+            return
+        for preinput_task in predefine_input_list:
+            task = self.state[preinput_task]
+            preinput = predefine_input_list[preinput_task]['preInputs']
+            task.setPreDefineInput(preinput)
 
     def start(self):
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         element_object = self.state[self.currentState["current"]]
+        print(element_object.getPreDefineInput())
         return (element_object.getHTML())
         
     def next(self):
         #get object from next transition
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]        
+        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
 
-        #check that is end state or not
-        if(self.currentState["current"] in self.endState):
-            #DEBUG_LOG_WHEN_EXECUTION_DONE
-            self.showLog()
-            return "DONE"
-
-        #Tasks case return HTML and perform services (2 cases have/not have form)
+        #Get element object
         element_object = self.state[self.currentState["current"]]
 
-        return (element_object.getHTML())
+        #Task case
+        if(isinstance(element_object, ServiceTask)):
+            return (element_object.getHTML())
 
-    def setUserInput(self, userInput):
-        self.state[self.currentState["current"]].setInput(userInput)
-        if (self.state[self.currentState["current"]].getInputInterface() == None):
-            return
+        #End case
+        if(self.currentState["current"] in self.endState):
+            #DEBUG_LOG_WHEN_EXECUTION_DONE
+            #self.showLog()
+            return "DONE"
 
-        # request to server
-        '''
-        request_input = {}
-        for key in userInput:
-            if(key == 'email'):
-                request_input[key] = [userInput[key]['value']]
-                continue
-            request_input[key] = userInput[key]['value']
-
-        data = request_input
-        res = requests.post('http://127.0.0.1:8001/api/email', json= data)
-        '''
-
-
-    def setServiceOutput(self, serviceOutput):
-        self.state[self.currentState["current"]].setOutput(serviceOutput)
+        return "FAILED"
 
     def execute(self):
-        #request and get respond back and store to self.output
-#        ServiceOutput = request......
-#        self.currentState["current"].setServiceOutput(ServiceOutput)
-
-        #Test exectuion before deployment (calling local host email service)
-        outputInterface = self.state[self.currentState["current"]].getOutputInterface()
-        userInput = self.state[self.currentState["current"]].getInput()
-        request_input = {}
-        for key in userInput:
-            request_input[key] = key['value']
-        print(request_input)
-        
-    
-    def bindService(self, serviceList):
-        for service in serviceList:
-            service_data = serviceList[service]
-            # self.state[service].setURL(service_data['method']['url'])
-            self.state[service].setInputInterface(service_data['method']['input_interface'])
-            self.state[service].setOutputInterface(service_data['method']['output_interface'])
-#            print(self.state[service].getURL())
-#            print(self.state[service].getInputInterface())
-#            print(self.state[service].getOutInterface())
-#            print()
-
-    #use to debug when execution reach end node
-    def showLog(self):
-        for element in self.state:
-            print()
-            print("-----------------------------------")
-            print("TASK ID -> " + str(element))
-            print("Service URL -> " + str(self.state[element].getURL()))
-            print("Service Interface -> " + str(self.state[element].getInputInterface()))
-            print("User Input -> " + str(self.state[element].getInput()))
-            print("-----------------------------------")
+        pass
 
     #use to show all finite state machine formal defination
     def showDefination(self):
