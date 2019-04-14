@@ -44,33 +44,6 @@ const InterfaceItem = ({ item, parameterName }) => {
 export default class FloatDropdown extends Component {
   state = {
     show: false,
-    currentMethod: {
-      methodName: "Registration",
-      taskId: 'Task_161fsp2',
-      input_interface: {
-        emailTitle: {
-          type: "string",
-          formData: {
-            elementType: "input",
-            elementId: "title#1"
-          }
-        },
-        emailBody: {
-          type: "string",
-          formData: {
-            elementType: "textarea",
-            elementId: "message#233"
-          }
-        },
-        receiver: {
-          type: "string",
-          formData: {
-            elementType: "input",
-            elementId: "receiver#1123"
-          }
-        }
-      },
-    }
   }
 
   componentDidMount = () => {
@@ -84,15 +57,15 @@ export default class FloatDropdown extends Component {
     this.setState({ show: !this.state.show });
   }
 
-  renderInterfaceItems = (inputInterface) => {
+  renderInterfaceItems = (interfaceData) => {
     const { elementsIdSet } = this.props;
 
-    const cloneObject = { ...inputInterface };
+    const cloneObject = { ...interfaceData };
     const keys = Object.keys(cloneObject);
 
     for (let key of keys) {
       // Check that user set id for each element or not
-      if (inputInterface[key] && elementsIdSet[key]) {
+      if (interfaceData[key] && elementsIdSet[key]) {
         cloneObject[key].isIdSet = true;
       } else {
         cloneObject[key].isIdSet = undefined;
@@ -110,8 +83,15 @@ export default class FloatDropdown extends Component {
 
   render() {
     const { show } = this.state;
-    const { taskId, service } = this.props;
-
+    const { taskId, service, formType } = this.props;
+    let typeOfForm, interfaceData = null;
+    if (formType === "inputForm") {
+      typeOfForm = "Input form";
+      interfaceData = service.method.input_interface;
+    } else {
+      typeOfForm = "Output form";
+      interfaceData = service.method.output_interface;
+    }
     return (
       <Container >
         <CollapseButtonContainer>
@@ -132,6 +112,7 @@ export default class FloatDropdown extends Component {
                 elevation="small" pad="medium" gap="xsmall" style={props}
               >
                 <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                  <Text color="accent-4" >{typeOfForm}</Text>
                   <Box direction="row" justify="between">
                     <Text size="xlarge" weight="bold" >{service.method.name}</Text>
                     <Text size="large" >{taskId}</Text>
@@ -142,7 +123,7 @@ export default class FloatDropdown extends Component {
                 </Box>
 
                 <Box style={{ height: 250, overflowY: 'auto' }} >
-                  {this.renderInterfaceItems(service.method.input_interface)}
+                  {this.renderInterfaceItems(interfaceData)}
                 </Box>
               </Box>
               : props => null
