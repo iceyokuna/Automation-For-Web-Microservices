@@ -79,7 +79,8 @@ class AppBar extends Component {
     const someNotifications = notifications.slice(0, notifiationLength);
 
     let elements = someNotifications.map((item, index) =>
-      <NotificationItem title={item.title} body={item.body}
+      <NotificationItem
+        workflowName={item.workflowName} title={item.title} createdAt={item.createdAt}
         onClick={() => { this.onSelectNotification(item) }} />
     );
 
@@ -88,7 +89,7 @@ class AppBar extends Component {
         <Button fill plain
           onClick={this.handleMoreNotifications} >
           <Box justify="center" align="center" pad="small">
-            <Text weight="bold">See more</Text>
+            <Text size="small" weight="bold">See more</Text>
           </Box>
         </Button>
       )
