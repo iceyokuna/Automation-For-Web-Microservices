@@ -13,6 +13,13 @@ export function workflowTimers(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowContants.APPLY_TIMER_TO_ELEMENT: {
+      const nextState = { ...state };
+      const { elementId, time } = action;
+      nextState.appliedTimers[elementId] = time;
+      return nextState;
+    }
+
     default:
       return state
   }

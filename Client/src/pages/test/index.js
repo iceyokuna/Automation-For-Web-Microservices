@@ -1,33 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import ConditionList from 'components/condition_list'
-
-const variables = [
-  { name: 'Salary', type: 'Number' },
-  { name: 'Single', type: 'Boolean' },
-  { name: 'Name', type: 'String' },
-];
-
-const operators = ['==', '!=', '<', '<=', '>', '>='];
-
-const bpmnNodes = [
-  'TASK_1132',
-  'TASK_2233E',
-  'LANE_133ww'
-];
+import { Button } from 'grommet';
+import { askForPermissioToReceiveNotifications } from '_helpers'
 
 class Test extends Component {
+
+  handleGetToken = () => {
+    askForPermissioToReceiveNotifications().then(token => {
+      // Todo Use Token;
+      console.log(token);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
 
   render() {
     return (
       <div>
-        <ConditionList
-          show={true}
-          onCloseConditionList={() => { }}
-          variables={variables}
-          operators={operators}
-          bpmnNodes={bpmnNodes} />
+        <Button label="Get Token" onClick={this.handleGetToken} />
       </div>
     )
   }

@@ -16,10 +16,9 @@ import FlowItem from 'components/flow_item'
 
 import { myFlows } from './mockup'
 import { workflowActions } from 'actions';
-
 import { connect } from 'react-redux';
-
 import Spinner from 'react-spinkit';
+import { askForPermissioToReceiveNotifications } from '_helpers'
 
 class MyFlows extends Component {
   constructor(props) {
@@ -36,8 +35,10 @@ class MyFlows extends Component {
   }
 
 
+
+
   onCreateFlow = () => {
-    const { match } = this.props
+    const { match } = this.props;
     this.props.history.push(match.url + '/create/add_information');
   }
 
@@ -68,8 +69,9 @@ class MyFlows extends Component {
     return myFlows.map((item, index) =>
       <Col key={index} lg={4} md={4} sm={12} xs={12}>
         <FlowItem
+          onEdit={() => this.onSelectFlow(item)}
           delay={index}
-          onSelectFlow={() => { this.onSelectFlow(item) }}
+          onSelectFlow={() => this.onSelectFlow(item)}
           name={item.name}
           description={item.description}
           owner={item.user_id} />

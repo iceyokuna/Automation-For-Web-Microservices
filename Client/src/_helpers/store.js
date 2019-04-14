@@ -4,7 +4,7 @@ import { createLogger } from 'redux-logger';
 import rootReducer from 'reducers';
 import { applyStorageListener } from './storage_listener'
 
-import { socketMiddleware } from 'middlewares'
+import { socketMiddleware, fcmMiddleware } from 'middlewares'
 
 const loggerMiddleware = createLogger();
 
@@ -13,7 +13,8 @@ export const store = createStore(
   applyMiddleware(
     thunkMiddleware,
     loggerMiddleware,
-    socketMiddleware
+    socketMiddleware,
+    fcmMiddleware,
   )
 );
 

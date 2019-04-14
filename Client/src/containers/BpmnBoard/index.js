@@ -14,7 +14,8 @@ import MemberDialog from './components/member_dialog';
 import TimerTrigger from 'components/timer_trigger';
 import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
-
+import EditWorkflowInfo from 'components/edit_workflow_dialog';
+import FormTypeDialog from 'components/form_type_dialog';
 
 import "./style/app.less";
 
@@ -29,13 +30,13 @@ import download from 'downloadjs';
 import converter, { xml2js, json2xml } from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload, Group, Test } from 'grommet-icons'
+import { Upload, Group, Test, Edit } from 'grommet-icons'
 
 import { workflowActions, availableServicesActions } from 'actions'
 
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
-import { InviteButton, NextButton, SendWorkflowButton } from './style'
+import { InviteButton, NextButton, SendWorkflowButton, EditInfoButton } from './style'
 
 
 let scale = 1;
@@ -54,15 +55,17 @@ class BpmnContainer extends Component {
       showConditionList: false,
     };
 
-    if (workflow.mode == "CREATE_NEW") {
-      dispatch(workflowActions.setupNewWorkflow());
-    } else {
-      dispatch(workflowActions.setupExistingWorkflow());
+    if (workflow.mode !== "CREATE_NEW") {
+      try {
+        dispatch(workflowActions.setupExistingWorkflow());
+      } catch (e) {
+        this.props.history.replace('/home/my_flows');
+      }
     }
   }
 
   componentDidMount() {
-    const { workflow, dispatch } = this.props;
+    const { dispatch } = this.props;
 
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
@@ -92,8 +95,13 @@ class BpmnContainer extends Component {
     const { workflow } = nextProps;
     // If load a new workflow
     if (this.props.workflow.bpmnJson != workflow.bpmnJson) {
-      const bpmnXml = json2xml(workflow.bpmnJson) || xmlStr;
-      this.renderDiagram(bpmnXml);
+      try {
+        const bpmnXml = json2xml(workflow.bpmnJson)
+        this.renderDiagram(bpmnXml);
+      } catch (error) {
+        const bpmnXml = xmlStr;
+        this.renderDiagram(bpmnXml);
+      }
     }
   }
 
@@ -263,50 +271,57 @@ class BpmnContainer extends Component {
     })
   }
 
+  onEditDiagram = () => {
+    this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
+      if (err) {
+        console.error(err);
+      } else {
+        const bpmnJson = JSON.parse(
+          converter.xml2json(xml, { compact: false, spaces: 2 }));
+        this.props.dispatch(workflowActions.setBpmnJson(bpmnJson));
+        this.props.dispatch(workflowActions.toggleEditWorkflowDialog());
+      }
+    });
+  }
+
   onInvite = () => {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
   onSubmitDiagram = (mode) => {
+    const { name, description, generatedForms, appliedMethods } = this.props.workflow;
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
       } else {
-        const { appName, appDescription, generatedForms, appliedMethods } = this.props.workflow;
-        this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
-          if (err) {
-            console.error(err);
-          } else {
-            const bpmnJson = JSON.parse(
-              converter.xml2json(xml, { compact: false, spaces: 2 }));
+        const bpmnJson = JSON.parse(
+          converter.xml2json(xml, { compact: false, spaces: 2 }));
 
-            const { workflowConditions, workflowPreInputs } = this.props;
-            const { appliedConditions } = workflowConditions;
-            const { appliedPreInputs } = workflowPreInputs;
+        const { workflowConditions, workflowPreInputs } = this.props;
+        const { appliedConditions } = workflowConditions;
+        const { appliedPreInputs } = workflowPreInputs;
 
-            const workflowData = {
-              bpmnJson,
-              appliedMethods,
-              appliedConditions,
-              appliedPreInputs,
-              generatedForms,
-            }
+        const workflowData = {
+          bpmnJson,
+          appliedMethods,
+          appliedConditions,
+          appliedPreInputs,
+          generatedForms,
+        }
 
-            if (mode === "ToEngine") {
-              this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
-                appName,
-                appDescription,
-                workflowData
-              ));
-            } else {
-              this.props.dispatch(workflowActions.updateWorkflow(
-                appName,
-                appDescription,
-                workflowData
-              ));
-            }
-          }
-        });
+        if (mode === "ToEngine") {
+          this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
+            name,
+            description,
+            workflowData
+          ));
+        } else {
+          this.props.dispatch(workflowActions.updateWorkflow(
+            name,
+            description,
+            workflowData
+          ));
+        }
       }
     });
   }
@@ -385,6 +400,8 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
+        <FormTypeDialog />
+        <EditWorkflowInfo />
         <MemberDialog />
         <TimerTrigger />
         <PredefineInput />
@@ -415,6 +432,14 @@ class BpmnContainer extends Component {
           onUndo={this.handleUndo}
         />
 
+        <EditInfoButton
+          color="accent-1" primary plain={false}
+          icon={<Edit size="18px" color="#ffffff" />}
+          title="Edit information"
+          onClick={this.onEditDiagram}
+        />
+
+
         <SendWorkflowButton
           color="accent-4" primary plain={false}
           icon={<Test size="18px" color="#ffffff" />}
@@ -428,7 +453,7 @@ class BpmnContainer extends Component {
           icon={<Group size="18px" />}
           onClick={this.onInvite} />
 
-        <NextButton color="accent-1" primary icon={<Upload size="18px" />}
+        <NextButton color="accent-2" primary icon={<Upload size="18px" color="#fff" />}
           title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
         <ServiceRequirement

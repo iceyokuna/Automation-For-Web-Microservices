@@ -70,7 +70,7 @@ export const socketMiddleware = store => next => action => {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          appName: action.appName
+          name: action.name
         }
       })
       try {
@@ -84,7 +84,7 @@ export const socketMiddleware = store => next => action => {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          appName: action.appName,
+          name: action.name,
           formInputValues: action.formInputValues,
         }
       })

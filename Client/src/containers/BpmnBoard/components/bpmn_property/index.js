@@ -58,6 +58,7 @@ class BpmnProperty extends Component {
         nodeName: currentElement.name || '',
         nodeType: currentElement.$type,
         eventType: currentElement.eventDefinitions != null
+          && currentElement.eventDefinitions.length > 0
           ? currentElement.eventDefinitions[0].$type : null,
       });
     }
@@ -78,18 +79,24 @@ class BpmnProperty extends Component {
     });
   }
 
-  onGotoCreateForm() {
-    const { appliedMethods, generatedForms } = this.props.workflow;
-    const { nodeId } = this.state;
-    const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
-    const currentTask = {
-      taskId: nodeId,
-      selectedService: appliedMethods[nodeId],
-      currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData
-    }
-    localStorage.setItem('currentTask', JSON.stringify(currentTask));
+  // onGotoCreateForm() {
+  //   const { appliedMethods, generatedForms } = this.props.workflow;
+  //   const { nodeId } = this.state;
+  //   const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
+  //   const currentTask = {
+  //     taskId: nodeId,
+  //     selectedService: appliedMethods[nodeId],
+  //     currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].formData
+  //   }
+  //   localStorage.setItem('currentTask', JSON.stringify(currentTask));
 
+  // }
+
+  onSelectFormType = () => {
+    const { dispatch } = this.props;
+    dispatch(workflowActions.toggleFormTypeDialog());
   }
+
 
   onSetTimer = () => {
     this.props.dispatch(workflowActions.toggleTimerDialog());
@@ -124,7 +131,14 @@ class BpmnProperty extends Component {
             services={services}
           />,
           <Button label="Define Input" disabled={disabled}
-            icon={<Edit />} onClick={this.onDefineInput} key={2} />
+            icon={<Edit />} onClick={this.onDefineInput} key={2} />,
+          // <Link style={{ width: '100%' }}
+          //   to={{
+          //     pathname: '/home/design_form',
+          //   }} target="_blank" onClick={() => this.onSelectFormType()}>
+          <Button disabled={disabled} label="Create Form"
+            onClick={() => this.onSelectFormType()} />
+          // </Link>
         ]
       } break;
 
@@ -155,18 +169,6 @@ class BpmnProperty extends Component {
     return element;
   }
 
-  renderCreateFormButton = () => {
-    return (
-      <Link style={{ width: '100%' }}
-        to={{
-          pathname: '/home/design_form',
-        }} target="_blank" onClick={() => this.onGotoCreateForm()}>
-        <Button fill label="Create Form" />
-      </Link>
-    );
-  }
-
-
   renderConfirmChange() {
     return (
       <Box direction="row" gap="xsmall" >
@@ -181,7 +183,7 @@ class BpmnProperty extends Component {
 
     return (
       <Box style={local.container} elevation="small" round={{ corner: "top-left", size: "xsmall" }}
-        pad='medium' background='light-0' gap="small" responsive={false}>
+        pad='medium' background='light-0' gap="small" >
         <Text size='large' style={local.propertiesText} weight="bold">Properties</Text>
         <FormField>
           <TextInput size="small" placeholder="ID" value={nodeId} onChange={this.onChangeID} />
@@ -191,7 +193,6 @@ class BpmnProperty extends Component {
         </FormField>
 
         {this.renderSpecialProperties()}
-        {this.renderCreateFormButton()}
         {/* {this.renderConfirmChange()} */}
 
       </Box>

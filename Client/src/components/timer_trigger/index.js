@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
-import { Heading, Box, Button, Layer } from 'grommet'
+import { Heading, Box, Button, Layer } from 'grommet';
+import moment from 'moment';
 
 import { workflowActions } from 'actions';
 
@@ -26,10 +27,13 @@ export class index extends Component {
   }
 
   onSetTimer = () => {
-    console.log(this.state.targetTime);
+    const { currentNode } = this.props;
+    const { targetTime } = this.state;
+    this.props.dispatch(workflowActions.applyTimerToElement(
+      currentNode.id,
+      targetTime))
     this.onColseDialog();
   }
-
 
   render() {
     const { workflowTimers } = this.props;
@@ -70,6 +74,7 @@ export class index extends Component {
 
 const mapStateToProps = (state) => ({
   workflowTimers: state.workflowTimers,
+  currentNode: state.workflow.currentNode,
 })
 
 export default connect(mapStateToProps)(index)

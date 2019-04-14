@@ -23,13 +23,14 @@ import { connect } from 'react-redux';
 import { workflowActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
+import { Redirect } from 'react-router-dom';
 
 class FlowDetail extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      newAppName: '',
+      newname: '',
       newDescription: '',
       openEditMenu: undefined,
       tasks: [
@@ -45,8 +46,8 @@ class FlowDetail extends Component {
     }
   }
 
-  onChangeAppName = (e) => {
-    this.setState({ newAppName: e.target.value });
+  onChangename = (e) => {
+    this.setState({ newname: e.target.value });
   }
   onChangeDescription = (e) => {
     this.setState({ newDescription: e.target.value });
@@ -70,7 +71,11 @@ class FlowDetail extends Component {
 
   componentDidMount = () => {
     const { dispatch, currentFlow } = this.props;
-    dispatch(workflowActions.getAllCollaborators(currentFlow.id));
+    try {
+      dispatch(workflowActions.getAllCollaborators(currentFlow.id));
+    } catch (e) {
+      this.props.history.push('/home/my_flows');
+    }
   }
 
   renderCollaboratorItems = () => {
@@ -152,18 +157,15 @@ class FlowDetail extends Component {
   renderEditInformationDialog = () => {
     return (
       <Box pad="small" width="400px" round={{ size: 'small' }}>
-        <Box direction="row" justify="between" align="center">
-          <Heading level={3} margin="small">
-            Edit Information
-                    </Heading>
-          <Button icon={<FormUp />} onClick={this.onCloseEditMenu} />
-        </Box>
+        <Heading level={3} margin="small">
+          Edit Information
+          </Heading>
 
         <FormField >
           <TextInput
             placeholder="Application Name"
-            value={this.state.newAppName}
-            onChange={this.onChangeAppName} />
+            value={this.state.newname}
+            onChange={this.onChangename} />
         </FormField>
         <FormField>
           <TextArea
@@ -183,6 +185,9 @@ class FlowDetail extends Component {
   render() {
     const { openEditMenu } = this.state;
     const { currentFlow } = this.props;
+    if (currentFlow == null) {
+      return <Redirect to="/home/my_flows"/>;
+    }
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>

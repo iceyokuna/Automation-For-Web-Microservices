@@ -10,6 +10,7 @@ import 'grapesjs/dist/css/grapes.min.css';
 import { global } from 'style';
 
 export default class GrapeJSWrapper extends Component {
+
   componentDidMount = () => {
     this.editor = grapesjs.init({
       container: '#gjs',
@@ -21,15 +22,30 @@ export default class GrapeJSWrapper extends Component {
       },
       allowScripts: 1,
       fromElement: true,
-      height: '100%'
+      height: '100%',
     });
 
     this.panelManager = this.editor.Panels;
+    this.loadExistingForm();
     this.setDefaultComponentTheme();
     this.allowEditingCode();
     this.setProperties();
     this.listenToEvents();
   }
+
+  loadExistingForm = () => {
+    const { initialForm } = this.props;
+    if (initialForm != null) {
+      const { editor } = this;
+      editor.setComponents(initialForm.formHtml);
+      editor.setStyle(initialForm.formCss);
+    } else {
+      const { editor } = this;
+      editor.setComponents("");
+      editor.setStyle("");
+    }
+  }
+
 
   allowEditingCode() {
     const { editor } = this;
@@ -299,18 +315,10 @@ export default class GrapeJSWrapper extends Component {
 
 
   render() {
-    const { initialForm } = this.props;
     return (
       <div style={{ height: '100%', }}>
         <div style={{ backgroundColor: 'red', position: 'fixed', top: 20 }}>TEST</div>
-        <div id="gjs" >
-          {initialForm && (
-            <Fragment>
-              <div dangerouslySetInnerHTML={{ __html: initialForm.formHtml }} />
-              <style>{initialForm.formCss}</style>
-            </Fragment>
-          )}
-        </div>
+        <div id="gjs" />
       </div>
     )
   }

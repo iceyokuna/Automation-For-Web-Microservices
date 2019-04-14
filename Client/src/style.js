@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Background from 'assets/images/background_2.png'
 
 export const FillParent = styled.div`
   width: 100%;
@@ -23,6 +24,9 @@ export const global = {
     flexDirection: 'column',
     overflow: 'auto',
     alignItems: 'center',
+    backgroundImage: `url(${Background})`,
+    backgroundColor: `rgba(255,255,255,0.2)`,
+    backgroundBlendMode: 'color',
     // justifyContent: 'center',
     // display: 'flex',
   },
