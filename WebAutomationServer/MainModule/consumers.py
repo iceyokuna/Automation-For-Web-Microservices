@@ -18,7 +18,7 @@ class MainConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
+        
         #case next flow
         #read workflow state
         if(message['type'] == "workflow/NEXT_FORM"):
