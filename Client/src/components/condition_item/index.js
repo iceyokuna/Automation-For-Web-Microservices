@@ -40,13 +40,9 @@ export default class ConditionItem extends Component {
     this.props.onChange(this.state);
   }
 
-
   render() {
     const { variable1, operator, variable2, targetNode } = this.state
     const { allVariables, allOperators, allBpmnNodes, condition } = this.props
-
-    console.log(allVariables);
-
     return (
       <Box height="60px" flex={false}>
         <Box direction="row" gap="small">

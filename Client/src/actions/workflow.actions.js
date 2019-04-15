@@ -229,14 +229,23 @@ function applyConditionsToGateWay(gatewayId, conditions) {
 function setupExistingWorkflow() {
   return (dispatch, getState) => {
     const currentFlow = getState().workflowMyFlows.currentFlow;
+
+    // Load workflow
     dispatch({
       type: workflowContants.SETUP_EXISTING_WORKFLOW,
       currentFlow,
     });
+
+    // Load workflow's conditions
+    const { appliedMethods } = getState().workflow;
+    const allVariables = getAllVariables(appliedMethods);
     dispatch({
       type: workflowContants.SET_WORKFLOW_CONDITIONS,
       appliedConditions: currentFlow.appliedConditions,
+      allVariables,
     });
+
+    // Load workflow's preInputs
     dispatch({
       type: workflowContants.SET_PRE_INPUTS,
       preInputs: currentFlow.appliedPreInputs,

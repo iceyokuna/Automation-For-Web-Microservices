@@ -50,8 +50,8 @@ class ExecuteFlow extends Component {
         const textareaElements = document.getElementById('formContainer').getElementsByTagName('textarea');
         const elements = [...inputElements, ...textareaElements];
         const inputValues = {};
-        for (let e of elements) {
 
+        for (let e of elements) {
             // Check whether the checkbox input is selected or not
             if (e.checked == true) {
                 inputValues[e.id] = {
@@ -79,16 +79,16 @@ class ExecuteFlow extends Component {
     }
 
     render() {
-        const { currentFormCss, currentFormHtml, currentFormJs } = this.state;
+        const { currentFormCss, currentFormHtml, } = this.state;
         return (
             <FillParent>
                 <Style css={currentFormCss} />
                 <Box pad="medium" gap="medium">
                     <Text size="large" weight="bold">Workflow Execution</Text>
                     <Box border="bottom">
-                        <div id="formContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
+                        <div id="formContainer"
+                            dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
-
                     <Box direction="row" align="center" justify="between" gap="medium">
                         <Button style={styles.navButton} icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
                         <Button style={styles.navButton} icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
