@@ -5,12 +5,15 @@ import { FormNextLink } from 'grommet-icons'
 
 
 
-const Variable = ({ name, type }) => {
+const Variable = ({ name, type, methodName }) => {
   return (
-    <Box direction="row" gap="small" pad="small">
-      <Text>{name}</Text>
-      <Text>:</Text>
-      <Text>{type}</Text>
+    <Box >
+      <Box direction="row" gap="small" pad="small">
+        <Text>{name}</Text>
+        <Text>:</Text>
+        <Text>{type}</Text>
+      </Box>
+      <Text>{methodName}</Text>
     </Box>
   );
 }
@@ -58,7 +61,8 @@ export default class ConditionItem extends Component {
             }}
           >
             {(option, index) => (
-              <Variable name={option.name} type={option.type} />
+              <Variable name={option.name} type={option.type}
+                methodName={option.variableOf.methodName} />
             )}
           </Select>
 
