@@ -13,6 +13,7 @@ import {
 
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { Grommet, Box } from 'grommet';
+import { Close } from 'grommet-icons'
 
 import appTheme from 'theme';
 
@@ -29,7 +30,8 @@ const App = () => (
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <ToastContainer hideProgressBar position="top-center"
-          autoClose={3000} toastClassName="toast-container" />
+          closeButton={<Close color="#ffffff" size="14px" />}
+          toastClassName="toast-container" />
         <Switch>
           <PrivateRoute path="/home" component={Home} />
           <Route exact path="/" component={Login} />

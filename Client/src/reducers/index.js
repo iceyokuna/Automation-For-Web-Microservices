@@ -14,6 +14,7 @@ import { workflowCollaborators } from './workflow.collaborators.reducer';
 import { socket } from './socket.reducer';
 import { availableServices } from './available_services.reducer'
 import { inboxTasks } from './inbox_tasks.reducer';
+import { notification } from './notification.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   socket,
   availableServices,
   inboxTasks,
+  notification,
 });
 
 export default rootReducer;

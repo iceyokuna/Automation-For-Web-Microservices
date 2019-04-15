@@ -8,6 +8,7 @@ const defaultState = {
   workflowId: null,
   appliedMethods: {},
   executingForm: null,
+  executingTaskId: null,
   formsDone: false,
   currentNode: null,
 
@@ -119,8 +120,9 @@ export function workflow(state = defaultState, action) {
 
     case workflowContants.SET_CURRENT_EXECUTING_FORM: {
       const nextState = { ...state };
-      const { executingForm } = action;
+      const { executingForm, executingTaskId } = action;
       nextState.executingForm = executingForm;
+      nextState.executingTaskId = executingTaskId;
       return nextState;
     }
 
