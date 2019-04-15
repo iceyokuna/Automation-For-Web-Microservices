@@ -63,9 +63,9 @@ class ConditionList extends Component {
       const { workflowConditions } = nextProps;
       const currentId = workflow.currentNode.id;
       const currentConditions = workflowConditions.appliedConditions[currentId];
-      this.state = {
-        conditions: currentConditions || [],
-      }
+      this.setState({
+        conditions: currentConditions || [emptyCondition],
+      })
     }
   }
 
