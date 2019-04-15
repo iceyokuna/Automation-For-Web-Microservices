@@ -13,7 +13,7 @@ const dateColor = "#666666";
 
 const index = ({ title, body, createdAd, onClick }) => {
   return (
-    <Button onClick={onClick}>
+    <Button hoverIndicator onClick={onClick}>
       <Notification gap="small" pad="small">
         <Text weight="bold">{title}</Text>
         <Text>{body}</Text>
