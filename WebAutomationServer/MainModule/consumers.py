@@ -18,7 +18,6 @@ class MainConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-        print(text_data_json)
 
         #case next flow
         #read workflow state
@@ -26,10 +25,9 @@ class MainConsumer(WebsocketConsumer):
             workflowEngine_load = WorkflowEngine()
             with open('HTMLs.pkl', 'rb') as f:
                 workflowEngine_load = pickle.load(f)
-                
 
             #get next html
-            task_data = workflowEngine_load.next()
+            task_data = workflowEngine_load.next(message)
             HTML = task_data["HTML"]
             taskId = task_data["taskId"]
 
@@ -40,14 +38,14 @@ class MainConsumer(WebsocketConsumer):
                         'taskId': taskId,
                         'form': None
                     }
-                ))
-                return
+                )) 
+                return            
  
             #write workflow state (update)
             with open('HTMLs.pkl', 'wb') as f:
                 pickle.dump(workflowEngine_load, f)
 
-            #response to client
+            #response to send html form to client
             self.send(text_data=json.dumps(
                 {
                     'type': "workflow/NEXT_FORM_SUCCESS",
