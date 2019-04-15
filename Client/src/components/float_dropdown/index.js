@@ -6,15 +6,12 @@ import { Checkmark, Help, FormDown } from 'grommet-icons';
 import { Transition, config } from 'react-spring'
 import PlainButton from 'components/plain_button'
 import { Container, CollapseButton, circleButton, CollapseButtonContainer } from './style'
+import { Scrollbars } from 'react-custom-scrollbars'
 
-const sideBarWidth = 200;
-const appBarHeight = 60;
-
-const iconColor = "#ffffff";
 
 const InterfaceItem = ({ item, parameterName }) => {
   return (
-    <Box pad="xsmall" border={{ side: 'bottom', size: 'small' }} flex={false}>
+    <Box pad="xsmall" border={{ side: 'bottom', size: 'xsmall' }} flex={false}>
 
       <Box direction="row" justify="between">
         <Box>
@@ -72,6 +69,10 @@ export default class FloatDropdown extends Component {
       }
     }
 
+    // const inputElements = document.getElementById('formContainer').getElementsByTagName('input');
+    // const textareaElements = document.getElementById('formContainer').getElementsByTagName('textarea');
+    // const elements = [...inputElements, ...textareaElements];
+
     return Object.keys(cloneObject).
       map((key, index) =>
         <InterfaceItem
@@ -122,9 +123,9 @@ export default class FloatDropdown extends Component {
                   </Box>
                 </Box>
 
-                <Box style={{ height: 250, overflowY: 'auto' }} >
+                <Scrollbars autoHeightMax={250} autoHeight autoHide>
                   {this.renderInterfaceItems(interfaceData)}
-                </Box>
+                </Scrollbars>
               </Box>
               : props => null
           }
