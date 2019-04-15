@@ -123,12 +123,6 @@ class WorkflowEngine:
             task = self.state[preinput_task]
             preinput = predefine_input_list[preinput_task]['preInputs']
             task.setPreDefineInput(preinput)
-
-    def start(self):
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-        element_object = self.state[self.currentState["current"]]
-        print(element_object.getPreDefineInput())
-        return (element_object.getHTML())
         
     def next(self):
         #get object from next transition
@@ -137,20 +131,21 @@ class WorkflowEngine:
         #Get element object
         element_object = self.state[self.currentState["current"]]
 
-        #Task case
+        #Task case [still only work for sequencial]
         if(isinstance(element_object, ServiceTask)):
-            return (element_object.getHTML())
+            return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
 
         #End case
         if(self.currentState["current"] in self.endState):
-            #DEBUG_LOG_WHEN_EXECUTION_DONE
-            #self.showLog()
             return "DONE"
 
         return "FAILED"
 
-    def execute(self):
-        pass
+    def execute(self, taskID):
+        print("execute")
+        print(taskID)
+        print()
+        
 
     #use to show all finite state machine formal defination
     def showDefination(self):
