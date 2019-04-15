@@ -16,10 +16,10 @@ class MainConsumer(WebsocketConsumer):
         clientController.removeMainUser(self)
 
     def receive(self, text_data):
+        #case next flow
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-        
-        #case next flow
+
         #read workflow state
         if(message['type'] == "workflow/NEXT_FORM"):
             workflowEngine_load = WorkflowEngine()
@@ -31,6 +31,7 @@ class MainConsumer(WebsocketConsumer):
             HTML = task_data["HTML"]
             taskId = task_data["taskId"]
 
+            #when execution is done
             if (HTML == "DONE"): 
                 self.send(text_data=json.dumps(
                     {
