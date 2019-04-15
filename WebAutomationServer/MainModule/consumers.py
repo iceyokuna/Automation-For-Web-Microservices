@@ -22,7 +22,7 @@ class MainConsumer(WebsocketConsumer):
 
         #case next flow
         #read workflow state
-        if(message['type'] == "workflow/NEXT_FORM" or message['type'] =="workflow/START_FLOW"):
+        if(message['type'] == "workflow/NEXT_FORM"):
             workflowEngine_load = WorkflowEngine()
             with open('HTMLs.pkl', 'rb') as f:
                 workflowEngine_load = pickle.load(f)
@@ -35,9 +35,13 @@ class MainConsumer(WebsocketConsumer):
 
             if (HTML == "DONE"): 
                 self.send(text_data=json.dumps(
-                    {'type': 'workflow/FINISH_ALL_FORM', 'data': 'You got the last form already'}
+                    {
+                        'type': 'workflow/FINISH_ALL_FORM',
+                        'taskId': taskId,
+                        'form': None
+                    }
                 ))
-                return None
+                return
  
             #write workflow state (update)
             with open('HTMLs.pkl', 'wb') as f:
