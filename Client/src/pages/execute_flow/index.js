@@ -60,9 +60,10 @@ class ExecuteFlow extends Component {
     }
 
     getNextForm = () => {
-        const { dispatch } = this.props;
+        const { dispatch, workflow } = this.props;
+        const taskId = workflow.executingTaskId;
         const formInputValues = this.extractValuesFromCurrentForm();
-        dispatch(socketActions.nextForm("IC_MEETING", formInputValues));
+        dispatch(socketActions.nextForm("IC_MEETING", formInputValues, taskId));
     }
 
     render() {

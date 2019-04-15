@@ -1,13 +1,5 @@
 import { alertConstants } from '_constants';
 
-import messaging from '_helpers/firebase_setup';
-
-messaging.onMessage(payload => {
-    console.log(payload);
-}, err => {
-    console.error(err)
-})
-
 export const alertActions = {
     success,
     error,

@@ -138,10 +138,11 @@ function togglePreInputDialog() {
 }
 
 
-function setExecutingForm(form) {
+function setExecutingForm(form, taskId) {
   return {
     type: workflowContants.SET_CURRENT_EXECUTING_FORM,
     executingForm: form,
+    executingTaskId: taskId,
   }
 }
 
