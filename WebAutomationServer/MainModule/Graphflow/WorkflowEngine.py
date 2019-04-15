@@ -43,7 +43,7 @@ class WorkflowEngine:
             elif(element['name'] == 'bpmn2:endEvent'):
                 Id = element['attributes']['id']
                 name = element['attributes']['name']
-                end_event = StartEvent(Id, name, None, None)
+                end_event = EndEvent(Id, name, None, None)
                 self.state[element['attributes']['id']] = end_event
                 self.endState[element['attributes']['id']] = element['attributes']['name']
 
@@ -59,7 +59,7 @@ class WorkflowEngine:
 
             #Flows
             elif(element['name'] == 'bpmn2:sequenceFlow'):
-                self.transition[(element['attributes']['sourceRef'],"")] = element['attributes']['targetRef']
+                self.transition[(element['attributes']['sourceRef'],"done")] = element['attributes']['targetRef']
 
             #Intermediate Event
             elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
@@ -124,33 +124,48 @@ class WorkflowEngine:
             preinput = predefine_input_list[preinput_task]['preInputs']
             task.setPreDefineInput(preinput)
         
-    def next(self, message):
-        #get object from next transition
-        self.currentState["current"] = self.transition[(self.currentState["current"],"")]
+    #message from client input
+    def next(self, message , status = "done"):
+        #get object from current execution
+        element_object = None
+        if(message['taskId'] == None):
+            element_object = self.state[self.currentState["current"]]
+        else:
+            #execute task, if message[taskId] is task object
+            #update state
+            self.currentState["current"] = self.transition[(message['taskId'], status)]
+            element_object = self.state[self.currentState["current"]]
 
-        #Get element object
-        element_object = self.state[self.currentState["current"]]
+        #start case
+        if(isinstance(element_object, StartEvent)):
+            return self.next({'formInputValues': None, 'taskId': element_object.getId()})
+
+        #Task case [still only work for sequencial]
+        if(isinstance(element_object, ServiceTask)):
+            if(element_object.getHTML() is None):
+                #execute service
+                return self.next({'formInputValues': None, 'taskId': element_object.getId()})
+            else:
+                #execute service
+                return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
 
         #End case
         if(self.currentState["current"] in self.endState):
             return {"HTML":"DONE", "taskId":element_object.getId()}
 
-        #Task case [still only work for sequencial]
-        if(isinstance(element_object, ServiceTask)):
-            if(element_object.getHTML() is None):
-                return self.next(message)
-            return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
-
         return  {"HTML":"FAILED", "taskId":element_object.getId()}
 
     #execute send request to service manager
-    def execute(self, taskID):
+    def execute(self, taskId , serviceInput):
+        element_object = self.state[taskId]
         print("execute")
-        print(taskID)
+        print(element_object.getId())
         print()
 
     #update current execution
     def updateState(self, taskId):
+        #get object from next transition
+        #self.currentState["current"] = self.transition[(self.currentState["current"],"")]
         pass
     
     #use to show all finite state machine formal defination
