@@ -18,6 +18,8 @@ class ServiceTask(Activity):
 
     def setPreDefineInput(self, preDefineInput):
         self.preDefineInput = preDefineInput
+        #self.inputInterface
+        #self.input
 
     def getPreDefineInput(self):
         return self.preDefineInput
