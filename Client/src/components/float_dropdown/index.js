@@ -69,10 +69,6 @@ export default class FloatDropdown extends Component {
       }
     }
 
-    // const inputElements = document.getElementById('formContainer').getElementsByTagName('input');
-    // const textareaElements = document.getElementById('formContainer').getElementsByTagName('textarea');
-    // const elements = [...inputElements, ...textareaElements];
-
     return Object.keys(cloneObject).
       map((key, index) =>
         <InterfaceItem

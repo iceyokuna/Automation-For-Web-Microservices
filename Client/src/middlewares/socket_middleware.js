@@ -24,8 +24,8 @@ export const socketMiddleware = store => next => action => {
         } break;
 
         case socketConstants.NEXT_FORM_SUCCESS: {
-          const { form } = data;
-          store.dispatch(workflowActions.setExecutingForm(form));
+          const { form, taskId } = data;
+          store.dispatch(workflowActions.setExecutingForm(form, taskId));
         } break;
 
         case socketConstants.NEXT_FORM_FAIL: {
@@ -81,11 +81,13 @@ export const socketMiddleware = store => next => action => {
     } break;
 
     case socketConstants.NEXT_FORM: {
+      const { type, name, formInputValues, taskId } = action;
       const payload = JSON.stringify({
         message: {
-          type: action.type,
-          name: action.name,
-          formInputValues: action.formInputValues,
+          type,
+          name,
+          formInputValues,
+          taskId,
         }
       })
       try {
