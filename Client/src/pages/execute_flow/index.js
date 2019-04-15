@@ -13,6 +13,7 @@ class ExecuteFlow extends Component {
     state = {
         currentFormHtml: null,
         currentFormCss: null,
+        currentFormJs: null,
     }
 
     componentDidMount = () => {
@@ -26,7 +27,14 @@ class ExecuteFlow extends Component {
             this.setState({
                 currentFormHtml: executingForm.formHtml,
                 currentFormCss: executingForm.formCss,
-            })
+                currentFormJs: executingForm.formJs,
+            });
+
+            const script = document.createElement("script");
+            const scriptText = document.createTextNode(executingForm.formJs);
+            script.appendChild(scriptText);
+            document.body.appendChild(script);
+
         } if (executingForm === "DONE") {
             toast.success("Done all forms");
             this.props.history.replace('/home/my_flows');
@@ -71,7 +79,7 @@ class ExecuteFlow extends Component {
     }
 
     render() {
-        const { currentFormCss, currentFormHtml } = this.state;
+        const { currentFormCss, currentFormHtml, currentFormJs } = this.state;
         return (
             <FillParent>
                 <Style css={currentFormCss} />

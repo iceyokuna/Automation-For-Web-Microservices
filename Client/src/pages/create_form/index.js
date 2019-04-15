@@ -19,11 +19,7 @@ export default class CreateForm extends Component {
     const { currentTask } = this.state;
     const action = workflowActions.addNewForm(currentTask.formType, form, currentTask.taskId);
     localStorage.setItem('newFormAdded', JSON.stringify(action));
-
-    // Delay 1 sec
-    setTimeout(() => {
-      window.close(); // Close curent tab
-    }, 1000);
+    window.close(); // Close curent tab
   }
 
   handleSetElementId = (elementId, isIdSet) => {

@@ -41,10 +41,11 @@ export class index extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     const { appliedMethods, currentNode } = nextProps.workflow;
+    if (currentNode == undefined) return;
     const { appliedPreInputs } = nextProps.workflowPreInputs;
     const elementId = currentNode.id;
     // Define new PreInput values
-    if (currentNode && appliedMethods[elementId]) {
+    if (appliedMethods[elementId]) {
       const inputInterface = appliedMethods[elementId].method.input_interface;
       if (appliedPreInputs[elementId]) { // If there is a pre
         this.setState({ preInputs: appliedPreInputs[elementId].preInputs });
