@@ -236,6 +236,10 @@ function setupExistingWorkflow() {
     dispatch({
       type: workflowContants.SET_WORKFLOW_CONDITIONS,
       appliedConditions: currentFlow.appliedConditions,
+    });
+    dispatch({
+      type: workflowContants.SET_PRE_INPUTS,
+      preInputs: currentFlow.appliedPreInputs,
     })
   }
 }
