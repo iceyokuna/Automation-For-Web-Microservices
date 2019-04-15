@@ -123,6 +123,11 @@ class WorkflowEngine:
             task = self.state[preinput_task]
             preinput = predefine_input_list[preinput_task]['preInputs']
             task.setPreDefineInput(preinput)
+            Input = {}
+            for value in preinput:
+                Input[value['variableName']] = {'value': value['value']}
+            task.setInput(Input)
+
         
     #message from client input
     def next(self, message , status = "done"):
@@ -132,7 +137,9 @@ class WorkflowEngine:
             element_object = self.state[self.currentState["current"]]
         else:
             #execute task, if message[taskId] is task object
-            #update state
+            if(isinstance(self.state[message['taskId']], ServiceTask)):
+                self.execute(message)
+            #update state (for parallel change element_object to get from message)
             self.currentState["current"] = self.transition[(message['taskId'], status)]
             element_object = self.state[self.currentState["current"]]
 
@@ -144,7 +151,7 @@ class WorkflowEngine:
         if(isinstance(element_object, ServiceTask)):
             if(element_object.getHTML() is None):
                 #execute service
-                return self.next({'formInputValues': None, 'taskId': element_object.getId()})
+                return self.next({'formInputValues': element_object.getInput(), 'taskId': element_object.getId()})
             else:
                 #execute service
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
@@ -156,10 +163,11 @@ class WorkflowEngine:
         return  {"HTML":"FAILED", "taskId":element_object.getId()}
 
     #execute send request to service manager
-    def execute(self, taskId , serviceInput):
-        element_object = self.state[taskId]
+    def execute(self, message):
+        element_object = self.state[message['taskId']]
         print("execute")
         print(element_object.getId())
+        print(message['formInputValues'])
         print()
 
     #update current execution
