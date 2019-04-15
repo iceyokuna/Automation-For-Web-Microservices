@@ -131,9 +131,9 @@ class WorkflowEngine:
         #Get element object
         element_object = self.state[self.currentState["current"]]
 
-        #Task case
+        #Task case [still only work for sequencial]
         if(isinstance(element_object, ServiceTask)):
-            return (element_object.getHTML())
+            return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
 
         #End case
         if(self.currentState["current"] in self.endState):
@@ -141,8 +141,10 @@ class WorkflowEngine:
 
         return "FAILED"
 
-    def execute(self, service_id, method_id, inputInterface, input, predefind_input):
-        pass
+    def execute(self, taskID):
+        print("execute")
+        print(taskID)
+        print()
         
 
     #use to show all finite state machine formal defination
