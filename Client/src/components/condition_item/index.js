@@ -2,21 +2,7 @@ import React, { Component } from 'react'
 
 import { Box, Heading, Layer, Button, Text, Select } from 'grommet'
 import { FormNextLink } from 'grommet-icons'
-
-
-
-const Variable = ({ name, type, methodName }) => {
-  return (
-    <Box >
-      <Box direction="row" gap="small" pad="small">
-        <Text>{name}</Text>
-        <Text>:</Text>
-        <Text>{type}</Text>
-      </Box>
-      <Text>{methodName}</Text>
-    </Box>
-  );
-}
+import Variable from 'components/variable_item';
 
 const Option = ({ value }) => {
   return (
@@ -102,7 +88,8 @@ export default class ConditionItem extends Component {
             }}
           >
             {(option, index) => (
-              <Variable name={option.name} type={option.type} />
+              <Variable name={option.name} type={option.type}
+                methodName={option.variableOf.methodName} />
             )}
 
           </Select>
