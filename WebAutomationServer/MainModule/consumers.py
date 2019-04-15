@@ -19,28 +19,10 @@ class MainConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         print(text_data_json)
-    
-        #case start flow
-        if(message['type'] == "workflow/START_FLOW"):
-            workflowEngine_load = WorkflowEngine()
-            with open('HTMLs.pkl', 'rb') as f:
-                workflowEngine_load = pickle.load(f)
-
-            HTML = workflowEngine_load.next()
-
-            with open('HTMLs.pkl', 'wb') as f:
-                pickle.dump(workflowEngine_load, f)
-
-            self.send(text_data=json.dumps(
-                { 
-                'type': "workflow/START_FLOW_SUCCESS",
-                'form': HTML
-                }
-            ))
 
         #case next flow
         #read workflow state
-        if(message['type'] == "workflow/NEXT_FORM"):
+        if(message['type'] == "workflow/NEXT_FORM" or message['type'] =="workflow/START_FLOW"):
             workflowEngine_load = WorkflowEngine()
             with open('HTMLs.pkl', 'rb') as f:
                 workflowEngine_load = pickle.load(f)
