@@ -6,6 +6,7 @@ import { UniversalStyle as Style } from 'react-css-component'
 import { connect } from 'react-redux'
 import { workflowActions, socketActions } from 'actions'
 import { Next, Previous } from 'grommet-icons'
+import { toast } from 'react-toastify'
 
 class ExecuteFlow extends Component {
 
@@ -26,6 +27,9 @@ class ExecuteFlow extends Component {
                 currentFormHtml: executingForm.formHtml,
                 currentFormCss: executingForm.formCss,
             })
+        } if (executingForm === "DONE") {
+            toast.success("Done all forms");
+            this.props.history.replace('/home/my_flows');
         }
     }
 
@@ -68,26 +72,22 @@ class ExecuteFlow extends Component {
 
     render() {
         const { currentFormCss, currentFormHtml } = this.state;
-        const { executingForm } = this.props.workflow;
-        if (executingForm === "DONE") return <Box>Done all forms</Box>
-        else {
-            return (
-                <FillParent>
-                    <Style css={currentFormCss} />
-                    <Box pad="medium" gap="medium">
-                        <Text size="large" weight="bold">Workflow Execution</Text>
-                        <Box border="bottom">
-                            <div id="formContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
-                        </Box>
-
-                        <Box direction="row" align="center" justify="between" gap="medium">
-                            <Button style={styles.navButton} icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
-                            <Button style={styles.navButton} icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
-                        </Box>
+        return (
+            <FillParent>
+                <Style css={currentFormCss} />
+                <Box pad="medium" gap="medium">
+                    <Text size="large" weight="bold">Workflow Execution</Text>
+                    <Box border="bottom">
+                        <div id="formContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
-                </FillParent>
-            );
-        }
+
+                    <Box direction="row" align="center" justify="between" gap="medium">
+                        <Button style={styles.navButton} icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
+                        <Button style={styles.navButton} icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
+                    </Box>
+                </Box>
+            </FillParent>
+        );
 
     }
 }
