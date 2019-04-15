@@ -137,9 +137,9 @@ class WorkflowEngine:
 
         #End case
         if(self.currentState["current"] in self.endState):
-            return "DONE"
+            return {"HTML":"DONE", "taskId":element_object.getId()}
 
-        return "FAILED"
+        return  {"HTML":"FAILED", "taskId":element_object.getId()}
 
     def execute(self, taskID):
         print("execute")
