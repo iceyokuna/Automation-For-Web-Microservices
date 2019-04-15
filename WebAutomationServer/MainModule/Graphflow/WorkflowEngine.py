@@ -115,7 +115,7 @@ class WorkflowEngine:
     def setupCondition(self, condition_list):
         pass
 
-    #set pre-input to task
+    #set pre-input to task, And bind to input
     def setPreDefindInput(self, predefine_input_list):
         if(predefine_input_list is None):
             return
@@ -124,29 +124,35 @@ class WorkflowEngine:
             preinput = predefine_input_list[preinput_task]['preInputs']
             task.setPreDefineInput(preinput)
         
-    def next(self):
+    def next(self, message):
         #get object from next transition
         self.currentState["current"] = self.transition[(self.currentState["current"],"")]
 
         #Get element object
         element_object = self.state[self.currentState["current"]]
 
-        #Task case [still only work for sequencial]
-        if(isinstance(element_object, ServiceTask)):
-            return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
-
         #End case
         if(self.currentState["current"] in self.endState):
             return {"HTML":"DONE", "taskId":element_object.getId()}
 
+        #Task case [still only work for sequencial]
+        if(isinstance(element_object, ServiceTask)):
+            if(element_object.getHTML() is None):
+                return self.next(message)
+            return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
+
         return  {"HTML":"FAILED", "taskId":element_object.getId()}
 
+    #execute send request to service manager
     def execute(self, taskID):
         print("execute")
         print(taskID)
         print()
-        
 
+    #update current execution
+    def updateState(self, taskId):
+        pass
+    
     #use to show all finite state machine formal defination
     def showDefination(self):
         print()
