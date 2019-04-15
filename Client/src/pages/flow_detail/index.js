@@ -198,17 +198,8 @@ class FlowDetail extends Component {
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
-            <DropButton
-              dropAlign={{ top: "bottom", right: "right" }}
-              open={openEditMenu}
-              onClose={() => this.setState({ openEditMenu: undefined })}
-              dropContent={
-                this.renderEditInformationDialog()
-              }
-            >
-              <Button label="Edit Info" icon={<Edit />} color="accent-1" primary />
-            </DropButton>
-
+            <Button label="Edit Diagram" primary icon={<Cluster />} 
+              color="accent-1" onClick={this.navigateToModeler} />
           </Box>
         </Box>
 

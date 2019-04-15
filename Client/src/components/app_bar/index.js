@@ -61,7 +61,6 @@ class AppBar extends Component {
 
   }
 
-
   renderNotifications = () => {
     const { notification } = this.props;
 
@@ -74,7 +73,7 @@ class AppBar extends Component {
         </Box>);
     }
 
-    const notifiationLength = 5;
+    const notifiationLength = 4;
     const notifications = notification.data;
     const someNotifications = notifications.slice(0, notifiationLength);
 
