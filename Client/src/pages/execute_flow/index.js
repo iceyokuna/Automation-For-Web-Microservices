@@ -16,7 +16,7 @@ class ExecuteFlow extends Component {
 
     componentDidMount = () => {
         const { dispatch } = this.props
-        dispatch(socketActions.startFlow("IC_KMITL"));
+        dispatch(socketActions.nextForm(null, null, null));
     }
 
     componentWillReceiveProps = (nextProps) => {
