@@ -98,10 +98,9 @@ export default class FloatDropdown extends Component {
         </CollapseButtonContainer>
 
         <Transition
-          config={config.wobbly}
           items={show}
           from={{ height: 0, width: 400, opacity: 0, }}
-          enter={{ height: 'auto', opacity: 1 }}
+          enter={{ height: 400, opacity: 1 }}
           leave={{ height: 0, opacity: 0 }}>
           {toggle =>
             toggle
