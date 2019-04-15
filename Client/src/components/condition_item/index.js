@@ -48,7 +48,8 @@ export default class ConditionItem extends Component {
           >
             {(option, index) => (
               <Variable name={option.name} type={option.type}
-                methodName={option.variableOf.methodName} />
+                methodName={option.variableOf.methodName} 
+                methodOfTaskId={option.variableOf.methodOfTaskId}/>
             )}
           </Select>
 
@@ -89,7 +90,8 @@ export default class ConditionItem extends Component {
           >
             {(option, index) => (
               <Variable name={option.name} type={option.type}
-                methodName={option.variableOf.methodName} />
+                methodName={option.variableOf.methodName}
+                methodOfTaskId={option.variableOf.methodOfTaskId} />
             )}
 
           </Select>

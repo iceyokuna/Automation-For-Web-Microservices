@@ -177,6 +177,7 @@ function getAllVariables(appliedMethods) {
           serviceId: method.service,
           methodId: method.id,
           methodName: method.name,
+          methodOfTaskId: method.methodOfTaskId,
         },
         name: variable,
         type: inputInterface[variable].type,

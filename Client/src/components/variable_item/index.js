@@ -19,7 +19,7 @@ export default class index extends Component {
   }
 
   render() {
-    const { name, type, methodName } = this.props;
+    const { name, type, methodName, methodOfTaskId } = this.props;
     return (
       <Box pad="xsmall">
         <Box direction="row" gap="small" justify="between">
@@ -28,6 +28,7 @@ export default class index extends Component {
             color={this.dataTypeColor}>{type}</Text>
         </Box>
         <Text size="xsmall">{methodName}</Text>
+        <Text size="xsmall">{methodOfTaskId}</Text>
       </Box>
     );
   }
