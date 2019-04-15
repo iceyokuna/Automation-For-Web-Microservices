@@ -32,8 +32,7 @@ export function workflowConditions(state = defaultState, action) {
 
     case workflowContants.UPDATE_CONDITION_VARIABLES: {
       const nextState = { ...state };
-      const { allVariables } = state;
-      nextState.allVariables = [...allVariables, ...action.allVariables];
+      nextState.allVariables = action.allVariables;
       return nextState;
     }
 

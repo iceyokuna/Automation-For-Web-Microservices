@@ -188,7 +188,9 @@ function getAllVariables(appliedMethods) {
       variables.push({
         variableOf: {
           serviceId: method.service,
-          methodId: method.id
+          methodId: method.id,
+          methodName: method.name,
+          methodOfTaskId: method.methodOfTaskId,
         },
         name: variable,
         type: outputInterface[variable].type,
