@@ -31,7 +31,8 @@ export default class ConditionItem extends Component {
 
   render() {
     const { variable1, operator, variable2, targetNode } = this.state
-    const { allVariables, allOperators, allBpmnNodes, condition } = this.props
+    const { allVariables, allOperators, allBpmnNodes, condition } = this.props;
+    console.log(condition);
     return (
       <Box height="60px" flex={false}>
         <Box direction="row" gap="small">
@@ -48,8 +49,8 @@ export default class ConditionItem extends Component {
           >
             {(option, index) => (
               <Variable name={option.name} type={option.type}
-                methodName={option.variableOf.methodName} 
-                methodOfTaskId={option.variableOf.methodOfTaskId}/>
+                methodName={option.variableOf.methodName}
+                methodOfTaskId={option.variableOf.methodOfTaskId} />
             )}
           </Select>
 
@@ -81,11 +82,20 @@ export default class ConditionItem extends Component {
                 () => this.onChangeCondition());
             }}
             onSearch={text => {
-              setTimeout(() => {
-                this.setState({
-                  variable2: text
-                });
-              }, 500);
+              const value = {
+                "variableOf": {
+                  "serviceId": null,
+                  "methodId": null,
+                  "methodName": null,
+                  "methodOfTaskId": null,
+                },
+                "name": null,
+                "type": null,
+                "value": text,
+              }
+              this.setState({
+                variable2: value
+              }, () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
@@ -113,11 +123,9 @@ export default class ConditionItem extends Component {
                 () => this.onChangeCondition());
             }}
             onSearch={text => {
-              setTimeout(() => {
-                this.setState({
-                  targetNode: text
-                });
-              }, 500);
+              this.setState({
+                targetNode: text
+              }, () => this.onChangeCondition());
             }}
           >
             {(option, index) => (
