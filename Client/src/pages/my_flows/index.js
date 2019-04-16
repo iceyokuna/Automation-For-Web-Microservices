@@ -87,10 +87,10 @@ class MyFlows extends Component {
             <Col lg={8} sm={8} xs={12}>
               <Box direction="row" align="center">
                 <Heading size='small' margin={{ right: 'medium' }}>My Flows</Heading>
-                <Tabs activeIndex={this.state.activeTabIndex} onActive={this.onActiveTab}>
+                {/* <Tabs activeIndex={this.state.activeTabIndex} onActive={this.onActiveTab}>
                   <Tab title="Active" />
                   <Tab title="Stopped" />
-                </Tabs>
+                </Tabs> */}
               </Box>
             </Col>
 

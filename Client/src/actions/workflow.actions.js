@@ -175,7 +175,9 @@ function getAllVariables(appliedMethods) {
       variables.push({
         variableOf: {
           serviceId: method.service,
-          methodId: method.id
+          methodId: method.id,
+          methodName: method.name,
+          methodOfTaskId: method.methodOfTaskId,
         },
         name: variable,
         type: inputInterface[variable].type,
@@ -186,7 +188,9 @@ function getAllVariables(appliedMethods) {
       variables.push({
         variableOf: {
           serviceId: method.service,
-          methodId: method.id
+          methodId: method.id,
+          methodName: method.name,
+          methodOfTaskId: method.methodOfTaskId,
         },
         name: variable,
         type: outputInterface[variable].type,
@@ -229,13 +233,26 @@ function applyConditionsToGateWay(gatewayId, conditions) {
 function setupExistingWorkflow() {
   return (dispatch, getState) => {
     const currentFlow = getState().workflowMyFlows.currentFlow;
+
+    // Load workflow
     dispatch({
       type: workflowContants.SETUP_EXISTING_WORKFLOW,
       currentFlow,
     });
+
+    // Load workflow's conditions
+    const { appliedMethods } = getState().workflow;
+    const allVariables = getAllVariables(appliedMethods);
     dispatch({
       type: workflowContants.SET_WORKFLOW_CONDITIONS,
       appliedConditions: currentFlow.appliedConditions,
+      allVariables,
+    });
+
+    // Load workflow's preInputs
+    dispatch({
+      type: workflowContants.SET_PRE_INPUTS,
+      preInputs: currentFlow.appliedPreInputs,
     })
   }
 }

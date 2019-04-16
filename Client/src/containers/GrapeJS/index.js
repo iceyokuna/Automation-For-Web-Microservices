@@ -119,8 +119,10 @@ export default class GrapeJSWrapper extends Component {
     // Add javascript to the form
     // this.editor.addComponents('<script>alert(2)</script>');
     // const options = this.panelManager.getPanel('commands');
-    const formHtml = this.editor.getHtml(), formCss = this.editor.getCss();
-    this.props.onExportForm({ formHtml, formCss });
+    const formHtml = this.editor.getHtml(),
+      formCss = this.editor.getCss(),
+      formJs = this.editor.getJs();
+    this.props.onExportForm({ formHtml, formCss, formJs });
   }
 
   listenToEvents() {
@@ -149,7 +151,7 @@ export default class GrapeJSWrapper extends Component {
       if (changedId !== '') {
         this.props.onSetElementId(changedId, true);
       }
-     if (changedAttributes.id != previousAttributes.id) {
+      if (changedAttributes.id != previousAttributes.id) {
         this.props.onSetElementId(previousAttributes.id, false);
       }
     })

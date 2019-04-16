@@ -17,6 +17,7 @@ export class index extends Component {
 
   onColseDialog = () => {
     this.props.dispatch(workflowActions.togglePreInputDialog());
+    this.setState({ preInputs: [] });
   }
 
   onSetPreInput = () => {
@@ -40,16 +41,22 @@ export class index extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     const { appliedMethods, currentNode } = nextProps.workflow;
-    if (currentNode && appliedMethods[currentNode.id]) {
-      const inputInterface = appliedMethods[currentNode.id].method.input_interface;
-      const listOfInputs = [];
-      Object.keys(inputInterface).map((item, index) => {
-        listOfInputs.push({
-          variableName: item,
-          value: ''
+    if (currentNode == undefined) return;
+    const { appliedPreInputs } = nextProps.workflowPreInputs;
+    const elementId = currentNode.id;
+    // Define new PreInput values
+    if (appliedMethods[elementId]) {
+      const inputInterface = appliedMethods[elementId].method.input_interface;
+      if (appliedPreInputs[elementId]) { // If there is a pre
+        this.setState({ preInputs: appliedPreInputs[elementId].preInputs });
+      } else {
+        const listOfInputs = [];
+        Object.keys(inputInterface).map((item, index) => {
+          listOfInputs.push({
+            variableName: item,
+            value: ''
+          })
         })
-      })
-      if (this.state.preInputs.length == 0) {
         this.setState({ preInputs: listOfInputs });
       }
     }

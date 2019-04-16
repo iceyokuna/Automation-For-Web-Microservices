@@ -16,8 +16,11 @@ const defaultState = {
 export function workflowConditions(state = defaultState, action) {
   switch (action.type) {
     case workflowContants.SET_WORKFLOW_CONDITIONS: {
-      console.log(action);
-      return { ...state, appliedConditions: action.appliedConditions }
+      return {
+        ...state,
+        appliedConditions: action.appliedConditions,
+        allVariables: action.allVariables,
+      }
     }
 
     case workflowContants.APPLY_CONDITIONS_TO_GATEWAY: {
@@ -29,8 +32,7 @@ export function workflowConditions(state = defaultState, action) {
 
     case workflowContants.UPDATE_CONDITION_VARIABLES: {
       const nextState = { ...state };
-      const { allVariables } = state;
-      nextState.allVariables = [...allVariables, ...action.allVariables];
+      nextState.allVariables = action.allVariables;
       return nextState;
     }
 

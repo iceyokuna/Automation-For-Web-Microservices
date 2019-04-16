@@ -142,30 +142,30 @@ class BpmnContainer extends Component {
 
 
   attachFormToXML = (newForms) => {
-    const { taskId, form } = newForms;
+    // const { taskId, form } = newForms;
 
-    const elementRegistry = this.bpmnModeler.get('elementRegistry');
+    // const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
-    const sequenceFlowElement = elementRegistry.get(taskId),
-      businessObject = sequenceFlowElement.businessObject;
+    // const sequenceFlowElement = elementRegistry.get(taskId),
+    //   businessObject = sequenceFlowElement.businessObject;
 
-    // businessObject.id = 'NewEventName'; // Change ID of the element
+    // // businessObject.id = 'NewEventName'; // Change ID of the element
 
-    const moddle = this.bpmnModeler.get('moddle');
-    const formTag = moddle.create('form:FormData');
+    // const moddle = this.bpmnModeler.get('moddle');
+    // const formTag = moddle.create('form:FormData');
 
-    formTag.forTaskId = taskId;
-    formTag.html = form.formHtml;
-    formTag.css = form.formCss;
+    // formTag.forTaskId = taskId;
+    // formTag.html = form.formHtml;
+    // formTag.css = form.formCss;
 
-    businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
-    const extensions = moddle.create('bpmn:ExtensionElements');
-    extensions.get('values').push(formTag);
+    // businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
+    // const extensions = moddle.create('bpmn:ExtensionElements');
+    // extensions.get('values').push(formTag);
 
-    const modeling = this.bpmnModeler.get('modeling');
-    modeling.updateProperties(sequenceFlowElement, {
-      extensionElements: extensions
-    });
+    // const modeling = this.bpmnModeler.get('modeling');
+    // modeling.updateProperties(sequenceFlowElement, {
+    //   extensionElements: extensions
+    // });
   }
 
   renderDiagram = (xml) => {

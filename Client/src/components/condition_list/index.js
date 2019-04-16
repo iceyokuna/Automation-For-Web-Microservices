@@ -63,15 +63,14 @@ class ConditionList extends Component {
       const { workflowConditions } = nextProps;
       const currentId = workflow.currentNode.id;
       const currentConditions = workflowConditions.appliedConditions[currentId];
-      this.state = {
-        conditions: currentConditions || [],
-      }
+      this.setState({
+        conditions: currentConditions || [emptyCondition],
+      })
     }
   }
 
   renderConditionItems = () => {
     const { workflowConditions } = this.props
-    console.log(workflowConditions)
     const { operators, allVariables, bpmnNodes } = workflowConditions;
     return this.state.conditions.map((item, index) =>
       <ConditionItem
@@ -84,8 +83,7 @@ class ConditionList extends Component {
   }
 
   render() {
-    const { show, workflowConditions } = this.props;
-    console.log(workflowConditions);
+    const { show, } = this.props;
     return (
       show &&
       <Layer

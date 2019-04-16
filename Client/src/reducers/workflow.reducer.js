@@ -154,7 +154,9 @@ export function workflow(state = defaultState, action) {
 
     case workflowContants.APPLY_METHOD_TO_TASK: {
       const nextState = { ...state };
-      nextState.appliedMethods[action.taskId] = action.method;
+      const { taskId, method } = action;
+      method.method.methodOfTaskId = taskId
+      nextState.appliedMethods[taskId] = method;
       return nextState;
     }
 
