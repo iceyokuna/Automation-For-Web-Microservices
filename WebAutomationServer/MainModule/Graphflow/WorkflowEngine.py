@@ -88,14 +88,14 @@ class WorkflowEngine:
                 name = "ExclusiveGateway"
                 inputType = None
                 outputType = None
-                gateway = ParallelGateway(Id, name, inputType, outputType)
+                gateway = ExclusiveGateway(Id, name, inputType, outputType)
                 self.state[element['attributes']['id']] = gateway
 
         #bind service and setup bpmn
         self.bindHTMLForm(HTML_list)
         self.bindService(service_list)
         self.setPreDefindInput(preInput_list)
-        self.setupCondition(condition_list)
+        self.setCondition(condition_list)
         self.createTransition(sequenceFlow_ref)
 
     #construct state transition function
@@ -114,6 +114,8 @@ class WorkflowEngine:
 
             #case gateway condition
             if(isinstance(self.state[transition['sourceRef']],ExclusiveGateway)):
+                exclusive_gateway_object = self.state[transition['sourceRef']]
+                exclusive_gateway_object.addFlowReference(transition['targetRef'])
                 self.transition[(transition['sourceRef'],transition['targetRef'])] = transition['targetRef']
 
             #Other case eg. tast, event, .....
@@ -146,8 +148,10 @@ class WorkflowEngine:
             task.setOutputInterface(serviceOutputInterface)
 
     #setup condition to gateway
-    def setupCondition(self, condition_list):
-        pass
+    def setCondition(self, condition_list):
+        for condition_ref in condition_list:
+            exclusive_gateway = self.state[condition_ref]
+            exclusive_gateway.setCondition(condition_list[condition_ref]) #set condition list
 
     #set pre-input to task, And bind to input
     def setPreDefindInput(self, predefine_input_list):
@@ -160,6 +164,7 @@ class WorkflowEngine:
             Input = {}
             for value in preinput:
                 Input[value['variableName']] = {'value': value['value']}
+            #set as a input to task
             task.setInput(Input)
 
         
@@ -191,6 +196,15 @@ class WorkflowEngine:
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
 
         #exclusive gateway case
+        if(isinstance(element_object, ExclusiveGateway)):
+            #get required task that need to check condition
+            required_task = element_object.getRequiredTasks()
+            required_task_dict = {}
+            for task in required_task:
+                required_task_dict[task] = self.state[task]
+            #get flow refernece that make condition true
+            flow_ref = element_object.getFlowReference(required_task_dict)
+            return self.next({'formInputValues': None, 'taskId': element_object.getId()}, flow_ref)
 
         #parallel gateway case
         if(isinstance(element_object, ParallelGateway)):
@@ -224,6 +238,7 @@ class WorkflowEngine:
     #execute send request to service manager
     def execute(self, message):
         element_object = self.state[message['taskId']]
+        element_object.setInput(message['formInputValues'])
         print("execute")
         print(element_object.getId())
         print(message['formInputValues'])
