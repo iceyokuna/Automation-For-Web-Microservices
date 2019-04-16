@@ -213,12 +213,6 @@ class WorkflowEngine:
         print(element_object.getId())
         print(message['formInputValues'])
         print()
-
-    #update current execution
-    def updateState(self, taskId):
-        #get object from next transition
-        #self.currentState["current"] = self.transition[(self.currentState["current"],"")]
-        pass
     
     #use to show all finite state machine formal defination
     def showDefination(self):
