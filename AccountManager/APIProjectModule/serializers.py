@@ -4,7 +4,7 @@ from .models import Workflow, Collaborator #, Admin, Workflow
 class WorkflowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workflow
-        fields = ('id','name','workflow','user')
+        fields = ('id','name','workflow','user','workflowObject')
 
     '''
 class AdminSerializer(serializers.ModelSerializer):

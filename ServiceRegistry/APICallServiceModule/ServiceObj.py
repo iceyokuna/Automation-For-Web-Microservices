@@ -26,7 +26,7 @@ class ServiceObj:
             return Response({'data': response.json()}, status = HTTP_200_OK)
         
         elif(method_type == 'post'):
-            response = requests.post(url, json = data, headers = self.header)
+            response = requests.post(url, json = data, headers = self.headers)
             return Response({'data': response.json()}, status = HTTP_200_OK)
 
         else:
