@@ -9,4 +9,5 @@ routers.register('fcm_token', views.FcmTokenView)
 urlpatterns = [
     path('', include(routers.urls)),
     path('notification/', views.NotificationView.as_view()),
+    path('send_notification/', views.SendNotificationView.as_view()),
 ]

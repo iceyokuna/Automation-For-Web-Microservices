@@ -76,6 +76,15 @@ class NotificationView(APIView):
         return Response({"detail": "successfully updated"})
 
 @permission_classes((IsAuthenticated,))
+class SendNotificationView(APIView):
+    def post(self, request):
+        to = request.data.get('to')
+        for i in to:
+            user = User.objects.filter(id = i).first()
+            noti = Notification.objects.create(user=user, title=request.data.get('title'),body=request.data.get('body'),click_action =request.data.get('click_action'), data=request.data.get('data'))
+        return Response({"detail": "successfully created"})
+
+@permission_classes((IsAuthenticated,))
 class FcmTokenView(viewsets.ModelViewSet):
     queryset = FcmToken.objects.all()
     serializer_class = FcmTokenSerializer
