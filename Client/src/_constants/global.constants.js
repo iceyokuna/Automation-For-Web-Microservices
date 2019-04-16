@@ -6,7 +6,7 @@ export const globalConstants = {
 
   GET_ALL_SERVICES_URL: 'http://178.128.214.101:8004/api/all_services/',
   GET_ALL_INBOX_TASKS_URL: 'https://5c8f65998447f30014cb826b.mockapi.io/api/endUserTasks',
+  GET_ALL_NOTIFICATIONS_URL: 'https://5c8f65998447f30014cb826b.mockapi.io/api/notifications',
 
-  ADD_NEW_COLLABORATORS_URL: 'http://178.128.214.101:8003/api/collaborator/',
-  CREATE_NEW_WORKFLOW_URL: 'http://178.128.214.101:8003/api/workflow/',
+  COLLABORATORS_URL: 'http://178.128.214.101:8003/api/collaborator/',
 };

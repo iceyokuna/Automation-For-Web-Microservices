@@ -6,17 +6,19 @@ import { UniversalStyle as Style } from 'react-css-component'
 import { connect } from 'react-redux'
 import { workflowActions, socketActions } from 'actions'
 import { Next, Previous } from 'grommet-icons'
+import { toast } from 'react-toastify'
 
 class ExecuteFlow extends Component {
 
     state = {
         currentFormHtml: null,
         currentFormCss: null,
+        currentFormJs: null,
     }
 
     componentDidMount = () => {
         const { dispatch } = this.props
-        dispatch(socketActions.startFlow("IC_KMITL"));
+        dispatch(socketActions.nextForm(null, null, null));
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -25,7 +27,17 @@ class ExecuteFlow extends Component {
             this.setState({
                 currentFormHtml: executingForm.formHtml,
                 currentFormCss: executingForm.formCss,
-            })
+                currentFormJs: executingForm.formJs,
+            });
+
+            const script = document.createElement("script");
+            const scriptText = document.createTextNode(executingForm.formJs);
+            script.appendChild(scriptText);
+            document.body.appendChild(script);
+
+        } if (executingForm === "DONE") {
+            toast.success("Done all forms");
+            this.props.history.replace('/home/my_flows');
         }
     }
 
@@ -38,8 +50,8 @@ class ExecuteFlow extends Component {
         const textareaElements = document.getElementById('formContainer').getElementsByTagName('textarea');
         const elements = [...inputElements, ...textareaElements];
         const inputValues = {};
-        for (let e of elements) {
 
+        for (let e of elements) {
             // Check whether the checkbox input is selected or not
             if (e.checked == true) {
                 inputValues[e.id] = {
@@ -60,33 +72,30 @@ class ExecuteFlow extends Component {
     }
 
     getNextForm = () => {
-        const { dispatch } = this.props;
+        const { dispatch, workflow } = this.props;
+        const taskId = workflow.executingTaskId;
         const formInputValues = this.extractValuesFromCurrentForm();
-        dispatch(socketActions.nextForm("IC_MEETING", formInputValues));
+        dispatch(socketActions.nextForm("IC_MEETING", formInputValues, taskId));
     }
 
     render() {
-        const { currentFormCss, currentFormHtml } = this.state;
-        const { executingForm } = this.props.workflow;
-        if (executingForm === "DONE") return <Box>Done all forms</Box>
-        else {
-            return (
-                <FillParent>
-                    <Style css={currentFormCss} />
-                    <Box pad="medium" gap="medium">
-                        <Text size="large" weight="bold">Workflow Execution</Text>
-                        <Box border="bottom">
-                            <div id="formContainer" dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
-                        </Box>
-
-                        <Box direction="row" align="center" justify="between" gap="medium">
-                            <Button style={styles.navButton} icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
-                            <Button style={styles.navButton} icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
-                        </Box>
+        const { currentFormCss, currentFormHtml, } = this.state;
+        return (
+            <FillParent>
+                <Style css={currentFormCss} />
+                <Box pad="medium" gap="medium">
+                    <Text size="large" weight="bold">Workflow Execution</Text>
+                    <Box border="bottom">
+                        <div id="formContainer"
+                            dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
-                </FillParent>
-            );
-        }
+                    <Box direction="row" align="center" justify="between" gap="medium">
+                        <Button style={styles.navButton} icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
+                        <Button style={styles.navButton} icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
+                    </Box>
+                </Box>
+            </FillParent>
+        );
 
     }
 }

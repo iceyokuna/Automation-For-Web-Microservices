@@ -23,17 +23,18 @@ function receiveMessage(message) {
 }
 
 
-function startFlow(appName) {
+function startFlow(name) {
   return {
     type: socketConstants.START_FLOW,
-    appName
+    name
   }
 }
 
-function nextForm(appName, formInputValues) {
+function nextForm(name, formInputValues, taskId,) {
   return {
     type: socketConstants.NEXT_FORM,
-    appName,
-    formInputValues
+    name,
+    formInputValues,
+    taskId,
   }
 }

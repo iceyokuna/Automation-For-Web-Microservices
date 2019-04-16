@@ -16,10 +16,9 @@ import FlowItem from 'components/flow_item'
 
 import { myFlows } from './mockup'
 import { workflowActions } from 'actions';
-
 import { connect } from 'react-redux';
-
 import Spinner from 'react-spinkit';
+import { askForPermissioToReceiveNotifications } from '_helpers'
 
 class MyFlows extends Component {
   constructor(props) {
@@ -36,19 +35,21 @@ class MyFlows extends Component {
   }
 
 
+
+
   onCreateFlow = () => {
-    const { match } = this.props
+    const { match } = this.props;
     this.props.history.push(match.url + '/create/add_information');
   }
 
   onActiveTab = index => this.setState({ activeTabIndex: index });
 
   onSelectFlow = flow => {
-    const { history, match, dispatch, workflowMyFlows } = this.props;
+    const { match, dispatch, workflowMyFlows } = this.props;
     const { myFlows } = workflowMyFlows;
     const currentFlow = myFlows.find((item) => item.id == flow.id);
-    dispatch(workflowActions.setCurrentFlow(currentFlow));
-    history.push(match.url + '/' + flow.id);
+    const redirectUrl = match.url + '/' + flow.id;
+    dispatch(workflowActions.setCurrentFlow(currentFlow, redirectUrl));
   }
 
   renderFlows = () => {
@@ -68,8 +69,9 @@ class MyFlows extends Component {
     return myFlows.map((item, index) =>
       <Col key={index} lg={4} md={4} sm={12} xs={12}>
         <FlowItem
+          onEdit={() => this.onSelectFlow(item)}
           delay={index}
-          onSelectFlow={() => { this.onSelectFlow(item) }}
+          onSelectFlow={() => this.onSelectFlow(item)}
           name={item.name}
           description={item.description}
           owner={item.user_id} />
@@ -85,10 +87,10 @@ class MyFlows extends Component {
             <Col lg={8} sm={8} xs={12}>
               <Box direction="row" align="center">
                 <Heading size='small' margin={{ right: 'medium' }}>My Flows</Heading>
-                <Tabs activeIndex={this.state.activeTabIndex} onActive={this.onActiveTab}>
+                {/* <Tabs activeIndex={this.state.activeTabIndex} onActive={this.onActiveTab}>
                   <Tab title="Active" />
                   <Tab title="Stopped" />
-                </Tabs>
+                </Tabs> */}
               </Box>
             </Col>
 

@@ -5,9 +5,9 @@
       "formCss": "* { box-sizing: border-box; } body {margin: 0;}.button{width:100%;margin:15px 0;background-color:#009688;border:none;color:#f6f6f6;border-radius:2px;padding:7px 10px;font-size:1em;cursor:pointer;}.form{border-radius:3px;padding:10px 15px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);color:#444444;}.textarea{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eeeeee;border:none;}.input{width:100%;margin-bottom:15px;padding:7px 10px;border-radius:2px;color:#444444;background-color:#eee;border:none;}.label{width:100%;display:block;}.row{display:table;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;width:100%;}.cell{width:8%;display:table-cell;height:75px;}@media (max-width: 768px){.cell{width:100%;display:block;}}"
     }
   },
-  "appName": "Fuji",
-  "appDescription": "eiei",
-  "bpmnAppJson": {
+  "name": "Fuji",
+  "description": "eiei",
+  "bpmnJson": {
     "declaration": {
       "attributes": {
         "version": "1.0",

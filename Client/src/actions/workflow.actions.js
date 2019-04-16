@@ -1,7 +1,7 @@
 import { workflowContants, globalConstants } from '_constants';
 import { workflowService } from 'services'
-import { socketActions } from 'actions'
-import { history } from '_helpers';
+import { toast } from 'react-toastify'
+import { history, getToken } from '_helpers';
 import axios from 'axios';
 
 export const workflowActions = {
@@ -12,6 +12,7 @@ export const workflowActions = {
   applyMethodToTask,
   applyConditionsToGateWay,
   applyPreInputsToTask,
+  applyTimerToElement,
 
   setExecutingForm,
   setCurrentFlow,
@@ -20,23 +21,80 @@ export const workflowActions = {
 
   setWorkflowId,
   setBpmnJson,
-  createNewWorkflow,
   setCurrentElement,
   toggleMemberDialog,
   toggleTimerDialog,
   togglePreInputDialog,
+  toggleEditWorkflowDialog,
+  toggleFormTypeDialog,
 
   // RESTful
-  sendWorkflowData,
+  createNewWorkflow,
+  updateWorkflow,
   sendWorkflowDataToEngine,
   getMyFlows,
+  getAllCollaborators,
 };
+
+function toggleEditWorkflowDialog() {
+  return {
+    type: workflowContants.TOGGLE_INFO_DIALOG
+  }
+}
+
+function getAllCollaborators(workflowId) {
+  return dispatch => {
+
+    dispatch(request())
+    axios.get(globalConstants.COLLABORATORS_URL + workflowId, {
+      headers: {
+        Authorization: "Token " + getToken(),
+      }
+    }).then(
+      res => {
+        dispatch(success(res.data.collaborators));
+      }
+    ).catch(err => {
+      dispatch(failure(err));
+    })
+  }
+
+  function request() {
+    return {
+      type: workflowContants.GET_ALL_COLLABORATORS_REQUEST,
+    }
+  }
+
+  function success(data) {
+    return {
+      type: workflowContants.GET_ALL_COLLABORATORS_SUCCESS,
+      collaborators: data,
+    }
+  }
+
+  function failure(err) {
+    return {
+      type: workflowContants.GET_ALL_COLLABORATORS_FAILURE,
+      err,
+    }
+  }
+
+}
 
 function setWorkflowId(workflowId) {
   return {
     type: workflowContants.SET_WORKFLOW_ID,
     workflowId,
   }
+}
+
+function applyTimerToElement(elementId, time) {
+  return {
+    type: workflowContants.APPLY_TIMER_TO_ELEMENT,
+    elementId,
+    time
+  }
+
 }
 
 function applyPreInputsToTask(elementId, preInputs, method) {
@@ -61,6 +119,12 @@ function toggleMemberDialog() {
   }
 }
 
+function toggleFormTypeDialog() {
+  return {
+    type: workflowContants.TOGGLE_FORM_TYPE_DIALOG,
+  }
+}
+
 function toggleTimerDialog() {
   return {
     type: workflowContants.TOGGLE_TIMER_DIALOG
@@ -74,17 +138,19 @@ function togglePreInputDialog() {
 }
 
 
-function setExecutingForm(form) {
+function setExecutingForm(form, taskId) {
   return {
     type: workflowContants.SET_CURRENT_EXECUTING_FORM,
     executingForm: form,
+    executingTaskId: taskId,
   }
 }
 
-function addNewForm(form, taskId) {
+function addNewForm(formType, form, taskId) {
   return {
     type: workflowContants.ADD_NEW_FROM,
-    form: form,
+    formType,
+    form,
     forTask: taskId
   };
 }
@@ -109,7 +175,9 @@ function getAllVariables(appliedMethods) {
       variables.push({
         variableOf: {
           serviceId: method.service,
-          methodId: method.id
+          methodId: method.id,
+          methodName: method.name,
+          methodOfTaskId: method.methodOfTaskId,
         },
         name: variable,
         type: inputInterface[variable].type,
@@ -120,7 +188,9 @@ function getAllVariables(appliedMethods) {
       variables.push({
         variableOf: {
           serviceId: method.service,
-          methodId: method.id
+          methodId: method.id,
+          methodName: method.name,
+          methodOfTaskId: method.methodOfTaskId,
         },
         name: variable,
         type: outputInterface[variable].type,
@@ -163,9 +233,26 @@ function applyConditionsToGateWay(gatewayId, conditions) {
 function setupExistingWorkflow() {
   return (dispatch, getState) => {
     const currentFlow = getState().workflowMyFlows.currentFlow;
+
+    // Load workflow
     dispatch({
       type: workflowContants.SETUP_EXISTING_WORKFLOW,
       currentFlow,
+    });
+
+    // Load workflow's conditions
+    const { appliedMethods } = getState().workflow;
+    const allVariables = getAllVariables(appliedMethods);
+    dispatch({
+      type: workflowContants.SET_WORKFLOW_CONDITIONS,
+      appliedConditions: currentFlow.appliedConditions,
+      allVariables,
+    });
+
+    // Load workflow's preInputs
+    dispatch({
+      type: workflowContants.SET_PRE_INPUTS,
+      preInputs: currentFlow.appliedPreInputs,
     })
   }
 }
@@ -176,34 +263,40 @@ function setupNewWorkflow() {
   }
 }
 
-function setCurrentFlow(currentFlow) {
-  return {
-    type: workflowContants.SET_CURRENT_FLOW,
-    currentFlow,
+function setCurrentFlow(currentFlow, redirectUrl) {
+  return dispatch => {
+    dispatch({
+      type: workflowContants.SET_CURRENT_FLOW,
+      currentFlow,
+      redirectUrl
+    });
   }
-
 }
 
-function setBpmnJson(bpmnAppJson) {
+function setBpmnJson(bpmnJson) {
   return {
     type: workflowContants.SET_BPMN_JSON,
-    bpmnAppJson
+    bpmnJson
   }
 }
 
-function createNewWorkflow(appName, appDescription, mode) {
+function createNewWorkflow(name, description, mode) {
   return (dispatch) => {
-    // dispatch(request());
-    // axios.post(globalConstants.CREATE_NEW_WORKFLOW_URL, {
-    //   appName,
-    //   appDescription,
-    //   mode,
-    // })
-    dispatch({
-      type: workflowContants.CREATE_NEW_WORKFLOW,
-      appName,
-      appDescription,
-      mode,
+    dispatch(request());
+    let workflowObject = {
+      bpmnJson: {},
+      appliedMethods: {},
+      appliedConditions: {},
+      appliedPreInputs: {},
+      generatedForms: [],
+    }
+    workflowService.createNewWorkflow(name, description, workflowObject).then(res => {
+      workflowObject = { ...workflowObject, ...res.data };
+      dispatch(success(workflowObject, mode));
+      history.push('design_workflow');
+    }).catch(err => {
+      console.error(err);
+      dispatch(failure());
     })
   }
 
@@ -212,10 +305,11 @@ function createNewWorkflow(appName, appDescription, mode) {
       type: workflowContants.CREATE_NEW_WORKFLOW_REQUEST,
     }
   }
-  function success(workflowObject) {
+  function success(workflowObject, mode) {
     return {
       type: workflowContants.CREATE_NEW_WORKFLOW_SUCCESS,
       workflowObject,
+      mode,
     }
   }
   function failure(error) {
@@ -226,20 +320,36 @@ function createNewWorkflow(appName, appDescription, mode) {
 
 }
 
-function addNewCollaborators(newCollaborators) {
+function addNewCollaborators(workflow_id, collaborators) {
   return (dispatch, getState) => {
-    axios.post(globalConstants.ADD_NEW_COLLABORATORS_URL)
+
+    dispatch(request());
+    axios.post(globalConstants.COLLABORATORS_URL, {
+      workflow_id,
+      collaborators,
+    }, {
+        headers: {
+          Authorization: "Token " + getToken(),
+        }
+      }).then(res => {
+        toast.success("Invite successfully");
+        dispatch(success(res.data));
+        dispatch(getAllCollaborators(workflow_id));
+      }).catch(err => {
+        dispatch(failure(err))
+        toast.error("Sorry, some of these members do not exist");
+      })
   }
 
   function request() {
     return {
-      type: workflowContants.SEND_WORKFLOW_DATA_REQUEST
+      type: workflowContants.ADD_NEW_COLLABORATORS_REQUEST
     }
   }
 
   function success(data) {
     return {
-      type: workflowContants.SEND_WORKFLOW_DATA_SUCCESS,
+      type: workflowContants.ADD_NEW_COLLABORATORS_SUCCESS,
       data
     }
   }
@@ -247,18 +357,21 @@ function addNewCollaborators(newCollaborators) {
   function failure(err) {
     console.error(err);
     return {
-      type: workflowContants.SEND_WORKFLOW_DATA_FAILURE
+      type: workflowContants.ADD_NEW_COLLABORATORS_FAILURE
     }
   }
 
 }
 
-function sendWorkflowData(appName, appDescription,
+function updateWorkflow(name, description,
   workflowData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(request());
+    const currentWorkflowId = getState().workflow.workflowId;
     setTimeout(() => {
-      workflowService.sendWorkflowData(appName, appDescription, workflowData
+      workflowService.updateWorkflow(
+        name, description,
+        workflowData, currentWorkflowId
       ).then(
         res => {
           dispatch(success())
@@ -290,12 +403,12 @@ function sendWorkflowData(appName, appDescription,
 
 }
 
-function sendWorkflowDataToEngine(appName, appDescription,
+function sendWorkflowDataToEngine(name, description,
   workflowData) {
   return dispatch => {
     dispatch(request());
     setTimeout(() => {
-      workflowService.sendWorkflowDataToEngine(appName, appDescription,
+      workflowService.sendWorkflowDataToEngine(name, description,
         workflowData
       ).then(
         res => {

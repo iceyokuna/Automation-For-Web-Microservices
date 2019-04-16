@@ -14,7 +14,8 @@ import MemberDialog from './components/member_dialog';
 import TimerTrigger from 'components/timer_trigger';
 import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
-
+import EditWorkflowInfo from 'components/edit_workflow_dialog';
+import FormTypeDialog from 'components/form_type_dialog';
 
 import "./style/app.less";
 
@@ -26,51 +27,45 @@ import lintModule from 'bpmn-js-bpmnlint';
 
 import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
-import converter from 'xml-js'
+import converter, { xml2js, json2xml } from 'xml-js'
 
 import { Box, Button, Layer, Text } from 'grommet'
-import { Upload, Group, Test } from 'grommet-icons'
+import { Upload, Group, Test, Edit } from 'grommet-icons'
 
 import { workflowActions, availableServicesActions } from 'actions'
 
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
-import { InviteButton, NextButton, SendWorkflowButton } from './style'
+import { InviteButton, NextButton, SendWorkflowButton, EditInfoButton } from './style'
 
 
 let scale = 1;
 
-const variables = [
-  { name: 'Salary', type: 'Number' },
-  { name: 'Single', type: 'Boolean' },
-  { name: 'Name', type: 'String' },
-];
-
-const operators = ['==', '!=', '<', '<=', '>', '>='];
-
-const bpmnNodes = [
-  'TASK_1132',
-  'TASK_2233E',
-  'LANE_133ww'
-];
-
 class BpmnContainer extends Component {
 
-  state = {
-    currentElement: null,
-    selectedServiceMethod: null,
-    showServiceRequirement: false,
-    showParticipantSelector: false,
-    showConditionList: false,
-  };
+  constructor(props) {
+    super(props);
+    const { dispatch, workflow } = props;
+
+    this.state = {
+      currentElement: null,
+      selectedServiceMethod: null,
+      showServiceRequirement: false,
+      showParticipantSelector: false,
+      showConditionList: false,
+    };
+
+    if (workflow.mode !== "CREATE_NEW") {
+      try {
+        dispatch(workflowActions.setupExistingWorkflow());
+      } catch (e) {
+        this.props.history.replace('/home/my_flows');
+      }
+    }
+  }
 
   componentDidMount() {
-    const { workflow } = this.props;
-    if (workflow.mode == "CREATE_NEW") {
-      this.props.dispatch(workflowActions.setupNewWorkflow());
-    } else {
-      this.props.dispatch(workflowActions.setupExistingWorkflow());
-    }
+    const { dispatch } = this.props;
 
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
@@ -91,17 +86,22 @@ class BpmnContainer extends Component {
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
     // Request all availale services to be selected on the properties panel
-    this.props.dispatch(availableServicesActions.getAllServices());
-
-    // render xml
+    dispatch(availableServicesActions.getAllServices());
     this.renderDiagram(xmlStr);
     this.bindEvenCallback();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { xml, bpmn } = nextProps;
-    if (xml && xml !== this.props.xml) {
-      this.renderDiagram(xml);
+    const { workflow } = nextProps;
+    // If load a new workflow
+    if (this.props.workflow.bpmnJson != workflow.bpmnJson) {
+      try {
+        const bpmnXml = json2xml(workflow.bpmnJson)
+        this.renderDiagram(bpmnXml);
+      } catch (error) {
+        const bpmnXml = xmlStr;
+        this.renderDiagram(bpmnXml);
+      }
     }
   }
 
@@ -142,30 +142,30 @@ class BpmnContainer extends Component {
 
 
   attachFormToXML = (newForms) => {
-    const { taskId, form } = newForms;
+    // const { taskId, form } = newForms;
 
-    const elementRegistry = this.bpmnModeler.get('elementRegistry');
+    // const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
-    const sequenceFlowElement = elementRegistry.get(taskId),
-      businessObject = sequenceFlowElement.businessObject;
+    // const sequenceFlowElement = elementRegistry.get(taskId),
+    //   businessObject = sequenceFlowElement.businessObject;
 
-    // businessObject.id = 'NewEventName'; // Change ID of the element
+    // // businessObject.id = 'NewEventName'; // Change ID of the element
 
-    const moddle = this.bpmnModeler.get('moddle');
-    const formTag = moddle.create('form:FormData');
+    // const moddle = this.bpmnModeler.get('moddle');
+    // const formTag = moddle.create('form:FormData');
 
-    formTag.forTaskId = taskId;
-    formTag.html = form.formHtml;
-    formTag.css = form.formCss;
+    // formTag.forTaskId = taskId;
+    // formTag.html = form.formHtml;
+    // formTag.css = form.formCss;
 
-    businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
-    const extensions = moddle.create('bpmn:ExtensionElements');
-    extensions.get('values').push(formTag);
+    // businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
+    // const extensions = moddle.create('bpmn:ExtensionElements');
+    // extensions.get('values').push(formTag);
 
-    const modeling = this.bpmnModeler.get('modeling');
-    modeling.updateProperties(sequenceFlowElement, {
-      extensionElements: extensions
-    });
+    // const modeling = this.bpmnModeler.get('modeling');
+    // modeling.updateProperties(sequenceFlowElement, {
+    //   extensionElements: extensions
+    // });
   }
 
   renderDiagram = (xml) => {
@@ -271,50 +271,57 @@ class BpmnContainer extends Component {
     })
   }
 
+  onEditDiagram = () => {
+    this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
+      if (err) {
+        console.error(err);
+      } else {
+        const bpmnJson = JSON.parse(
+          converter.xml2json(xml, { compact: false, spaces: 2 }));
+        this.props.dispatch(workflowActions.setBpmnJson(bpmnJson));
+        this.props.dispatch(workflowActions.toggleEditWorkflowDialog());
+      }
+    });
+  }
+
   onInvite = () => {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
   onSubmitDiagram = (mode) => {
+    const { name, description, generatedForms, appliedMethods } = this.props.workflow;
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
       } else {
-        const { appName, appDescription, generatedForms, appliedMethods } = this.props.workflow;
-        this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
-          if (err) {
-            console.error(err);
-          } else {
-            const bpmnJson = JSON.parse(
-              converter.xml2json(xml, { compact: false, spaces: 2 }));
+        const bpmnJson = JSON.parse(
+          converter.xml2json(xml, { compact: false, spaces: 2 }));
 
-            const { workflowConditions, workflowPreInputs } = this.props;
-            const { appliedConditions } = workflowConditions;
-            const { appliedPreInputs } = workflowPreInputs;
+        const { workflowConditions, workflowPreInputs } = this.props;
+        const { appliedConditions } = workflowConditions;
+        const { appliedPreInputs } = workflowPreInputs;
 
-            const workflowData = {
-              bpmnJson,
-              appliedMethods,
-              appliedConditions,
-              appliedPreInputs,
-              generatedForms,
-            }
+        const workflowData = {
+          bpmnJson,
+          appliedMethods,
+          appliedConditions,
+          appliedPreInputs,
+          generatedForms,
+        }
 
-            if (mode === "ToEngine") {
-              this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
-                appName,
-                appDescription,
-                workflowData
-              ));
-            } else {
-              this.props.dispatch(workflowActions.sendWorkflowData(
-                appName,
-                appDescription,
-                workflowData
-              ));
-            }
-          }
-        });
+        if (mode === "ToEngine") {
+          this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
+            name,
+            description,
+            workflowData
+          ));
+        } else {
+          this.props.dispatch(workflowActions.updateWorkflow(
+            name,
+            description,
+            workflowData
+          ));
+        }
       }
     });
   }
@@ -393,6 +400,8 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
+        <FormTypeDialog />
+        <EditWorkflowInfo />
         <MemberDialog />
         <TimerTrigger />
         <PredefineInput />
@@ -423,6 +432,14 @@ class BpmnContainer extends Component {
           onUndo={this.handleUndo}
         />
 
+        <EditInfoButton
+          color="accent-1" primary plain={false}
+          icon={<Edit size="18px" color="#ffffff" />}
+          title="Edit information"
+          onClick={this.onEditDiagram}
+        />
+
+
         <SendWorkflowButton
           color="accent-4" primary plain={false}
           icon={<Test size="18px" color="#ffffff" />}
@@ -436,7 +453,7 @@ class BpmnContainer extends Component {
           icon={<Group size="18px" />}
           onClick={this.onInvite} />
 
-        <NextButton color="accent-1" primary icon={<Upload size="18px" />}
+        <NextButton color="accent-2" primary icon={<Upload size="18px" color="#fff" />}
           title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
         <ServiceRequirement
@@ -454,9 +471,7 @@ class BpmnContainer extends Component {
           show={showConditionList}
           gatewayElement={currentElement}
           onCloseConditionList={() => this.setState({ showConditionList: false })}
-          variables={variables}
-          operators={operators}
-          bpmnNodes={bpmnNodes} />
+        />
 
       </Box>
     );

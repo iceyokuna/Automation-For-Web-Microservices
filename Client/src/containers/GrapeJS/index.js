@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import grapesjs from 'grapesjs';
 import presetWebpage from 'grapesjs-preset-webpage';
@@ -10,6 +10,7 @@ import 'grapesjs/dist/css/grapes.min.css';
 import { global } from 'style';
 
 export default class GrapeJSWrapper extends Component {
+
   componentDidMount = () => {
     this.editor = grapesjs.init({
       container: '#gjs',
@@ -21,7 +22,7 @@ export default class GrapeJSWrapper extends Component {
       },
       allowScripts: 1,
       fromElement: true,
-      height: '100%'
+      height: '100%',
     });
 
     this.panelManager = this.editor.Panels;
@@ -29,7 +30,22 @@ export default class GrapeJSWrapper extends Component {
     this.allowEditingCode();
     this.setProperties();
     this.listenToEvents();
+    this.loadExistingForm();
   }
+
+  loadExistingForm = () => {
+    const { initialForm } = this.props;
+    if (initialForm != null) {
+      const { editor } = this;
+      editor.setComponents(initialForm.formHtml);
+      editor.setStyle(initialForm.formCss);
+    } else {
+      const { editor } = this;
+      editor.setComponents("");
+      editor.setStyle("");
+    }
+  }
+
 
   allowEditingCode() {
     const { editor } = this;
@@ -102,12 +118,11 @@ export default class GrapeJSWrapper extends Component {
   exportToHTMLCSS() {
     // Add javascript to the form
     // this.editor.addComponents('<script>alert(2)</script>');
-
-    // console.log(this.editor);
-    // console.log(this.panelManager.getPanels());
     // const options = this.panelManager.getPanel('commands');
-    const formHtml = this.editor.getHtml(), formCss = this.editor.getCss();
-    this.props.onExportForm({ formHtml, formCss });
+    const formHtml = this.editor.getHtml(),
+      formCss = this.editor.getCss(),
+      formJs = this.editor.getJs();
+    this.props.onExportForm({ formHtml, formCss, formJs });
   }
 
   listenToEvents() {
@@ -136,7 +151,7 @@ export default class GrapeJSWrapper extends Component {
       if (changedId !== '') {
         this.props.onSetElementId(changedId, true);
       }
-      else if (changedId === '' || (changedAttributes.id !== previousAttributes.id)) {
+      if (changedAttributes.id != previousAttributes.id) {
         this.props.onSetElementId(previousAttributes.id, false);
       }
     })
@@ -299,15 +314,9 @@ export default class GrapeJSWrapper extends Component {
 
 
   render() {
-    const { initialForm } = this.props;
-    console.log(initialForm)
     return (
       <div style={{ height: '100%', }}>
-        <div style={{ backgroundColor: 'red', position: 'fixed', top: 20 }}>TEST</div>
-        <div id="gjs" >
-          <div dangerouslySetInnerHTML={{ __html: initialForm.formHtml }} />
-          <style>{initialForm.formCss}</style>
-        </div>
+        <div id="gjs" />
       </div>
     )
   }

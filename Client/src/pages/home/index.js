@@ -11,6 +11,7 @@ import { Button, Box, Text } from 'grommet';
 
 import FlowDetail from 'pages/flow_detail'
 import ModelWorkflow from 'pages/workflow'
+import CreateForm from 'pages/create_form'
 import NotFound from 'pages/not_found'
 import MyFlows from 'pages/my_flows';
 import CreateFlow from 'pages/create_flow'
@@ -48,8 +49,9 @@ export default class Home extends Component {
           <Route path={match.url + "/my_flows/:flow_id/edit_diagram"} component={Workflow} />
           <Route path={match.url + "/my_flows/:flow_id"} component={FlowDetail} />
           <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
+          <Route exact path={match.url + "/design_form"} component={CreateForm} />
           <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
-          <Redirect from="*" to="/home/my_flows" />
+          <Route component={NotFound} />
         </Switch>
       </div>
     );

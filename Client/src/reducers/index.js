@@ -9,10 +9,12 @@ import { workflowConditions } from './workflow.conditions.reducer';
 import { workflowTimers } from './workflow.timers.reducer';
 import { workflowPreInputs } from './workflow.predefine_input.reducer';
 import { workflowMyFlows } from './workflow.my_flows.reducer';
+import { workflowCollaborators } from './workflow.collaborators.reducer';
 
 import { socket } from './socket.reducer';
 import { availableServices } from './available_services.reducer'
 import { inboxTasks } from './inbox_tasks.reducer';
+import { notification } from './notification.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -22,10 +24,12 @@ const rootReducer = combineReducers({
   workflowConditions,
   workflowTimers,
   workflowPreInputs,
+  workflowCollaborators,
   workflowMyFlows,
   socket,
   availableServices,
   inboxTasks,
+  notification,
 });
 
 export default rootReducer;

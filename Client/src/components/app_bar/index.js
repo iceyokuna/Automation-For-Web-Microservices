@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import { Box, Text, DropButton, } from 'grommet'
+import { Box, Text, DropButton, Button } from 'grommet'
 import { User, Notification, Menu } from 'grommet-icons'
 
 import { connect } from 'react-redux'
 
 import DropContent from 'components/dropdown_content'
-import PlainButton from 'components/plain_button'
+import PlainButton from 'components/plain_button';
+import NotificationItem from 'components/notification_item';
 
-import { userActions } from 'actions'
+import { userActions, notificationActions } from 'actions'
+import Media from 'react-media';
+import Spinner from 'react-spinkit';
 
-import Media from 'react-media'
+import { colors } from 'theme';
 
 const iconColor = "#ffffff"
 
@@ -17,12 +20,18 @@ class AppBar extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       openNotificationPanel: undefined,
       openAccountPanel: undefined,
       username: 'Phat Thaveepholcharoen'
     }
   }
+
+  componentDidMount() {
+    this.props.dispatch(notificationActions.getAllNotifications())
+  }
+
 
   onCloseDropdown = () => {
     this.setState({
@@ -48,6 +57,49 @@ class AppBar extends Component {
     }
   }
 
+  handleMoreNotifications = () => {
+
+  }
+
+  renderNotifications = () => {
+    const { notification } = this.props;
+
+    if (notification.isLoading == true) {
+      return (
+        <Box align="center" pad='small'>
+          <Spinner
+            fadeIn="quarter"
+            name="ball-clip-rotate" color={colors.brand} />
+        </Box>);
+    }
+
+    const notifiationLength = 4;
+    const notifications = notification.data;
+    const someNotifications = notifications.slice(0, notifiationLength);
+
+    let elements = someNotifications.map((item, index) =>
+      <NotificationItem
+        key={index}
+        title={item.title} body={item.body} createdAt={item.createdAt}
+        onClick={() => { this.onSelectNotification(item) }} />
+    );
+
+    if (notifications.length > notifiationLength) {
+      elements.push(
+        <Button fill plain key="more"
+          onClick={this.handleMoreNotifications} >
+          <Box justify="center" align="center" pad="small">
+            <Text size="small" weight="bold">See more</Text>
+          </Box>
+        </Button>
+      )
+    }
+
+    return <Box>{elements}</Box>;
+
+  }
+
+
   renderForSignedin() {
     const { user } = this.props;
     if (user == null) return null;
@@ -59,12 +111,7 @@ class AppBar extends Component {
             dropAlign={{ top: "bottom", right: "right" }}
             open={openNotificationPanel}
             onClose={() => this.setState({ openNotificationPanel: undefined })}
-            dropContent={
-              <DropContent
-                title="Notifications"
-                items={[{ label: 'Notification#1' }, { label: 'Notification#2' }, { label: 'Notification#3' }]}
-                onSelect={this.onSelectNotification}
-                onClose={this.onCloseDropdown} />}
+            dropContent={this.renderNotifications()}
           >
             <PlainButton icon={<Notification color={iconColor} />} />
           </DropButton>
@@ -100,7 +147,7 @@ class AppBar extends Component {
     return (
       <Box
         style={style}
-        responsive={false}
+
         direction="row"
         align="center"
         justify="between"
@@ -122,12 +169,13 @@ class AppBar extends Component {
 const style = {
   position: 'fixed',
   width: '100%',
-  zIndex: 1 ,
+  zIndex: 1,
 }
 
 const mapStateToProps = (state) => {
   return {
     user: state.authentication.user,
+    notification: state.notification,
   }
 }
 

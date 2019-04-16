@@ -13,10 +13,12 @@ export const socketMiddleware = store => next => action => {
   socket.onmessage = (res) => {
     try {
       const data = JSON.parse(res.data);
+
+      console.log(data);
       switch (data.type) {
         case socketConstants.START_FLOW_SUCCESS: {
-          const { form } = data;
-          store.dispatch(workflowActions.setExecutingForm(form));
+          const { form, taskId } = data;
+          store.dispatch(workflowActions.setExecutingForm(form, taskId));
         } break;
 
         case socketConstants.START_FLOW_FAIL: {
@@ -24,8 +26,8 @@ export const socketMiddleware = store => next => action => {
         } break;
 
         case socketConstants.NEXT_FORM_SUCCESS: {
-          const { form } = data;
-          store.dispatch(workflowActions.setExecutingForm(form));
+          const { form, taskId } = data;
+          store.dispatch(workflowActions.setExecutingForm(form, taskId));
         } break;
 
         case socketConstants.NEXT_FORM_FAIL: {
@@ -70,7 +72,7 @@ export const socketMiddleware = store => next => action => {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          appName: action.appName
+          name: action.name
         }
       })
       try {
@@ -81,11 +83,13 @@ export const socketMiddleware = store => next => action => {
     } break;
 
     case socketConstants.NEXT_FORM: {
+      const { type, name, formInputValues, taskId } = action;
       const payload = JSON.stringify({
         message: {
-          type: action.type,
-          appName: action.appName,
-          formInputValues: action.formInputValues,
+          type,
+          name,
+          formInputValues,
+          taskId,
         }
       })
       try {

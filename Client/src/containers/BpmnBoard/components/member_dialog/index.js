@@ -11,25 +11,20 @@ import { Row, Col } from 'react-flexbox-grid'
 import { workflowActions } from 'actions';
 
 import { Scrollbars } from 'react-custom-scrollbars';
-
-import axios from 'axios';
+import Spinner from 'react-spinkit';
+import { colors } from 'theme';
+import { toast } from 'react-toastify';
 
 export class index extends Component {
 
   state = {
     selectedCollaborators: [],
     userIds: ["iceyo#1177", "pym#887", "bas#998"],
-    collaborators: [
-      { name: 'Phat Thaveepholcharoen', type: 'Admin' },
-      { name: 'Iceyo Kuna', type: 'Manager' },
-      { name: 'Treesakul', type: 'User' },
-      { name: 'User#14', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-      { name: 'User#77', type: 'User' },
-    ],
+  }
+
+  componentDidMount = () => {
+    const { dispatch, workflow } = this.props;
+    dispatch(workflowActions.getAllCollaborators(workflow.workflowId));
   }
 
   onChangecollaborators = (chips) => {
@@ -43,33 +38,32 @@ export class index extends Component {
   }
 
   onInvite = () => {
-    // Todo : insert async function
-
     const { selectedCollaborators } = this.state;
-    // console.log(this.props.authentication);
-    const token = this.props.authentication.user.token
-    // console.log(token)
-    // axios.post("http://178.128.214.101:8003/api/collaborator/", {
-    //   workflow_id: 3,
-    //   collaborators: ["iceyo", "test1"]
-    // }, {
-    //     headers: {
-    //       Authorization: "Token " + token,
-    //     }
-    //   }).then((res) => console.log(res.data)).catch(err => console.error(err));
-
-    // this.onColseDialog();
+    const { workflow, dispatch } = this.props;
+    dispatch(workflowActions.addNewCollaborators(workflow.workflowId, selectedCollaborators));
   }
 
   renderCollaboratorItems = () => {
-    const { collaborators } = this.state;
+    const { workflowCollaborators } = this.props;
+    const { collaborators, loadingCollaborators } = workflowCollaborators;
+    if (loadingCollaborators == true) {
+      return (
+        <Box align="center" pad='small'>
+          <Spinner
+            fadeIn="quarter"
+            name="line-scale" color={colors.brand} />
+        </Box>
+      );
+    }
 
     return collaborators.map((item, index) =>
       <Col sm={12} xs={6} md={6} lg={6}>
-        <CollaboratorItem key={index} name={item.name} type={item.type} />
+        <CollaboratorItem key={index}
+          userName={item.collaborator__username}
+          firstName={item.collaborator__first_name}
+          lastName={item.collaborator__last_name} />
       </Col>)
   }
-
 
   render() {
     const { showMemberDialog } = this.props;
@@ -121,6 +115,8 @@ export class index extends Component {
 const mapStateToProps = (state) => ({
   showMemberDialog: state.workflow.showMemberDialog,
   authentication: state.authentication,
+  workflow: state.workflow,
+  workflowCollaborators: state.workflowCollaborators,
 })
 
 

@@ -36,7 +36,6 @@ class AddFlowInfo extends Component {
     const { workflowName, description, selectedCollaborators } = this.state;
     const { dispatch } = this.props;
     dispatch(workflowActions.createNewWorkflow(workflowName, description, "CREATE_NEW"));
-    this.props.history.push('design_workflow');
   }
 
   render() {
@@ -44,13 +43,14 @@ class AddFlowInfo extends Component {
     return (
       <div style={{
         ...global.mainContainer,
-        backgroundColor: '#ffffff',
-        maxWidth: null
+        maxWidth: null,
       }}>
-        <Box flex direction="column"
-          align="center" justify="center" fill='vertical'>
-          <Box pad='medium' width="400px" animation='fadeIn'>
-            <Heading size="small" responsive={false} >
+        <Box flex direction="column" align="center" justify="center"
+          fill='vertical'>
+          <Box pad='medium' width="400px" animation='fadeIn'
+            round={{ size: 'small' }} 
+            background="light-0" >
+            <Heading size="small"  >
               Create a New Flow
           </Heading>
             <FormField >
@@ -67,12 +67,6 @@ class AddFlowInfo extends Component {
                 value={description}
                 onChange={this.onChangeDescription} />
             </FormField>
-
-            {/* <CollaboratorInviter
-              onChangecollaborators={this.onChangecollaborators}
-              selectedCollaborators={selectedCollaborators}
-              userIds={userIds} /> */}
-
             <Box margin={{ top: 'small' }}>
               < Button color="accent-1" primary icon={<Next />} label="Next" onClick={this.onNextStep} />
             </Box>

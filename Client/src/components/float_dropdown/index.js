@@ -6,15 +6,12 @@ import { Checkmark, Help, FormDown } from 'grommet-icons';
 import { Transition, config } from 'react-spring'
 import PlainButton from 'components/plain_button'
 import { Container, CollapseButton, circleButton, CollapseButtonContainer } from './style'
+import { Scrollbars } from 'react-custom-scrollbars'
 
-const sideBarWidth = 200;
-const appBarHeight = 60;
-
-const iconColor = "#ffffff";
 
 const InterfaceItem = ({ item, parameterName }) => {
   return (
-    <Box pad="xsmall" border={{ side: 'bottom', size: 'small' }} flex={false}>
+    <Box pad="xsmall" border={{ side: 'bottom', size: 'xsmall' }} flex={false}>
 
       <Box direction="row" justify="between">
         <Box>
@@ -44,33 +41,6 @@ const InterfaceItem = ({ item, parameterName }) => {
 export default class FloatDropdown extends Component {
   state = {
     show: false,
-    currentMethod: {
-      methodName: "Registration",
-      taskId: 'Task_161fsp2',
-      input_interface: {
-        emailTitle: {
-          type: "string",
-          formData: {
-            elementType: "input",
-            elementId: "title#1"
-          }
-        },
-        emailBody: {
-          type: "string",
-          formData: {
-            elementType: "textarea",
-            elementId: "message#233"
-          }
-        },
-        receiver: {
-          type: "string",
-          formData: {
-            elementType: "input",
-            elementId: "receiver#1123"
-          }
-        }
-      },
-    }
   }
 
   componentDidMount = () => {
@@ -84,15 +54,15 @@ export default class FloatDropdown extends Component {
     this.setState({ show: !this.state.show });
   }
 
-  renderInterfaceItems = (inputInterface) => {
+  renderInterfaceItems = (interfaceData) => {
     const { elementsIdSet } = this.props;
 
-    const cloneObject = { ...inputInterface };
+    const cloneObject = { ...interfaceData };
     const keys = Object.keys(cloneObject);
 
     for (let key of keys) {
       // Check that user set id for each element or not
-      if (inputInterface[key] && elementsIdSet[key]) {
+      if (interfaceData[key] && elementsIdSet[key]) {
         cloneObject[key].isIdSet = true;
       } else {
         cloneObject[key].isIdSet = undefined;
@@ -110,8 +80,15 @@ export default class FloatDropdown extends Component {
 
   render() {
     const { show } = this.state;
-    const { taskId, service } = this.props;
-
+    const { taskId, service, formType } = this.props;
+    let typeOfForm, interfaceData = null;
+    if (formType === "inputForm") {
+      typeOfForm = "Input form";
+      interfaceData = service.method.input_interface;
+    } else {
+      typeOfForm = "Output form";
+      interfaceData = service.method.output_interface;
+    }
     return (
       <Container >
         <CollapseButtonContainer>
@@ -121,10 +98,9 @@ export default class FloatDropdown extends Component {
         </CollapseButtonContainer>
 
         <Transition
-          config={config.wobbly}
           items={show}
           from={{ height: 0, width: 400, opacity: 0, }}
-          enter={{ height: 'auto', opacity: 1 }}
+          enter={{ height: 400, opacity: 1 }}
           leave={{ height: 0, opacity: 0 }}>
           {toggle =>
             toggle
@@ -132,6 +108,7 @@ export default class FloatDropdown extends Component {
                 elevation="small" pad="medium" gap="xsmall" style={props}
               >
                 <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                  <Text color="accent-4" >{typeOfForm}</Text>
                   <Box direction="row" justify="between">
                     <Text size="xlarge" weight="bold" >{service.method.name}</Text>
                     <Text size="large" >{taskId}</Text>
@@ -141,9 +118,9 @@ export default class FloatDropdown extends Component {
                   </Box>
                 </Box>
 
-                <Box style={{ height: 250, overflowY: 'auto' }} >
-                  {this.renderInterfaceItems(service.method.input_interface)}
-                </Box>
+                <Scrollbars autoHeightMax={250} autoHeight autoHide>
+                  {this.renderInterfaceItems(interfaceData)}
+                </Scrollbars>
               </Box>
               : props => null
           }
