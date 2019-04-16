@@ -27,7 +27,7 @@ import { history } from '_helpers';
 
 export default class Home extends Component {
   state = {
-    showMenuBar: true,
+    showMenuBar: false,
   }
 
   toggleMenubar = (e) => {
@@ -66,7 +66,7 @@ export default class Home extends Component {
         <Media query="(min-width: 599px)">
           {matches =>
             matches ? (
-              <FillParent>
+              <FillParent style={{paddingTop: 60}}>
                 <Box fill direction="row">
                   <Collapsible open={showMenuBar} direction="horizontal">
                     <SideBar showMenuBar={true}
