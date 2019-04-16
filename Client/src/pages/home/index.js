@@ -62,11 +62,12 @@ export default class Home extends Component {
     const { showMenuBar } = this.state;
     return (
       <Box flex fill="vertical">
-        <AppBar {...this.props} onToggleMenu={this.toggleMenubar} />
+        <AppBar {...this.props} showMenuBar={showMenuBar}
+          onToggleMenu={this.toggleMenubar} />
         <Media query="(min-width: 599px)">
           {matches =>
             matches ? (
-              <FillParent style={{paddingTop: 60}}>
+              <FillParent style={{ paddingTop: 60 }}>
                 <Box fill direction="row">
                   <Collapsible open={showMenuBar} direction="horizontal">
                     <SideBar showMenuBar={true}

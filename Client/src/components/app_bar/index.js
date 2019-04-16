@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { Box, Text, DropButton, Button } from 'grommet'
-import { User, Notification, Menu } from 'grommet-icons'
+import { User, Notification, } from 'grommet-icons'
 
 import { connect } from 'react-redux'
 
 import DropContent from 'components/dropdown_content'
 import PlainButton from 'components/plain_button';
 import NotificationItem from 'components/notification_item';
+
+import HamburgerButton from 'react-hamburger-menu';
 
 import { userActions, notificationActions } from 'actions'
 import Media from 'react-media';
@@ -144,6 +146,7 @@ class AppBar extends Component {
   }
 
   render() {
+    console.log(this.props.showMenuBar);
     return (
       <Box
         style={style}
@@ -156,7 +159,16 @@ class AppBar extends Component {
         height="60px"
       >
         <Box onClick={() => { }} direction="row" align="center" gap="small" >
-          <PlainButton icon={<Menu color={iconColor} />} onClick={() => this.props.onToggleMenu()} />
+          <HamburgerButton
+            isOpen={this.props.showMenuBar}
+            menuClicked={() => this.props.onToggleMenu()}
+            width={24}
+            height={15}
+            strokeWidth={3}
+            rotate={0}
+            color='white'
+            borderRadius={2}
+            animationDuration={0.5} />
           <Text size="xlarge" color='light-0' weight="bold">AutoWeb</Text>
         </Box>
         {this.renderForSignedin()}
