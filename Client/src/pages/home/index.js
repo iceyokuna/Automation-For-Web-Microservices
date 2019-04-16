@@ -7,7 +7,7 @@ import DropMenuInline from 'components/drop_menu_inline'
 import SideBar from 'components/sidebar';
 import PrivateRoute from 'components/private_route'
 
-import { Button, Box, Text } from 'grommet';
+import { Button, Box, Text, Collapsible } from 'grommet';
 
 import FlowDetail from 'pages/flow_detail'
 import ModelWorkflow from 'pages/workflow'
@@ -36,7 +36,7 @@ export default class Home extends Component {
 
   navigateTo = (pathName) => {
     history.push(pathName);
-    this.toggleMenubar();
+    // this.toggleMenubar();
   }
 
   renderRoutes = () => {
@@ -62,14 +62,20 @@ export default class Home extends Component {
     const { showMenuBar } = this.state;
     return (
       <Box flex fill="vertical">
-        <AppBar {...this.props} onToggleMenu={this.toggleMenubar} />
+        <AppBar {...this.props} showMenuBar={showMenuBar}
+          onToggleMenu={this.toggleMenubar} />
         <Media query="(min-width: 599px)">
           {matches =>
             matches ? (
-              <FillParent>
-                <SideBar showMenuBar={showMenuBar}
-                  onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
-                {this.renderRoutes()}
+              <FillParent style={{ paddingTop: 60 }}>
+                <Box fill direction="row">
+                  <Collapsible open={showMenuBar} direction="horizontal">
+                    <SideBar showMenuBar={true}
+                      onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
+                  </Collapsible>
+                  {this.renderRoutes()}
+                </Box>
+
               </FillParent>
             ) : (
                 <FillParent>
