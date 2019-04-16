@@ -9,6 +9,7 @@ from MainModule.Graphflow.Core.TimeEvent import TimeEvent
 from MainModule.Graphflow.Core.IOtypes import *
 import pickle
 import requests
+import threading
 
 class WorkflowEngine:
     def __init__(self):
@@ -20,6 +21,7 @@ class WorkflowEngine:
     #parsing workflow
     def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None):
         element_ref_lane_owner = {}
+        sequenceFlow_ref = []
 
         #token lane
         for element in elements_list:
@@ -29,7 +31,7 @@ class WorkflowEngine:
                     elements_in_lane = lane['elements']
                     for element_ref in elements_in_lane:
                         element_ref = element_ref['elements'][0]
-                        element_ref_lane_owner[element_ref['text']] = str(lane['attributes']['name']) #id_element : id_owner
+                        element_ref_lane_owner[element_ref['text']] = str(lane['attributes']['name']) #bpmn_element_id : id_lane_owner
 
             #Start Event
             elif(element['name'] == 'bpmn2:startEvent'):
@@ -47,7 +49,7 @@ class WorkflowEngine:
                 self.state[element['attributes']['id']] = end_event
                 self.endState[element['attributes']['id']] = element['attributes']['name']
 
-            #Tasks
+            #Task
             elif(element['name'] == 'bpmn2:task'):
                 lane_owner = element_ref_lane_owner[element['attributes']['id']]
                 Id = element['attributes']['id']
@@ -57,9 +59,9 @@ class WorkflowEngine:
                 task = ServiceTask(Id, name, inputType, outputType, lane_owner)
                 self.state[element['attributes']['id']] = task
 
-            #Flows
+            #Sequecial Flow
             elif(element['name'] == 'bpmn2:sequenceFlow'):
-                self.transition[(element['attributes']['sourceRef'],"done")] = element['attributes']['targetRef']
+                sequenceFlow_ref.append(element['attributes'])
 
             #Intermediate Event
             elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
@@ -85,6 +87,21 @@ class WorkflowEngine:
         self.bindService(service_list)
         self.setPreDefindInput(preInput_list)
         self.setupCondition(condition_list)
+        self.createTransition(sequenceFlow_ref)
+
+    #construct state transition function
+    def createTransition(self, transition_list):
+        for transition in transition_list:
+            if(isinstance(self.state[transition['sourceRef']],ParallelGateway)):
+                parallel_gateway_object = self.state[transition['sourceRef']]
+                parallel_gateway_object.addFlowReference(transition['targetRef'])
+                self.transition[(transition['sourceRef'],transition['targetRef'])] = transition['targetRef']
+
+            elif(isinstance(self.state[transition['targetRef']],ParallelGateway)):
+                parallel_gateway_object = self.state[transition['targetRef']]
+                parallel_gateway_object.addIncoming(transition['sourceRef'])
+            else:
+                self.transition[(transition['sourceRef'],"done")] = transition['targetRef']
 
     #bind HTML form to each task
     def bindHTMLForm(self, HTML_list):
@@ -129,7 +146,7 @@ class WorkflowEngine:
             task.setInput(Input)
 
         
-    #message from client input
+    #message from client input (run time)
     def next(self, message , status = "done"):
         #get object from current execution
         element_object = None
@@ -147,14 +164,35 @@ class WorkflowEngine:
         if(isinstance(element_object, StartEvent)):
             return self.next({'formInputValues': None, 'taskId': element_object.getId()})
 
-        #Task case [still only work for sequencial]
+        #Task case
         if(isinstance(element_object, ServiceTask)):
             if(element_object.getHTML() is None):
-                #execute service
+                #no html form
                 return self.next({'formInputValues': element_object.getInput(), 'taskId': element_object.getId()})
             else:
-                #execute service
+                #have html form
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
+
+        #parallel gateway case
+        if(isinstance(element_object, ParallelGateway)):
+            element_object.addExecuted(message['taskId'])
+            #reach convering parallel object
+            if(len(element_object.getFlowReference()) == 1):
+                #base case parallel is done, then update state and return to kill thread
+                if(element_object.isJoined()):
+                    self.currentState["current"] = self.transition[(self.currentState["current"], element_object().getId())]
+                    return
+                #base case is still not done, then return to kill thread
+                else:
+                    return
+            #start parallel execution
+            elif(len(element_object.getFlowReference()) != 1):
+                flow_reference_list = element_object.getFlowReference()
+                for flow in flow_reference_list:
+                    thread = threading.Thread(target=self.next({'formInputValues': None, 'taskId': element_object.getId()}, flow))
+                    thread.start()
+                    thread.join()
+                return self.next({'formInputValues': None, 'taskId': self.currentState["current"]}, self.currentState["current"])
 
         #End case
         if(self.currentState["current"] in self.endState):
