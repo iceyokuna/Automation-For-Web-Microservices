@@ -190,6 +190,8 @@ class WorkflowEngine:
                 #have html form
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
 
+        #exclusive gateway case
+
         #parallel gateway case
         if(isinstance(element_object, ParallelGateway)):
             element_object.addExecuted(message['taskId'])
