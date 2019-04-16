@@ -69,10 +69,8 @@ export default class Home extends Component {
             matches ? (
               <FillParent style={{ paddingTop: 60 }}>
                 <Box fill direction="row">
-                  <Collapsible open={showMenuBar} direction="horizontal">
-                    <SideBar showMenuBar={true}
-                      onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
-                  </Collapsible>
+                  <SideBar showMenuBar={showMenuBar}
+                    onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
                   {this.renderRoutes()}
                 </Box>
 

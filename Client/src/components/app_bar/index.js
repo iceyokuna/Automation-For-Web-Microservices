@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import DropContent from 'components/dropdown_content'
 import PlainButton from 'components/plain_button';
 import NotificationItem from 'components/notification_item';
+import { HamburgerContainer } from './style'
 
 import HamburgerButton from 'react-hamburger-menu';
 
@@ -159,16 +160,21 @@ class AppBar extends Component {
       >
         <Box direction="row"
           align="center" gap="medium" pad="small">
-          <HamburgerButton
-            isOpen={this.props.showMenuBar}
-            menuClicked={() => this.props.onToggleMenu()}
-            width={24}
-            height={15}
-            strokeWidth={3}
-            rotate={0}
-            color='white'
-            borderRadius={2}
-            animationDuration={0.5} />
+
+          <HamburgerContainer>
+            <HamburgerButton
+              isOpen={this.props.showMenuBar}
+              menuClicked={() => this.props.onToggleMenu()}
+              width={24}
+              height={15}
+              strokeWidth={3}
+              rotate={0}
+              color='white'
+              borderRadius={2}
+              animationDuration={0.5} />
+          </HamburgerContainer>
+
+
           <Link to="/home/my_flows">
             <Text size="xlarge" color='light-0'
               weight="bold">AutoWeb</Text>
