@@ -7,7 +7,7 @@ import DropMenuInline from 'components/drop_menu_inline'
 import SideBar from 'components/sidebar';
 import PrivateRoute from 'components/private_route'
 
-import { Button, Box, Text } from 'grommet';
+import { Button, Box, Text, Collapsible } from 'grommet';
 
 import FlowDetail from 'pages/flow_detail'
 import ModelWorkflow from 'pages/workflow'
@@ -27,7 +27,7 @@ import { history } from '_helpers';
 
 export default class Home extends Component {
   state = {
-    showMenuBar: false,
+    showMenuBar: true,
   }
 
   toggleMenubar = (e) => {
@@ -36,7 +36,7 @@ export default class Home extends Component {
 
   navigateTo = (pathName) => {
     history.push(pathName);
-    this.toggleMenubar();
+    // this.toggleMenubar();
   }
 
   renderRoutes = () => {
@@ -67,9 +67,14 @@ export default class Home extends Component {
           {matches =>
             matches ? (
               <FillParent>
-                <SideBar showMenuBar={showMenuBar}
-                  onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
-                {this.renderRoutes()}
+                <Box fill direction="row">
+                  <Collapsible open={showMenuBar} direction="horizontal">
+                    <SideBar showMenuBar={true}
+                      onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
+                  </Collapsible>
+                  {this.renderRoutes()}
+                </Box>
+
               </FillParent>
             ) : (
                 <FillParent>
