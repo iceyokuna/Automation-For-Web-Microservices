@@ -100,10 +100,10 @@ class BpmnProperty extends Component {
 
     let element = null;
 
-    console.log(
-      "%c" + nodeType + " %c" + eventType,
-      "color: red; font-weight: bold;",
-      "color: blue; font-weight: bold;");
+    // console.log(
+    //   "%c" + nodeType + " %c" + eventType,
+    //   "color: red; font-weight: bold;",
+    //   "color: blue; font-weight: bold;");
 
     switch (nodeType) {
       case 'bpmn:Task': {
