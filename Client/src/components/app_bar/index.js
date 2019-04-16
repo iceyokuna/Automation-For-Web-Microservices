@@ -13,6 +13,7 @@ import HamburgerButton from 'react-hamburger-menu';
 import { userActions, notificationActions } from 'actions'
 import Media from 'react-media';
 import Spinner from 'react-spinkit';
+import { Link } from 'react-router-dom'
 
 import { colors } from 'theme';
 
@@ -146,11 +147,9 @@ class AppBar extends Component {
   }
 
   render() {
-    console.log(this.props.showMenuBar);
     return (
       <Box
         style={style}
-
         direction="row"
         align="center"
         justify="between"
@@ -158,7 +157,8 @@ class AppBar extends Component {
         background='brand'
         height="60px"
       >
-        <Box onClick={() => { }} direction="row" align="center" gap="small" >
+        <Box direction="row"
+          align="center" gap="medium" pad="small">
           <HamburgerButton
             isOpen={this.props.showMenuBar}
             menuClicked={() => this.props.onToggleMenu()}
@@ -169,7 +169,10 @@ class AppBar extends Component {
             color='white'
             borderRadius={2}
             animationDuration={0.5} />
-          <Text size="xlarge" color='light-0' weight="bold">AutoWeb</Text>
+          <Link to="/home/my_flows">
+            <Text size="xlarge" color='light-0'
+              weight="bold">AutoWeb</Text>
+          </Link>
         </Box>
         {this.renderForSignedin()}
 
