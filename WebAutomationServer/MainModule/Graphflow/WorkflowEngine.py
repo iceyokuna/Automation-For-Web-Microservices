@@ -73,10 +73,19 @@ class WorkflowEngine:
                 event = TimeEvent(Id, name, inputType, outputType, eventDefination)
                 self.state[element['attributes']['id']] = event
 
-            #Parallel
+            #Parallel GateWay
             elif(element['name'] == 'bpmn2:parallelGateway'):
                 Id = element['attributes']['id']
                 name = "ParallelGateway"
+                inputType = None
+                outputType = None
+                gateway = ParallelGateway(Id, name, inputType, outputType)
+                self.state[element['attributes']['id']] = gateway
+            
+            #Exclusive Gateway
+            elif(element['name'] == 'bpmn2:exclusiveGateway'):
+                Id = element['attributes']['id']
+                name = "ExclusiveGateway"
                 inputType = None
                 outputType = None
                 gateway = ParallelGateway(Id, name, inputType, outputType)
@@ -88,7 +97,6 @@ class WorkflowEngine:
         self.setPreDefindInput(preInput_list)
         self.setupCondition(condition_list)
         self.createTransition(sequenceFlow_ref)
-        self.showDefination()
 
     #construct state transition function
     def createTransition(self, transition_list):
@@ -103,6 +111,11 @@ class WorkflowEngine:
                 parallel_gateway_object = self.state[transition['targetRef']]
                 parallel_gateway_object.addIncoming(transition['sourceRef'])
                 self.transition[(transition['sourceRef'],"done")] = transition['targetRef']
+            #case diverging condition
+
+
+            #case converging condition
+
             #Other case eg. tast, event, .....
             else:
                 self.transition[(transition['sourceRef'],"done")] = transition['targetRef']
