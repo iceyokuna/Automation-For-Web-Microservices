@@ -114,7 +114,6 @@ class BpmnContainer extends Component {
       this.setState({
         currentElement: currentElement
       });
-      console.log(event);
     })
 
     eventBus.on('element.dblclick', (event) => {

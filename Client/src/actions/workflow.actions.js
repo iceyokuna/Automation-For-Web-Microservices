@@ -163,13 +163,14 @@ function addNameToId(name, value) {
   };
 }
 
-function getAllVariables(appliedMethods) {
+function updateAllVariables(appliedMethods, taskId, methodToApply) {
   const keys = Object.keys(appliedMethods);
   const variables = [];
   keys.map((elementId, index) => {
     const method = appliedMethods[elementId].method;
     const inputInterface = method.input_interface;
     const outputInterface = method.output_interface;
+    let methodOfTaskId = elementId === taskId ? taskId : elementId;
     Object.keys(inputInterface).map((variable, varIndex) => {
       // variables[variable] = inputInterface[variable];
       variables.push({
@@ -177,7 +178,7 @@ function getAllVariables(appliedMethods) {
           serviceId: method.service,
           methodId: method.id,
           methodName: method.name,
-          methodOfTaskId: method.methodOfTaskId,
+          methodOfTaskId: methodOfTaskId,
         },
         name: variable,
         type: inputInterface[variable].type,
@@ -190,7 +191,7 @@ function getAllVariables(appliedMethods) {
           serviceId: method.service,
           methodId: method.id,
           methodName: method.name,
-          methodOfTaskId: method.methodOfTaskId,
+          methodOfTaskId: methodOfTaskId,
         },
         name: variable,
         type: outputInterface[variable].type,
@@ -211,7 +212,7 @@ function applyMethodToTask(taskId, method) {
     });
 
     const { appliedMethods } = getState().workflow;
-    const allVariables = getAllVariables(appliedMethods);
+    const allVariables = updateAllVariables(appliedMethods, taskId, method);
 
     dispatch({
       type: workflowContants.UPDATE_CONDITION_VARIABLES,
@@ -242,7 +243,7 @@ function setupExistingWorkflow() {
 
     // Load workflow's conditions
     const { appliedMethods } = getState().workflow;
-    const allVariables = getAllVariables(appliedMethods);
+    const allVariables = updateAllVariables(appliedMethods);
     dispatch({
       type: workflowContants.SET_WORKFLOW_CONDITIONS,
       appliedConditions: currentFlow.appliedConditions,
