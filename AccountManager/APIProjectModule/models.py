@@ -13,7 +13,7 @@ class Workflow(models.Model):
     appliedConditions = JSONField(null=True)
     appliedPreInputs = JSONField(null=True)
     generatedForms = JSONField(null=True)
-    
+    workflowObject = JSONField(null=True)
 
     def __str__(self):
         return self.name
@@ -37,7 +37,6 @@ class Condition(models.Model):
 class Collaborator(models.Model):
     workflow = models.ForeignKey(Workflow, related_name='project_col', on_delete=models.CASCADE)
     collaborator = models.ForeignKey(User, related_name='collaborator', on_delete=models.CASCADE)
-    
     def __str__(self):
         return self.workflow.name
 

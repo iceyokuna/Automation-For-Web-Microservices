@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework import viewsets
-from .serializers import UserSerializer, ChangePasswordSerializer, UserInfoSerializer
+from .serializers import UserSerializer, ChangePasswordSerializer, UserInfoSerializer, NotificationSerializer, FcmTokenSerializer
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -12,10 +12,11 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
     HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT
+    HTTP_204_NO_CONTENT,
+    HTTP_201_CREATED
 )
 from rest_framework.response import Response
-
+from .models import Notification, FcmToken
 
 @permission_classes((AllowAny,))
 class RegisterView(APIView):
@@ -56,3 +57,53 @@ class ChangePasswordView(APIView):
 class AllUserView(viewsets.ModelViewSet):
     queryset = User.objects.order_by('username')
     serializer_class = UserInfoSerializer
+
+@permission_classes((IsAuthenticated,))
+class NotificationView(APIView):
+
+    def get(self, request):
+        queryset = Notification.objects.filter(user=request.user.username).order_by('-created').values()
+        return Response({'notifications': queryset}, status=HTTP_200_OK)
+   
+    def post(self, request):
+        noti = Notification.objects.create(user=request.user, title=request.data.get('title'),body=request.data.get('body'),click_action =request.data.get('click_action'), data=request.data.get('data'))
+        return Response({"detail": "successfully created"})
+
+    def put(self, request):
+        read_flags =request.data.get('read_flags')
+        for i in read_flags:
+            noti = Notification.objects.filter(id=i).update(readFlag=True)
+        return Response({"detail": "successfully updated"})
+
+@permission_classes((IsAuthenticated,))
+class SendNotificationView(APIView):
+    def post(self, request):
+        to = request.data.get('to')
+        for i in to:
+            user = User.objects.filter(id = i).first()
+            noti = Notification.objects.create(user=user, title=request.data.get('title'),body=request.data.get('body'),click_action =request.data.get('click_action'), data=request.data.get('data'))
+        return Response({"detail": "successfully created"})
+
+@permission_classes((IsAuthenticated,))
+class FcmTokenView(viewsets.ModelViewSet):
+    queryset = FcmToken.objects.all()
+    serializer_class = FcmTokenSerializer
+    def get_queryset(self):
+        queryset = self.queryset
+        query_set = queryset.filter(user=self.request.user)
+        return query_set
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if(FcmToken.objects.filter(user = self.request.user).exists()):
+            fcm = FcmToken.objects.filter(user = self.request.user).first()
+            serializer.update(fcm, request.data)
+        else:
+            self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+    

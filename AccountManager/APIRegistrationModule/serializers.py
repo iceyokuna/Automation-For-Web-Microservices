@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
+from .models import Notification, FcmToken
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,3 +38,21 @@ class UserInfoSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username','first_name', 'last_name')
 
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ('user','titile','body','click_action','data')
+
+class FcmTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FcmToken
+        fields = ('user','fcmToken')
+
+    def create(self, validated_data):
+        #if (FcmToken.objects.filter(user = validated_data['user']).exists()):
+            #fcm = FcmToken.objects.filter(user = validated_data['user'])
+            #fcm.update(fcmToken= validated_data['fcmToken'])   
+           # fcm = super().create(validated_data)
+        #else:
+        fcm = super().create(validated_data)
+        return fcm

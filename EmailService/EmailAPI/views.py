@@ -19,9 +19,9 @@ from rest_framework.response import Response
 @permission_classes((AllowAny,))
 class EmailView(APIView):
     def post(self, request):
-        subject = request.data.get('subject')
-        message = request.data.get('message')
-        recipient_list = request.data.get('email')
+        subject = request.data.get('emailTitle')
+        message = request.data.get('emailBody')
+        recipient_list = request.data.get('receiver')
         email_from = settings.EMAIL_HOST_USER
 
         #if(send_mail( subject, message, email_from, [recipient_list] )):
