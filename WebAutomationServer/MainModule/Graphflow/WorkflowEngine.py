@@ -74,9 +74,9 @@ class WorkflowEngine:
                 self.state[element['attributes']['id']] = event
 
             #Parallel
-            elif(element['name'] == 'bpmn2.parallelGateway'):
+            elif(element['name'] == 'bpmn2:parallelGateway'):
                 Id = element['attributes']['id']
-                name = element['attributes']['name']
+                name = "ParallelGateway"
                 inputType = None
                 outputType = None
                 gateway = ParallelGateway(Id, name, inputType, outputType)
@@ -88,18 +88,22 @@ class WorkflowEngine:
         self.setPreDefindInput(preInput_list)
         self.setupCondition(condition_list)
         self.createTransition(sequenceFlow_ref)
+        self.showDefination()
 
     #construct state transition function
     def createTransition(self, transition_list):
         for transition in transition_list:
+            #case diverging parallel
             if(isinstance(self.state[transition['sourceRef']],ParallelGateway)):
                 parallel_gateway_object = self.state[transition['sourceRef']]
                 parallel_gateway_object.addFlowReference(transition['targetRef'])
                 self.transition[(transition['sourceRef'],transition['targetRef'])] = transition['targetRef']
-
+            #case converging parallel
             elif(isinstance(self.state[transition['targetRef']],ParallelGateway)):
                 parallel_gateway_object = self.state[transition['targetRef']]
                 parallel_gateway_object.addIncoming(transition['sourceRef'])
+                self.transition[(transition['sourceRef'],"done")] = transition['targetRef']
+            #Other case eg. tast, event, .....
             else:
                 self.transition[(transition['sourceRef'],"done")] = transition['targetRef']
 
@@ -180,7 +184,8 @@ class WorkflowEngine:
             if(len(element_object.getFlowReference()) == 1):
                 #base case parallel is done, then update state and return to kill thread
                 if(element_object.isJoined()):
-                    self.currentState["current"] = self.transition[(self.currentState["current"], element_object().getId())]
+                    #update currentState to converging gateway
+                    self.currentState["current"] = element_object.getId()
                     return
                 #base case is still not done, then return to kill thread
                 else:
@@ -192,7 +197,8 @@ class WorkflowEngine:
                     thread = threading.Thread(target=self.next({'formInputValues': None, 'taskId': element_object.getId()}, flow))
                     thread.start()
                     thread.join()
-                return self.next({'formInputValues': None, 'taskId': self.currentState["current"]}, self.currentState["current"])
+                converging_gateway = self.state[self.currentState["current"]]
+                return self.next({'formInputValues': None, 'taskId': self.currentState["current"]}, converging_gateway.getFlowReference()[0])
 
         #End case
         if(self.currentState["current"] in self.endState):
