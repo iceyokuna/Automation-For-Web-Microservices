@@ -111,10 +111,10 @@ class WorkflowEngine:
                 parallel_gateway_object = self.state[transition['targetRef']]
                 parallel_gateway_object.addIncoming(transition['sourceRef'])
                 self.transition[(transition['sourceRef'],"done")] = transition['targetRef']
-            #case diverging condition
 
-
-            #case converging condition
+            #case gateway condition
+            if(isinstance(self.state[transition['sourceRef']],ExclusiveGateway)):
+                self.transition[(transition['sourceRef'],transition['targetRef'])] = transition['targetRef']
 
             #Other case eg. tast, event, .....
             else:
