@@ -88,14 +88,14 @@ class WorkflowEngine:
                 name = "ExclusiveGateway"
                 inputType = None
                 outputType = None
-                gateway = ParallelGateway(Id, name, inputType, outputType)
+                gateway = ExclusiveGateway(Id, name, inputType, outputType)
                 self.state[element['attributes']['id']] = gateway
 
         #bind service and setup bpmn
         self.bindHTMLForm(HTML_list)
         self.bindService(service_list)
         self.setPreDefindInput(preInput_list)
-        self.setupCondition(condition_list)
+        self.setCondition(condition_list)
         self.createTransition(sequenceFlow_ref)
 
     #construct state transition function
@@ -111,10 +111,12 @@ class WorkflowEngine:
                 parallel_gateway_object = self.state[transition['targetRef']]
                 parallel_gateway_object.addIncoming(transition['sourceRef'])
                 self.transition[(transition['sourceRef'],"done")] = transition['targetRef']
-            #case diverging condition
 
-
-            #case converging condition
+            #case gateway condition
+            if(isinstance(self.state[transition['sourceRef']],ExclusiveGateway)):
+                exclusive_gateway_object = self.state[transition['sourceRef']]
+                exclusive_gateway_object.addFlowReference(transition['targetRef'])
+                self.transition[(transition['sourceRef'],transition['targetRef'])] = transition['targetRef']
 
             #Other case eg. tast, event, .....
             else:
@@ -146,8 +148,10 @@ class WorkflowEngine:
             task.setOutputInterface(serviceOutputInterface)
 
     #setup condition to gateway
-    def setupCondition(self, condition_list):
-        pass
+    def setCondition(self, condition_list):
+        for condition_ref in condition_list:
+            exclusive_gateway = self.state[condition_ref]
+            exclusive_gateway.setCondition(condition_list[condition_ref]) #set condition list
 
     #set pre-input to task, And bind to input
     def setPreDefindInput(self, predefine_input_list):
@@ -160,6 +164,7 @@ class WorkflowEngine:
             Input = {}
             for value in preinput:
                 Input[value['variableName']] = {'value': value['value']}
+            #set as a input to task
             task.setInput(Input)
 
         
@@ -189,6 +194,17 @@ class WorkflowEngine:
             else:
                 #have html form
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
+
+        #exclusive gateway case
+        if(isinstance(element_object, ExclusiveGateway)):
+            #get required task that need to check condition
+            required_task = element_object.getRequiredTasks()
+            required_task_dict = {}
+            for task in required_task:
+                required_task_dict[task] = self.state[task]
+            #get flow refernece that make condition true
+            flow_ref = element_object.getFlowReference(required_task_dict)
+            return self.next({'formInputValues': None, 'taskId': element_object.getId()}, flow_ref)
 
         #parallel gateway case
         if(isinstance(element_object, ParallelGateway)):
@@ -222,11 +238,38 @@ class WorkflowEngine:
     #execute send request to service manager
     def execute(self, message):
         element_object = self.state[message['taskId']]
+
+        #show for debuging
+        element_object.setInput(message['formInputValues'])
         print("execute")
         print(element_object.getId())
         print(message['formInputValues'])
         print()
-    
+
+        #call service to API gateway (service manager)
+        #url_api_gateway = "http://178.128.214.101:8004/api/call_service"
+        #request_data = message['formInputValues']
+        #service_id = element_object.getServiceId()
+        #method_id = element_object.getServiceId()
+        #request_input = {"service_id":service_id, "method_id":method_id, "input":request_data}
+        #requests.post(url_api_gateway, json= request_input)
+
+        #Use to debug (call without API gateway [without calling service manager])
+        if(str(element_object.getServiceId()) == "1"):
+            email = message['formInputValues']['email']['value']
+            subject = message['formInputValues']['subject']['value']
+            message_data = message['formInputValues']['message']['value']
+
+            request_input = {"receiver":[email],"emailBody":message_data,"emailTitle":subject}
+            requests.post('http://127.0.0.1:8001/api/email', json= request_input)
+
+        elif(str(element_object.getServiceId()) == "5"):
+            url = "https://safe-beyond-22181.herokuapp.com/notify"
+            user_id = message['formInputValues']['user_id']['value']
+            message_data = message['formInputValues']['message']['value']
+            request_data = {"user_id":user_id, "message":message_data}
+            requests.get(url , data= request_data)
+
     #use to show all finite state machine formal defination
     def showDefination(self):
         print()
