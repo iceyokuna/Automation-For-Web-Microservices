@@ -13,4 +13,5 @@ urlpatterns = [
     path('get_mac',views.GetMacView.as_view()),
     path('discover',views.DiscoverView.as_view()),
     path('register',views.RegisterView.as_view()),
+    path('auth', views.AuthView.as_view())
 ]
