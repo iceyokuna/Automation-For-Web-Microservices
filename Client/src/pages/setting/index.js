@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "react-tabs/style/react-tabs.css";
+import "./tabs.css";
 
 class index extends Component {
 
