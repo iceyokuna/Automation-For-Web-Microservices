@@ -18,6 +18,7 @@ import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
 import MyTasks from 'pages/my_tasks'
 import InboxTaskDetail from 'pages/inbox_task_detail'
+import Setting from 'pages/setting'
 
 import { Route, Switch, Redirect } from 'react-router-dom'
 
@@ -51,6 +52,7 @@ export default class Home extends Component {
           <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
           <Route exact path={match.url + "/design_form"} component={CreateForm} />
           <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
+          <Route path={match.url + "/setting"} component={Setting} />
           <Route component={NotFound} />
         </Switch>
       </div>
@@ -76,7 +78,7 @@ export default class Home extends Component {
 
               </FillParent>
             ) : (
-                <FillParent>
+                <FillParent style={{ paddingTop: 60 }}>
                   <DropMenuInline showMenuBar={showMenuBar}
                     onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
                   {this.renderRoutes()}
