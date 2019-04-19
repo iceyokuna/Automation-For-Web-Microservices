@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 
 const index = ({ onApprove, onReject, onClick, isEven, ...props }) => {
   return (
-    <Box round={{ size: "small" }} direction="row" margin={{ horizontal: 'medium' }}
+    <Box direction="row" margin={{ horizontal: 'medium' }}
+      border={{ size: 'xsmall', side: 'bottom', color: 'light-1' }}
       animation={{ delay: props.delay * 100, type: "fadeIn" }}
-      background={isEven == true ? "light-0" : "#F2F3F5"} pad={{ vertical: 'medium', horizontal: 'xsmall' }} height="50px">
+      pad={{ vertical: 'medium', horizontal: 'xsmall' }} height="50px">
       <Box style={{ flex: 3 }} align="center" justify="center">
 
         <Button onClick={onClick}>

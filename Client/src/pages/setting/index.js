@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import {
   Box, Button,
   Heading,
-  Tabs,
-  Tab,
 } from 'grommet';
 
 import { Row, Col } from 'react-flexbox-grid'
@@ -17,10 +15,13 @@ import { workflowActions } from 'actions';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.css";
+
 class index extends Component {
 
   state = {
-    currentMenu: "Services",
+    currentTabIndex: 0,
   }
 
   onSelectMenu = (menu) => {
@@ -29,27 +30,31 @@ class index extends Component {
 
 
   render() {
-    const { currentMenu } = this.state
+    const { currentTabIndex } = this.state
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
           <Heading size='small' margin={{ right: 'medium' }}>Setting</Heading>
-          <Row >
-            <Col xs={12} sm={12} md={3} lg={3}>
-              <Box round={{ size: "small" }} background="light-0" pad="medium">
-                <MenuItem label="Services" active={currentMenu === "Services"}
+          <Box round={{ size: "small" }} background="light-0" pad="medium">
+            {/* <MenuItem label="Services" active={currentMenu === "Services"}
                   onClick={() => this.onSelectMenu("Services")} />
                 <MenuItem label="Notification" active={currentMenu === "Notification"}
-                  onClick={() => this.onSelectMenu("Notification")} />
-              </Box>
-            </Col>
-            <Col xs={12} sm={12} md={9} lg={9}>
-              <Box pad="medium">
+                  onClick={() => this.onSelectMenu("Notification")} /> */}
+            <Tabs selectedIndex={currentTabIndex}
+              onSelect={currentTabIndex => this.setState({ currentTabIndex })}>
+              <TabList>
+                <Tab>Services</Tab>
+                <Tab>Notification</Tab>
+              </TabList>
 
-              </Box>
-            </Col>
-          </Row>
-
+              <TabPanel>
+                <h2>Any content 1</h2>
+              </TabPanel>
+              <TabPanel>
+                <h2>Any content 2</h2>
+              </TabPanel>
+            </Tabs>
+          </Box>
         </Box>
 
       </div>

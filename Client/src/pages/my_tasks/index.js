@@ -83,7 +83,8 @@ class MyTasks extends Component {
             name="line-scale"
             color={colors.brand} />
         </Box>) : (
-            <Box direction="column" gap="small" animation="fadeIn" >
+            <Box direction="column" gap="small" animation="fadeIn" background="light-0" 
+              pad={{top: "small", bottom: 'medium'}}>
               <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium' }}>
                 <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
                   border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
@@ -98,7 +99,7 @@ class MyTasks extends Component {
                   <Text textAlign="center" weight="bold">Date</Text>
                 </Box>
               </Box>
-              <Box pad={{ bottom: 'large' }} round={{ size: 'small' }}>
+              <Box round={{ size: 'small' }}>
                 {this.renderTasks()}
               </Box>
             </Box>)}
