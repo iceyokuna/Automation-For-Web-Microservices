@@ -13,8 +13,32 @@ import Stepper from 'react-stepper-horizontal'
 
 export class index extends Component {
 
+  state = {
+    serviceName: '',
+    serviceInfo: '',
+    serviceUrl: '',
+  }
+
   onColseDialog = () => {
     this.props.dispatch(userServicesActions.toggleDefineServiceDialog());
+  }
+
+  onChangeServiceName = (e) => {
+    this.setState({
+      serviceName: e.target.value,
+    })
+  }
+
+  onChangeServiceInfo = (e) => {
+    this.setState({
+      serviceInfo: e.target.value,
+    })
+  }
+
+  onChangeServiceUrl = (e) => {
+    this.setState({
+      serviceUrl: e.target.value,
+    })
   }
 
   render() {
@@ -32,6 +56,13 @@ export class index extends Component {
                 { title: 'Submit' }
               ]} activeStep={1}
               />
+
+              <TextInput placeholder="Service name" size="small"
+                onChange={this.onChangeServiceName} />
+              <TextInput placeholder="What does this service do ?" size="small"
+                onChange={this.onChangeServiceInfo} />
+              <TextInput placeholder="Service 's URL e.g. https://myservice.com/api/" size="small"
+                onChange={this.onChangeServiceUrl} />
 
               <Box direction="row" justify="end" align="center" gap="small">
                 <Button label="Close" onClick={this.onColseDialog} />
