@@ -14,9 +14,9 @@ import MenuItem from './menu_item'
 import { workflowActions } from 'actions';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
-
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "./tabs.css";
+import SettingServices from 'components/setting_services';
 
 class index extends Component {
 
@@ -35,22 +35,19 @@ class index extends Component {
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
           <Heading size='small' margin={{ right: 'medium' }}>Setting</Heading>
-          <Box round={{ size: "small" }} background="light-0" pad="medium">
-            {/* <MenuItem label="Services" active={currentMenu === "Services"}
-                  onClick={() => this.onSelectMenu("Services")} />
-                <MenuItem label="Notification" active={currentMenu === "Notification"}
-                  onClick={() => this.onSelectMenu("Notification")} /> */}
+          <Box round={{ size: "small" }} background="light-0" pad="medium" margin={{ bottom: 'large' }}>
             <Tabs selectedIndex={currentTabIndex}
               onSelect={currentTabIndex => this.setState({ currentTabIndex })}>
               <TabList>
                 <Tab>Services</Tab>
                 <Tab>Notification</Tab>
               </TabList>
-
               <TabPanel>
-                <h2>Any content 1</h2>
+                {/* Service Setting Tab */}
+                <SettingServices />
               </TabPanel>
               <TabPanel>
+                {/* Notification Setting Tab */}
                 <h2>Any content 2</h2>
               </TabPanel>
             </Tabs>
