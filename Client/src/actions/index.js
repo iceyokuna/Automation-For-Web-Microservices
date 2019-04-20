@@ -5,3 +5,4 @@ export * from './socket.actions';
 export * from './available_services.action'
 export * from './inbox_tasks.action';
 export * from './notification.actions';
+export * from './user_services.actions';

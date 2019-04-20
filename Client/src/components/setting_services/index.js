@@ -7,9 +7,11 @@ import { services } from './mockup'
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
 
-import { Trash } from 'grommet-icons'
+import DefineServiceDialog from 'components/define_service_dialog'
+import { connect } from 'react-redux';
+import { userServicesActions } from 'actions'
 
-export default class index extends Component {
+class index extends Component {
 
   state = {
     loadingServices: true,
@@ -22,7 +24,7 @@ export default class index extends Component {
   }
 
   onAddService = () => {
-
+    this.props.dispatch(userServicesActions.toggleDefineServiceDialog());
   }
 
   onSelectService = (index) => {
@@ -54,8 +56,11 @@ export default class index extends Component {
   }
 
   render() {
+    const { userServices } = this.props;
     return (
       <Box pad={{ vertical: 'small' }}>
+        <DefineServiceDialog />
+
         <Box direction="row" justify="end" align="center">
           <Button label="Add Service" color="accent-1" primary onClick={this.onAddService} />
         </Box>
@@ -67,3 +72,11 @@ export default class index extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userServices: state.userServices,
+  }
+}
+
+export default connect(mapStateToProps)(index);
