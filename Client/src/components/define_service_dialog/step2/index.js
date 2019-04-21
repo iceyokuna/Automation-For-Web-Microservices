@@ -4,8 +4,11 @@ import {
   TextInput, Box, Button, FormField,
   Select, TextArea,
 } from 'grommet';
+
 import { Sort, AddCircle } from 'grommet-icons'
 import { Row, Col } from 'react-flexbox-grid';
+
+import { MethodContainer, BadgeIcon } from './style'
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -18,6 +21,7 @@ const interfacePlaceholder = `{
 export default class index extends Component {
 
   state = {
+    numberOfNewMethods: 0,
     methodName: '',
     methodInfo: '',
     methodUrl: '',
@@ -71,8 +75,17 @@ export default class index extends Component {
 
   }
 
+  onAddMethod = () => {
+    this.setState({
+      numberOfNewMethods: this.state.numberOfNewMethods += 1
+    });
+  }
+
+
   render() {
-    const { methodName, methodInfo, methodUrl, requestType, inputInterface, outputInterface } = this.state
+    const { methodName, methodInfo, methodUrl,
+      requestType, inputInterface, outputInterface,
+      numberOfNewMethods } = this.state
     return (
       <Box gap="small" pad="medium">
         <Row >
@@ -123,10 +136,13 @@ export default class index extends Component {
           </Col>
         </Row>
 
-        <Box direction="row" justify="between" align="center" gap="small">
-          <Button icon={<Sort />} label="Methods" color="accent-1" onClick={this.onListMethods} />
+        <Box direction="row" justify="between" align="center" gap="small" margin={{ top: 'small' }}>
+          <MethodContainer>
+            <Button icon={<Sort />} label="Methods" color="accent-1" onClick={this.onListMethods} />
+            <BadgeIcon>{numberOfNewMethods}</BadgeIcon>
+          </MethodContainer>
           <Box direction="row" gap="small">
-            <Button icon={<AddCircle />} label="Method" color="accent-1" onClick={this.onNextStep} />
+            <Button icon={<AddCircle />} label="Method" color="accent-1" onClick={this.onAddMethod} />
             <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
           </Box>
         </Box>
