@@ -53,7 +53,9 @@ export default class FlowItem extends Component {
     return (
       <Box fill onMouseEnter={this.showSnackbar}
         onMouseLeave={this.hideSnackbar}
-        animation={{ delay: delay * 100, type: "fadeIn" }}>
+        animation={[
+          { delay: delay * 100, type: "fadeIn" },
+          { delay: delay * 100, type: "zoomIn", size: 'xlarge' }]}>
         <Box round={{ size: "small" }} margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
           <Box pad="xsmall">
             <Button onClick={onSelectFlow} >
