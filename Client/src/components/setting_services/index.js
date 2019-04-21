@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Box, Button, Text, } from 'grommet';
 
-import "./style.css";
 import { services } from './mockup'
 
 import Spinner from 'react-spinkit'

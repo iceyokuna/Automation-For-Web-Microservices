@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   TextInput, Box, Button, FormField,
   Select, TextArea,
@@ -9,7 +9,8 @@ import { Sort, AddCircle } from 'grommet-icons'
 import { Row, Col } from 'react-flexbox-grid';
 
 import { MethodContainer, BadgeIcon } from './style';
-import { Spring } from 'react-spring'
+import { Spring, Transition, config } from 'react-spring'
+import { methods } from './mockup'
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -24,6 +25,7 @@ export default class index extends Component {
   state = {
     numberOfNewMethods: 0,
     resetBadgeAnim: false,
+    showMethodList: false,
     methodName: '',
     methodInfo: '',
     methodUrl: '',
@@ -74,7 +76,9 @@ export default class index extends Component {
   }
 
   onListMethods = () => {
-
+    this.setState({
+      showMethodList: true
+    })
   }
 
   onAddMethod = () => {
@@ -84,13 +88,52 @@ export default class index extends Component {
     });
   }
 
+  onSelectMethod = (method) => {
 
-  render() {
+  }
+
+  onAddmoreMethod = () => {
+    this.setState({
+      showMethodList: false,
+    })
+  }
+
+
+  renderMethodList = () => {
+    return (
+      <Fragment>
+        <table>
+          <tr>
+            <th>Method name</th>
+            <th>URL's endpoint</th>
+            <th>Request type</th>
+          </tr>
+          {methods.map((item, index) =>
+            <tr className="service" onClick={() => this.onSelectMethod(item)}>
+              <td>{item.methodName}</td>
+              <td>{item.methodUrl}</td>
+              <td>{item.requestType}</td>
+            </tr>
+          )}
+        </table>
+        <Box direction="row" justify="end" gap="small">
+          <Button icon={<AddCircle />} label="Add more" color="accent-1"
+            onClick={this.onAddmoreMethod} />
+          <Button label="Next" color="accent-1"
+            priamry onClick={this.onNextStep} />
+
+        </Box>
+      </Fragment>
+    );
+  }
+
+
+  renderCreateMethod = () => {
     const { methodName, methodInfo, methodUrl,
       requestType, inputInterface, outputInterface,
       numberOfNewMethods, resetBadgeAnim } = this.state
     return (
-      <Box gap="small" pad="medium">
+      <Fragment>
         <Row >
           <Col xs={12} md={5} lg={5}>
             <FormField>
@@ -144,11 +187,11 @@ export default class index extends Component {
             <Button icon={<Sort />} label="Methods" color="accent-1" onClick={this.onListMethods} />
 
             <Spring
-              from={{ opacity: 0, transform: "scale(0.5)"}}
+              from={{ opacity: 0, transform: "scale(0.5)" }}
               to={{ opacity: 1, transform: "scale(1.4)" }}
               reset={resetBadgeAnim}
-              onRest={() => this.setState({resetBadgeAnim: false})}
-              >
+              onRest={() => this.setState({ resetBadgeAnim: false })}
+            >
               {props => <BadgeIcon style={props}>{numberOfNewMethods}</BadgeIcon>}
             </Spring>
 
@@ -158,6 +201,33 @@ export default class index extends Component {
             <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
           </Box>
         </Box>
+      </Fragment>
+    );
+  }
+
+
+
+  render() {
+    const { showMethodList } = this.state
+    return (
+      <Box gap="small" pad="medium">
+        <Transition
+          items={showMethodList}
+          from={{ opacity: 0 }}
+          enter={{ opacity: 1, }}
+          leave={{ opacity: 0, display: 'none' }}>
+          {toggle =>
+            toggle
+              ? props =>
+                <div style={props}>
+                  {this.renderMethodList()}
+                </div>
+              : props =>
+                <div style={props}>
+                  {this.renderCreateMethod()}
+                </div>
+          }
+        </Transition>
       </Box>
     )
   }
