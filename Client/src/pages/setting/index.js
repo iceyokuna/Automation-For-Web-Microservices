@@ -46,7 +46,6 @@ class index extends Component {
   render() {
     const { currentTabIndex, tabs } = this.state;
     const { match } = this.props;
-    console.log(match)
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>

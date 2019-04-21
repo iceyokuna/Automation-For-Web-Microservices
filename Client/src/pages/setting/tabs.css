@@ -3,16 +3,12 @@
 }
 
 .react-tabs__tab-list {
-  border-bottom: 1px solid #FF4080;
   margin: 0 0 10px;
   padding: 0;
 }
 
 .react-tabs__tab {
   display: inline-block;
-  border: 2px solid transparent;
-  border-bottom: none;
-  bottom: -2px;
   position: relative;
   list-style: none;
   padding: 6px 12px;
@@ -21,9 +17,9 @@
 
 .react-tabs__tab--selected {
   background: #fff;
-  border-color: #FF4080;
+  border-bottom: 2px solid #FF4080;
   color: black;
-  border-radius: 5px 5px 0 0;
+  border-bottom-width: 2px;
 }
 
 .react-tabs__tab--disabled {
