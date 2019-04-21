@@ -2,18 +2,26 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
 import {
-  Heading, Text, Box, Button,
-  Layer, TextInput, FormField,
-  TextArea
+  Box,
+  Layer,
 } from 'grommet'
 
 import { userServicesActions } from 'actions';
 
-import Stepper from 'react-stepper-horizontal'
+import Stepper from 'react-stepper-horizontal';
+import Step1 from './step1';
+import Step2 from './step2';
+
+const steps = [
+  { title: 'Define your service' },
+  { title: 'Service interface' },
+  { title: 'Submit' },
+]
 
 export class index extends Component {
 
   state = {
+    currentStepIndex: 0,
     serviceName: '',
     serviceInfo: '',
     serviceUrl: '',
@@ -23,50 +31,33 @@ export class index extends Component {
     this.props.dispatch(userServicesActions.toggleDefineServiceDialog());
   }
 
-  onChangeServiceName = (e) => {
+  onNextStep = () => {
     this.setState({
-      serviceName: e.target.value,
-    })
+      currentStepIndex: this.state.currentStepIndex += 1,
+    });
   }
 
-  onChangeServiceInfo = (e) => {
-    this.setState({
-      serviceInfo: e.target.value,
-    })
-  }
 
-  onChangeServiceUrl = (e) => {
-    this.setState({
-      serviceUrl: e.target.value,
-    })
+  renderContents = () => {
+    const { currentStepIndex } = this.state;
+    if (currentStepIndex == 0) return (<Step1 onNextStep={this.onNextStep} />)
+    if (currentStepIndex == 1) return (<Step2 onNextStep={this.onNextStep} />)
+    if (currentStepIndex == 2) return (<Step1 onNextStep={this.onNextStep} />)
   }
 
   render() {
     const { userServices } = this.props;
+    const { currentStepIndex } = this.state;
     return (
       <Fragment>
         {userServices.showDefineServiceDialog && (
           <Layer
             onEsc={this.onColseDialog}
             onClickOutside={this.onColseDialog}>
-            <Box pad="medium" gap="small" width="500px" direction="column">
-              <Stepper steps={[
-                { title: 'Define your service' },
-                { title: 'Service interface' },
-                { title: 'Submit' }
-              ]} activeStep={1}
+            <Box pad="medium" gap="small" width="700px" direction="column">
+              <Stepper steps={steps} activeStep={currentStepIndex}
               />
-
-              <TextInput placeholder="Service name" size="small"
-                onChange={this.onChangeServiceName} />
-              <TextInput placeholder="What does this service do ?" size="small"
-                onChange={this.onChangeServiceInfo} />
-              <TextInput placeholder="Service 's URL e.g. https://myservice.com/api/" size="small"
-                onChange={this.onChangeServiceUrl} />
-
-              <Box direction="row" justify="end" align="center" gap="small">
-                <Button label="Close" onClick={this.onColseDialog} />
-              </Box>
+              {this.renderContents()}
 
             </Box>
           </Layer>
