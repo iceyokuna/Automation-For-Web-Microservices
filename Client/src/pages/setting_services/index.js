@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Box, Button, Text, } from 'grommet';
+import { AddCircle } from 'grommet-icons'
 
 import { services } from './mockup'
 
@@ -38,19 +39,26 @@ class index extends Component {
       </Box>
     );
     else return (
-      <table>
-        <tr>
-          <th>Service Name</th>
-          <th>Service URL</th>
-        </tr>
-        {services.map((item, index) =>
-          <tr className="service" onClick={() => this.onSelectService(index)}>
-            <td>{item.serviceName}</td>
-            <td>{item.serviceUrl}</td>
+      <Fragment>
+        <table>
+          <tr>
+            <th>Service Name</th>
+            <th>Service URL</th>
           </tr>
-        )}
-      </table>
+          {services.map((item, index) =>
+            <tr className="service" onClick={() => this.onSelectService(index)}>
+              <td>{item.serviceName}</td>
+              <td>{item.serviceUrl}</td>
+            </tr>
+          )}
+        </table>
 
+        <Box direction="row" justify="end" align="center">
+          <Button label="Add Service" color="accent-1"
+            icon={<AddCircle />}
+            primary onClick={this.onAddService} />
+        </Box>
+      </Fragment>
     )
   }
 
@@ -59,10 +67,6 @@ class index extends Component {
     return (
       <Box pad={{ vertical: 'small' }}>
         <DefineServiceDialog />
-
-        <Box direction="row" justify="end" align="center">
-          <Button label="Add Service" color="accent-1" primary onClick={this.onAddService} />
-        </Box>
 
         {this.renderServices()}
 
