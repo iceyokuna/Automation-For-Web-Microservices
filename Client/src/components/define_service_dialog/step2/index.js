@@ -4,9 +4,8 @@ import {
   TextInput, Box, Button, FormField,
   Select, TextArea,
 } from 'grommet';
-
+import { Sort, AddCircle } from 'grommet-icons'
 import { Row, Col } from 'react-flexbox-grid';
-import { Scrollbars } from 'react-custom-scrollbars'
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -125,9 +124,9 @@ export default class index extends Component {
         </Row>
 
         <Box direction="row" justify="between" align="center" gap="small">
-          <Button label="List of methods" color="accent-1" onClick={this.onListMethods} />
+          <Button icon={<Sort />} label="Methods" color="accent-1" onClick={this.onListMethods} />
           <Box direction="row" gap="small">
-            <Button label="Add more" color="accent-1" onClick={this.onNextStep} />
+            <Button icon={<AddCircle />} label="Method" color="accent-1" onClick={this.onNextStep} />
             <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
           </Box>
         </Box>
