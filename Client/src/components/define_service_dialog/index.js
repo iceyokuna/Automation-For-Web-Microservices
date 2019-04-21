@@ -11,6 +11,7 @@ import { userServicesActions } from 'actions';
 import Stepper from 'react-stepper-horizontal';
 import Step1 from './step1';
 import Step2 from './step2';
+import { colors } from 'theme';
 
 const steps = [
   { title: 'Define your service' },
@@ -56,6 +57,8 @@ export class index extends Component {
             onClickOutside={this.onColseDialog}>
             <Box pad="medium" gap="small" width="700px" direction="column">
               <Stepper steps={steps} activeStep={currentStepIndex}
+                activeColor={colors.brand} completeColor={colors.brand}
+                completeBarColor={colors.brand}
               />
               {this.renderContents()}
 
