@@ -8,7 +8,8 @@ import {
 import { Sort, AddCircle } from 'grommet-icons'
 import { Row, Col } from 'react-flexbox-grid';
 
-import { MethodContainer, BadgeIcon } from './style'
+import { MethodContainer, BadgeIcon } from './style';
+import { Spring } from 'react-spring'
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -22,6 +23,7 @@ export default class index extends Component {
 
   state = {
     numberOfNewMethods: 0,
+    resetBadgeAnim: false,
     methodName: '',
     methodInfo: '',
     methodUrl: '',
@@ -77,7 +79,8 @@ export default class index extends Component {
 
   onAddMethod = () => {
     this.setState({
-      numberOfNewMethods: this.state.numberOfNewMethods += 1
+      numberOfNewMethods: this.state.numberOfNewMethods += 1,
+      resetBadgeAnim: true,
     });
   }
 
@@ -85,7 +88,7 @@ export default class index extends Component {
   render() {
     const { methodName, methodInfo, methodUrl,
       requestType, inputInterface, outputInterface,
-      numberOfNewMethods } = this.state
+      numberOfNewMethods, resetBadgeAnim } = this.state
     return (
       <Box gap="small" pad="medium">
         <Row >
@@ -139,7 +142,16 @@ export default class index extends Component {
         <Box direction="row" justify="between" align="center" gap="small" margin={{ top: 'small' }}>
           <MethodContainer>
             <Button icon={<Sort />} label="Methods" color="accent-1" onClick={this.onListMethods} />
-            <BadgeIcon>{numberOfNewMethods}</BadgeIcon>
+
+            <Spring
+              from={{ opacity: 0, transform: "scale(0.5)"}}
+              to={{ opacity: 1, transform: "scale(1.4)" }}
+              reset={resetBadgeAnim}
+              onRest={() => this.setState({resetBadgeAnim: false})}
+              >
+              {props => <BadgeIcon style={props}>{numberOfNewMethods}</BadgeIcon>}
+            </Spring>
+
           </MethodContainer>
           <Box direction="row" gap="small">
             <Button icon={<AddCircle />} label="Method" color="accent-1" onClick={this.onAddMethod} />

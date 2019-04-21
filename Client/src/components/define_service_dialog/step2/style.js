@@ -7,10 +7,10 @@ export const MethodContainer = styled.div`
 
 export const BadgeIcon = styled.div`
   position: absolute;
-  right: 5px;
-  top: -10px;
+  right: 0px;
+  top: -15px;
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   background-color: ${colors["status-critical"]}
   border-radius: 50%;
   width: 25px;
