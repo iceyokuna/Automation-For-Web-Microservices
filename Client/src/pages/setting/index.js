@@ -17,6 +17,7 @@ import Spinner from 'react-spinkit';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "./tabs.css";
 import SettingServices from 'pages/setting_services';
+import SettingNotification from 'pages/setting_notification';
 import { Route } from 'react-router-dom';
 
 class index extends Component {
@@ -24,8 +25,8 @@ class index extends Component {
   state = {
     currentTabIndex: 0,
     tabs: [
-      { tabName: 'Services', tabUrl: '/services' },
-      { tabName: 'Notification', tabUrl: '/notification' },
+      { tabName: 'Services', tabUrl: '/services', component: SettingServices },
+      { tabName: 'Notification', tabUrl: '/notification', component: SettingNotification },
     ]
   }
 
@@ -58,13 +59,11 @@ class index extends Component {
                   <Tab >{item.tabName}</Tab>
                 )}
               </TabList>
-              <TabPanel>
-                <Route path={match.url + "/services"} component={SettingServices} />
-              </TabPanel>
-              <TabPanel>
-                {/* Notification Setting Tab */}
-                <h2>Any content 2</h2>
-              </TabPanel>
+
+              {tabs.map((item, index) =>
+                <TabPanel>
+                  <Route path={match.url + item.tabUrl} component={item.component} />
+                </TabPanel>)}
             </Tabs>
           </Box>
         </Box>
