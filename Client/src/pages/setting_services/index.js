@@ -39,7 +39,7 @@ class index extends Component {
       </Box>
     );
     else return (
-      <Box animation={["fadeIn", "zoomIn"]}>
+      <Box animation={["fadeIn"]}>
         <table>
           <tr>
             <th>Service Name</th>

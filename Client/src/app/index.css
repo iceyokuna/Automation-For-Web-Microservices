@@ -101,3 +101,7 @@ tr:nth-child(even) {
 tr.service {
   cursor: pointer;
 }
+
+tr.service:hover {
+  background-color: #d3d3d3;
+}
