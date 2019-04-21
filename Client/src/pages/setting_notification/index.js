@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Box } from 'grommet';
 
 export default class index extends Component {
   render() {
     return (
-      <div>
+      <Box animation={["fadeIn", "zoomIn"]}>
         Notification
-      </div>
+      </Box>
     )
   }
 }

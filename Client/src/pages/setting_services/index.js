@@ -39,7 +39,7 @@ class index extends Component {
       </Box>
     );
     else return (
-      <Fragment>
+      <Box animation={["fadeIn", "zoomIn"]}>
         <table>
           <tr>
             <th>Service Name</th>
@@ -58,7 +58,7 @@ class index extends Component {
             icon={<AddCircle />}
             primary onClick={this.onAddService} />
         </Box>
-      </Fragment>
+      </Box>
     )
   }
 
