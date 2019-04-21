@@ -16,12 +16,17 @@ import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "./tabs.css";
-import SettingServices from 'components/setting_services';
+import SettingServices from 'pages/setting_services';
+import { Route } from 'react-router-dom';
 
 class index extends Component {
 
   state = {
     currentTabIndex: 0,
+    tabs: [
+      { tabName: 'Services', tabUrl: '/services' },
+      { tabName: 'Notification', tabUrl: '/notification' },
+    ]
   }
 
   onSelectMenu = (menu) => {
@@ -29,22 +34,32 @@ class index extends Component {
   }
 
 
+  onSelectTab = (currentTabIndex) => {
+    const { tabs } = this.state;
+    const { match } = this.props;
+    this.setState({ currentTabIndex });
+    this.props.history.push(match.url + tabs[currentTabIndex].tabUrl);
+  }
+
+
   render() {
-    const { currentTabIndex } = this.state
+    const { currentTabIndex, tabs } = this.state;
+    const { match } = this.props;
+    console.log(match)
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
           <Heading size='small' margin={{ right: 'medium' }}>Setting</Heading>
           <Box round={{ size: "small" }} background="light-0" pad="medium" margin={{ bottom: 'large' }}>
             <Tabs selectedIndex={currentTabIndex}
-              onSelect={currentTabIndex => this.setState({ currentTabIndex })}>
+              onSelect={this.onSelectTab}>
               <TabList>
-                <Tab>Services</Tab>
-                <Tab>Notification</Tab>
+                {tabs.map((item, index) =>
+                  <Tab >{item.tabName}</Tab>
+                )}
               </TabList>
               <TabPanel>
-                {/* Service Setting Tab */}
-                <SettingServices />
+                <Route path={match.url + "/services"} component={SettingServices} />
               </TabPanel>
               <TabPanel>
                 {/* Notification Setting Tab */}

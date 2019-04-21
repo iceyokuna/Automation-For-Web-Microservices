@@ -89,7 +89,7 @@ export default class SideBar extends Component {
                     <PlainButton hoverIndicator
                       color="light-0"
                       background={activeIndex == 3 ? "light-4" : "default"}
-                      onClick={() => this.handleSelectMenu('/setting', 3)}
+                      onClick={() => this.handleSelectMenu('/setting/services', 3)}
                       icon={<Performance color={iconColor} />}
                       label="Setting" />
                   </Box>
