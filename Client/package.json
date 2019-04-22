@@ -52,6 +52,7 @@
     "react-file-picker": "0.0.5",
     "react-flatpickr": "^3.7.1",
     "react-flexbox-grid": "^2.1.2",
+    "react-google-login": "^5.0.4",
     "react-hamburger-menu": "^1.1.1",
     "react-json-tree": "^0.11.0",
     "react-media": "^1.8.0",

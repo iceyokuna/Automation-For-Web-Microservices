@@ -15,6 +15,7 @@ class index extends Component {
 
   state = {
     loadingServices: true,
+    currentContent: "services",
   }
 
   componentDidMount() {
@@ -28,17 +29,13 @@ class index extends Component {
   }
 
   onSelectService = (index) => {
-
+    this.setState({
+      currentContent: "serviceDetail",
+    })
   }
 
   renderServices = () => {
-    const { loadingServices } = this.state;
-    if (loadingServices) return (
-      <Box align="center" justify="center">
-        <Spinner name="ball-scale-multiple" color={colors.brand} />
-      </Box>
-    );
-    else return (
+    return (
       <Box animation={["fadeIn"]}>
         <table>
           <tr>
@@ -59,7 +56,50 @@ class index extends Component {
             primary onClick={this.onAddService} />
         </Box>
       </Box>
-    )
+    );
+  }
+
+  renderServiceDetail = () => {
+    return (
+      <Box animation={["fadeIn"]}>
+        Service detail
+      </Box>
+    );
+  }
+
+  renderMethods = () => {
+    return (
+      <Box animation={["fadeIn"]}>
+        Methods
+      </Box>
+    );
+  }
+
+  renderMethodDetail = () => {
+    return (
+      <Box animation={["fadeIn"]}>
+        Method detail
+      </Box>
+    );
+  }
+
+  renderContents = () => {
+    const { loadingServices, currentContent } = this.state;
+    if (loadingServices) {
+      return (
+        <Box align="center" justify="center">
+          <Spinner name="ball-scale-multiple" color={colors.brand} />
+        </Box>
+      );
+    } else if (currentContent == "services") {
+      return this.renderServices();
+    } else if (currentContent === "serviceDetail") {
+      return this.renderServiceDetail();
+    } else if (currentContent === "methods") {
+      return this.renderMethods();
+    } else if (currentContent === "methodDetail") {
+      return this.renderMethodDetail();
+    }
   }
 
   render() {
@@ -68,7 +108,7 @@ class index extends Component {
       <Box pad={{ vertical: 'small' }}>
         <DefineServiceDialog />
 
-        {this.renderServices()}
+        {this.renderContents()}
 
 
       </Box>
