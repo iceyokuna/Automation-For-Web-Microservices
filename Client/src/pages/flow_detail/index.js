@@ -115,46 +115,33 @@ class FlowDetail extends Component {
   renderDescriptionBox = () => {
     const { currentFlow } = this.props;
     return (
-      <Box margin="small" pad="small"
+      <Box margin="small" pad="medium"
         round={{ size: 'small' }} background="light-0" >
-        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-          <Text size="large" weight="bold">Description</Text>
-        </Box>
-        <Box pad="small">
-          <Paragraph >{currentFlow.description}</Paragraph>
-        </Box>
+        <Text size="large" weight="bold">Description</Text>
+        <Paragraph color="dark-2">{currentFlow.description}</Paragraph>
       </Box>
     );
   }
 
   renderCollaboratorsBox = () => {
     return (
-      <Box margin="small" pad="small"
+      <Box margin="small" pad="medium"
         round={{ size: 'small' }} background="light-0" >
-        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-          <Text size="large" weight="bold">Collaborators</Text>
-        </Box>
-        <Box pad="small" fill="horizontal">
-          {/* List of collaborators*/}
-          {this.renderCollaboratorItems()}
-        </Box>
+        <Text size="large" weight="bold">Collaborators</Text>
+        {/* List of collaborators*/}
+        {this.renderCollaboratorItems()}
       </Box>
     )
   }
 
   renderTaskBox = () => {
     return (
-      <Box margin="small" pad="small"
+      <Box margin="small" pad="medium"
         round={{ size: 'small' }}
         background="light-0" >
-        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-          <Text size="large" weight="bold">Tasks</Text>
-        </Box>
-        <Box pad="small">
-          {/* List of Tasks*/}
-          {this.renderTaskList()}
-
-        </Box>
+        <Text size="large" weight="bold">Tasks</Text>
+        {/* List of Tasks*/}
+        {this.renderTaskList()}
       </Box>
     )
   }
@@ -198,7 +185,7 @@ class FlowDetail extends Component {
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
-            <Button label="Edit Diagram" primary icon={<Cluster />} 
+            <Button label="Edit Diagram" primary icon={<Cluster />}
               color="accent-1" onClick={this.navigateToModeler} />
           </Box>
         </Box>

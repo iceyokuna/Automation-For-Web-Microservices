@@ -62,9 +62,9 @@ export default class FlowItem extends Component {
               <Text weight="bold">{name}</Text>
             </Button>
           </Box>
-          <Box pad="xsmall">
-            <Paragraph >{description}</Paragraph>
-            <Text >Owner : {owner}</Text>
+          <Box pad={{ horizontal: 'xsmall' }}>
+            <Paragraph color="dark-2">{description}</Paragraph>
+            <Text color="dark-2">Owner : {owner}</Text>
           </Box>
 
           <Snackbar hidden={this.state.hideSnackbar}>
