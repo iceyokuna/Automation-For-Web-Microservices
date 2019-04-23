@@ -17,8 +17,9 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
-        const { dispatch } = this.props
-        dispatch(socketActions.nextForm(null, null, null));
+        const { dispatch, authentication, } = this.props;
+        const user = authentication.user;
+        dispatch(socketActions.nextForm(null, null, null, user));
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -72,10 +73,11 @@ class ExecuteFlow extends Component {
     }
 
     getNextForm = () => {
-        const { dispatch, workflow } = this.props;
+        const { dispatch, workflow, authentication, } = this.props;
+        const user = authentication.user
         const taskId = workflow.executingTaskId;
         const formInputValues = this.extractValuesFromCurrentForm();
-        dispatch(socketActions.nextForm("IC_MEETING", formInputValues, taskId));
+        dispatch(socketActions.nextForm("IC_MEETING", formInputValues, taskId, user));
     }
 
     render() {
@@ -109,6 +111,7 @@ const styles = {
 const mapStateToProps = (state) => {
     return {
         workflow: state.workflow,
+        authentication: state.authentication,
     }
 }
 

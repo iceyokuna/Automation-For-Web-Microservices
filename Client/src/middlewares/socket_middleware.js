@@ -72,7 +72,7 @@ export const socketMiddleware = store => next => action => {
       const payload = JSON.stringify({
         message: {
           type: action.type,
-          name: action.name
+          name: action.name,
         }
       })
       try {
@@ -83,13 +83,14 @@ export const socketMiddleware = store => next => action => {
     } break;
 
     case socketConstants.NEXT_FORM: {
-      const { type, name, formInputValues, taskId } = action;
+      const { type, name, formInputValues, taskId, user } = action;
       const payload = JSON.stringify({
         message: {
           type,
           name,
           formInputValues,
           taskId,
+          user,
         }
       })
       try {
