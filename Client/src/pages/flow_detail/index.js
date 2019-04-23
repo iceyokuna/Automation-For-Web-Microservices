@@ -185,7 +185,7 @@ class FlowDetail extends Component {
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
-            <Button label="Edit Diagram" primary icon={<Cluster />}
+            <Button label="Edit Diagram" primary icon={<Cluster size="16px"/>}
               color="accent-1" onClick={this.navigateToModeler} />
           </Box>
         </Box>
