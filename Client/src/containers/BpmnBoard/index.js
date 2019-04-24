@@ -16,6 +16,7 @@ import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
 import EditWorkflowInfo from 'components/edit_workflow_dialog';
 import FormTypeDialog from 'components/form_type_dialog';
+import ExecutionLog from 'components/execution_log';
 
 import "./style/app.less";
 
@@ -398,7 +399,8 @@ class BpmnContainer extends Component {
             </Box>
           </Layer>)
         }
-
+        
+        <ExecutionLog/>
         <FormTypeDialog />
         <EditWorkflowInfo />
         <MemberDialog />

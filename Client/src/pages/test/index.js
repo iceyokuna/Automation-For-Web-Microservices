@@ -5,7 +5,11 @@ import { Button } from 'grommet';
 import { askForPermissioToReceiveNotifications } from '_helpers';
 import { GoogleLogin } from 'react-google-login';
 
+import ExecutionLog from 'components/execution_log'
+
 class Test extends Component {
+
+  state = { showDock: true, }
 
   handleGetToken = () => {
     askForPermissioToReceiveNotifications().then(token => {
@@ -32,7 +36,10 @@ class Test extends Component {
           cookiePolicy={'single_host_origin'}
           scope={"https://www.googleapis.com/auth/drive.file"}
           redirectUri="localhost:3000/execute"
-        />,
+        />
+
+        <Button label="Open Dock" onClick={() => this.setState({ showDock: !this.state.showDock })} />
+        <ExecutionLog show={this.state.showDock} />
       </div>
     )
   }

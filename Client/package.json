@@ -48,6 +48,7 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^3.0.2",
+    "react-dock": "^0.2.4",
     "react-dom": "^16.8.5",
     "react-file-picker": "0.0.5",
     "react-flatpickr": "^3.7.1",
