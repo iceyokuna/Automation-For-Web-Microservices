@@ -8,7 +8,6 @@ import {
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 import { colors } from 'theme'
-import MenuItem from './menu_item'
 
 
 import { workflowActions } from 'actions';
@@ -16,8 +15,11 @@ import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "./tabs.css";
+
 import SettingServices from 'pages/setting_services';
 import SettingNotification from 'pages/setting_notification';
+import AddService from 'pages/setting_services_add';
+
 import { Route } from 'react-router-dom';
 
 class index extends Component {
@@ -54,15 +56,15 @@ class index extends Component {
             <Tabs selectedIndex={currentTabIndex}
               onSelect={this.onSelectTab}>
               <TabList>
-                {tabs.map((item, index) =>
-                  <Tab >{item.tabName}</Tab>
-                )}
+                <Tab >Services</Tab>
+                <Tab >Notification</Tab>
               </TabList>
 
-              {tabs.map((item, index) =>
-                <TabPanel>
-                  <Route path={match.url + item.tabUrl} component={item.component} />
-                </TabPanel>)}
+              <TabPanel>
+                <Route exact path={match.url + "/services"} component={SettingServices} />
+                <Route path={match.url + "/services/addService"} component={AddService} />
+                <Route path={match.url + "/notification"} component={SettingNotification} />
+              </TabPanel>
             </Tabs>
           </Box>
         </Box>

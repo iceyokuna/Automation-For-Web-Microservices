@@ -7,9 +7,12 @@ import { services } from './mockup'
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
 
-import DefineServiceDialog from 'components/define_service_dialog'
+import DefineServiceDialog from 'components/define_service_dialog';
+
+
 import { connect } from 'react-redux';
-import { userServicesActions } from 'actions'
+import { userServicesActions } from 'actions';
+import { Route, Link } from 'react-router-dom';
 
 class index extends Component {
 
@@ -25,7 +28,9 @@ class index extends Component {
   }
 
   onAddService = () => {
-    this.props.dispatch(userServicesActions.toggleDefineServiceDialog());
+    const { match } = this.props;
+    this.props.history.push(match.url + '/addService');
+    // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());
   }
 
   onSelectService = (index) => {
@@ -54,6 +59,7 @@ class index extends Component {
           <Button label="Add Service" color="accent-1"
             icon={<AddCircle />}
             primary onClick={this.onAddService} />
+
         </Box>
       </Box>
     );
@@ -103,13 +109,12 @@ class index extends Component {
   }
 
   render() {
-    const { userServices } = this.props;
+    const { userServices, match } = this.props;
     return (
       <Box pad={{ vertical: 'small' }}>
         <DefineServiceDialog />
-
-        {this.renderContents()}
-
+        {this.renderServices()}
+        {/* {this.renderContents()} */}
 
       </Box>
     )
