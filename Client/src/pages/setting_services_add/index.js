@@ -30,6 +30,12 @@ export default class index extends Component {
     });
   }
 
+  onClickStep = (index) => {
+    this.setState({
+      currentStepIndex: index,
+    })
+  }
+  
   renderContents = () => {
     const { currentStepIndex } = this.state;
     if (currentStepIndex == 0) return (<Step1 onNextStep={this.onNextStep} />)
@@ -42,7 +48,11 @@ export default class index extends Component {
     const { currentStepIndex } = this.state;
     return (
       <Box pad="medium" gap="small" fill direction="column">
-        <Stepper steps={steps} activeStep={currentStepIndex}
+        <Stepper steps={[
+          { title: 'Define your service', onClick: () => this.onClickStep(0) },
+          { title: 'Service interface', onClick: () => this.onClickStep(1) },
+          { title: 'Submit', onClick: () => this.onClickStep(2) },
+        ]} activeStep={currentStepIndex}
           activeColor={colors.brand} completeColor={colors.brand}
           completeBarColor={colors.brand}
         />

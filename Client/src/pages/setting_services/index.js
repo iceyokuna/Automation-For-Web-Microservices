@@ -3,16 +3,7 @@ import { Box, Button, Text, } from 'grommet';
 import { AddCircle } from 'grommet-icons'
 
 import { services } from './mockup'
-
-import Spinner from 'react-spinkit'
-import { colors } from 'theme';
-
-import DefineServiceDialog from 'components/define_service_dialog';
-
-
 import { connect } from 'react-redux';
-import { userServicesActions } from 'actions';
-import { Route, Link } from 'react-router-dom';
 
 class index extends Component {
 
@@ -65,57 +56,11 @@ class index extends Component {
     );
   }
 
-  renderServiceDetail = () => {
-    return (
-      <Box animation={["fadeIn"]}>
-        Service detail
-      </Box>
-    );
-  }
-
-  renderMethods = () => {
-    return (
-      <Box animation={["fadeIn"]}>
-        Methods
-      </Box>
-    );
-  }
-
-  renderMethodDetail = () => {
-    return (
-      <Box animation={["fadeIn"]}>
-        Method detail
-      </Box>
-    );
-  }
-
-  renderContents = () => {
-    const { loadingServices, currentContent } = this.state;
-    if (loadingServices) {
-      return (
-        <Box align="center" justify="center">
-          <Spinner name="ball-scale-multiple" color={colors.brand} />
-        </Box>
-      );
-    } else if (currentContent == "services") {
-      return this.renderServices();
-    } else if (currentContent === "serviceDetail") {
-      return this.renderServiceDetail();
-    } else if (currentContent === "methods") {
-      return this.renderMethods();
-    } else if (currentContent === "methodDetail") {
-      return this.renderMethodDetail();
-    }
-  }
-
   render() {
     const { userServices, match } = this.props;
     return (
       <Box pad={{ vertical: 'small' }}>
-        <DefineServiceDialog />
         {this.renderServices()}
-        {/* {this.renderContents()} */}
-
       </Box>
     )
   }
