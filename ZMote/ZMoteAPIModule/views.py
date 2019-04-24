@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from .serializers import ZMoteSerializer, FrequencySerializer, ZMoteFreqSerializer
 from django.contrib.auth.models import User
-from .models import ZMote, Frequency
+from .models import ZMote, Frequency, Client
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.status import (
@@ -38,6 +38,7 @@ class ConnectWifiView(APIView):
         response = requests.post(url, data=data,headers = headers)
 
 class GetMacView(APIView):
+
     def get(self, request):
         ip = "192.168.2.22"
         url = "http://"+ip+"/api/wifi/mac"
@@ -48,13 +49,32 @@ class GetMacView(APIView):
 class RegisterView(APIView):
 
     def get(self, request):
-        url = 'http://v1.zmote.io/client/register'#/
+        url = 'http://v1.zmote.io/client/register'
         response = requests.get(url)
+        name = request.data.get('name')
+        content = json.loads(response.content)
+        if(not Client.objects.filter(client_id=content['_id'])):
+            c = Client.objects.create(username=request.user.username,name= name, secret=content['secret'],client_id = content['_id'])
+        else:
+            c = Client.objects.update(username=request.user.username,name=name, client_id = content['_id'])
+        return Response({"detail": content}, status=HTTP_200_OK)
 
-        return Response({"detail": json.loads(response.content)}, status=HTTP_200_OK)
-
+class AuthView(APIView):
+    
     def post(self, request):
-        pass
+        url = 'http://v1.zmote.io/client/auth'
+        headers =  {'Content-Type':  'application/json'}
+    
+        wifi_id = request.data.get('wifi_id')
+        client = Client.objects.filter( id = wifi_id)
+
+        secret = client.values().first()['secret']
+        c_id = client.values().first()['client_id']
+        data ={'secret': 'QyFAGcVfihf1no4wbF7gnYV5T5MuIHl7FSSrSy32Uc04GapbAhC0OTmdjgGqupUD' ,'_id': '5cb9c8e19acac808c0cc99b9'}
+        #data = {'secret':secret,'_id':c_id}
+        response = requests.post(url, headers= headers, data=data)
+        return Response({"detail": response.content}, status=HTTP_200_OK)
+
 
 class EmitIRView(APIView):
 
@@ -65,8 +85,11 @@ class EmitIRView(APIView):
         ip = request.data.get("ip") #192.168.4.1
         uuid = request.data.get("uuid")
         freq = request.data.get("freq")
-
-        url = 'http://192.168.2.22/5c-cf-7f-13-be-fd/api/ir/write'
+        c_id = request.data.get("c_id")
+        ip =request.data.get("ip")
+        #c_id = Client.objects.filter(id = )
+        #url = ip+c_id+'/api/ir/write' #5c-cf-7f-13-be-fd #
+        url  ='http://192.168.2.22/5c-cf-7f-13-be-fd/api/ir/write'
 
         headers =  {"Content-Type":  "application/json"}
 
@@ -84,6 +107,19 @@ class EmitIRView(APIView):
         response = requests.post(url, data=json_data,headers = headers)
         return Response({"detail":json.loads(response.content)}, status=HTTP_200_OK)
 
+class RecordIRView(APIView):
+    def get(self, request):
+        mac = request.data.get("mac")
+        url = 'http://192.168.1.7/'+ mac +'/api/ir/trigger'
+        response = requests.get(url)
+        return Response({"detail":response.content}, status=HTTP_200_OK)
+
+class ReadIRView(APIView):
+    def get(self, request):
+        mac = request.data.get("mac")
+        url = 'http://192.168.1.7/'+ mac +'/api/ir/read'
+        response = requests.get(url)
+        return Response({"detail":response.content}, status=HTTP_200_OK)
 
 class GetUUIDView(APIView):
 

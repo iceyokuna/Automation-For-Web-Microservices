@@ -18,3 +18,9 @@ class Frequency(models.Model):
     n = models.IntegerField(default=0)
     sequence = models.TextField(null=True)
     repeat = models.TextField(null=True)
+
+class Client(models.Model):
+    name = name = models.CharField(max_length=200)
+    username = models.CharField(null=True,max_length=200)
+    secret = models.CharField(null=True,max_length=200, unique=True)
+    client_id = models.CharField(null=True,max_length=200)

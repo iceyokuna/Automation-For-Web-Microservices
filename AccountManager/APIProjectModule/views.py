@@ -48,7 +48,14 @@ class WorkflowView(APIView):
             else:
                 return Response({"detail": request.user.username + " does not have access to the workflow"}, status=HTTP_200_OK) 
 
-
+    def delete(self, request):
+        if(request.data.get('id')):
+            owner = Workflow.objects.filter(id=request.data.get('id')).values('user')
+            if(request.user.username == owner[0].get('user')):
+                workflow = Workflow.objects.filter(id=request.data.get('id')).delete()
+                return Response({"detail": "successfully deleted by "+request.user.username}, status=HTTP_200_OK)
+            else:
+                return Response({"detail": request.user.username+" does not have access to the workflow"}, status=HTTP_200_OK)
 class CollaboratorView(APIView):
     def get(self, request, workflow_id=0):
 
