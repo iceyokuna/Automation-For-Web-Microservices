@@ -50,8 +50,8 @@ export class index extends Component {
       return (
         <Box align="center" pad='small'>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale" color={colors.brand} />
+            fadeIn="full"
+            name="ball-scale-multiple" color={colors.brand} />
         </Box>
       );
     }

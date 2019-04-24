@@ -51,8 +51,8 @@ class Login extends Component {
       return (
         <Box align="center" pad='small'>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale" color={colors.brand} />
+            fadeIn="full"
+            name="ball-scale-multiple" color={colors.brand} />
         </Box>
       )
     } else {
@@ -69,7 +69,7 @@ class Login extends Component {
         <Box  pad='medium'
           style={{ width: 350 }} background="light-0"
           round={{ size: 'small' }}
-          animation='fadeIn'>
+          animation='fadeIn' gap="small">
           <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
           <FormField >
             <TextInput

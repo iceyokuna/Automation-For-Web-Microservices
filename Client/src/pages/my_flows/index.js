@@ -60,8 +60,8 @@ class MyFlows extends Component {
       return (
         <Box fill="horizontal" justify="center" align="center" margin={{ top: 'large' }}>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale"
+            fadeIn="full"
+            name="ball-scale-multiple"
             color={colors.brand} />
         </Box>
       );

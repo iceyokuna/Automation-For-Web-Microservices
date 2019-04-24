@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { Box, Button, Text, } from 'grommet';
 import { AddCircle } from 'grommet-icons'
 
-import { services } from './mockup'
 import { connect } from 'react-redux';
+import Spinner from 'react-spinkit';
+import { colors } from 'theme';
 
 class index extends Component {
 
@@ -31,6 +32,13 @@ class index extends Component {
   }
 
   renderServices = () => {
+    if (this.state.loadingServices) return (
+      <Box align="center" justify="center" pad="medium">
+        <Spinner
+          fadeIn="full"
+          name="ball-scale-multiple" color={colors.brand} />
+      </Box>
+    );
     return (
       <Box animation={["fadeIn"]}>
         <table>
@@ -38,7 +46,7 @@ class index extends Component {
             <th>Service Name</th>
             <th>Service URL</th>
           </tr>
-          {services.map((item, index) =>
+          {this.props.userServices.data.map((item, index) =>
             <tr className="service" onClick={() => this.onSelectService(index)}>
               <td>{item.serviceName}</td>
               <td>{item.serviceUrl}</td>

@@ -79,8 +79,8 @@ class MyTasks extends Component {
 
         {inboxTasks.isLoading == true ? (<Box justify="center" align="center" pad={{ top: "medium" }}>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale"
+            fadeIn="full"
+            name="ball-scale-multiple"
             color={colors.brand} />
         </Box>) : (
             <Box direction="column" gap="small" animation="fadeIn" background="light-0"

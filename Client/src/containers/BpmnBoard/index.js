@@ -391,8 +391,8 @@ class BpmnContainer extends Component {
               direction="row" justify='center' align="center">
               <Text>Submitting your workflow</Text>
               <Spinner
-                fadeIn="quarter"
-                name="three-bounce"
+                fadeIn="full"
+                name="ball-scale-multiple"
                 color={colors.brand} />
 
             </Box>
