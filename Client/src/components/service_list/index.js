@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 
-import { Box, Text, Accordion, AccordionPanel, TextInput, Button } from 'grommet'
+import { Box, Text, Accordion, AccordionPanel, Button } from 'grommet'
 import { FormDown } from 'grommet-icons'
-import Avatar from 'react-avatar';
-import DropContent from 'components/dropdown_content'
 import PlainButton from 'components/plain_button'
 
 import { Scrollbars } from 'react-custom-scrollbars'

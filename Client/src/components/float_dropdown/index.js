@@ -3,9 +3,8 @@ import React, { Component } from 'react'
 import { Box, Text, Button } from 'grommet';
 import { Checkmark, Help, FormDown } from 'grommet-icons';
 
-import { Transition, config } from 'react-spring'
-import PlainButton from 'components/plain_button'
-import { Container, CollapseButton, circleButton, CollapseButtonContainer } from './style'
+import { Transition, } from 'react-spring'
+import { Container, circleButton, CollapseButtonContainer } from './style'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 
@@ -29,7 +28,7 @@ const InterfaceItem = ({ item, parameterName }) => {
           </Box>
         </Box>
         <Box justify="center">
-          {item.isIdSet == true ? <Checkmark color="#5FEB89" /> :
+          {item.isIdSet === true ? <Checkmark color="#5FEB89" /> :
             <Help color="#FF6161" />}
         </Box>
       </Box>
@@ -69,12 +68,11 @@ export default class FloatDropdown extends Component {
       }
     }
 
-    return Object.keys(cloneObject).
-      map((key, index) =>
-        <InterfaceItem
-          item={cloneObject[key]}
-          parameterName={key}
-          key={index} />)
+    return Object.keys(cloneObject).map((key, index) =>
+      <InterfaceItem
+        item={cloneObject[key]}
+        parameterName={key}
+        key={index} />)
   }
 
 
@@ -129,5 +127,3 @@ export default class FloatDropdown extends Component {
     );
   }
 }
-
-const style = { position: 'fixed', left: 0, top: 0, zIndex: 15 }

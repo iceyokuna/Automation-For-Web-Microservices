@@ -5,12 +5,10 @@ import { global, FillParent } from 'style'
 import AppBar from 'components/app_bar';
 import DropMenuInline from 'components/drop_menu_inline'
 import SideBar from 'components/sidebar';
-import PrivateRoute from 'components/private_route'
 
-import { Button, Box, Text, Collapsible } from 'grommet';
+import {  Box,  } from 'grommet';
 
 import FlowDetail from 'pages/flow_detail'
-import ModelWorkflow from 'pages/workflow'
 import CreateForm from 'pages/create_form'
 import NotFound from 'pages/not_found'
 import MyFlows from 'pages/my_flows';
@@ -20,7 +18,7 @@ import MyTasks from 'pages/my_tasks'
 import InboxTaskDetail from 'pages/inbox_task_detail'
 import Setting from 'pages/setting'
 
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch, } from 'react-router-dom'
 
 import Media from 'react-media'
 

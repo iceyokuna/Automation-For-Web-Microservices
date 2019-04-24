@@ -7,11 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
 
 import {
-  Home, MyFlowsGroup, Login, Register, ResetPassword,
+  Home, Login, Register, ResetPassword,
   NotFound, ModelWorkflow, Test, ExecuteFlow
 } from 'pages'
 
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch, } from "react-router-dom";
 import { Grommet, Box } from 'grommet';
 import { Close } from 'grommet-icons'
 

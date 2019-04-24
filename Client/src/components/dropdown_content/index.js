@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { Box, Button, Heading, Text } from 'grommet'
-import { FormUp } from 'grommet-icons'
 
 const DropContent = ({ onClose, onSelect, title, items }) => (
   <Box pad="small">

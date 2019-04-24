@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import {
   Box, Button,
   Heading,
-  Tabs,
-  Tab,
 } from 'grommet';
 
 import { Add } from 'grommet-icons';
@@ -18,7 +16,6 @@ import { myFlows } from './mockup'
 import { workflowActions } from 'actions';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
-import { askForPermissioToReceiveNotifications } from '_helpers'
 
 class MyFlows extends Component {
   constructor(props) {
@@ -47,7 +44,7 @@ class MyFlows extends Component {
   onSelectFlow = flow => {
     const { match, dispatch, workflowMyFlows } = this.props;
     const { myFlows } = workflowMyFlows;
-    const currentFlow = myFlows.find((item) => item.id == flow.id);
+    const currentFlow = myFlows.find((item) => item.id === flow.id);
     const redirectUrl = match.url + '/' + flow.id;
     dispatch(workflowActions.setCurrentFlow(currentFlow, redirectUrl));
   }

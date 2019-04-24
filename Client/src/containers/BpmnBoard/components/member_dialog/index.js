@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
 import { Layer, Box, Button, Text, Heading } from 'grommet'
-import { UserAdd, Close } from 'grommet-icons'
-
 import CollaboratorItem from 'components/collaborator_item'
 import CollaboratorInviter from 'components/collaborator_inviter'
 
@@ -13,7 +11,6 @@ import { workflowActions } from 'actions';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
-import { toast } from 'react-toastify';
 
 export class index extends Component {
 
@@ -46,7 +43,7 @@ export class index extends Component {
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
-    if (loadingCollaborators == true) {
+    if (loadingCollaborators === true) {
       return (
         <Box align="center" pad='small'>
           <Spinner

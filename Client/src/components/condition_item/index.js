@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Box, Heading, Layer, Button, Text, Select } from 'grommet'
+import { Box, Text, Select } from 'grommet'
 import { FormNextLink } from 'grommet-icons'
 import Variable from 'components/variable_item';
 
@@ -31,7 +31,7 @@ export default class ConditionItem extends Component {
 
   render() {
     const { variable1, operator, variable2, targetNode } = this.state
-    const { allVariables, allOperators, allBpmnNodes, condition } = this.props;
+    const { allVariables, allOperators, allBpmnNodes, } = this.props;
     return (
       <Box height="60px" flex={false}>
         <Box direction="row" gap="small">

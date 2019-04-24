@@ -1,5 +1,4 @@
 import { workflowContants } from '_constants';
-import { history } from '_helpers';
 
 const defaultState = {
   data: [

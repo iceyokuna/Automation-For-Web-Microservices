@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 
 import {
-  Box, Button,
+  Box,
   Heading, Text
 } from 'grommet';
 
-import { Add } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -53,7 +52,7 @@ class MyTasks extends Component {
     return inboxTasks.data.map((item, index) =>
       <TaskItemInbox workflowName={item.workflowName}
         key={index} delay={index}
-        isEven={index % 2 == 0}
+        isEven={index % 2 === 0}
         actionType={item.actionType}
         actionDescription={item.actionDescription}
         createdAt={moment(item.createdAt).format('lll')}
@@ -77,7 +76,7 @@ class MyTasks extends Component {
           </Row>
         </Box>
 
-        {inboxTasks.isLoading == true ? (<Box justify="center" align="center" pad={{ top: "medium" }}>
+        {inboxTasks.isLoading === true ? (<Box justify="center" align="center" pad={{ top: "medium" }}>
           <Spinner
             fadeIn="full"
             name="ball-scale-multiple"

@@ -5,13 +5,12 @@ import {
   Heading,
   Paragraph,
   Text,
-  DropButton,
   TextInput,
   TextArea,
   FormField
 } from 'grommet';
 
-import { Edit, Checkmark, FormUp, Cluster } from 'grommet-icons';
+import {  Checkmark,  Cluster } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -81,7 +80,7 @@ class FlowDetail extends Component {
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
-    if (loadingCollaborators == true) {
+    if (loadingCollaborators === true) {
       return (
         <Box align="center" pad='small'>
           <Spinner
@@ -89,7 +88,7 @@ class FlowDetail extends Component {
             name="ball-scale-multiple" color={colors.brand} />
         </Box>
       );
-    } if (collaborators.length == 0) {
+    } if (collaborators.length === 0) {
       return (
         <Box>
           <Text>You have not invited any collaborator yet.</Text>
@@ -175,9 +174,8 @@ class FlowDetail extends Component {
   }
 
   render() {
-    const { openEditMenu } = this.state;
     const { currentFlow } = this.props;
-    if (currentFlow == null) {
+    if (currentFlow === null) {
       return <Redirect to="/home/my_flows" />;
     }
     return (

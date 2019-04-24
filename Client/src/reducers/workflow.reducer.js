@@ -96,7 +96,7 @@ export function workflow(state = defaultState, action) {
       const { forTask, form, formType, } = action;
       const nextState = { ...state };
       const typeOfForm = formType === "inputForm" ? "Input form" : "Output form";
-      const indexToUpdate = nextState.generatedForms.findIndex((item => item.taskId == forTask));
+      const indexToUpdate = nextState.generatedForms.findIndex((item => item.taskId === forTask));
       if (indexToUpdate !== -1) {  // Found existing form
         nextState.generatedForms[indexToUpdate].taskId = forTask;
         nextState.generatedForms[indexToUpdate].formData = form;

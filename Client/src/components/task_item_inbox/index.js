@@ -1,9 +1,5 @@
 import React from 'react'
-
 import { Box, Text, Button } from 'grommet';
-import { Checkmark, Close } from 'grommet-icons'
-
-import { Link } from 'react-router-dom';
 
 const index = ({ onApprove, onReject, onClick, isEven, ...props }) => {
   return (

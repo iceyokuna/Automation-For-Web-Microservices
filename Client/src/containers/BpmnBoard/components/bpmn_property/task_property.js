@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Box, CheckBox } from 'grommet'
+import { Box, } from 'grommet'
 import ServiceList from 'components/service_list'
 
 export default function TaskProperty({ services, onSelectServiceMethod }) {

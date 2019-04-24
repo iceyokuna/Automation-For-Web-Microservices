@@ -68,7 +68,7 @@ class AppBar extends Component {
   renderNotifications = () => {
     const { notification } = this.props;
 
-    if (notification.isLoading == true) {
+    if (notification.isLoading === true) {
       return (
         <Box align="center" pad='small'>
           <Spinner
@@ -106,7 +106,7 @@ class AppBar extends Component {
 
   renderForSignedin() {
     const { user } = this.props;
-    if (user == null) return null;
+    if (user === null) return null;
     else {
       const { openNotificationPanel, openAccountPanel } = this.state;
       return (

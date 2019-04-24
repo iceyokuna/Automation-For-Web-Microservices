@@ -41,7 +41,7 @@ export class index extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     const { appliedMethods, currentNode } = nextProps.workflow;
-    if (currentNode == undefined) return;
+    if (currentNode === undefined) return;
     const { appliedPreInputs } = nextProps.workflowPreInputs;
     const elementId = currentNode.id;
     // Define new PreInput values

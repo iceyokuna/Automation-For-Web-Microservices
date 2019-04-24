@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
-import { Box, Text } from 'grommet';
-import { userServicesActions } from 'actions';
+import { Box, } from 'grommet';
 
 import Stepper from 'react-stepper-horizontal';
 import Step1 from './step1';
@@ -21,7 +20,7 @@ export default class index extends Component {
 
   onNextStep = () => {
     this.setState({
-      currentStepIndex: this.state.currentStepIndex += 1,
+      currentStepIndex: this.state.currentStepIndex + 1,
     });
   }
 
@@ -38,15 +37,14 @@ export default class index extends Component {
 
   renderContents = () => {
     const { currentStepIndex } = this.state;
-    if (currentStepIndex == 0) return (
+    if (currentStepIndex === 0) return (
       <Step1 onNextStep={this.onNextStep} />)
-    if (currentStepIndex == 1) return(
+    if (currentStepIndex === 1) return(
     <Step2 onNextStep={this.onNextStep}
       onSubmitService={this.onSubmitService} />)
   }
 
   render() {
-    const { userServices } = this.props;
     const { currentStepIndex } = this.state;
     return (
       <Box pad="small" gap="small" fill direction="column">

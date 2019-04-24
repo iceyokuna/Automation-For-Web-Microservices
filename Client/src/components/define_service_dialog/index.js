@@ -41,9 +41,9 @@ export class index extends Component {
 
   renderContents = () => {
     const { currentStepIndex } = this.state;
-    if (currentStepIndex == 0) return (<Step1 onNextStep={this.onNextStep} />)
-    if (currentStepIndex == 1) return (<Step2 onNextStep={this.onNextStep} />)
-    if (currentStepIndex == 2) return (<Step1 onNextStep={this.onNextStep} />)
+    if (currentStepIndex === 0) return (<Step1 onNextStep={this.onNextStep} />)
+    if (currentStepIndex === 1) return (<Step2 onNextStep={this.onNextStep} />)
+    if (currentStepIndex === 2) return (<Step1 onNextStep={this.onNextStep} />)
   }
 
   render() {

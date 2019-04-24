@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
-import { Box, Button, Text, } from 'grommet';
-import { AddCircle } from 'grommet-icons'
+import React, { Component, } from 'react'
+import { Box, Button, } from 'grommet';
+import { Add } from 'grommet-icons'
 
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
@@ -56,7 +56,7 @@ class index extends Component {
 
         <Box direction="row" justify="end" align="center">
           <Button label="Add Service" color="accent-1"
-            icon={<AddCircle />}
+            icon={<Add />}
             primary onClick={this.onAddService} />
 
         </Box>
@@ -65,7 +65,6 @@ class index extends Component {
   }
 
   render() {
-    const { userServices, match } = this.props;
     return (
       <Box pad={{ vertical: 'small' }}>
         {this.renderServices()}

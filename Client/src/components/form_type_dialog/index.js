@@ -7,7 +7,6 @@ import {
 } from 'grommet'
 
 import { workflowActions } from 'actions';
-import { Link } from 'react-router-dom';
 
 export class index extends Component {
 
@@ -32,7 +31,7 @@ export class index extends Component {
       formType: formType,
       taskId: nodeId,
       selectedService: appliedMethods[nodeId],
-      currentForm: currentFormIndex == -1 ? null : generatedForms[currentFormIndex].forms[formType],
+      currentForm: currentFormIndex === -1 ? null : generatedForms[currentFormIndex].forms[formType],
     }
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
     window.open('/home/design_form'); // Open a new tab

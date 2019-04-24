@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
-import { Box, FormField, TextInput, Button, Heading, Text, Image } from 'grommet';
+import { Box, FormField, TextInput, Button,  Text, Image } from 'grommet';
 import { Login as Signin } from 'grommet-icons';
-import { Link, withRouter } from 'react-router-dom'
+import {  withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { userActions } from 'actions';
 
-import { styles } from './style';
 import { global } from 'style';
 import { colors } from 'theme';
 import Spinner from 'react-spinkit'

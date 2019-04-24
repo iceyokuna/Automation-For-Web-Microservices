@@ -4,7 +4,7 @@ import { Button, Box, Text } from 'grommet';
 import { FillParent } from 'style'
 import { UniversalStyle as Style } from 'react-css-component'
 import { connect } from 'react-redux'
-import { workflowActions, socketActions } from 'actions'
+import { socketActions, } from 'actions'
 import { Next, Previous } from 'grommet-icons'
 import { toast } from 'react-toastify'
 
@@ -54,7 +54,7 @@ class ExecuteFlow extends Component {
 
         for (let e of elements) {
             // Check whether the checkbox input is selected or not
-            if (e.checked == true) {
+            if (e.checked === true) {
                 inputValues[e.id] = {
                     type: e.type,
                     name: e.name,

@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
 
 import {
-  Box, Button,
+  Box,
   Heading,
 } from 'grommet';
 
-import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
-import { colors } from 'theme'
 
 
-import { workflowActions } from 'actions';
-import { connect } from 'react-redux';
-import Spinner from 'react-spinkit';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "./tabs.css";
 
@@ -46,7 +41,7 @@ class index extends Component {
 
 
   render() {
-    const { currentTabIndex, tabs } = this.state;
+    const { currentTabIndex, } = this.state;
     const { match } = this.props;
     return (
       <div style={global.mainContainer}>
@@ -74,10 +69,4 @@ class index extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    workflowMyFlows: state.workflowMyFlows,
-  }
-}
-
-export default connect(null)(index);
+export default index;

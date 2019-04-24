@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button } from 'grommet';
-import { FolderOpen, AddCircle, Download, Image } from 'grommet-icons';
+import { FolderOpen, Add, Download, Image } from 'grommet-icons';
 
 import { FilePicker } from 'react-file-picker'
 
@@ -22,7 +22,7 @@ export default ({ onOpenFile, onOpenFileError, onCreate, onSaveFile, onSaveImage
 
 
     <Button hoverIndicator onClick={onCreate}>
-      <AddCircle size="medium" />
+      <Add size="medium" />
     </Button>
     <Button hoverIndicator onClick={onSaveFile}>
       <Download size="medium" />

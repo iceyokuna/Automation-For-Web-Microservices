@@ -5,7 +5,7 @@ import {
   Select, TextArea,
 } from 'grommet';
 
-import { Sort, AddCircle } from 'grommet-icons'
+import { Sort, Add } from 'grommet-icons'
 import { Row, Col } from 'react-flexbox-grid';
 
 import { MethodContainer, BadgeIcon } from './style';
@@ -117,7 +117,7 @@ export default class index extends Component {
           )}
         </table>
         <Box direction="row" justify="end" gap="small">
-          <Button icon={<AddCircle />} label="Add more" color="accent-1"
+          <Button icon={<Add />} label="Add more" color="accent-1"
             onClick={this.onAddmoreMethod} />
           <Button label="Next" color="accent-1"
             priamry onClick={this.onNextStep} />
@@ -197,7 +197,7 @@ export default class index extends Component {
 
           </MethodContainer>
           <Box direction="row" gap="small">
-            <Button icon={<AddCircle />} label="Method" color="accent-1" onClick={this.onAddMethod} />
+            <Button icon={<Add />} label="Method" color="accent-1" onClick={this.onAddMethod} />
             <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
           </Box>
         </Box>
