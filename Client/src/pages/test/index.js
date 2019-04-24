@@ -5,7 +5,8 @@ import { Button } from 'grommet';
 import { askForPermissioToReceiveNotifications } from '_helpers';
 import { GoogleLogin } from 'react-google-login';
 
-import ExecutionLog from 'components/execution_log'
+import ExecutionLog from 'components/execution_log';
+import { logsActions } from 'actions'
 
 class Test extends Component {
 
@@ -38,7 +39,9 @@ class Test extends Component {
           redirectUri="localhost:3000/execute"
         />
 
-        <Button label="Open Dock" onClick={() => this.setState({ showDock: !this.state.showDock })} />
+        <Button label="Open Dock" onClick={() => {
+          this.props.dispatch(logsActions.toggleDock())
+        }} />
         <ExecutionLog show={this.state.showDock} />
       </div>
     )
