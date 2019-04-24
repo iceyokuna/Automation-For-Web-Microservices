@@ -92,6 +92,10 @@ export default class index extends Component {
 
   }
 
+  onSubmit = () => {
+    this.props.onSubmitService();
+  }
+
   onAddmoreMethod = () => {
     this.setState({
       showMethodList: false,
@@ -120,8 +124,7 @@ export default class index extends Component {
           <Button icon={<AddCircle />} label="Add more" color="accent-1"
             onClick={this.onAddmoreMethod} />
           <Button label="Next" color="accent-1"
-            priamry onClick={this.onNextStep} />
-
+            priamry onClick={this.onSubmit} />
         </Box>
       </Fragment>
     );
@@ -198,7 +201,7 @@ export default class index extends Component {
           </MethodContainer>
           <Box direction="row" gap="small">
             <Button icon={<AddCircle />} label="Method" color="accent-1" onClick={this.onAddMethod} />
-            <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
+            <Button label="Submit" color="accent-1" primary onClick={this.onSubmit} />
           </Box>
         </Box>
       </Fragment>
