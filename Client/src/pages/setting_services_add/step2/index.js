@@ -9,8 +9,9 @@ import { Sort, Add } from 'grommet-icons'
 import { Row, Col } from 'react-flexbox-grid';
 
 import { MethodContainer, BadgeIcon } from './style';
-import { Spring, Transition, } from 'react-spring'
-import { methods } from './mockup'
+import { Spring, Transition, } from 'react-spring';
+import { methods as mets } from './mockup';
+import { colors } from 'theme';
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -23,9 +24,10 @@ const interfacePlaceholder = `{
 export default class index extends Component {
 
   state = {
-    numberOfNewMethods: 0,
     resetBadgeAnim: false,
     showMethodList: false,
+    methods: mets,
+
     methodName: '',
     methodInfo: '',
     methodUrl: '',
@@ -82,8 +84,11 @@ export default class index extends Component {
   }
 
   onAddMethod = () => {
+    const { methods } = this.state;
+    methods.push(mets[0]);
+
     this.setState({
-      numberOfNewMethods: this.state.numberOfNewMethods + 1,
+      methods: methods,
       resetBadgeAnim: true,
     });
   }
@@ -112,7 +117,7 @@ export default class index extends Component {
             <th>URL's endpoint</th>
             <th>Request type</th>
           </tr>
-          {methods.map((item, index) =>
+          {this.state.methods.map((item, index) =>
             <tr className="service" onClick={() => this.onSelectMethod(item)}>
               <td>{item.methodName}</td>
               <td>{item.methodUrl}</td>
@@ -121,7 +126,7 @@ export default class index extends Component {
           )}
         </table>
         <Box direction="row" justify="end" gap="small">
-          <Button icon={<Add />} label="Add more" color="accent-1"
+          <Button icon={<Add color={colors["dark-2"]} />} label="Add more" color="accent-1"
             onClick={this.onAddmoreMethod} />
           <Button label="Submit" color="accent-1"
             primary onClick={this.onSubmit} />
@@ -134,7 +139,7 @@ export default class index extends Component {
   renderCreateMethod = () => {
     const { methodName, methodInfo, methodUrl,
       requestType, inputInterface, outputInterface,
-      numberOfNewMethods, resetBadgeAnim } = this.state
+      methods, resetBadgeAnim } = this.state
     return (
       <Fragment>
         <Row >
@@ -195,7 +200,7 @@ export default class index extends Component {
               reset={resetBadgeAnim}
               onRest={() => this.setState({ resetBadgeAnim: false })}
             >
-              {props => <BadgeIcon style={props}>{numberOfNewMethods}</BadgeIcon>}
+              {props => <BadgeIcon style={props}>{methods.length}</BadgeIcon>}
             </Spring>
 
           </MethodContainer>
