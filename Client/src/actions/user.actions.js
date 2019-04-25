@@ -14,32 +14,20 @@ export const userActions = {
 function login(username, password) {
   return dispatch => {
     dispatch(request({ username }));
-
     userService.login(username, password)
       .then(
         res => {
           let user = res.data;
           dispatch(success(user));
-          askForPermissioToReceiveNotifications().then(fcmToken => {
-            console.log(fcmToken);
-            notificationServices.setFCMToken(fcmToken, user.token).then(
-              res => {
-                user = JSON.stringify(user);
-                localStorage.setItem('user', user);
-                history.push('/home/my_flows');
-              }
-            )
-          }).catch(err => {
-            console.error(err);
-          });
+          user = JSON.stringify(user);
+          localStorage.setItem('user', user);
+          history.push('/home/my_flows');
         },
         error => {
           dispatch(failure(error.toString()));
           dispatch(alertActions.error(error.toString()));
         }
       );
-
-
 
     // Fake login
     // setTimeout(() => {
@@ -48,7 +36,6 @@ function login(username, password) {
     //   dispatch(success(token));
     //   history.push('/home/my_flows');
     // }, 500)
-
   };
 
   function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }

@@ -49,7 +49,7 @@ class InboxTaskDetail extends Component {
       return (
         <Box justify="center" align="center" pad={{ top: "medium" }}>
           <Spinner
-            fadeIn="full"
+            fadeIn="half"
             name="ball-scale-multiple"
             color={colors.brand} />
         </Box>);

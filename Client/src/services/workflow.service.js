@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { globalConstants } from '_constants';
-import { getToken } from '_helpers';
+import { getUserToken } from '_helpers';
 
 const domainName = "http://178.128.214.101:8002"
 
@@ -39,7 +39,7 @@ function updateWorkflow(
     }
   }, {
       headers: {
-        Authorization: "Token " + getToken(),
+        Authorization: "Token " + getUserToken(),
       }
     })
 
@@ -60,7 +60,7 @@ function createNewWorkflow(
     },
     {
       headers: {
-        Authorization: "Token " + getToken(),
+        Authorization: "Token " + getUserToken(),
       }
     })
 }
@@ -79,7 +79,7 @@ function sendWorkflowDataToEngine(
     },
     {
       headers: {
-        Authorization: "Token " + getToken(),
+        Authorization: "Token " + getUserToken(),
       }
     })
 }
@@ -87,7 +87,7 @@ function sendWorkflowDataToEngine(
 function getMyFlows() {
   return axios.get(globalConstants.USER_WORKFLOW_URL, {
     headers: {
-      Authorization: "Token " + getToken(),
+      Authorization: "Token " + getUserToken(),
     }
   })
 }

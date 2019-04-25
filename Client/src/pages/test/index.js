@@ -12,7 +12,7 @@ class Test extends Component {
 
   state = { showDock: true, }
 
-  handleGetToken = () => {
+  handlegetUserToken = () => {
     askForPermissioToReceiveNotifications().then(token => {
       // Todo Use Token;
       console.log(token);
@@ -28,7 +28,7 @@ class Test extends Component {
   render() {
     return (
       <div>
-        <Button label="Get Token" onClick={this.handleGetToken} />
+        <Button label="Get Token" onClick={this.handlegetUserToken} />
         <GoogleLogin
           clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
           buttonText="Login"

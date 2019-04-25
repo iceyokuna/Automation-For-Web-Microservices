@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { css } from 'glamor';
 import { colors } from 'theme';
 import { notificationServices } from 'services';
-import { getToken } from '_helpers'
+import { getUserToken } from '_helpers'
 
 export function applyFCMListener(store) {
   messaging.onMessage(payload => {
@@ -20,9 +20,9 @@ export function applyFCMListener(store) {
   });
 
   messaging.onTokenRefresh(() => {
-    messaging.getToken().then(
+    messaging.getUserToken().then(
       fcmToken => {
-        const userToken = getToken();
+        const userToken = getUserToken();
         notificationServices.setFCMToken(fcmToken, userToken).
           then().catch(e => {
             alert("Can't update token");

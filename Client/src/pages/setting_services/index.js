@@ -35,7 +35,7 @@ class index extends Component {
     if (this.state.loadingServices) return (
       <Box align="center" justify="center" pad="medium">
         <Spinner
-          fadeIn="full"
+          fadeIn="half"
           name="ball-scale-multiple" color={colors.brand} />
       </Box>
     );

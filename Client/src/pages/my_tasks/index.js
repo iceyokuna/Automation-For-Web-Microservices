@@ -78,27 +78,32 @@ class MyTasks extends Component {
 
         {inboxTasks.isLoading === true ? (<Box justify="center" align="center" pad={{ top: "medium" }}>
           <Spinner
-            fadeIn="full"
+            fadeIn="half"
             name="ball-scale-multiple"
             color={colors.brand} />
         </Box>) : (
-            <Box direction="column" gap="small" animation="fadeIn" background="light-0"
-              pad={{ top: "small", bottom: 'medium' }} margin={{bottom: 'large'}}> 
-              <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium', }}>
-                <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
-                  border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
-                  <Text textAlign="center" weight="bold">Workflow</Text>
+            <Box direction="column" gap="small" animation="fadeIn"
+              pad={{ top: "small", bottom: 'medium', left: 'medium', right: 'medium' }}
+              margin={{ bottom: 'large' }}>
+
+              <Box background="light-0" pad="small">
+                <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium', }}>
+                  <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
+                    border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
+                    <Text textAlign="center" weight="bold">Workflow</Text>
+                  </Box>
+                  <Box style={{ flex: 6 }} pad={{ vertical: 'small' }}
+                    border={{ side: 'bottom', color: 'accent-2', size: 'small' }}>
+                    <Text textAlign="center" weight="bold" >Action</Text>
+                  </Box>
+                  <Box style={{ flex: 2 }} pad={{ vertical: 'small' }}
+                    border={{ side: 'bottom', color: 'accent-3', size: 'small' }}>
+                    <Text textAlign="center" weight="bold">Date</Text>
+                  </Box>
                 </Box>
-                <Box style={{ flex: 6 }} pad={{ vertical: 'small' }}
-                  border={{ side: 'bottom', color: 'accent-2', size: 'small' }}>
-                  <Text textAlign="center" weight="bold" >Action</Text>
-                </Box>
-                <Box style={{ flex: 2 }} pad={{ vertical: 'small' }}
-                  border={{ side: 'bottom', color: 'accent-3', size: 'small' }}>
-                  <Text textAlign="center" weight="bold">Date</Text>
-                </Box>
+                {this.renderTasks()}
               </Box>
-              {this.renderTasks()}
+
             </Box>)}
       </div>
     )

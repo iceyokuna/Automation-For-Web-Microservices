@@ -72,7 +72,7 @@ class AppBar extends Component {
       return (
         <Box align="center" pad='small'>
           <Spinner
-            fadeIn="full"
+            fadeIn="half"
             name="ball-scale-multiple" color={colors.brand} />
         </Box>);
     }
