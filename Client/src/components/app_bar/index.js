@@ -106,7 +106,7 @@ class AppBar extends Component {
 
   renderForSignedin() {
     const { user } = this.props;
-    if (user === null) return null;
+    if (user === undefined) return null;
     else {
       const { openNotificationPanel, openAccountPanel } = this.state;
       return (
