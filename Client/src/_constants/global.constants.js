@@ -9,4 +9,5 @@ export const globalConstants = {
   GET_ALL_NOTIFICATIONS_URL: 'https://5c8f65998447f30014cb826b.mockapi.io/api/notifications',
 
   COLLABORATORS_URL: 'http://178.128.214.101:8003/api/collaborator/',
+  SET_FCM_TOKEN_URL: 'http://178.128.214.101:8003/api/fcm_token/',
 };

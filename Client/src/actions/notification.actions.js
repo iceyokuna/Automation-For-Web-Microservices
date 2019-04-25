@@ -4,7 +4,39 @@ import { notificationServices } from 'services';
 export const notificationActions = {
   getAllNotifications,
   addNewNotification,
+  setFCMToken,
 };
+
+function setFCMToken(fcmToken) {
+  return dispatch => {
+    dispatch(request());
+
+    notificationServices.setFCMToken(fcmToken).then(
+      res => {
+        dispatch(success());
+      }
+    ).catch(e => dispatch(failure()))
+  }
+
+  function request() {
+    return {
+      type: notificationConstants.SET_FCMTOKEN_REQUEST
+    }
+  }
+
+  function success(notifications) {
+    return {
+      type: notificationConstants.SET_FCMTOKEN_SUCCESS,
+      notifications,
+    }
+  }
+
+  function failure() {
+    return {
+      type: notificationConstants.SET_FCMTOKEN_FAILURE,
+    }
+  }
+}
 
 function addNewNotification(payload) {
   return {

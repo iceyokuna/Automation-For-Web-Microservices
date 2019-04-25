@@ -1,7 +1,7 @@
 import { userConstants } from '_constants';
-import { userService } from 'services';
+import { userService, notificationServices } from 'services';
 import { alertActions } from './';
-import { history } from '_helpers';
+import { history, askForPermissioToReceiveNotifications } from '_helpers';
 
 export const userActions = {
   login,
@@ -20,15 +20,26 @@ function login(username, password) {
         res => {
           let user = res.data;
           dispatch(success(user));
-          user = JSON.stringify(user);
-          localStorage.setItem('user', user);
-          history.push('/home/my_flows');
+          askForPermissioToReceiveNotifications().then(fcmToken => {
+            console.log(fcmToken);
+            notificationServices.setFCMToken(fcmToken, user.token).then(
+              res => {
+                user = JSON.stringify(user);
+                localStorage.setItem('user', user);
+                history.push('/home/my_flows');
+              }
+            )
+          }).catch(err => {
+            console.error(err);
+          });
         },
         error => {
           dispatch(failure(error.toString()));
           dispatch(alertActions.error(error.toString()));
         }
       );
+
+
 
     // Fake login
     // setTimeout(() => {
