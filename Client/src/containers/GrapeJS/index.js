@@ -21,16 +21,17 @@ export default class GrapeJSWrapper extends Component {
         }
       },
       allowScripts: 1,
+      storageManager: { type: null },
       fromElement: true,
       height: '100%',
     });
 
     this.panelManager = this.editor.Panels;
-    this.setDefaultComponentTheme();
     this.allowEditingCode();
     this.setProperties();
     this.listenToEvents();
     this.loadExistingForm();
+    this.setDefaultComponentTheme();
   }
 
   loadExistingForm = () => {
