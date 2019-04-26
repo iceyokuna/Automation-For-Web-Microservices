@@ -7,8 +7,12 @@ routers.register('all_services', views.AllServicesView)
 routers.register('services', views.ServiceView)
 routers.register('methods', views.MethodView)
 routers.register('connecting_methods/(?P<m_id>\d+)', views.ConnectingMethodView)
+routers.register('all_user_service', views.AllUserServiceView)
 
 urlpatterns = [
     path('', include(routers.urls)),
-    path('lookup/', views.ServiceLookupView.as_view())  
+    path('lookup/', views.ServiceLookupView.as_view()),
+    path('user_service/', views.UserServiceView.as_view()),  
+    path('user_method/', views.UserMethodView.as_view()),
+    #path('all_user_service/', views.AllUserServiceView.as_view())
 ]

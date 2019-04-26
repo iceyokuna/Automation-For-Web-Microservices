@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Service, Method, Connecting_method
+from .models import Service, Method, Connecting_method, UserMethod, UserService
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ('id','name','info')
+        fields = ('id','name','info','url')
 
 class MethodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,7 +22,23 @@ class AllServicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = ('id','name','info','methods')
-      
+
+class UserServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserService
+        fields = ('id','name','info','url','username')
+
+class UserMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserMethod
+        fields = ('id', 'name','info', 'service','input_interface','output_interface')
+
+class AllUserServicesSerializer(serializers.ModelSerializer):
+    methods = UserMethodSerializer(many=True, read_only=True)
+ 
+    class Meta:
+        model = UserService
+        fields = ('id','name', 'username','info','methods')
 
     '''
     def create(self, validated_data):

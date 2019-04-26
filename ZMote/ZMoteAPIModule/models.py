@@ -24,3 +24,5 @@ class Client(models.Model):
     username = models.CharField(null=True,max_length=200)
     secret = models.CharField(null=True,max_length=200, unique=True)
     client_id = models.CharField(null=True,max_length=200)
+    extIP = models.CharField(null=True,max_length=200)
+

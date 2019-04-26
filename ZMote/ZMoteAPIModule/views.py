@@ -70,10 +70,17 @@ class AuthView(APIView):
 
         secret = client.values().first()['secret']
         c_id = client.values().first()['client_id']
-        data ={'secret': 'QyFAGcVfihf1no4wbF7gnYV5T5MuIHl7FSSrSy32Uc04GapbAhC0OTmdjgGqupUD' ,'_id': '5cb9c8e19acac808c0cc99b9'}
+        data = {}
+        data['secret'] = secret
+        data['_id'] = c_id
+        json_data = json.dumps(data)
+        #data ={'secret': 'QyFAGcVfihf1no4wbF7gnYV5T5MuIHl7FSSrSy32Uc04GapbAhC0OTmdjgGqupUD' ,'_id': '5cb9c8e19acac808c0cc99b9'}
         #data = {'secret':secret,'_id':c_id}
-        response = requests.post(url, headers= headers, data=data)
-        return Response({"detail": response.content}, status=HTTP_200_OK)
+        response = requests.post(url, headers= headers, data=json_data)
+        extIP = json.loads(response.content)['extIP']
+        client.update(extIP=extIP)
+        
+        return Response({"detail": json.loads(response.content)}, status=HTTP_200_OK)
 
 
 class EmitIRView(APIView):
