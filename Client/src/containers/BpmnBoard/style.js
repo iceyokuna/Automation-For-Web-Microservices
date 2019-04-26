@@ -28,7 +28,7 @@ export const EditInfoButton = styled(Button)`
   border-radius: 100%;
 `
 export const OpenDock = styled(Button)`
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   left: calc(50% - 145px);
   transform: translateX(-50%);

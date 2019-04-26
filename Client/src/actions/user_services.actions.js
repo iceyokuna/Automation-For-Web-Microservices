@@ -6,6 +6,13 @@ export const userServicesActions = {
 
   getUserServices,
   addNewService,
+  addNewMethod,
+}
+
+function toggleDefineServiceDialog() {
+  return {
+    type: userServicesConstants.TOGGLE_DEFINE_SERVICE_DIALOG,
+  }
 }
 
 function getUserServices() {
@@ -77,8 +84,43 @@ function addNewService(
   }
 }
 
-function toggleDefineServiceDialog() {
-  return {
-    type: userServicesConstants.TOGGLE_DEFINE_SERVICE_DIALOG,
+function addNewMethod(
+  methodName,
+  methodInfo,
+  methodType,
+  serviceId,
+  inputInterface,
+  outputInterface,
+  methodUrl,
+) {
+  return (dispatch, getState) => {
+    dispatch(request());
+    const username = getState().authentication.user.username;
+    userService.addNewMethod(username, methodName,
+      methodInfo, methodType, serviceId,
+      inputInterface, outputInterface, methodUrl).then(
+        res => dispatch(success(res.data))
+      ).catch(e => dispatch(failure()))
   }
+
+  function request() {
+    return {
+      type: userServicesConstants.ADD_METHOD_REQUEST,
+    }
+  }
+
+  function success(data) {
+    return {
+      type: userServicesConstants.ADD_METHOD_SUCCESS,
+      data,
+    }
+  }
+
+  function failure() {
+    return {
+      type: userServicesConstants.ADD_METHOD_FAILURE,
+    }
+  }
+
 }
+
