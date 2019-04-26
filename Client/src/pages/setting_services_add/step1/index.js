@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import {
   TextInput, Box, Button,
   FormField,
-} from 'grommet'
+} from 'grommet';
+import { userServicesActions } from 'actions';
+import { connect } from 'react-redux';
 
-export default class index extends Component {
+class index extends Component {
   state = {
     serviceName: '',
     serviceInfo: '',
@@ -31,9 +33,11 @@ export default class index extends Component {
   }
 
   onNextStep = () => {
-    this.props.onNextStep();
+    // this.props.onNextStep();
+    const { serviceName, serviceInfo, serviceUrl } = this.state;
+    this.props.dispatch(userServicesActions.addNewService(
+      serviceName, serviceInfo, serviceUrl));
   }
-
 
   render() {
     return (
@@ -57,3 +61,5 @@ export default class index extends Component {
     )
   }
 }
+
+export default connect()(index);

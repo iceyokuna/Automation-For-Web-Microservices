@@ -1,12 +1,18 @@
-import axios from 'axios'
+import axios from 'axios';
 
-import { globalConstants } from '_constants'
+import { globalConstants } from '_constants';
+import { getUserToken } from '_helpers'
 
 export const userService = {
   addNewService,
   addNewMethod,
   updateUserService,
+  getUserServices,
 };
+
+function getUserServices() {
+  return axios.get(globalConstants.USER_SERVICE_URL);
+}
 
 function updateUserService(serviceId, username, serviceName,
   serviceInfo, serviceUrl, ) {
@@ -51,5 +57,9 @@ function addNewService(username, serviceName,
     name: serviceName,
     info: serviceInfo,
     url: serviceUrl,
+  }, {
+    headers: {
+      Authorization: "Token " + getUserToken(),
+    }
   });
 }
