@@ -3,9 +3,8 @@ import { global } from 'style'
 import { connect } from 'react-redux'
 import { workflowActions } from 'actions'
 
-import { Box, Button, Heading, Text, TextInput, FormField, TextArea } from 'grommet'
+import { Box, Button, Heading, TextInput, FormField, TextArea } from 'grommet'
 import { Next } from 'grommet-icons'
-import CollaboratorInviter from 'components/collaborator_inviter';
 
 class AddFlowInfo extends Component {
 
@@ -33,7 +32,7 @@ class AddFlowInfo extends Component {
   }
 
   onNextStep = () => {
-    const { workflowName, description, selectedCollaborators } = this.state;
+    const { workflowName, description, } = this.state;
     const { dispatch } = this.props;
     dispatch(workflowActions.createNewWorkflow(workflowName, description, "CREATE_NEW"));
   }

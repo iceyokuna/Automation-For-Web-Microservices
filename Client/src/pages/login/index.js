@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 
-import { Box, FormField, TextInput, Button, Heading, Text, Image } from 'grommet';
+import { Box, FormField, TextInput, Button,  Text, Image } from 'grommet';
 import { Login as Signin } from 'grommet-icons';
-import { Link, withRouter } from 'react-router-dom'
+import {  withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { userActions } from 'actions';
 
-import { styles } from './style';
 import { global } from 'style';
 import { colors } from 'theme';
-import Spinner from 'react-spinkit'
+import Spinner from 'react-spinkit';
 
 class Login extends Component {
   constructor(props) {
@@ -24,6 +23,7 @@ class Login extends Component {
       username: '',
       password: '',
     };
+
   }
 
   onChangeusername = (e) => {
@@ -51,8 +51,8 @@ class Login extends Component {
       return (
         <Box align="center" pad='small'>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale" color={colors.brand} />
+            fadeIn="half"
+            name="ball-scale-multiple" color={colors.brand} />
         </Box>
       )
     } else {
@@ -69,7 +69,7 @@ class Login extends Component {
         <Box  pad='medium'
           style={{ width: 350 }} background="light-0"
           round={{ size: 'small' }}
-          animation='fadeIn'>
+          animation='fadeIn' gap="small">
           <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
           <FormField >
             <TextInput

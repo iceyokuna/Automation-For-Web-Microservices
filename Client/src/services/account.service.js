@@ -1,10 +1,10 @@
 // import config from 'config';
-import { getToken } from '_helpers';
+import { getUserToken } from '_helpers';
 import axios from 'axios'
 
 import { globalConstants } from '_constants'
 
-export const userService = {
+export const accountService = {
   login,
   logout,
   register,
@@ -17,7 +17,7 @@ function login(username, password) {
 function logout() {
   return axios.post(globalConstants.USER_LOGOUT_URL, null, {
     headers: {
-      Authorization: "Token " + getToken(),
+      Authorization: "Token " + getUserToken(),
     }
   })
 }

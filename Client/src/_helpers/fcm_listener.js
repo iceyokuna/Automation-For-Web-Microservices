@@ -3,6 +3,8 @@ import { notificationActions } from 'actions';
 import { toast } from 'react-toastify';
 import { css } from 'glamor';
 import { colors } from 'theme';
+import { notificationServices } from 'services';
+import { getUserToken } from '_helpers'
 
 export function applyFCMListener(store) {
   messaging.onMessage(payload => {
@@ -15,6 +17,18 @@ export function applyFCMListener(store) {
     store.dispatch(notificationActions.addNewNotification(payload));
   }, err => {
     console.error(err)
+  });
+
+  messaging.onTokenRefresh(() => {
+    messaging.getUserToken().then(
+      fcmToken => {
+        const userToken = getUserToken();
+        notificationServices.setFCMToken(fcmToken, userToken).
+          then().catch(e => {
+            alert("Can't update token");
+          })
+      }
+    )
   })
 }
 

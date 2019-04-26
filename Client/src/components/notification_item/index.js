@@ -11,14 +11,14 @@ border-color: #bbbbbb;
 
 const dateColor = "#666666";
 
-const index = ({ title, body, createdAd, onClick }) => {
+const index = ({ title, body, createdAt, onClick }) => {
   return (
     <Button hoverIndicator onClick={onClick}>
       <Notification gap="small" pad="small">
         <Text weight="bold">{title}</Text>
         <Text>{body}</Text>
         <Text size="xsmall" color={dateColor}>
-          {moment(createdAd).format('llll')}
+          {moment(createdAt).format('llll')}
         </Text>
       </Notification>
     </Button >

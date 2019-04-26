@@ -49,8 +49,8 @@ class InboxTaskDetail extends Component {
       return (
         <Box justify="center" align="center" pad={{ top: "medium" }}>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale"
+            fadeIn="half"
+            name="ball-scale-multiple"
             color={colors.brand} />
         </Box>);
     }
@@ -89,10 +89,10 @@ class InboxTaskDetail extends Component {
               <div dangerouslySetInnerHTML={{ __html: submittedForm.html }} />
               <TextArea value={this.state.comment} />
               <Box direction="row" justify="end" gap="xsmall">
+                <Button label="Reject" color="accent-1"
+                  icon={<Close color={colors["dark-2"]} />} onClick={this.onRejectTask} />
                 <Button label="Approve" color="accent-1"
                   icon={<Checkmark />} primary onClick={this.onApproveTask} />
-                <Button label="Reject" color="accent-1"
-                  icon={<Close />} onClick={this.onRejectTask} />
               </Box>
             </Box>
           </Col>

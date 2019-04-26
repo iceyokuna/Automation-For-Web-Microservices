@@ -4,7 +4,7 @@ import { Button, Box, Text } from 'grommet';
 import { FillParent } from 'style'
 import { UniversalStyle as Style } from 'react-css-component'
 import { connect } from 'react-redux'
-import { workflowActions, socketActions } from 'actions'
+import { socketActions, } from 'actions'
 import { Next, Previous } from 'grommet-icons'
 import { toast } from 'react-toastify'
 
@@ -17,8 +17,9 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
-        const { dispatch } = this.props
-        dispatch(socketActions.nextForm(null, null, null));
+        const { dispatch, authentication, } = this.props;
+        const user = authentication.user;
+        dispatch(socketActions.nextForm(null, null, null, user));
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -53,7 +54,7 @@ class ExecuteFlow extends Component {
 
         for (let e of elements) {
             // Check whether the checkbox input is selected or not
-            if (e.checked == true) {
+            if (e.checked === true) {
                 inputValues[e.id] = {
                     type: e.type,
                     name: e.name,
@@ -72,10 +73,11 @@ class ExecuteFlow extends Component {
     }
 
     getNextForm = () => {
-        const { dispatch, workflow } = this.props;
+        const { dispatch, workflow, authentication, } = this.props;
+        const user = authentication.user
         const taskId = workflow.executingTaskId;
         const formInputValues = this.extractValuesFromCurrentForm();
-        dispatch(socketActions.nextForm("IC_MEETING", formInputValues, taskId));
+        dispatch(socketActions.nextForm("IC_MEETING", formInputValues, taskId, user));
     }
 
     render() {
@@ -109,6 +111,7 @@ const styles = {
 const mapStateToProps = (state) => {
     return {
         workflow: state.workflow,
+        authentication: state.authentication,
     }
 }
 

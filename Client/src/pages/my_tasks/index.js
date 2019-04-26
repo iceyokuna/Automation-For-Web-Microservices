@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 
 import {
-  Box, Button,
+  Box,
   Heading, Text
 } from 'grommet';
 
-import { Add } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -53,7 +52,7 @@ class MyTasks extends Component {
     return inboxTasks.data.map((item, index) =>
       <TaskItemInbox workflowName={item.workflowName}
         key={index} delay={index}
-        isEven={index % 2 == 0}
+        isEven={index % 2 === 0}
         actionType={item.actionType}
         actionDescription={item.actionDescription}
         createdAt={moment(item.createdAt).format('lll')}
@@ -77,30 +76,34 @@ class MyTasks extends Component {
           </Row>
         </Box>
 
-        {inboxTasks.isLoading == true ? (<Box justify="center" align="center" pad={{ top: "medium" }}>
+        {inboxTasks.isLoading === true ? (<Box justify="center" align="center" pad={{ top: "medium" }}>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale"
+            fadeIn="half"
+            name="ball-scale-multiple"
             color={colors.brand} />
         </Box>) : (
-            <Box direction="column" gap="small" animation="fadeIn" >
-              <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium' }}>
-                <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
-                  border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
-                  <Text textAlign="center" weight="bold">Workflow</Text>
+            <Box direction="column" gap="small" animation="fadeIn"
+              pad={{ top: "small", bottom: 'medium', left: 'medium', right: 'medium' }}
+              margin={{ bottom: 'large' }}>
+
+              <Box background="light-0" pad="small">
+                <Box direction="row" align="center" gap="xsmall" margin={{ horizontal: 'medium', }}>
+                  <Box style={{ flex: 3 }} pad={{ vertical: 'small' }}
+                    border={{ side: 'bottom', color: 'accent-1', size: 'small' }}>
+                    <Text textAlign="center" weight="bold">Workflow</Text>
+                  </Box>
+                  <Box style={{ flex: 6 }} pad={{ vertical: 'small' }}
+                    border={{ side: 'bottom', color: 'accent-2', size: 'small' }}>
+                    <Text textAlign="center" weight="bold" >Action</Text>
+                  </Box>
+                  <Box style={{ flex: 2 }} pad={{ vertical: 'small' }}
+                    border={{ side: 'bottom', color: 'accent-3', size: 'small' }}>
+                    <Text textAlign="center" weight="bold">Date</Text>
+                  </Box>
                 </Box>
-                <Box style={{ flex: 6 }} pad={{ vertical: 'small' }}
-                  border={{ side: 'bottom', color: 'accent-2', size: 'small' }}>
-                  <Text textAlign="center" weight="bold" >Action</Text>
-                </Box>
-                <Box style={{ flex: 2 }} pad={{ vertical: 'small' }}
-                  border={{ side: 'bottom', color: 'accent-3', size: 'small' }}>
-                  <Text textAlign="center" weight="bold">Date</Text>
-                </Box>
-              </Box>
-              <Box pad={{ bottom: 'large' }} round={{ size: 'small' }}>
                 {this.renderTasks()}
               </Box>
+
             </Box>)}
       </div>
     )

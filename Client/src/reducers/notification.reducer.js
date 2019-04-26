@@ -9,15 +9,18 @@ export function notification(state = initialState, action) {
 
     case notificationConstants.ADD_NEW_NOTIFICATION: {
       const { payload } = action;
-      const data = payload.data["gcm.notification.data"];
-      const { notification } = payload;
-
       const nextState = { ...state };
-      nextState.data.unshift({
-        title: notification.title,
-        body: notification.body,
-        data: JSON.parse(data),
-      })
+      try {
+        const data = payload.data["gcm.notification.data"];
+        const { notification } = payload;
+        nextState.data.unshift({
+          title: notification.title,
+          body: notification.body,
+          data: JSON.parse(data),
+        })
+      } catch (e) {
+        return nextState;
+      }
       return nextState;
     }
 

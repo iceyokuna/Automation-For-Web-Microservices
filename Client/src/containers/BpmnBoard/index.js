@@ -16,6 +16,7 @@ import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
 import EditWorkflowInfo from 'components/edit_workflow_dialog';
 import FormTypeDialog from 'components/form_type_dialog';
+import ExecutionLog from 'components/execution_log';
 
 import "./style/app.less";
 
@@ -27,16 +28,23 @@ import lintModule from 'bpmn-js-bpmnlint';
 
 import xmlStr from "../../assets/bpmn/xmlStr";
 import download from 'downloadjs';
-import converter, { xml2js, json2xml } from 'xml-js'
+import { json2xml, xml2json } from 'xml-js'
 
-import { Box, Button, Layer, Text } from 'grommet'
-import { Upload, Group, Test, Edit } from 'grommet-icons'
+import { Box, Layer, Text } from 'grommet'
+import { Upload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 
-import { workflowActions, availableServicesActions } from 'actions'
+import {
+  workflowActions, availableServicesActions,
+  logsActions
+} from 'actions'
 
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
-import { InviteButton, NextButton, SendWorkflowButton, EditInfoButton } from './style'
+import {
+  InviteButton, NextButton,
+  SendWorkflowButton, EditInfoButton,
+  OpenDock
+} from './style'
 
 
 let scale = 1;
@@ -94,7 +102,7 @@ class BpmnContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const { workflow } = nextProps;
     // If load a new workflow
-    if (this.props.workflow.bpmnJson != workflow.bpmnJson) {
+    if (this.props.workflow.bpmnJson !== workflow.bpmnJson) {
       try {
         const bpmnXml = json2xml(workflow.bpmnJson)
         this.renderDiagram(bpmnXml);
@@ -194,7 +202,7 @@ class BpmnContainer extends Component {
       if (err) {
         console.error(err);
       } else {
-        const json = converter.xml2json(xml, { compact: false, spaces: 2 });
+        const json = xml2json(xml, { compact: false, spaces: 2 });
         download(json, 'bpmn.json', 'application/json');
 
       }
@@ -245,7 +253,6 @@ class BpmnContainer extends Component {
 
   handleCreate = () => {
     const { currentElement } = this.state
-    const modeling = this.bpmnModeler.get('modeling');
     const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
     const sequenceFlowElement = elementRegistry.get(currentElement.id);
@@ -270,13 +277,17 @@ class BpmnContainer extends Component {
     })
   }
 
+  onOpenLogs = () => {
+    this.props.dispatch(logsActions.toggleDock());
+  }
+
   onEditDiagram = () => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
       } else {
         const bpmnJson = JSON.parse(
-          converter.xml2json(xml, { compact: false, spaces: 2 }));
+          xml2json(xml, { compact: false, spaces: 2 }));
         this.props.dispatch(workflowActions.setBpmnJson(bpmnJson));
         this.props.dispatch(workflowActions.toggleEditWorkflowDialog());
       }
@@ -294,7 +305,7 @@ class BpmnContainer extends Component {
         console.error(err);
       } else {
         const bpmnJson = JSON.parse(
-          converter.xml2json(xml, { compact: false, spaces: 2 }));
+          xml2json(xml, { compact: false, spaces: 2 }));
 
         const { workflowConditions, workflowPreInputs } = this.props;
         const { appliedConditions } = workflowConditions;
@@ -387,18 +398,19 @@ class BpmnContainer extends Component {
             onEsc={this.onCloseLoadingDialog}
 
           >
-            <Box pad="medium" gap="small" width="large" width="350px"
+            <Box pad="medium" gap="small" width="large"
               direction="row" justify='center' align="center">
               <Text>Submitting your workflow</Text>
               <Spinner
-                fadeIn="quarter"
-                name="three-bounce"
+                fadeIn="half"
+                name="ball-scale-multiple"
                 color={colors.brand} />
 
             </Box>
           </Layer>)
         }
 
+        <ExecutionLog />
         <FormTypeDialog />
         <EditWorkflowInfo />
         <MemberDialog />
@@ -438,7 +450,6 @@ class BpmnContainer extends Component {
           onClick={this.onEditDiagram}
         />
 
-
         <SendWorkflowButton
           color="accent-4" primary plain={false}
           icon={<Test size="18px" color="#ffffff" />}
@@ -454,6 +465,8 @@ class BpmnContainer extends Component {
 
         <NextButton color="accent-2" primary icon={<Upload size="18px" color="#fff" />}
           title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
+
+        <OpenDock plain icon={<CaretUp />} title="Workflow logs" onClick={this.onOpenLogs} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}

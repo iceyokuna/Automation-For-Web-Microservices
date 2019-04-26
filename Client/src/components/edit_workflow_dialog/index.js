@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
 import {
-  Heading, Text, Box, Button,
+  Heading, Box, Button,
   Layer, TextInput, FormField,
   TextArea
 } from 'grommet'

@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { local } from './style';
 
-import { Box, TextInput, Button, Heading, Text, FormField, CheckBox } from 'grommet';
+import { Box, TextInput, Button, Text, FormField, } from 'grommet';
 import {
-  FormAdd, Checkmark,
+  Checkmark,
   Close, Stakeholder,
   Alarm, Edit,
 } from 'grommet-icons';
-import { global } from 'style';
-import { Link, Redirect } from 'react-router-dom'
-
-
-import PropTypes from 'prop-types'
-
-import { services } from './mockup_service_data'
 
 import TaskProperty from './task_property'
 import GatewayProperty from './gateway_property'
@@ -21,6 +14,7 @@ import GatewayProperty from './gateway_property'
 import { connect } from 'react-redux'
 import { workflowActions } from 'actions';
 
+import { services } from './mockup_service_data'
 
 class BpmnProperty extends Component {
 
@@ -69,7 +63,7 @@ class BpmnProperty extends Component {
   }
 
   onSubmitChanges() {
-    if (this.state.nodeType == null) return;
+    if (this.state.nodeType === null) return;
     this.props.onUpdate({ ...this.state });
   }
 
@@ -96,7 +90,7 @@ class BpmnProperty extends Component {
     const { nodeType, eventType } = this.state;
     const { allServices, onSelectServiceMethod,
       onShowConditions, onAssignTask } = this.props;
-    const services = allServices.length == 0 ? services : allServices;
+    const services = allServices.length === 0 ? services : allServices;
 
     let element = null;
 

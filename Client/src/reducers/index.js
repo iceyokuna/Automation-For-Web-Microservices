@@ -15,6 +15,8 @@ import { socket } from './socket.reducer';
 import { availableServices } from './available_services.reducer'
 import { inboxTasks } from './inbox_tasks.reducer';
 import { notification } from './notification.reducer';
+import { userServices } from './user_services.reducer';
+import { workflowLogs } from './workflow.logs.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -30,6 +32,8 @@ const rootReducer = combineReducers({
   availableServices,
   inboxTasks,
   notification,
+  userServices,
+  workflowLogs,
 });
 
 export default rootReducer;
