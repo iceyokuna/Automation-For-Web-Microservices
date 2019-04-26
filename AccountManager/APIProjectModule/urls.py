@@ -14,6 +14,7 @@ urlpatterns = [
     path('workflow', WorkflowView.as_view()),
     path('collaborator/<int:workflow_id>', CollaboratorView.as_view()),
     path('collaborator/', CollaboratorView.as_view()),
+    #pth('workflow_obj/', )
     #path('', include(routers.urls))
     
 ]

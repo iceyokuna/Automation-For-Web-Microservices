@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Workflow(models.Model):
     #id = models.AutoField(primary_key=True)
@@ -13,7 +14,7 @@ class Workflow(models.Model):
     appliedConditions = JSONField(null=True)
     appliedPreInputs = JSONField(null=True)
     generatedForms = JSONField(null=True)
-    workflowObject = JSONField(null=True)
+    workflowObject = models.BinaryField(default=None)
 
     def __str__(self):
         return self.name
