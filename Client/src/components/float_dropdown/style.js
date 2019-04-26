@@ -23,4 +23,5 @@ export const circleButton = {
   padding: 5,
   justifyContent: 'center',
   borderRadius: '50%',
+  border: `2px solid #fff`,
 }

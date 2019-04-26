@@ -5,13 +5,12 @@ import {
   Heading,
   Paragraph,
   Text,
-  DropButton,
   TextInput,
   TextArea,
   FormField
 } from 'grommet';
 
-import { Edit, Checkmark, FormUp, Cluster } from 'grommet-icons';
+import {  Checkmark,  Cluster } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -81,15 +80,15 @@ class FlowDetail extends Component {
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
-    if (loadingCollaborators == true) {
+    if (loadingCollaborators === true) {
       return (
         <Box align="center" pad='small'>
           <Spinner
-            fadeIn="quarter"
-            name="line-scale" color={colors.brand} />
+            fadeIn="half"
+            name="ball-scale-multiple" color={colors.brand} />
         </Box>
       );
-    } if (collaborators.length == 0) {
+    } if (collaborators.length === 0) {
       return (
         <Box>
           <Text>You have not invited any collaborator yet.</Text>
@@ -115,46 +114,33 @@ class FlowDetail extends Component {
   renderDescriptionBox = () => {
     const { currentFlow } = this.props;
     return (
-      <Box margin="small" pad="small"
+      <Box margin="small" pad="medium"
         round={{ size: 'small' }} background="light-0" >
-        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-          <Text size="large" weight="bold">Description</Text>
-        </Box>
-        <Box pad="small">
-          <Paragraph >{currentFlow.description}</Paragraph>
-        </Box>
+        <Text size="large" weight="bold">Description</Text>
+        <Paragraph color="dark-2">{currentFlow.description}</Paragraph>
       </Box>
     );
   }
 
   renderCollaboratorsBox = () => {
     return (
-      <Box margin="small" pad="small"
+      <Box margin="small" pad="medium"
         round={{ size: 'small' }} background="light-0" >
-        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-          <Text size="large" weight="bold">Collaborators</Text>
-        </Box>
-        <Box pad="small" fill="horizontal">
-          {/* List of collaborators*/}
-          {this.renderCollaboratorItems()}
-        </Box>
+        <Text size="large" weight="bold">Collaborators</Text>
+        {/* List of collaborators*/}
+        {this.renderCollaboratorItems()}
       </Box>
     )
   }
 
   renderTaskBox = () => {
     return (
-      <Box margin="small" pad="small"
+      <Box margin="small" pad="medium"
         round={{ size: 'small' }}
         background="light-0" >
-        <Box border={{ side: 'bottom', size: 'xsmall' }} pad="xsmall">
-          <Text size="large" weight="bold">Tasks</Text>
-        </Box>
-        <Box pad="small">
-          {/* List of Tasks*/}
-          {this.renderTaskList()}
-
-        </Box>
+        <Text size="large" weight="bold">Tasks</Text>
+        {/* List of Tasks*/}
+        {this.renderTaskList()}
       </Box>
     )
   }
@@ -188,9 +174,8 @@ class FlowDetail extends Component {
   }
 
   render() {
-    const { openEditMenu } = this.state;
     const { currentFlow } = this.props;
-    if (currentFlow == null) {
+    if (currentFlow === null) {
       return <Redirect to="/home/my_flows" />;
     }
     return (
@@ -198,7 +183,7 @@ class FlowDetail extends Component {
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
-            <Button label="Edit Diagram" primary icon={<Cluster />} 
+            <Button label="Edit Diagram" primary icon={<Cluster size="16px"/>}
               color="accent-1" onClick={this.navigateToModeler} />
           </Box>
         </Box>

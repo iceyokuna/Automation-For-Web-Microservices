@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, } from 'react'
 
 import grapesjs from 'grapesjs';
 import presetWebpage from 'grapesjs-preset-webpage';
@@ -26,11 +26,11 @@ export default class GrapeJSWrapper extends Component {
     });
 
     this.panelManager = this.editor.Panels;
-    this.setDefaultComponentTheme();
     this.allowEditingCode();
     this.setProperties();
     this.listenToEvents();
     this.loadExistingForm();
+    this.setDefaultComponentTheme();
   }
 
   loadExistingForm = () => {
@@ -151,7 +151,7 @@ export default class GrapeJSWrapper extends Component {
       if (changedId !== '') {
         this.props.onSetElementId(changedId, true);
       }
-      if (changedAttributes.id != previousAttributes.id) {
+      if (changedAttributes.id !== previousAttributes.id) {
         this.props.onSetElementId(previousAttributes.id, false);
       }
     })

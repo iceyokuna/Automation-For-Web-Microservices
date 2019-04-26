@@ -74,3 +74,34 @@ body {
   border-radius: 6px !important;
   padding: 12px !important;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+table>tr:first-child>th {
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 2px;
+  border-left: 0px;
+  border-bottom-color: #444444;
+}
+
+td, th {
+  text-align: left;
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+tr.service {
+  cursor: pointer;
+}
+
+tr.service:hover {
+  background-color: #d3d3d3;
+}

@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom'
 
 import AddFlowInfo from 'pages/add_flow_info'
 import ModelWorkflow from 'pages/workflow'
-import CreateForm from 'pages/create_form'
 
 import { Box } from 'grommet'
 

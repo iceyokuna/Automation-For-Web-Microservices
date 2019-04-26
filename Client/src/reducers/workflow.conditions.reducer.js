@@ -3,7 +3,7 @@ import { workflowContants } from '_constants';
 const defaultState = {
   nextFlowElements: [],
   showConditionList: false,
-  operators: ['==', '!=', '<', '<=', '>', '>='],
+  operators: ['===', '!=', '<', '<=', '>', '>='],
   allVariables: [],
   bpmnNodes: [
     'TASK_1132',

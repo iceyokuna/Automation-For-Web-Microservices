@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import DropContent from 'components/dropdown_content'
 import PlainButton from 'components/plain_button';
 import NotificationItem from 'components/notification_item';
+import { HamburgerContainer } from './style'
 
 import HamburgerButton from 'react-hamburger-menu';
 
@@ -67,12 +68,12 @@ class AppBar extends Component {
   renderNotifications = () => {
     const { notification } = this.props;
 
-    if (notification.isLoading == true) {
+    if (notification.isLoading === true) {
       return (
         <Box align="center" pad='small'>
           <Spinner
-            fadeIn="quarter"
-            name="ball-clip-rotate" color={colors.brand} />
+            fadeIn="half"
+            name="ball-scale-multiple" color={colors.brand} />
         </Box>);
     }
 
@@ -105,7 +106,7 @@ class AppBar extends Component {
 
   renderForSignedin() {
     const { user } = this.props;
-    if (user == null) return null;
+    if (user === undefined) return null;
     else {
       const { openNotificationPanel, openAccountPanel } = this.state;
       return (
@@ -159,20 +160,35 @@ class AppBar extends Component {
       >
         <Box direction="row"
           align="center" gap="medium" pad="small">
-          <HamburgerButton
-            isOpen={this.props.showMenuBar}
-            menuClicked={() => this.props.onToggleMenu()}
-            width={24}
-            height={15}
-            strokeWidth={3}
-            rotate={0}
-            color='white'
-            borderRadius={2}
-            animationDuration={0.5} />
+
+          <HamburgerContainer>
+            <HamburgerButton
+              isOpen={this.props.showMenuBar}
+              menuClicked={() => this.props.onToggleMenu()}
+              width={24}
+              height={15}
+              strokeWidth={3}
+              rotate={0}
+              color='white'
+              borderRadius={2}
+              animationDuration={0.5} />
+          </HamburgerContainer>
+
+
           <Link to="/home/my_flows">
             <Text size="xlarge" color='light-0'
               weight="bold">AutoWeb</Text>
           </Link>
+
+          <Box direction="row" gap="medium" pad="small">
+            <Link to="/home/my_tasks">
+              <Text size="medium" color='light-0'>Tasks</Text>
+            </Link>
+            <Link to="/home/my_flows">
+              <Text size="medium" color='light-0'>Flows</Text>
+            </Link>
+          </Box>
+
         </Box>
         {this.renderForSignedin()}
 

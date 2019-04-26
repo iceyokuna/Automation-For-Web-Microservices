@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 
 import { Box, Heading, Layer, Button, Text, Select } from 'grommet'
 
-import { Close, Checkmark } from 'grommet-icons'
 import Avatar from 'react-avatar';
 import { connect } from 'react-redux';
 
@@ -62,7 +61,7 @@ class ParticipantSelector extends Component {
 
   render() {
     const { options, value, defaultOptions } = this.state;
-    const { show, collaborators } = this.props;
+    const { show, } = this.props;
     return (
       <Box >
         {show && (

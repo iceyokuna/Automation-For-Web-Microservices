@@ -5,12 +5,10 @@ import { global, FillParent } from 'style'
 import AppBar from 'components/app_bar';
 import DropMenuInline from 'components/drop_menu_inline'
 import SideBar from 'components/sidebar';
-import PrivateRoute from 'components/private_route'
 
-import { Button, Box, Text, Collapsible } from 'grommet';
+import { Box, } from 'grommet';
 
 import FlowDetail from 'pages/flow_detail'
-import ModelWorkflow from 'pages/workflow'
 import CreateForm from 'pages/create_form'
 import NotFound from 'pages/not_found'
 import MyFlows from 'pages/my_flows';
@@ -18,17 +16,33 @@ import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
 import MyTasks from 'pages/my_tasks'
 import InboxTaskDetail from 'pages/inbox_task_detail'
+import Setting from 'pages/setting'
 
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch, } from 'react-router-dom'
 
 import Media from 'react-media'
 
-import { history } from '_helpers';
+import { history, askForPermissioToReceiveNotifications } from '_helpers';
+import { notificationServices } from 'services'
 
 export default class Home extends Component {
   state = {
     showMenuBar: false,
   }
+
+  componentDidMount() {
+    askForPermissioToReceiveNotifications().then(fcmToken => {
+      console.log("fcmToken = " + fcmToken);
+      notificationServices.setFCMToken(fcmToken).then(
+        res => {
+          console.log("Set fcmToken");
+        }
+      )
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
 
   toggleMenubar = (e) => {
     this.setState({ showMenuBar: !this.state.showMenuBar });
@@ -51,6 +65,7 @@ export default class Home extends Component {
           <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
           <Route exact path={match.url + "/design_form"} component={CreateForm} />
           <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
+          <Route path={match.url + "/setting"} component={Setting} />
           <Route component={NotFound} />
         </Switch>
       </div>
@@ -69,16 +84,14 @@ export default class Home extends Component {
             matches ? (
               <FillParent style={{ paddingTop: 60 }}>
                 <Box fill direction="row">
-                  <Collapsible open={showMenuBar} direction="horizontal">
-                    <SideBar showMenuBar={true}
-                      onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
-                  </Collapsible>
+                  <SideBar showMenuBar={showMenuBar}
+                    onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
                   {this.renderRoutes()}
                 </Box>
 
               </FillParent>
             ) : (
-                <FillParent>
+                <FillParent style={{ paddingTop: 60 }}>
                   <DropMenuInline showMenuBar={showMenuBar}
                     onSelectMenu={(pathName) => this.navigateTo(pathName)} {...this.props} />
                   {this.renderRoutes()}
