@@ -1,5 +1,5 @@
 import { userConstants } from '_constants';
-import { userService, notificationServices } from 'services';
+import { accountService, notificationServices } from 'services';
 import { alertActions } from './';
 import { history, askForPermissioToReceiveNotifications } from '_helpers';
 
@@ -14,7 +14,7 @@ export const userActions = {
 function login(username, password) {
   return dispatch => {
     dispatch(request({ username }));
-    userService.login(username, password)
+    accountService.login(username, password)
       .then(
         res => {
           let user = res.data;
@@ -44,7 +44,7 @@ function login(username, password) {
 }
 
 function logout() {
-  userService.logout().then((res) => {
+  accountService.logout().then((res) => {
     localStorage.removeItem('user');
     history.push('/login');
   }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
@@ -56,7 +56,7 @@ function register(user) {
   return dispatch => {
     dispatch(request(user));
 
-    userService.register(user)
+    accountService.register(user)
       .then(
         user => {
           dispatch(success());
@@ -79,7 +79,7 @@ function getAll() {
   return dispatch => {
     dispatch(request());
 
-    userService.getAll()
+    accountService.getAll()
       .then(
         users => dispatch(success(users)),
         error => dispatch(failure(error.toString()))
@@ -96,7 +96,7 @@ function deleteUser(id) {
   return dispatch => {
     dispatch(request(id));
 
-    userService.delete(id)
+    accountService.delete(id)
       .then(
         user => dispatch(success(id)),
         error => dispatch(failure(id, error.toString()))

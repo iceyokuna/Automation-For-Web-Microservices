@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import { globalConstants } from '_constants'
 
-export const userService = {
+export const accountService = {
   login,
   logout,
   register,
