@@ -7,6 +7,9 @@ import {
 import { userServicesActions } from 'actions';
 import { connect } from 'react-redux';
 
+import Spinner from 'react-spinkit';
+import { colors } from 'theme';
+
 class index extends Component {
   state = {
     serviceName: '',
@@ -39,6 +42,33 @@ class index extends Component {
       serviceName, serviceInfo, serviceUrl));
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { createNewService } = nextProps.userServices;
+    if (createNewService === "success") {
+      this.props.onNextStep();
+    }
+  }
+
+  renderNextButton = () => {
+    const { userServices } = this.props;
+    const { createNewService } = userServices;
+    if (createNewService === "loading") {
+      return (
+        <Box align="center" pad='small'>
+          <Spinner
+            fadeIn="half"
+            name="ball-scale-multiple" color={colors.brand} />
+        </Box>
+      );
+    } else {
+      return (
+        <Box direction="row" justify="end" align="center" gap="small">
+          <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
+        </Box>);
+    }
+  }
+
+
   render() {
     return (
       <Box gap="small" pad="medium">
@@ -54,12 +84,17 @@ class index extends Component {
           <TextInput placeholder="Service 's URL e.g. https://myservice.com/api/" size="small"
             onChange={this.onChangeServiceUrl} />
         </FormField>
-        <Box direction="row" justify="end" align="center" gap="small">
-          <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
-        </Box>
+        {this.renderNextButton()}
+
       </Box>
     )
   }
 }
 
-export default connect()(index);
+const mapStateToProps = (state) => {
+  return {
+    userServices: state.userServices,
+  }
+}
+
+export default connect(mapStateToProps)(index);
