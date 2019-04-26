@@ -21,8 +21,27 @@ function updateUserService(serviceId, username, serviceName,
   })
 }
 
-function addNewMethod() {
-  
+function addNewMethod(
+  username,
+  methodName,
+  methodInfo,
+  methodType,
+  serviceId,
+  inputInterface,
+  outputInterface,
+  methodUrl,
+) {
+  return axios.post(globalConstants.USER_METHOD_URL, {
+    username,
+    name: methodName,
+    info: methodInfo,
+    method_type: methodType,
+    service_id: serviceId,
+    input_interface: inputInterface,
+    output_interface: outputInterface,
+    path: methodUrl,
+  })
+
 }
 
 function addNewService(username, serviceName,

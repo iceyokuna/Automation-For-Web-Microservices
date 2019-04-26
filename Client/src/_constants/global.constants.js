@@ -11,5 +11,6 @@ export const globalConstants = {
   COLLABORATORS_URL: 'http://178.128.214.101:8003/api/collaborator/',
   SET_FCM_TOKEN_URL: 'http://178.128.214.101:8003/api/fcm_token/',
 
-  USER_SERVICE_URL: 'http://178.128.214.101:8004/api/user_service/'
+  USER_SERVICE_URL: 'http://178.128.214.101:8004/api/user_service/',
+  USER_METHOD_URL: 'http://178.128.214.101:8004/api/user_method/',
 };
