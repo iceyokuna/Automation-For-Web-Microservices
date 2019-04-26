@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 
 import Dock from 'react-dock';
 
-import { Box, Text } from 'grommet';
+import { Box, Text, Button } from 'grommet';
+import { Close } from 'grommet-icons'
 import Scrollbars from 'react-custom-scrollbars';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { logsActions } from 'actions'
 
 class index extends Component {
 
@@ -15,13 +17,21 @@ class index extends Component {
       <Text>{item.detail}</Text>)
   }
 
+  onClose = () => {
+    this.props.dispatch(logsActions.toggleDock());
+  }
+
   render() {
     const { workflowLogs } = this.props;
     return (
-      <Dock position='bottom' dimMode="none" fluid
-        isVisible={workflowLogs.show} dockStyle={{ borderRadius: 12 }}>
-        <Box pad="medium" gap="small">
-          <Text weight="bold">Execution Logs</Text>
+      <Dock position='bottom' dimMode="none"
+        isVisible={workflowLogs.show} dockStyle={{ borderRadius: 12, overflow: 'hidden' }}>
+        <Box pad="medium" gap="xsmall" fill>
+          <Box direction="row" justify="between" align="center">
+            <Text weight="bold">Execution Logs</Text>
+            <Button icon={<Close />} color="light-0"
+              hoverIndicator onClick={this.onClose} />
+          </Box>
           <Box round={{ size: 'small' }} background="light-1">
             <Scrollbars autoHide style={{ height: 170 }}>
               <Box pad="small" gap="small">

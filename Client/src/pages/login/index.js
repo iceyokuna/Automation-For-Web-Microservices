@@ -9,7 +9,7 @@ import { userActions } from 'actions';
 
 import { global } from 'style';
 import { colors } from 'theme';
-import Spinner from 'react-spinkit'
+import Spinner from 'react-spinkit';
 
 class Login extends Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class Login extends Component {
       username: '',
       password: '',
     };
+
   }
 
   onChangeusername = (e) => {

@@ -31,13 +31,20 @@ import download from 'downloadjs';
 import { json2xml, xml2json } from 'xml-js'
 
 import { Box, Layer, Text } from 'grommet'
-import { Upload, Group, Test, Edit } from 'grommet-icons'
+import { Upload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 
-import { workflowActions, availableServicesActions } from 'actions'
+import {
+  workflowActions, availableServicesActions,
+  logsActions
+} from 'actions'
 
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
-import { InviteButton, NextButton, SendWorkflowButton, EditInfoButton } from './style'
+import {
+  InviteButton, NextButton,
+  SendWorkflowButton, EditInfoButton,
+  OpenDock
+} from './style'
 
 
 let scale = 1;
@@ -270,6 +277,10 @@ class BpmnContainer extends Component {
     })
   }
 
+  onOpenLogs = () => {
+    this.props.dispatch(logsActions.toggleDock());
+  }
+
   onEditDiagram = () => {
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
@@ -439,7 +450,6 @@ class BpmnContainer extends Component {
           onClick={this.onEditDiagram}
         />
 
-
         <SendWorkflowButton
           color="accent-4" primary plain={false}
           icon={<Test size="18px" color="#ffffff" />}
@@ -455,6 +465,8 @@ class BpmnContainer extends Component {
 
         <NextButton color="accent-2" primary icon={<Upload size="18px" color="#fff" />}
           title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
+
+        <OpenDock plain icon={<CaretUp />} title="Workflow logs" onClick={this.onOpenLogs} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
