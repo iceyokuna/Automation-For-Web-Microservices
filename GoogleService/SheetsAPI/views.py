@@ -7,9 +7,9 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework import viewsets
-from .serializers import ZMoteSerializer, FrequencySerializer, ZMoteFreqSerializer
+#from .serializers import ZMoteSerializer, FrequencySerializer, ZMoteFreqSerializer
 from django.contrib.auth.models import User
-from .models import ZMote, Frequency, Client
+#from .models import ZMote, Frequency, Client
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.status import (
@@ -27,19 +27,12 @@ import json
 class CreateView(APIView):
     def post(self, request):
         
-
-        # TODO: Change placeholder below to generate authentication credentials. See
-        # https://developers.google.com/sheets/quickstart/python#step_3_set_up_the_sample
-        #
-        # Authorize using one of the following scopes:
-        #     'https://www.googleapis.com/auth/drive'
-        #     'https://www.googleapis.com/auth/drive.file'
-        #     'https://www.googleapis.com/auth/spreadsheets'
-        credentials = request.data.get('token')
+        credentials = "ya29.Glv3BowHgX8TBdJfZyzy1HFewbcZlKOWqdu-uTSFu76ALH8sArx1WjSJ9-Lp-RMQxyf0djSssix1TXeaaYndR_C0B9GLkjGLIVIRQ9lRKO1Aqm657kHMbtW8RR_Q"#request.data.get('token')
         service = discovery.build('sheets', 'v4', credentials=credentials)
 
         spreadsheet_body = {
-            request.data.get('body')
+            #request.data.get('body')
+            {'properties': {'title': 'My new Sheet'}}
         }
 
         request = service.spreadsheets().create(body=spreadsheet_body)
@@ -50,27 +43,14 @@ class CreateView(APIView):
 
 class GetView(APIView):
     def get(self, request):
-        # TODO: Change placeholder below to generate authentication credentials. See
-        # https://developers.google.com/sheets/quickstart/python#step_3_set_up_the_sample
-        #
-        # Authorize using one of the following scopes:
-        #     'https://www.googleapis.com/auth/drive'
-        #     'https://www.googleapis.com/auth/drive.file'
-        #     'https://www.googleapis.com/auth/drive.readonly'
-        #     'https://www.googleapis.com/auth/spreadsheets'
-        #     'https://www.googleapis.com/auth/spreadsheets.readonly'
         credentials = request.data.get('token')
 
         service = discovery.build('sheets', 'v4', credentials=credentials)
 
-        # The spreadsheet to request.
         spreadsheet_id = request.data.get('spreadsheet_id')#'my-spreadsheet-id' 
 
-        # The ranges to retrieve from the spreadsheet.
-        ranges = []  # TODO: Update placeholder value.
+        ranges = []  
 
-        # True if grid data should be returned.
-        # This parameter is ignored if a field mask was set in the request.
         include_grid_data = False  # TODO: Update placeholder value.
 
         request = service.spreadsheets().get(spreadsheetId=spreadsheet_id, ranges=ranges, includeGridData=include_grid_data)
@@ -84,7 +64,7 @@ class GetView(APIView):
     class UpdateView(APIView):
         def post(self, request):
             requests = []
-            if(request.data.get("title"):
+            if(request.data.get("title")):
                     requests.append({
                         'updateSpreadsheetProperties': {
                             'properties': {
@@ -101,7 +81,7 @@ class GetView(APIView):
                         'allSheets': True
                     }
                 })
-           if(request.data.get('body')):
+            if(request.data.get('body')):
 
                 body = {
                     'requests': requests

@@ -14,7 +14,7 @@ class Workflow(models.Model):
     appliedConditions = JSONField(null=True)
     appliedPreInputs = JSONField(null=True)
     generatedForms = JSONField(null=True)
-    workflowObject = models.BinaryField(default=None)
+    #workflowObject = models.BinaryField(null=True)#models.BinaryField(default=None)
 
     def __str__(self):
         return self.name
