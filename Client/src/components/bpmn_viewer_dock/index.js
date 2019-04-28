@@ -64,10 +64,10 @@ class index extends Component {
   }
 
   onClose = () => {
-    this.props.onCloseDock()
+    this.props.onCloseDock();
+    const overlays = this.viewer.get('overlays');
+    overlays.clear();
   }
-
-
 
   render() {
     const { currentTask } = this.state;
