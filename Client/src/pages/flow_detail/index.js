@@ -36,8 +36,8 @@ class FlowDetail extends Component {
       currentTask: null,
       tasks: [
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'EEEEEEEEEE', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'SSSSSSSS', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },

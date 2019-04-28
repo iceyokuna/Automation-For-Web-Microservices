@@ -70,7 +70,7 @@ class Login extends Component {
           style={{ width: 350 }} background="light-0"
           round={{ size: 'small' }}
           animation='fadeIn' gap="small">
-          <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
+          <Image height="150px" src={require('assets/images/autoweb_icon_2.png')} fit="cover" />
           <FormField >
             <TextInput
               ref='usernameInput'
