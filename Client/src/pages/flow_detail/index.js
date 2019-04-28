@@ -36,11 +36,11 @@ class FlowDetail extends Component {
       currentTask: null,
       tasks: [
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
       ]
@@ -84,6 +84,13 @@ class FlowDetail extends Component {
       showViewerDock: true,
       currentTask: task,
     })
+  }
+
+
+  onCloseDock = () => {
+    this.setState({
+      showViewerDock: !this.state.showViewerDock
+    });
   }
 
 
@@ -192,7 +199,8 @@ class FlowDetail extends Component {
     const { showViewerDock, currentTask } = this.state;
     return (
       <div style={global.mainContainer}>
-        <ViewerDock visible={showViewerDock} currentTask={currentTask} />
+        <ViewerDock visible={showViewerDock} currentTask={currentTask}
+          onCloseDock={this.onCloseDock} />
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>

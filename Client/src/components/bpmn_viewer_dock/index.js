@@ -32,8 +32,6 @@ class index extends Component {
       }
     });
 
-
-
     const { currentFlow } = this.props;
     const xml = json2xml(currentFlow.bpmnJson);
 
@@ -42,7 +40,7 @@ class index extends Component {
         console.log("error rendering", err);
       } else {
         const canvas = viewer.get('canvas');
-        canvas.zoom('fit-viewport');
+        canvas.zoom('fit-viewport', 'center');
       }
     });
 
@@ -54,14 +52,21 @@ class index extends Component {
     if (currentTask) {
       this.setState({ currentTask });
       const overlays = this.viewer.get('overlays');
+      overlays.clear();
       overlays.add(currentTask.nodeId, {
         position: {
-          bottom: 10,
+          bottom: 5,
+          right: 30,
         },
         html: '<div class="highlight">This task is here</div>',
       })
     }
   }
+
+  onClose = () => {
+    this.props.onCloseDock()
+  }
+
 
 
   render() {
@@ -73,9 +78,9 @@ class index extends Component {
         <Box pad="medium" gap="xsmall" fill>
 
           <Box direction="row" justify="between" align="center">
-            <Box>
+            <Box gap="xsmall">
               <Text weight="bold">{currentTask.name}</Text>
-              <Text>{currentTask.owner}</Text>
+              <Text color="dark-6">{currentTask.owner}</Text>
             </Box>
             <Button icon={<Close />} color="light-0"
               hoverIndicator onClick={this.onClose} />
