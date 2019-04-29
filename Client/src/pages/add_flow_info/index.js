@@ -11,8 +11,8 @@ class AddFlowInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      workflowName: '',
-      description: '',
+      workflowName: 'Untitled',
+      description: 'empty',
       selectedCollaborators: [],
       userIds: ["iceyo#1177", "pym#887", "bas#998"],
     };
@@ -47,7 +47,7 @@ class AddFlowInfo extends Component {
         <Box flex direction="column" align="center" justify="center"
           fill='vertical'>
           <Box pad='medium' width="400px" animation='fadeIn'
-            round={{ size: 'small' }} 
+            round={{ size: 'small' }}
             background="light-0" >
             <Heading size="small"  >
               Create a New Flow
