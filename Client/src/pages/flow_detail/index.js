@@ -10,7 +10,7 @@ import {
   FormField
 } from 'grommet';
 
-import {  Checkmark,  Cluster } from 'grommet-icons';
+import { Checkmark, Cluster } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -23,26 +23,28 @@ import { workflowActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
+import ViewerDock from 'components/bpmn_viewer_dock'
 
 class FlowDetail extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       newname: '',
       newDescription: '',
-      openEditMenu: undefined,
+      showViewerDock: false,
+      currentTask: null,
       tasks: [
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'EEEEEEEEEE', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'SSSSSSSS', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
+        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
       ]
-    }
+    };
   }
 
   onChangename = (e) => {
@@ -77,6 +79,21 @@ class FlowDetail extends Component {
     }
   }
 
+  onClickTask = (task) => {
+    this.setState({
+      showViewerDock: true,
+      currentTask: task,
+    })
+  }
+
+
+  onCloseDock = () => {
+    this.setState({
+      showViewerDock: !this.state.showViewerDock
+    });
+  }
+
+
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
@@ -107,7 +124,7 @@ class FlowDetail extends Component {
   renderTaskList = () => {
     const { tasks } = this.state
     const views = tasks.map((item, index) =>
-      <TaskItem key={index} {...item} onSelectTask={() => alert('Click a task')} />)
+      <TaskItem key={index} {...item} onSelectTask={() => this.onClickTask(item)} />)
     return views;
   }
 
@@ -178,12 +195,16 @@ class FlowDetail extends Component {
     if (currentFlow === null) {
       return <Redirect to="/home/my_flows" />;
     }
+
+    const { showViewerDock, currentTask } = this.state;
     return (
       <div style={global.mainContainer}>
+        <ViewerDock visible={showViewerDock} currentTask={currentTask}
+          onCloseDock={this.onCloseDock} />
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
-            <Button label="Edit Diagram" primary icon={<Cluster size="16px"/>}
+            <Button label="Edit Diagram" primary icon={<Cluster size="16px" />}
               color="accent-1" onClick={this.navigateToModeler} />
           </Box>
         </Box>
@@ -211,6 +232,7 @@ const mapStateToProps = (state) => {
     currentFlow: state.workflowMyFlows.currentFlow,
     workflowCollaborators: state.workflowCollaborators,
     workflow: state.workflow,
+    workflowMyFlows: state.workflowMyFlows,
   }
 }
 

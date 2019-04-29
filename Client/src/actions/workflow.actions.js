@@ -18,6 +18,7 @@ export const workflowActions = {
   setCurrentFlow,
   setupExistingWorkflow,
   setupNewWorkflow,
+  setNextNodes,
 
   setWorkflowId,
   setBpmnJson,
@@ -35,6 +36,13 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function setNextNodes(nextNodes) {
+  return {
+    type: workflowContants.SET_NEXT_NODES,
+    nextNodes,
+  }
+}
 
 function toggleEditWorkflowDialog() {
   return {

@@ -30,12 +30,12 @@ CustomModeler.prototype._modules = [].concat(
  *
  * @param {Object} customElement
  */
-CustomModeler.prototype._addCustomShape = function(customElement) {
+CustomModeler.prototype._addCustomShape = function (customElement) {
 
   this._customElements.push(customElement);
 
   var canvas = this.get('canvas'),
-      elementFactory = this.get('elementFactory');
+    elementFactory = this.get('elementFactory');
 
   var customAttrs = assign({ businessObject: customElement }, customElement);
 
@@ -45,13 +45,13 @@ CustomModeler.prototype._addCustomShape = function(customElement) {
 
 };
 
-CustomModeler.prototype._addCustomConnection = function(customElement) {
+CustomModeler.prototype._addCustomConnection = function (customElement) {
 
   this._customElements.push(customElement);
 
   var canvas = this.get('canvas'),
-      elementFactory = this.get('elementFactory'),
-      elementRegistry = this.get('elementRegistry');
+    elementFactory = this.get('elementFactory'),
+    elementRegistry = this.get('elementRegistry');
 
   var customAttrs = assign({ businessObject: customElement }, customElement);
 
@@ -59,7 +59,7 @@ CustomModeler.prototype._addCustomConnection = function(customElement) {
     source: elementRegistry.get(customElement.source),
     target: elementRegistry.get(customElement.target)
   }),
-  elementRegistry.get(customElement.source).parent);
+    elementRegistry.get(customElement.source).parent);
 
   return canvas.addConnection(connection);
 
@@ -70,16 +70,16 @@ CustomModeler.prototype._addCustomConnection = function(customElement) {
  *
  * @param {Array<Object>} customElements
  */
-CustomModeler.prototype.addCustomElements = function(customElements) {
+CustomModeler.prototype.addCustomElements = function (customElements) {
 
   if (!isArray(customElements)) {
     throw new Error('argument must be an array');
   }
 
   var shapes = [],
-      connections = [];
+    connections = [];
 
-  customElements.forEach(function(customElement) {
+  customElements.forEach(function (customElement) {
     if (isCustomConnection(customElement)) {
       connections.push(customElement);
     } else {
@@ -99,7 +99,7 @@ CustomModeler.prototype.addCustomElements = function(customElements) {
  *
  * @return {Array<Object>} custom elements on the diagram
  */
-CustomModeler.prototype.getCustomElements = function() {
+CustomModeler.prototype.getCustomElements = function () {
   return this._customElements;
 };
 

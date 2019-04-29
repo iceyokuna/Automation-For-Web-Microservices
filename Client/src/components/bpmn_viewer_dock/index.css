@@ -1,0 +1,15 @@
+.highlight {
+  background-color: rgba(66, 180, 21, 1);
+  color: White;
+  border-radius: 5px;
+  font-family: Arial;
+  font-size: 12px;
+  padding: 5px;
+  min-height: 16px;
+  width: 100px;
+  text-align: center;
+}
+
+.bjs-powered-by {
+  display: none !important;
+}

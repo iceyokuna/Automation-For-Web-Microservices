@@ -18,7 +18,8 @@ import { Link } from 'react-router-dom'
 
 import { colors } from 'theme';
 
-const iconColor = "#ffffff"
+const iconColor = "#ffffff";
+const appName = "Autoweb";
 
 class AppBar extends Component {
 
@@ -177,7 +178,7 @@ class AppBar extends Component {
 
           <Link to="/home/my_flows">
             <Text size="xlarge" color='light-0'
-              weight="bold">AutoWeb</Text>
+              weight="bold">{appName}</Text>
           </Link>
 
           <Box direction="row" gap="medium" pad="small">

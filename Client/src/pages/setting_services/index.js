@@ -5,6 +5,7 @@ import { Add } from 'grommet-icons'
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
+import { userServicesActions } from 'actions'
 
 class index extends Component {
 
@@ -13,10 +14,13 @@ class index extends Component {
     currentContent: "services",
   }
 
+
   componentDidMount() {
     setTimeout(() => {
       this.setState({ loadingServices: false });
     }, 2000);
+
+    this.props.dispatch(userServicesActions.getUserServices())
   }
 
   onAddService = () => {
