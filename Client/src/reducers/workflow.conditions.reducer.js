@@ -3,13 +3,9 @@ import { workflowContants } from '_constants';
 const defaultState = {
   nextFlowElements: [],
   showConditionList: false,
-  operators: ['===', '!=', '<', '<=', '>', '>='],
+  operators: ['==', '!=', '<', '<=', '>', '>='],
   allVariables: [],
-  bpmnNodes: [
-    'TASK_1132',
-    'TASK_2233E',
-    'LANE_133ww'
-  ],
+  bpmnNodes: [],
   appliedConditions: {},
 }
 
@@ -34,6 +30,10 @@ export function workflowConditions(state = defaultState, action) {
       const nextState = { ...state };
       nextState.allVariables = action.allVariables;
       return nextState;
+    }
+
+    case workflowContants.SET_NEXT_NODES: {
+      return { ...state, bpmnNodes: action.nextNodes }
     }
 
     default:

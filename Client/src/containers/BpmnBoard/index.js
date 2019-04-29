@@ -118,6 +118,12 @@ class BpmnContainer extends Component {
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
       const currentElement = event.element.businessObject;
+
+      if (currentElement.outgoing != null) { // To set available nodes when set gateway's condition
+        const nextNodes = currentElement.outgoing.map(element => element.targetRef.id);
+        this.props.dispatch(workflowActions.setNextNodes(nextNodes));
+      }
+
       this.props.dispatch(workflowActions.setCurrentElement(currentElement));
       this.setState({
         currentElement: currentElement
@@ -390,17 +396,16 @@ class BpmnContainer extends Component {
           <div id="canvas" />
         </div>
 
-        {workflow.sendingWorkflowData && (
+         (
           <Layer
             position="center"
             modal
             onClickOutside={this.onCloseLoadingDialog}
             onEsc={this.onCloseLoadingDialog}
-
           >
-            <Box pad="medium" gap="small" width="large"
+            <Box pad="medium" gap="large" width="medium"
               direction="row" justify='center' align="center">
-              <Text>Submitting your workflow</Text>
+              <Text>Saving your workflow</Text>
               <Spinner
                 fadeIn="half"
                 name="ball-scale-multiple"
@@ -408,7 +413,7 @@ class BpmnContainer extends Component {
 
             </Box>
           </Layer>)
-        }
+        
 
         <ExecutionLog />
         <FormTypeDialog />
