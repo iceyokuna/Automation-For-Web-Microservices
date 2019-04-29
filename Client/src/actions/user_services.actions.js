@@ -16,9 +16,12 @@ function toggleDefineServiceDialog() {
 }
 
 function getUserServices() {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(request());
-    userService.getUserServices().then(res => {
+
+    const username = getState().authentication.user.username;
+
+    userService.getUserServices(username).then(res => {
       dispatch(success(res.data));
     }).catch(e => {
       dispatch(failure());

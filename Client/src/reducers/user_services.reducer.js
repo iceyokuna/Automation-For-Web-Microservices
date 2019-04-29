@@ -32,6 +32,20 @@ export function userServices(state = defaultState, action) {
       return { ...state, createNewService: "failure", }
     }
 
+    case userServicesConstants.GET_USER_SERVICES_REQUEST: {
+      return { ...state, loadingUserServices: true };
+    }
+
+    case userServicesConstants.GET_USER_SERVICES_SUCCESS: {
+      const nextState = { ...state };
+      nextState.data = action.data.detail;
+      return nextState;
+    }
+
+    case userServicesConstants.GET_USER_SERVICES_FAILURE: {
+      return { ...state, loadingUserServices: false };
+    }
+
     default:
       return state
   }

@@ -10,8 +10,8 @@ export const userService = {
   getUserServices,
 };
 
-function getUserServices() {
-  return axios.get(globalConstants.USER_SERVICE_URL);
+function getUserServices(username) {
+  return axios.post(globalConstants.USER_SERVICE_URL, { username });
 }
 
 function updateUserService(serviceId, username, serviceName,
@@ -58,8 +58,8 @@ function addNewService(username, serviceName,
     info: serviceInfo,
     url: serviceUrl,
   }, {
-    headers: {
-      Authorization: "Token " + getUserToken(),
-    }
-  });
+      headers: {
+        Authorization: "Token " + getUserToken(),
+      }
+    });
 }
