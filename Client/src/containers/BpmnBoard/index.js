@@ -396,7 +396,7 @@ class BpmnContainer extends Component {
           <div id="canvas" />
         </div>
 
-         (
+        {workflow.sendingWorkflowData && (
           <Layer
             position="center"
             modal
@@ -413,7 +413,7 @@ class BpmnContainer extends Component {
 
             </Box>
           </Layer>)
-        
+        }
 
         <ExecutionLog />
         <FormTypeDialog />
