@@ -3,9 +3,10 @@ import { userServicesConstants } from '_constants';
 const defaultState = {
   loadingUserServices: false,
   showDefineServiceDialog: false,
-  createNewService: false,
+  creatingNewService: false,
+  creatingNewMethod: false,
   data: [
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
+    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api', methods: [], },
     { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
     { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
     { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
@@ -23,13 +24,13 @@ export function userServices(state = defaultState, action) {
       return { ...state, showDefineServiceDialog: !state.showDefineServiceDialog }
     }
     case userServicesConstants.ADD_USER_SERVICE_REQUEST: {
-      return { ...state, createNewService: "loading", }
+      return { ...state, creatingNewService: "loading", }
     }
     case userServicesConstants.ADD_USER_SERVICE_SUCCESS: {
-      return { ...state, createNewService: "success", }
+      return { ...state, creatingNewService: "success", }
     }
     case userServicesConstants.ADD_USER_SERVICE_FAILURE: {
-      return { ...state, createNewService: "failure", }
+      return { ...state, creatingNewService: "failure", }
     }
 
     case userServicesConstants.GET_USER_SERVICES_REQUEST: {
@@ -44,6 +45,18 @@ export function userServices(state = defaultState, action) {
 
     case userServicesConstants.GET_USER_SERVICES_FAILURE: {
       return { ...state, loadingUserServices: false };
+    }
+
+    case userServicesConstants.ADD_METHOD_REQUEST: {
+      return { ...state, creatingNewMethod: "loading" };
+    }
+
+    case userServicesConstants.ADD_METHOD_SUCCESS: {
+      return { ...state, creatingNewMethod: "success" };
+    }
+
+    case userServicesConstants.ADD_METHOD_FAILURE: {
+      return { ...state, creatingNewMethod: "failure" };
     }
 
     default:
