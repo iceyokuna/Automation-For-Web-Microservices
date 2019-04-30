@@ -49,9 +49,7 @@ export default class Home extends Component {
   }
 
   navigateTo = (pathName) => {
-    const { match } = this.props;
     history.push(pathName);
-    // this.toggleMenubar();
   }
 
   renderRoutes = () => {

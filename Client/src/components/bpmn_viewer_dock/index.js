@@ -11,9 +11,7 @@ import { logsActions } from 'actions';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 
 import { json2xml, } from 'xml-js';
-
 import "./index.css";
-
 
 class index extends Component {
 
@@ -44,7 +42,13 @@ class index extends Component {
       }
     });
 
+    window.onresize = this.centerCanvas.bind(this);
     this.viewer = viewer;
+  }
+
+  centerCanvas = () => {
+    const canvas = this.viewer.get('canvas');
+    canvas.zoom('fit-viewport', 'center');
   }
 
   componentWillReceiveProps(nextProps) {
