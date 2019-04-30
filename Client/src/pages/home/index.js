@@ -18,7 +18,7 @@ import MyTasks from 'pages/my_tasks'
 import InboxTaskDetail from 'pages/inbox_task_detail'
 import Setting from 'pages/setting'
 
-import { Route, Switch, } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 import Media from 'react-media'
 
@@ -66,7 +66,8 @@ export default class Home extends Component {
           <Route exact path={"/design_form"} component={CreateForm} />
           <Route path={"/my_tasks/:taskId"} component={InboxTaskDetail} />
           <Route path={"/setting"} component={Setting} />
-          <Route component={NotFound} />
+          {/* <Route component={NotFound} /> */}
+          <Redirect from="*" to="/my_flows" />
         </Switch>
       </div>
     );
