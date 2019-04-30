@@ -38,7 +38,7 @@ class ExecuteFlow extends Component {
 
         } if (executingForm === "DONE") {
             toast.success("Done all forms");
-            this.props.history.replace('/home/my_flows');
+            this.props.history.replace('/my_flows');
         }
     }
 

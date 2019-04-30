@@ -75,7 +75,7 @@ class FlowDetail extends Component {
     try {
       dispatch(workflowActions.getAllCollaborators(currentFlow.id));
     } catch (e) {
-      this.props.history.push('/home/my_flows');
+      this.props.history.push('/my_flows');
     }
   }
 
@@ -193,7 +193,7 @@ class FlowDetail extends Component {
   render() {
     const { currentFlow } = this.props;
     if (currentFlow === null) {
-      return <Redirect to="/home/my_flows" />;
+      return <Redirect to="/my_flows" />;
     }
 
     const { showViewerDock, currentTask } = this.state;

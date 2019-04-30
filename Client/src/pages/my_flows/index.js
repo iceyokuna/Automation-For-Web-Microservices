@@ -77,6 +77,7 @@ class MyFlows extends Component {
   }
 
   render() {
+    console.log(this.props.match);
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>

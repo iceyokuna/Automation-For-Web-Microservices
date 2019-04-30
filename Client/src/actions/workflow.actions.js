@@ -384,7 +384,7 @@ function updateWorkflow(name, description,
       ).then(
         res => {
           dispatch(success())
-          history.push('/home/my_flows');
+          history.push('/my_flows');
         }).catch(err => dispatch(failure(err)));
     }, 1000);
 

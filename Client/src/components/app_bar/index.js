@@ -176,16 +176,16 @@ class AppBar extends Component {
           </HamburgerContainer>
 
 
-          <Link to="/home/my_flows">
+          <Link to="/my_flows">
             <Text size="xlarge" color='light-0'
               weight="bold">{appName}</Text>
           </Link>
 
           <Box direction="row" gap="medium" pad="small">
-            <Link to="/home/my_tasks">
+            <Link to="/my_tasks">
               <Text size="medium" color='light-0'>Tasks</Text>
             </Link>
-            <Link to="/home/my_flows">
+            <Link to="/my_flows">
               <Text size="medium" color='light-0'>Flows</Text>
             </Link>
           </Box>

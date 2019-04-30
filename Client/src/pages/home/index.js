@@ -49,23 +49,25 @@ export default class Home extends Component {
   }
 
   navigateTo = (pathName) => {
+    const { match } = this.props;
     history.push(pathName);
     // this.toggleMenubar();
   }
 
   renderRoutes = () => {
     const { match } = this.props;
+    console.log(match);
     return (
       <div style={global.globalContainer}>
         <Switch>
-          <Route exact path={match.url + "/my_flows"} component={MyFlows} />
-          <Route path={match.url + "/my_flows/create"} component={CreateFlow} />
-          <Route path={match.url + "/my_flows/:flow_id/edit_diagram"} component={Workflow} />
-          <Route path={match.url + "/my_flows/:flow_id"} component={FlowDetail} />
-          <Route exact path={match.url + "/my_tasks"} component={MyTasks} />
-          <Route exact path={match.url + "/design_form"} component={CreateForm} />
-          <Route path={match.url + "/my_tasks/:taskId"} component={InboxTaskDetail} />
-          <Route path={match.url + "/setting"} component={Setting} />
+          <Route exact path={"/my_flows"} component={MyFlows} />
+          <Route path={"/my_flows/create"} component={CreateFlow} />
+          <Route path={"/my_flows/:flow_id/edit_diagram"} component={Workflow} />
+          <Route path={"/my_flows/:flow_id"} component={FlowDetail} />
+          <Route exact path={"/my_tasks"} component={MyTasks} />
+          <Route exact path={"/design_form"} component={CreateForm} />
+          <Route path={"/my_tasks/:taskId"} component={InboxTaskDetail} />
+          <Route path={"/setting"} component={Setting} />
           <Route component={NotFound} />
         </Switch>
       </div>
