@@ -83,6 +83,7 @@ class CollaboratorView(APIView):
                 data[i]= "user is already a collaborator"
             else:
                 Collaborator.objects.create(workflow=workflow,  collaborator=user)
+                data[i] = "successfully addded"
         return Response({"detail":data}, status=HTTP_200_OK)
 
 class LogView(APIView):
