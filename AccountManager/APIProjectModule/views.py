@@ -72,14 +72,18 @@ class CollaboratorView(APIView):
 
     def post(self, request):
         workflow_id = request.data.get('workflow_id')
-        # request.POST.get('workflow'))
         workflow = Workflow.objects.filter(id=workflow_id).first()
-        
+        data = {}
         collaborator_list = request.data.get('collaborators')
         for i in collaborator_list:
             user = User.objects.filter(username=i).first()
-            Collaborator.objects.create(workflow=workflow,  collaborator=user)
-        return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
+            if(user.count() < 0 ):
+                data[i]= "user does not exist"
+            elif(Collaborator.objects.filter(workflow=workflow,  collaborator=user)>0):
+                data[i]= "user is already a collaborator"
+            else:
+                Collaborator.objects.create(workflow=workflow,  collaborator=user)
+        return Response({"detail":data}, status=HTTP_200_OK)
 
 class LogView(APIView):
     def get(self, request, workflow_id):
