@@ -70,7 +70,7 @@ class UserServiceView(APIView):
             info = request.data.get('info')
             url = request.data.get('url')
             service = UserService.objects.create(username=username, name= name, url = url, info = info )
-            return Response({"detail": name+ " has been successfully created"})####workflow_id
+            return Response({"detail": name+ " has been successfully created","service_id":service.id})####workflow_id
         return Response({"detail": "Unable to creat the service"})
 
     def put(self, request):
