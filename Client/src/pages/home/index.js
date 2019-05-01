@@ -54,7 +54,6 @@ export default class Home extends Component {
 
   renderRoutes = () => {
     const { match } = this.props;
-    console.log(match);
     return (
       <div style={global.globalContainer}>
         <Switch>
