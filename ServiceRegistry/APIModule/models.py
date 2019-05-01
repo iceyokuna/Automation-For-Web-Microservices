@@ -34,7 +34,7 @@ class UserMethod(models.Model):
     service = models.ForeignKey(UserService, related_name='methods', on_delete=models.CASCADE)
     input_interface = JSONField(null=True)
     output_interface = JSONField(null=True)
-    #created = models.DateTimeField(auto_now_add=True)
+   
 
 class Method(models.Model):
     #id = models.AutoField(primary_key=True)
@@ -45,8 +45,7 @@ class Method(models.Model):
     service = models.ForeignKey(Service, related_name='methods', on_delete=models.CASCADE)
     input_interface = JSONField(null=True)
     output_interface = JSONField(null=True)
-    #created = models.DateTimeField(auto_now_add=True)
-    #updated_at = models.DateTimeField(auto_now=True)
+   
 
     def __str__(self):
         return self.name
