@@ -56,10 +56,8 @@ class AppBar extends Component {
     }
   }
 
-  onSelectNotification = (name) => {
-    switch (name) {
-      case 'Notification#1': this.props.dispatch(userActions.logout());
-    }
+  onSelectNotification = (notification) => {
+    this.props.history.push('/execute_flow/111', { notification })
   }
 
   handleMoreNotifications = () => {
