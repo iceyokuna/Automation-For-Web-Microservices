@@ -12,7 +12,7 @@ import { colors } from 'theme'
 
 import FlowItem from 'components/flow_item'
 
-import { myFlows } from './mockup'
+import { myFlows as myFlowsMockup } from './mockup'
 import { workflowActions } from 'actions';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
@@ -23,16 +23,13 @@ class MyFlows extends Component {
 
     this.state = {
       activeTabIndex: 0,
-      myFlows: myFlows,
+      myFlows: [],
     }
   }
 
   componentDidMount = () => {
     this.props.dispatch(workflowActions.getMyFlows());
   }
-
-
-
 
   onCreateFlow = () => {
     const { match } = this.props;
@@ -77,7 +74,6 @@ class MyFlows extends Component {
   }
 
   render() {
-    console.log(this.props.match);
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
