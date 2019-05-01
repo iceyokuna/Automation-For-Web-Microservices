@@ -5,12 +5,16 @@ from rest_framework.views import APIView
 from .serializers import ServiceSerializer, MethodSerializer, ConnectingMethodSerializer, AllServicesSerializer, UserMethodSerializer, UserServiceSerializer, AllUserServicesSerializer
 from rest_framework.status import (
     HTTP_503_SERVICE_UNAVAILABLE,
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
     HTTP_200_OK
 )
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 import json
+import requests
+from django.conf import settings
 
 class ServiceView(viewsets.ModelViewSet):
     queryset = Service.objects.all()
@@ -46,27 +50,40 @@ class ServiceLookupView(APIView):
 
 class UserServiceView(APIView):
     def get(self, request):
-        if(request.data.get('username')):
-            services = UserService.objects.filter(username=request.data.get('username')).values()#.values_list('id')
-            #method = []
-            #if(services.count() >0):
-            #    method = UserMethod.objects.filter(service__in = services)
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers= headers)
+        
+        if(json.loads(response.content)['username']):
+            services = UserService.objects.filter(username=json.loads(response.content)['username']).values()#.values_list('id')
             return Response({"detail": services.values()})
         return Response({"detail": "No services found "})
 
     def post(self, request):
-        if(request.data.get('username')):
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        if(json.loads(response.content)['username']):
+            username = json.loads(response.content)['username']
             name = request.data.get('name')
             info = request.data.get('info')
             url = request.data.get('url')
-            UserService.objects.create(username=request.data.get('username'), name= name, url = url, info = info )
-            return Response({"detail": name+ " has been successfully created"})
+            service = UserService.objects.create(username=username, name= name, url = url, info = info )
+            return Response({"detail": name+ " has been successfully created"})####workflow_id
         return Response({"detail": "Unable to creat the service"})
 
     def put(self, request):
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        if(json.loads(response.content)['username']):
+            username = json.loads(response.content)['username']
+        else:
+            return Response({"detail":  "User unauthorized"}, status=HTTP_400_BAD_REQUEST) 
         if(request.data.get('id')):
             owner = UserService.objects.filter(id=request.data.get('id')).values('username')
-            if(request.data.get('username') == owner[0].get('username')):
+            
+            if(request.data.get('username') == username):
                 new_data =request.data.get('data')
                 UserService.objects.filter(id=request.data.get('id')).update(**new_data)
 
@@ -76,41 +93,47 @@ class UserServiceView(APIView):
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
     
 class UserMethodView(APIView):
-    def get(self, request):
-        if(request.data.get('service_id')):
-            service = UserService.objects.filter(id=  request.data.get('service_id'))
+    def get(self, request, service_id=0):
+
+        if(service_id!=0):
+            service = UserService.objects.filter(id=  service_id)
             methods = []
             if(service.count() > 0):
                 methods = UserMethod.objects.filter(service=service.first()).values()
-            return Response({"detail":methods},status = HTTP_200_OK)
+            return Response({service_id:methods},status = HTTP_200_OK)
             
         return Response({"detail":"Method not found"},status = HTTP_200_OK)
 
-    def post(self, request):
-        if(request.data.get('username')):
+    def post(self, request, service_id=0):
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        if(json.loads(response.content)['username']):
             name = request.data.get('name')
             info = request.data.get('info')
             path = request.data.get('path')
             method_type = request.data.get('method_type')
-            service = UserService.objects.filter(id = request.data.get('service_id'))
+            service = UserService.objects.filter(id =service_id)
             input_interface = request.data.get('input_interface')
             output_interface = request.data.get('output_interface')
+            username = json.loads(response.content)['username']
             if(service.count() > 0 ):
                 method= UserMethod.objects.create(name = name, info= info, path = path, method_type=method_type,service=service.first(), input_interface= input_interface, output_interface=output_interface)
                 return Response({"detail":"method sucessfully created"},status = HTTP_200_OK)
         return Response({"detail":"Unable to create the method"},status = HTTP_200_OK)
 
-    
-
+      
 class AllUserServiceView(viewsets.ModelViewSet):
     queryset = UserService.objects.all()
     serializer_class = AllUserServicesSerializer
-    def get_queryset(self):
-        queryset = self.queryset
-        query_set = queryset.filter(username=self.request.data.get('username'))
-        return query_set
-
-
-
-
     
+    def get_queryset(self):
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : self.request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        if(json.loads(response.content)['username']):
+            queryset = self.queryset
+            query_set = queryset.filter(username=json.loads(response.content)['username'])
+            return query_set
+        return {}
+        

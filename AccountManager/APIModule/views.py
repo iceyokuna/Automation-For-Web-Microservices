@@ -58,9 +58,7 @@ class LogoutView(APIView):
 @permission_classes((IsAuthenticated,))
 class ValidateTokenView(APIView):
     def get(self, request):
-        return Response({'detail':'Successfully validated'},status=HTTP_200_OK)
+        return Response({'detail':'Successfully validated','username':request.user.username},status=HTTP_200_OK)
     
-    def post(self, request):    
-        return Response({'detail':'Successfully validated'}, status=HTTP_400_BAD_REQUEST)
 
 

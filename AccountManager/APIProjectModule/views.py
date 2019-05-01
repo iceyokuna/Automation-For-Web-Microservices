@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Workflow, Collaborator  # , Admin,
+from .models import Workflow, Collaborator, Log  # , Admin,
 from django.contrib.auth.models import User
 from .serializers import WorkflowSerializer, CollaboratorSerializer  # AdminSerializer,
 from rest_framework.views import APIView
@@ -56,6 +56,8 @@ class WorkflowView(APIView):
                 return Response({"detail": "successfully deleted by "+request.user.username}, status=HTTP_200_OK)
             else:
                 return Response({"detail": request.user.username+" does not have access to the workflow"}, status=HTTP_200_OK)
+
+#@permission_classes((IsAuthenticated,))
 class CollaboratorView(APIView):
     def get(self, request, workflow_id=0):
 
@@ -79,7 +81,25 @@ class CollaboratorView(APIView):
             Collaborator.objects.create(workflow=workflow,  collaborator=user)
         return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
 
+class LogView(APIView):
+    def get(self, request, workflow_id):
+        workflow = Workflow.objects.filter(id=workflow_id)
+        if(workflow.count()>0):
+            logs = Log.objects.filter(workflow=workflow.first()).order_by('-created').values()
+            return Response({"detail":logs}, status= HTTP_200_OK)
+        return Response({"detail":"No log file found"}, status= HTTP_400_BAD_REQUEST)
 
+    def post(self, request, workflow_id):
+        workflow = Workflow.objects.filter(id=workflow_id).first()
+        user = request.user
+        message = request.data.get('message')
+        task_id = request.data.get('task_id')
+        task_name = request.data.get('task_name')
+        if(Log.objects.create(workflow=workflow, user=user, message=message, task_id=task_id,task_name=task_name)):
+            return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
+        return Response({"detail":"Unable to create a log file"}, status= HTTP_400_BAD_REQUEST)
+
+    #def put(self, request):
 '''
 class AdminView(viewsets.ModelViewSet):
     queryset = Admin.objects.all()

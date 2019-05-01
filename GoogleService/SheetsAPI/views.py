@@ -61,34 +61,34 @@ class GetView(APIView):
         return response
     
 
-    class UpdateView(APIView):
-        def post(self, request):
-            requests = []
-            if(request.data.get("title")):
-                    requests.append({
-                        'updateSpreadsheetProperties': {
-                            'properties': {
-                                'title': title
-                            },
-                            'fields': 'title'
-                        }
-                    })
-            if(request.data.get('find')):
+class UpdateView(APIView):
+    def post(self, request):
+        requests = []
+        if(request.data.get("title")):
                 requests.append({
-                    'findReplace': {
-                        'find': find,
-                        'replacement': replacement,
-                        'allSheets': True
+                    'updateSpreadsheetProperties': {
+                        'properties': {
+                            'title': title
+                        },
+                        'fields': 'title'
                     }
                 })
-            if(request.data.get('body')):
-
-                body = {
-                    'requests': requests
+        if(request.data.get('find')):
+            requests.append({
+                'findReplace': {
+                    'find': find,
+                    'replacement': replacement,
+                    'allSheets': True
                 }
-            response = service.spreadsheets().batchUpdate(
-                spreadsheetId=spreadsheet_id,
-                body=body).execute()
-            find_replace_response = response.get('replies')[1].get('findReplace')
-            print('{0} replacements made.'.format(
-                find_replace_response.get('occurrencesChanged')))
+            })
+        if(request.data.get('body')):
+
+            body = {
+                'requests': requests
+            }
+        response = service.spreadsheets().batchUpdate(
+            spreadsheetId=spreadsheet_id,
+            body=body).execute()
+        find_replace_response = response.get('replies')[1].get('findReplace')
+        print('{0} replacements made.'.format(
+            find_replace_response.get('occurrencesChanged')))
