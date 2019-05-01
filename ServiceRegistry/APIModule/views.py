@@ -84,7 +84,7 @@ class UserServiceView(APIView):
         if(request.data.get('id')):
             owner = UserService.objects.filter(id=request.data.get('id')).values('username')
             
-            if(request.data.get('username') == username):
+            if(owner.first() == username):
                 new_data =request.data.get('data')
                 UserService.objects.filter(id=request.data.get('id')).update(**new_data)
 
