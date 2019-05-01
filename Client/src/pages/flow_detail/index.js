@@ -10,7 +10,7 @@ import {
   FormField
 } from 'grommet';
 
-import { Checkmark, Cluster } from 'grommet-icons';
+import { Checkmark, Cluster, Play } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -32,6 +32,7 @@ class FlowDetail extends Component {
     this.state = {
       newname: '',
       newDescription: '',
+      executeStatus: 'Execute',
       showViewerDock: false,
       currentTask: null,
       tasks: [
@@ -93,6 +94,9 @@ class FlowDetail extends Component {
     });
   }
 
+  onExecuteFlow = () => {
+
+  }
 
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
@@ -196,7 +200,7 @@ class FlowDetail extends Component {
       return <Redirect to="/my_flows" />;
     }
 
-    const { showViewerDock, currentTask } = this.state;
+    const { showViewerDock, currentTask, executeStatus } = this.state;
     return (
       <div style={global.mainContainer}>
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
@@ -204,8 +208,13 @@ class FlowDetail extends Component {
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
-            <Button label="Edit Diagram" primary icon={<Cluster size="16px" />}
-              color="accent-1" onClick={this.navigateToModeler} />
+            <Box direction="row" gap="small">
+              <Button label={executeStatus} primary icon={<Play size="16px" />}
+                color="accent-3" onClick={this.onExecuteFlow} />
+              <Button label="Edit Diagram" primary icon={<Cluster size="16px" />}
+                color="accent-1" onClick={this.navigateToModeler} />
+            </Box>
+
           </Box>
         </Box>
 
