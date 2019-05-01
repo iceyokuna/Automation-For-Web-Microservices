@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'APIModule',
     'APIRegistrationModule',
     'APIProjectModule',
-    'APIRegistrationModule',
     'corsheaders'
 ]
 
