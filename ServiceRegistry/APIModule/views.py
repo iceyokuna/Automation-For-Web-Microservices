@@ -72,7 +72,7 @@ class UserServiceView(APIView):
             service = UserService.objects.create(username=username, name= name, url = url, info = info )
             return Response({"detail": name+ " has been successfully created","service_id":service.id})####workflow_id
         return Response({"detail": "Unable to creat the service"})
-
+ 
     def put(self, request):
         url = settings.AUTHENTICATION +'/api/validate_token'
         headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
@@ -88,7 +88,7 @@ class UserServiceView(APIView):
                 new_data =request.data.get('data')
                 UserService.objects.filter(id=request.data.get('id')).update(**new_data)
 
-                return Response({"detail": "service successfully updated by "+request.data.get('username')}, status=HTTP_200_OK)
+                return Response({"detail": "service successfully updated by "+username}, status=HTTP_200_OK)
             else:
                 return Response({"detail": request.data.get('username') + " does not have access to the service"}, status=HTTP_200_OK) 
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
