@@ -84,13 +84,13 @@ class UserServiceView(APIView):
         if(request.data.get('id')):
             owner = UserService.objects.filter(id=request.data.get('id')).values('username')
             
-            if(owner.first() == username):
+            if(owner[0].get('username') == username):
                 new_data =request.data.get('data')
                 UserService.objects.filter(id=request.data.get('id')).update(**new_data)
 
                 return Response({"detail": "service successfully updated by "+username}, status=HTTP_200_OK)
             else:
-                return Response({"detail": owner.first() + " does not have access to the service"}, status=HTTP_200_OK) 
+                return Response({"detail": username + " does not have access to the service"}, status=HTTP_200_OK) 
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
     
 class UserMethodView(APIView):
