@@ -90,7 +90,7 @@ class UserServiceView(APIView):
 
                 return Response({"detail": "service successfully updated by "+username}, status=HTTP_200_OK)
             else:
-                return Response({"detail": username + " does not have access to the service"}, status=HTTP_200_OK) 
+                return Response({"detail": owner + " does not have access to the service"}, status=HTTP_200_OK) 
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
     
 class UserMethodView(APIView):
