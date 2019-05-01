@@ -77,9 +77,9 @@ class CollaboratorView(APIView):
         collaborator_list = request.data.get('collaborators')
         for i in collaborator_list:
             user = User.objects.filter(username=i).first()
-            if(user.count() < 0 ):
+            if(user == None ):
                 data[i]= "user does not exist"
-            elif(Collaborator.objects.filter(workflow=workflow,  collaborator=user)>0):
+            elif(Collaborator.objects.filter(workflow=workflow,  collaborator=user) == None):
                 data[i]= "user is already a collaborator"
             else:
                 Collaborator.objects.create(workflow=workflow,  collaborator=user)
