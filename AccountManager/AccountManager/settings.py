@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'APIModule',
     'APIRegistrationModule',
     'APIProjectModule',
+    'APIRegistrationModule',
     'corsheaders'
 ]
 
@@ -87,7 +88,7 @@ WSGI_APPLICATION = 'AccountManager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-#'''
+'''
 
 DATABASES = {
         'default': {
@@ -110,7 +111,7 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-''' 
+
 #Django Rest Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
