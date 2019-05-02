@@ -204,7 +204,8 @@ class WorkflowEngine:
 
         #TimeEvent case (Intermidiate)
         if(isinstance(element_object, TimeEvent)):
-            pass
+            eventDefination = element_object.getEventDefination()
+            
 
         #exclusive gateway case
         if(isinstance(element_object, ExclusiveGateway)):
