@@ -14,6 +14,9 @@ class TimeEvent(IntermediateEvent):
 
     def setEventDefination(self, defination):
         self.eventDefination = defination
+
+    def getEventDefination(self):
+        return self.eventDefination
     
     def initiate(self):
         pass
