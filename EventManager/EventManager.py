@@ -28,9 +28,13 @@ def timeEvent():
 #Recieve meesage event (binding)
 @app.route('/messageEvent', methods=['POST'])
 def messageEvent():
+    data = request.form.to_dict()
     if(request.method == 'POST'):
-        pass
-    return "Message Event!"
+        messager.put('TimeEvent', data['eventDefination'])
+    #pack to JSON response
+    response = jsonify({'status':'201'})
+    response.status_code = 201
+    return response
 
 if __name__ == '__main__':
     app.run()
