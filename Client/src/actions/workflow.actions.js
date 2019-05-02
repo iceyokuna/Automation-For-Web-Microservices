@@ -384,7 +384,7 @@ function updateWorkflow(name, description,
       ).then(
         res => {
           dispatch(success())
-          history.push('/home/my_flows');
+          history.push('/my_flows');
         }).catch(err => dispatch(failure(err)));
     }, 1000);
 
@@ -457,7 +457,7 @@ function getMyFlows() {
     dispatch(request());
     workflowService.getMyFlows().then(
       (res) => {
-        dispatch(success(res.data.workflow));
+        dispatch(success(res.data));
       }
     ).catch(err => dispatch(failure(err)));
 
@@ -467,10 +467,10 @@ function getMyFlows() {
       }
     }
 
-    function success(myFlows) {
+    function success(data) {
       return {
         type: workflowContants.GET_MY_FLOWS_SUCCESS,
-        myFlows
+        data
       }
     }
 

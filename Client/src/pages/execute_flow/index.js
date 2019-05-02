@@ -38,7 +38,7 @@ class ExecuteFlow extends Component {
 
         } if (executingForm === "DONE") {
             toast.success("Done all forms");
-            this.props.history.replace('/home/my_flows');
+            this.props.history.replace('/my_flows');
         }
     }
 
@@ -91,9 +91,9 @@ class ExecuteFlow extends Component {
                         <div id="formContainer"
                             dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
-                    <Box direction="row" align="center" justify="between" gap="medium">
-                        <Button style={styles.navButton} icon={<Previous />} label="Previous" onClick={() => this.getPreviousForm()} />
-                        <Button style={styles.navButton} icon={<Next />} label="Next" primary onClick={() => this.getNextForm()} />
+                    <Box direction="row" align="center" justify="end" gap="small">
+                        <Button style={styles.navButton}  label="Previous" onClick={() => this.getPreviousForm()} />
+                        <Button style={styles.navButton} label="Next" primary onClick={() => this.getNextForm()} />
                     </Box>
                 </Box>
             </FillParent>

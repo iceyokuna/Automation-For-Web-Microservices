@@ -43,16 +43,16 @@ class index extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { createNewService } = nextProps.userServices;
-    if (createNewService === "success") {
+    const { creatingNewService } = nextProps.userServices;
+    if (creatingNewService === "success") {
       this.props.onNextStep();
     }
   }
 
   renderNextButton = () => {
     const { userServices } = this.props;
-    const { createNewService } = userServices;
-    if (createNewService === "loading") {
+    const { creatingNewService } = userServices;
+    if (creatingNewService === "loading") {
       return (
         <Box align="center" pad='small'>
           <Spinner

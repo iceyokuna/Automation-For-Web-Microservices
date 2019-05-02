@@ -67,7 +67,7 @@ class BpmnContainer extends Component {
       try {
         dispatch(workflowActions.setupExistingWorkflow());
       } catch (e) {
-        this.props.history.replace('/home/my_flows');
+        this.props.history.replace('/my_flows');
       }
     }
   }
