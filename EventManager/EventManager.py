@@ -1,6 +1,7 @@
 from flask import Flask, request, abort, jsonify
 from firebase import firebase
 from datetime import date, timedelta
+from BackgroundThread import BackgroundThread
 import datetime
 import requests
 import threading
@@ -11,12 +12,6 @@ app = Flask(__name__)
 #firebase header
 url = "https://web-automation-service-client.firebaseio.com/" #firebase db url (event queue)
 messager = firebase.FirebaseApplication(url)
-
-#ping firebase server to check time event (to trigger time event)
-def checkTimeEvent():
-    while(True):
-        print("ping !!")
-        time.sleep(1)
 
 #Recieve time event (binding)
 @app.route('/timeEvent', methods=['POST'])
@@ -45,6 +40,9 @@ def messageEvent():
     return response
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=checkTimeEvent())
-    thread.start()
+    #ping firebase server to check time event (to trigger time event)
+    worker = BackgroundThread(1, "PingFirebase")
+    worker.start()
+
+    #start app (REST API)
     app.run(host='0.0.0.0', debug=True, threaded=True)
