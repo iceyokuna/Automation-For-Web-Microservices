@@ -150,7 +150,9 @@ class WorkflowEngine:
 
     #setup timer to event
     def setTimer(self, timer_list):
-        pass
+        for timer in timer_list:
+            event = self.state[timer]
+            event.setEventDefination(timer_list[timer][0])
 
     #setup condition to gateway
     def setCondition(self, condition_list):
