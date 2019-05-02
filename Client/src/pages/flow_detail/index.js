@@ -111,7 +111,7 @@ class FlowDetail extends Component {
       );
     } if (collaborators.length === 0) {
       return (
-        <Box>
+        <Box pad={{ vertical: 'small' }}>
           <Text>You have not invited any collaborator yet.</Text>
         </Box>)
     }
