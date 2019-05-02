@@ -19,7 +19,7 @@ def timeEvent():
 #Recieve meesage event (binding)
 @app.route('/messageEvent', methods=['POST'])
 def messageEvent():
-    return "Message Event!"'
+    return "Message Event!"
 
 if __name__ == '__main__':
     app.run()
