@@ -19,7 +19,7 @@ class WorkflowEngine:
         self.transition = {} #delta
 
     #parsing workflow
-    def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None):
+    def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
         element_ref_lane_owner = {}
         sequenceFlow_ref = []
 
@@ -97,6 +97,7 @@ class WorkflowEngine:
         self.setPreDefindInput(preInput_list)
         self.setCondition(condition_list)
         self.createTransition(sequenceFlow_ref)
+        self.setTimer(timer_list)
 
     #construct state transition function
     def createTransition(self, transition_list):
@@ -146,6 +147,10 @@ class WorkflowEngine:
             task.setServiceReference(serviceId, methodId)
             task.setInputInterface(serviceInputInterface)
             task.setOutputInterface(serviceOutputInterface)
+
+    #setup timer to event
+    def setTimer(self, timer_list):
+        pass
 
     #setup condition to gateway
     def setCondition(self, condition_list):
