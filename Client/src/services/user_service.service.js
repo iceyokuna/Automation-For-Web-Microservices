@@ -32,7 +32,6 @@ function updateUserService(serviceId, username, serviceName,
 }
 
 function addNewMethod(
-  username,
   methodName,
   methodInfo,
   methodType,
@@ -42,20 +41,22 @@ function addNewMethod(
   methodUrl,
 ) {
   return axios.post(globalConstants.USER_METHOD_URL + serviceId, {
-    username,
     name: methodName,
     info: methodInfo,
     method_type: methodType,
     input_interface: inputInterface,
     output_interface: outputInterface,
     path: methodUrl,
+  }, {
+    headers: {
+      Authorization: "Token " + getUserToken()
+    }
   })
 }
 
-function addNewService(username, serviceName,
+function addNewService(serviceName,
   serviceInfo, serviceUrl) {
   return axios.post(globalConstants.USER_SERVICE_URL, {
-    username,
     name: serviceName,
     info: serviceInfo,
     url: serviceUrl,

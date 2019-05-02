@@ -7,7 +7,6 @@ import Step1 from './step1';
 import Step2 from './step2';
 import { colors } from 'theme';
 
-import { toast } from 'react-toastify'
 
 export default class index extends Component {
   state = {
@@ -22,11 +21,6 @@ export default class index extends Component {
     this.setState({
       currentStepIndex: this.state.currentStepIndex + 1,
     });
-  }
-
-  onSubmitService = () => {
-    toast.success("Your service is added");
-    this.props.history.replace('/setting/services');
   }
 
   onClickStep = (index) => {
