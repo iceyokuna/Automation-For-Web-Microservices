@@ -7,11 +7,13 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 
-@app.route('/timeEvent')
+#Recieve time event (binding)
+@app.route('/timeEvent', methods=['POST'])
 def timeEvent():
     return "Time Event!"
 
-@app.route('/messageEvent')
+#Recieve meesage event (binding)
+@app.route('/messageEvent', methods=['POST'])
 def messageEvent():
     return "Message Event!"
 
