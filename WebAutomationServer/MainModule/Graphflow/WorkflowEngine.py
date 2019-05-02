@@ -63,7 +63,7 @@ class WorkflowEngine:
             elif(element['name'] == 'bpmn2:sequenceFlow'):
                 sequenceFlow_ref.append(element['attributes'])
 
-            #Intermediate Event
+            #Intermediate Time Event
             elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
                 Id = element['attributes']['id']
                 name = element['attributes']['name']
