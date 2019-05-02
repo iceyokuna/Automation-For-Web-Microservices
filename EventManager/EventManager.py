@@ -19,7 +19,11 @@ def checkTimeEvent():
 def timeEvent():
     data = request.form.to_dict()
     if(request.method == 'POST'):
-        messager.put('TimeEvent', data['eventDefination'])
+        event_id = data['elementEventId']
+        eventTime = data['time']
+        eventDate = data['date']
+        payload = {"time": eventTime, "date":eventDate}
+        messager.put('TimeEvent', event_id, payload)
     #pack to JSON response
     response = jsonify({'status':'201'})
     response.status_code = 201
