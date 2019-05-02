@@ -18,8 +18,7 @@ export default class SideBar extends Component {
   }
 
   handleSelectMenu = (pathName, selectedIndex) => {
-    const { match } = this.props;
-    this.props.onSelectMenu(match.url + pathName);
+    this.props.onSelectMenu(pathName);
     this.setState({
       activeIndex: selectedIndex
     });
@@ -28,7 +27,7 @@ export default class SideBar extends Component {
   componentDidMount = () => {
     const { location } = this.props;
     const partialUrl = location.pathname.split("/");
-    const current = partialUrl[2];
+    const current = partialUrl[1];
 
     for (let index in menus) {
       if (menus[index] === current) {
@@ -61,7 +60,7 @@ export default class SideBar extends Component {
                   <Box fill="horizontal">
                     <PlainButton hoverIndicator
                       color="light-0"
-                      background={activeIndex === 0 ? "light-4" : "default"}
+                      background={activeIndex == 0 ? "light-4" : "default"}
                       onClick={() => this.handleSelectMenu('/my_tasks', 0)}
                       icon={<Task color={iconColor} />}
                       label="Tasks" />
@@ -69,7 +68,7 @@ export default class SideBar extends Component {
                   <Box fill="horizontal">
                     <PlainButton hoverIndicator
                       color="light-0"
-                      background={activeIndex === 1 ? "light-4" : "default"}
+                      background={activeIndex == 1 ? "light-4" : "default"}
                       onClick={() => this.handleSelectMenu('/my_flows', 1)}
                       icon={<Sort color={iconColor} />}
                       label="Flows" />
@@ -77,7 +76,7 @@ export default class SideBar extends Component {
                   <Box fill="horizontal">
                     <PlainButton hoverIndicator
                       color="light-0"
-                      background={activeIndex === 2 ? "light-4" : "default"}
+                      background={activeIndex == 2 ? "light-4" : "default"}
                       onClick={() => this.handleSelectMenu('/my_team', 2)}
                       icon={<Group color={iconColor} />}
                       label="Team" />
@@ -85,7 +84,7 @@ export default class SideBar extends Component {
                   <Box fill="horizontal">
                     <PlainButton hoverIndicator
                       color="light-0"
-                      background={activeIndex === 3 ? "light-4" : "default"}
+                      background={activeIndex == 3 ? "light-4" : "default"}
                       onClick={() => this.handleSelectMenu('/setting/services', 3)}
                       icon={<Performance color={iconColor} />}
                       label="Setting" />

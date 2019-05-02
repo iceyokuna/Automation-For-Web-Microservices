@@ -34,7 +34,7 @@ export class index extends Component {
       currentForm: currentFormIndex === -1 ? null : generatedForms[currentFormIndex].forms[formType],
     }
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
-    window.open('/home/design_form'); // Open a new tab
+    window.open('/design_form'); // Open a new tab
     this.props.dispatch(workflowActions.toggleFormTypeDialog());
   }
 

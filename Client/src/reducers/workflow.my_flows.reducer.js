@@ -26,7 +26,9 @@ export function workflowMyFlows(state = defaultState, action) {
     case workflowContants.GET_MY_FLOWS_SUCCESS: {
       const nextState = { ...state };
       nextState.loadingMyFlows = false;
-      nextState.myFlows = action.myFlows;
+      const { data } = action;
+      const { collaborator_workflows, owner_workflows } = data;
+      nextState.myFlows = [...owner_workflows, ...collaborator_workflows];
       return nextState;
     }
     case workflowContants.GET_MY_FLOWS_FAILURE: {

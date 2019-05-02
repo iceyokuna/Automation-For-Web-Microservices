@@ -26,7 +26,7 @@ export default class index extends Component {
 
   onSubmitService = () => {
     toast.success("Your service is added");
-    this.props.history.replace('/home/setting/services');
+    this.props.history.replace('/setting/services');
   }
 
   onClickStep = (index) => {

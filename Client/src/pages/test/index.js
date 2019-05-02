@@ -37,6 +37,9 @@ class Test extends Component {
           cookiePolicy={'single_host_origin'}
           scope={"https://www.googleapis.com/auth/drive.file"}
           redirectUri="localhost:3000/execute"
+          responseType="code"
+          prompt="consent"
+          
         />
 
         <Button label="Open Dock" onClick={() => {

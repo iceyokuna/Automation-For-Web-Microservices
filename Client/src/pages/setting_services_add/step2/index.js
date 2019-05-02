@@ -98,7 +98,21 @@ export default class index extends Component {
   }
 
   onSubmit = () => {
-    this.props.onSubmitService();
+    const { methodName,
+      methodInfo,
+      methodUrl,
+      requestType,
+      inputInterface,
+      outputInterface, } = this.state;
+      
+    this.props.onSubmitService(
+      methodName,
+      methodInfo,
+      methodUrl,
+      requestType,
+      inputInterface,
+      outputInterface,
+    );
   }
 
   onAddmoreMethod = () => {
