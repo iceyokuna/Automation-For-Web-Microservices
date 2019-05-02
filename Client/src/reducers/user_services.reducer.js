@@ -16,6 +16,7 @@ const defaultState = {
     { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
     { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
   ],
+  currentServiceId: null,
 }
 
 export function userServices(state = defaultState, action) {
@@ -27,7 +28,12 @@ export function userServices(state = defaultState, action) {
       return { ...state, creatingNewService: "loading", }
     }
     case userServicesConstants.ADD_USER_SERVICE_SUCCESS: {
-      return { ...state, creatingNewService: "success", }
+      const nextState = {
+        ...state,
+        currentServiceId: action.data.service_id,
+        creatingNewService: "success",
+      };
+      return nextState;
     }
     case userServicesConstants.ADD_USER_SERVICE_FAILURE: {
       return { ...state, creatingNewService: "failure", }
@@ -39,7 +45,7 @@ export function userServices(state = defaultState, action) {
 
     case userServicesConstants.GET_USER_SERVICES_SUCCESS: {
       const nextState = { ...state };
-      nextState.data = action.data.detail;
+      nextState.data = action.data;
       return nextState;
     }
 

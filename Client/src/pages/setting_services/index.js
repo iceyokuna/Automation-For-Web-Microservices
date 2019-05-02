@@ -20,13 +20,13 @@ class index extends Component {
       this.setState({ loadingServices: false });
     }, 2000);
 
-    this.props.dispatch(userServicesActions.getUserServices())
+    this.props.dispatch(userServicesActions.getUserServices());
   }
 
   onAddService = () => {
     const { match } = this.props;
     this.props.history.push(match.url + '/addService');
-    // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());
+    // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());3
   }
 
   onSelectService = (index) => {
@@ -43,17 +43,19 @@ class index extends Component {
           name="ball-scale-multiple" color={colors.brand} />
       </Box>
     );
+
+    const { userServices } = this.props;
     return (
       <Box animation={["fadeIn"]}>
         <table>
           <tr>
-            <th>Service Name</th>
-            <th>Service URL</th>
+            <th>Service name</th>
+            <th>Service info</th>
           </tr>
-          {this.props.userServices.data.map((item, index) =>
+          {userServices.data.map((service, index) =>
             <tr className="service" onClick={() => this.onSelectService(index)}>
-              <td>{item.serviceName}</td>
-              <td>{item.serviceUrl}</td>
+              <td>{service.name}</td>
+              <td>{service.info}</td>
             </tr>
           )}
         </table>
