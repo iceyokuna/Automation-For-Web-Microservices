@@ -3,6 +3,8 @@ from firebase import firebase
 from datetime import date, timedelta
 import datetime
 import requests
+import threading
+import time
 
 app = Flask(__name__)
 
@@ -12,7 +14,9 @@ messager = firebase.FirebaseApplication(url)
 
 #ping firebase server to check time event (to trigger time event)
 def checkTimeEvent():
-    pass
+    while(True):
+        print("ping !!")
+        time.sleep(1)
 
 #Recieve time event (binding)
 @app.route('/timeEvent', methods=['POST'])
@@ -41,4 +45,6 @@ def messageEvent():
     return response
 
 if __name__ == '__main__':
-    app.run()
+    thread = threading.Thread(target=checkTimeEvent())
+    thread.start()
+    app.run(host='0.0.0.0', debug=True, threaded=True)
