@@ -1,15 +1,18 @@
-from flask import Flask
+from flask import Flask, request, abort
+from firebase import firebase
+from datetime import date, timedelta
+import datetime
+import requests
+
 app = Flask(__name__)
 
 #firebase header
+url = "https://web-automation-service-client.firebaseio.com/" #firebase db url (event queue)
+messager = firebase.FirebaseApplication(url)
 
 #ping firebase server to check time event (to trigger time event)
 def checkTimeEvent():
     pass
-
-@app.route('/')
-def hello():
-    return "Hello World!"
 
 #Recieve time event (binding)
 @app.route('/timeEvent', methods=['POST'])
