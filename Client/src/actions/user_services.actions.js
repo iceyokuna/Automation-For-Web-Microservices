@@ -52,10 +52,8 @@ function addNewService(
 ) {
   return (dispatch, getState) => {
     dispatch(request());
-
-    const username = getState().authentication.user.username;
     userService.addNewService(
-      username, serviceName,
+      serviceName,
       serviceInfo, serviceUrl
     ).then(res => {
       dispatch(success(res.data));
@@ -88,15 +86,14 @@ function addNewMethod(
   methodName,
   methodInfo,
   methodType,
-  serviceId,
   inputInterface,
   outputInterface,
   methodUrl,
 ) {
   return (dispatch, getState) => {
     dispatch(request());
-    const username = getState().authentication.user.username;
-    userService.addNewMethod(username, methodName,
+    const serviceId = getState().userServices.currentServiceId;
+    userService.addNewMethod(methodName,
       methodInfo, methodType, serviceId,
       inputInterface, outputInterface, methodUrl).then(
         res => dispatch(success(res.data))

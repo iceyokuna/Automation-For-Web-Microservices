@@ -12,6 +12,10 @@ import { MethodContainer, BadgeIcon } from './style';
 import { Spring, Transition, } from 'react-spring';
 import { methods as mets } from './mockup';
 import { colors } from 'theme';
+import { userServicesActions } from 'actions';
+import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -21,7 +25,7 @@ const interfacePlaceholder = `{
   }
 }`;
 
-export default class index extends Component {
+class index extends Component {
 
   state = {
     resetBadgeAnim: false,
@@ -32,8 +36,8 @@ export default class index extends Component {
     methodInfo: '',
     methodUrl: '',
     requestType: '',
-    inputInterface: '',
-    outputInterface: '',
+    inputInterface: interfacePlaceholder,
+    outputInterface: interfacePlaceholder,
   }
 
   onChangeMethodName = (e) => {
@@ -104,15 +108,15 @@ export default class index extends Component {
       requestType,
       inputInterface,
       outputInterface, } = this.state;
-      
-    this.props.onSubmitService(
-      methodName,
-      methodInfo,
-      methodUrl,
-      requestType,
-      inputInterface,
-      outputInterface,
-    );
+
+    this.props.dispatch(userServicesActions.addNewMethod(
+      methodName, methodInfo, requestType,
+      inputInterface, outputInterface, methodUrl,
+    ))
+
+
+    toast.success("Your service is added");
+    this.props.history.replace('/setting/services');
   }
 
   onAddmoreMethod = () => {
@@ -254,3 +258,11 @@ export default class index extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userServices: state.userServices,
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(index));

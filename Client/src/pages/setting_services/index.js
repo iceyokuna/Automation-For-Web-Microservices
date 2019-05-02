@@ -1,5 +1,5 @@
 import React, { Component, } from 'react'
-import { Box, Button, } from 'grommet';
+import { Box, Button, Text } from 'grommet';
 import { Add } from 'grommet-icons'
 
 import { connect } from 'react-redux';
@@ -45,6 +45,18 @@ class index extends Component {
     );
 
     const { userServices } = this.props;
+    if (userServices.data.length == 0) {
+      return (
+        <Box align="center" justify="center" pad="medium" gap="medium">
+          <Text size="medium">You don't have any service</Text>
+          <Box direction="row" justify="end" align="center">
+            <Button label="Add Service" color="accent-1"
+              icon={<Add />}
+              primary onClick={this.onAddService} />
+          </Box>
+        </Box>
+      )
+    }
     return (
       <Box animation={["fadeIn"]}>
         <table>
