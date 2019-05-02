@@ -202,6 +202,10 @@ class WorkflowEngine:
                 #have html form
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
 
+        #TimeEvent case (Intermidiate)
+        if(isinstance(element_object, TimeEvent)):
+            pass
+
         #exclusive gateway case
         if(isinstance(element_object, ExclusiveGateway)):
             #get required task that need to check condition
