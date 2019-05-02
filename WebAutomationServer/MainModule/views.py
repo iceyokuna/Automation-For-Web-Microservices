@@ -29,6 +29,7 @@ def saveFlow(request):
     service_list = (resquest['appliedMethods'])
     preInput_list = (resquest['appliedPreInputs'])
     condition_list = (resquest['appliedConditions'])
+    timer_list = (resquest['appliedTimers'])
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
