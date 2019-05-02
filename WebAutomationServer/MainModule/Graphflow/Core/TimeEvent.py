@@ -5,6 +5,12 @@ class TimeEvent(IntermediateEvent):
     def __init__(self , id, name, inputType , outputType, eventDefination):
         super().__init__(id, name, inputType , outputType)
         self.eventDefination = eventDefination
+        self.date = None
+        self.time = None
+
+    def setTimeEvent(self, date, time):
+        self.date = date
+        self.time = time
     
     def initiate(self):
         pass
