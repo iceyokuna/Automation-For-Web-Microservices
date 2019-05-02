@@ -12,14 +12,20 @@ from rest_framework.status import (
     HTTP_200_OK
 )
 from rest_framework.response import Response
-
+import json
 # Create your views here.
 @permission_classes((IsAuthenticated,))
 class WorkflowView(APIView):
 
     def get(self, request):
-        queryset = Workflow.objects.filter(user=request.user.username).values()
-        return Response({'workflow': queryset}, status=HTTP_200_OK)
+        col_workflows = Collaborator.objects.filter(collaborator = request.user).values_list('workflow__id')
+        workflows = Workflow.objects.filter(user=request.user.username)
+        workflows = Workflow.objects.filter(id__in=col_workflows).values()
+        owner_workflows = Workflow.objects.filter(user=request.user.username).values()
+        return Response({'collaborator_workflows': workflows,'owner_workflows':owner_workflows }, status=HTTP_200_OK)
+        
+
+
 
     def post(self, request):
         if(request.data.get('id')):
