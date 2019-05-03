@@ -1,4 +1,4 @@
-from APIModule.models import Method,Service
+from APIModule.models import Method,Service, UserService, UserMethod
 import requests
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -9,24 +9,31 @@ from rest_framework.response import Response
 import json 
 
 class ServiceObj:
-    def __init__(self, service_id, header={"Content-Type":"application/json"}):
+    def __init__(self, service_id, service_type='',header={"Content-Type":"application/json"}):
         self.headers = header
-        self.service = Service.objects.filter(id = service_id)
+        self.service_type = service_type
+        if(self.service_type=='userService'):
+            self.service = UserService.objects.filter(id = service_id)
+        else:
+            self.service = Service.objects.filter(id = service_id)
         self.service_url = self.service.values_list('url',flat = True)[0]
     
-    def call_method(self, method_id, data = ""):
-        method = Method.objects.filter(id = method_id)
+    def call_method(self, method_id, data = "", headers=""):
+        if(self.service_type=='userService'):
+            method = UserMethod.objects.filter(id = method_id)
+        else:
+            method = Method.objects.filter(id = method_id)
         method_path = method.values_list('path',flat = True)[0]
         url = self.service_url + method_path
         method_type = method.values_list('method_type',flat = True)[0]
         
 
         if(method_type == 'get'):
-            response = requests.get(url, json = data)
+            response = requests.get(url, json = data, headers=headers)
             return Response({'data': response.json()}, status = HTTP_200_OK)
         
         elif(method_type == 'post'):
-            response = requests.post(url, json = data, headers = self.headers)
+            response = requests.post(url, json = data, headers = headers)
             return Response({'data': response.json()}, status = HTTP_200_OK)
 
         else:

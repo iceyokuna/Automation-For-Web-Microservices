@@ -135,7 +135,7 @@ class FlowDetail extends Component {
   renderDescriptionBox = () => {
     const { currentFlow } = this.props;
     return (
-      <Box margin="small" pad="medium"
+      <Box margin="xsmall" pad="medium"
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Description</Text>
         <Paragraph color="dark-2">{currentFlow.description || "No description"}</Paragraph>
@@ -145,7 +145,7 @@ class FlowDetail extends Component {
 
   renderCollaboratorsBox = () => {
     return (
-      <Box margin="small" pad="medium"
+      <Box margin="xsmall" pad="medium"
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Collaborators</Text>
         {/* List of collaborators*/}
@@ -156,7 +156,7 @@ class FlowDetail extends Component {
 
   renderTaskBox = () => {
     return (
-      <Box margin="small" pad="medium"
+      <Box margin="xsmall" pad="medium"
         round={{ size: 'small' }}
         background="light-0" >
         <Text size="large" weight="bold">Tasks</Text>
@@ -218,7 +218,7 @@ class FlowDetail extends Component {
           </Box>
         </Box>
 
-        <Box margin={{ bottom: 'large' }}>
+        <Box margin={{ bottom: 'large' }} pad="small">
           <Row >
             <Col lg={6} md={6} xl={6}>
               <Box direction="column">

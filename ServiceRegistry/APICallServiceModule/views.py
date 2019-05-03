@@ -27,13 +27,18 @@ class ServiceCallView(APIView):
                         status=HTTP_503_SERVICE_UNAVAILABLE)
 
     def post(self, request):
-        #header = request.headers
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        
         data = json.loads(json.dumps(request.data.get("input")))
         service_id = request.data.get("service_id")
         method_id = request.data.get("method_id")
-
-        service = ServiceObj(service_id = service_id)
-        response = service.call_method(method_id, data)
+        if(request.data.get("serviceType")):
+            service_type = request.data.get("serviceType")
+        else:
+            service_type = ''
+        service = ServiceObj(service_id = service_id, service_type= service_type)
+        response = service.call_method(method_id, data = data, headers = headers)
 
         return response
 

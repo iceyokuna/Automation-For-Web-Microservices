@@ -93,6 +93,12 @@ class UserServiceView(APIView):
                 return Response({"detail": username + " does not have access to the service"}, status=HTTP_200_OK) 
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
     
+class NewServiceView(APIView):
+    def post(self, request):
+        service = request.data.get('service')
+        json_service = json.loads(service)
+        return Response({json_service},status = HTTP_200_OK)
+        
 class UserMethodView(APIView):
     def get(self, request, service_id=0):
 
