@@ -33,13 +33,14 @@ class WorkflowView(APIView):
             if(request.user.username == owner[0].get('user')):
                 new_data =request.data.get('data')
                 workflow = Workflow.objects.filter(id=request.data.get('id')).update(**new_data)
-
+                
                 return Response({"detail": "successfully updated by "+request.user.username}, status=HTTP_200_OK)
             else:
                 return Response({"detail": request.user.username + " does not have access to the workflow"}, status=HTTP_200_OK) 
-       
+        
         workflow = Workflow.objects.create(user=request.user, bpmnJson=request.data.get('bpmnJson'), name=request.data.get('name'), description=request.data.get(
-            'description'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'),  appliedPreInputs=request.data.get('appliedPreInputs'), generatedForms=request.data.get('generatedForms'))
+            'description'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'),  appliedPreInputs=request.data.get('appliedPreInputs'), generatedForms=request.data.get('generatedForms'), appliedTimers=request.data.get('appliedTimers'))
+        Collaborator.objects.create(workflow=workflow,  collaborator=request.user)
 
         return Response({"detail": "successfully created by "+request.user.username, "workflow_id":workflow.id, "workflow_name":workflow.name,"workflow_description":workflow.description, }, status=HTTP_200_OK)
 
@@ -49,7 +50,7 @@ class WorkflowView(APIView):
             if(request.user.username == owner[0].get('user')):
                 new_data =request.data.get('data')
                 workflow = Workflow.objects.filter(id=request.data.get('id')).update(**new_data)
-
+                
                 return Response({"detail": "successfully updated by "+request.user.username}, status=HTTP_200_OK)
             else:
                 return Response({"detail": request.user.username + " does not have access to the workflow"}, status=HTTP_200_OK) 
