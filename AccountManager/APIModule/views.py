@@ -61,4 +61,3 @@ class ValidateTokenView(APIView):
         return Response({'detail':'Successfully validated','username':request.user.username},status=HTTP_200_OK)
     
 
-
