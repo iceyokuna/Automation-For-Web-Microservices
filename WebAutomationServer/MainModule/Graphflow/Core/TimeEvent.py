@@ -1,7 +1,7 @@
 from MainModule.Graphflow.Core.IntermediateEvent import *
 from MainModule.Graphflow.Core.IOtypes import *
 
-class   (IntermediateEvent):
+class TimeEvent(IntermediateEvent):
     def __init__(self , id, name, inputType , outputType, eventDefination):
         super().__init__(id, name, inputType , outputType)
         self.eventDefination = eventDefination
