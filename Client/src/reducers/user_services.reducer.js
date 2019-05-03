@@ -5,17 +5,7 @@ const defaultState = {
   showDefineServiceDialog: false,
   creatingNewService: false,
   creatingNewMethod: false,
-  data: [
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api', methods: [], },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-    { serviceName: 'Currency converter', serviceUrl: 'https://cconverter.com/api' },
-  ],
+  data: [],
   currentServiceId: null,
 }
 

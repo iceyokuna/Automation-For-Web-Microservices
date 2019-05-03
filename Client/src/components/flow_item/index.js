@@ -49,9 +49,8 @@ export default class FlowItem extends Component {
 
   render() {
     const { onSelectFlow, description, owner, name, delay, type } = this.props;
-    console.log({ type });
     return (
-      <Box fill onMouseEnter={this.showSnackbar}
+      <Box fill onMouseEnter={this.showSnackbar}  
         onMouseLeave={this.hideSnackbar}
         animation={[
           { delay: delay * 100, type: "fadeIn" },
