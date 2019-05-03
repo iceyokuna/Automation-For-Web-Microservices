@@ -35,7 +35,8 @@ import { Upload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 
 import {
   workflowActions, availableServicesActions,
-  logsActions
+  logsActions,
+  userServicesActions
 } from 'actions'
 
 import Spinner from 'react-spinkit'
@@ -94,6 +95,7 @@ class BpmnContainer extends Component {
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
     // Request all availale services to be selected on the properties panel
+    dispatch(userServicesActions.getUserServices());
     dispatch(availableServicesActions.getAllServices());
     this.renderDiagram(xmlStr);
     this.bindEvenCallback();

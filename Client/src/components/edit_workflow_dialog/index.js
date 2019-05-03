@@ -63,7 +63,7 @@ export class index extends Component {
             onClickOutside={this.onColseDialog}>
             <Box pad="medium" gap="small" width="500px" direction="column">
               <Heading level={2} margin="none">
-                Edit Workflow Information
+                Edit workflow information
               </Heading>
               <Box gap="small">
                 <FormField >

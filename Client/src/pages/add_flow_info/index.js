@@ -50,7 +50,7 @@ class AddFlowInfo extends Component {
             round={{ size: 'small' }}
             background="light-0" >
             <Heading size="small"  >
-              Create a New Flow
+              Create a new flow
           </Heading>
             <FormField >
               <TextInput

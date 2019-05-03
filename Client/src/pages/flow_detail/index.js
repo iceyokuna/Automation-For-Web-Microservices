@@ -138,7 +138,7 @@ class FlowDetail extends Component {
       <Box margin="small" pad="medium"
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Description</Text>
-        <Paragraph color="dark-2">{currentFlow.description}</Paragraph>
+        <Paragraph color="dark-2">{currentFlow.description || "No description"}</Paragraph>
       </Box>
     );
   }
@@ -187,7 +187,7 @@ class FlowDetail extends Component {
         </FormField>
 
         <Box direction="row" justify="end" gap="small">
-          <Button label="Edit Diagram" icon={<Cluster />} color="accent-1" onClick={this.navigateToModeler} />
+          <Button label="Edit diagram" icon={<Cluster />} color="accent-1" onClick={this.navigateToModeler} />
           <Button label="OK" icon={<Checkmark />} color="accent-1" primary onClick={() => { }} />
         </Box>
       </Box>
@@ -207,11 +207,11 @@ class FlowDetail extends Component {
           onCloseDock={this.onCloseDock} />
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
-            <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name}</Heading>
+            <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name || "Untitled"}</Heading>
             <Box direction="row" gap="small">
               <Button label={executeStatus} primary icon={<Play size="16px" />}
                 color="accent-3" onClick={this.onExecuteFlow} />
-              <Button label="Edit Diagram" primary icon={<Cluster size="16px" />}
+              <Button label="Edit diagram" primary icon={<Cluster size="16px" />}
                 color="accent-1" onClick={this.navigateToModeler} />
             </Box>
 

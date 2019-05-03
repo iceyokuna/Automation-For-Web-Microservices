@@ -28,7 +28,10 @@ export function workflowMyFlows(state = defaultState, action) {
       nextState.loadingMyFlows = false;
       const { data } = action;
       const { collaborator_workflows, owner_workflows } = data;
-      nextState.myFlows = [...owner_workflows, ...collaborator_workflows];
+      const group_flows = collaborator_workflows.map((item, index) => {
+        item["type"] = "group"; return item;
+      })
+      nextState.myFlows = [...owner_workflows, ...group_flows];
       return nextState;
     }
     case workflowContants.GET_MY_FLOWS_FAILURE: {

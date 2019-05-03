@@ -108,7 +108,7 @@ class InboxTaskDetail extends Component {
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" align="center">
-            <Heading size='small' margin={{ right: 'medium' }}>My Tasks</Heading>
+            <Heading size='small' margin={{ right: 'medium' }}>My tasks</Heading>
           </Box>
         </Box>
         <Box pad={{ horizontal: 'medium', vertical: 'small' }}>

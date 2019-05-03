@@ -26,10 +26,10 @@ class index extends Component {
     return (
       <Dock position='bottom' dimMode="none"
         isVisible={workflowLogs.show} dockStyle={{ borderRadius: 12, overflow: 'hidden' }}>
-        <Box pad="medium" gap="xsmall" fill>
+        <Box pad="small" gap="xsmall" fill>
           <Box direction="row" justify="between" align="center">
-            <Text weight="bold">Execution Logs</Text>
-            <Button icon={<Close />} color="light-0"
+            <Text weight="bold">Execution logs</Text>
+            <Button icon={<Close size="14px"/>} color="light-0"
               hoverIndicator onClick={this.onClose} />
           </Box>
           <Box round={{ size: 'small' }} background="light-1">
