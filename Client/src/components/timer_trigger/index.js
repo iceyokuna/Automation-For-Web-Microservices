@@ -34,8 +34,11 @@ export class index extends Component {
 
   onSetTimer = () => {
     const { currentNode } = this.props;
-    const { targetDate, targetTime } = this.state;
-    const dateTime = { targetDate, targetTime };
+    let { targetDate, targetTime } = this.state;
+    
+    // Convert time to 24 hrs format
+    const time = moment(targetTime, "h:mm a").format("HH:mm");
+    const dateTime = { targetDate, targetTime: time };
     this.props.dispatch(workflowActions.applyTimerToElement(
       currentNode.id,
       dateTime))
