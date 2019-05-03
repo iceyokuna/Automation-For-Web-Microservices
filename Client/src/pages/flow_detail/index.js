@@ -187,7 +187,7 @@ class FlowDetail extends Component {
         </FormField>
 
         <Box direction="row" justify="end" gap="small">
-          <Button label="Edit Diagram" icon={<Cluster />} color="accent-1" onClick={this.navigateToModeler} />
+          <Button label="Edit diagram" icon={<Cluster />} color="accent-1" onClick={this.navigateToModeler} />
           <Button label="OK" icon={<Checkmark />} color="accent-1" primary onClick={() => { }} />
         </Box>
       </Box>
@@ -211,7 +211,7 @@ class FlowDetail extends Component {
             <Box direction="row" gap="small">
               <Button label={executeStatus} primary icon={<Play size="16px" />}
                 color="accent-3" onClick={this.onExecuteFlow} />
-              <Button label="Edit Diagram" primary icon={<Cluster size="16px" />}
+              <Button label="Edit diagram" primary icon={<Cluster size="16px" />}
                 color="accent-1" onClick={this.navigateToModeler} />
             </Box>
 

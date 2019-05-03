@@ -110,9 +110,9 @@ class BpmnProperty extends Component {
             onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)}
             services={services}
           />,
-          <Button label="Define Input" disabled={disabled}
+          <Button label="Define input" disabled={disabled}
             icon={<Edit />} onClick={this.onDefineInput} key={2} />,
-          <Button disabled={disabled} label="Create Form"
+          <Button disabled={disabled} label="Create form"
             onClick={() => this.onSelectFormType()} />
         ]
       } break;
@@ -127,13 +127,13 @@ class BpmnProperty extends Component {
 
       case "bpmn:IntermediateCatchEvent": {
         if (eventType === "bpmn:TimerEventDefinition") {
-          element = <Button label="Set Timer" icon={<Alarm />} onClick={this.onSetTimer} />
+          element = <Button label="Set timer" icon={<Alarm />} onClick={this.onSetTimer} />
         }
       } break;
 
       case "bpmn:StartEvent": {
         if (eventType === "bpmn:TimerEventDefinition") {
-          element = <Button label="Set Timer" icon={<Alarm />} onClick={this.onSetTimer} />
+          element = <Button label="Set timer" icon={<Alarm />} onClick={this.onSetTimer} />
         }
       } break;
 

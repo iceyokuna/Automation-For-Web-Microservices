@@ -81,13 +81,13 @@ class MyFlows extends Component {
           <Row>
             <Col lg={8} sm={8} xs={12}>
               <Box direction="row" align="center">
-                <Heading size='small' margin={{ right: 'medium' }}>My Flows</Heading>
+                <Heading size='small' margin={{ right: 'medium' }}>My flows</Heading>
               </Box>
             </Col>
 
             <Col lg={4} sm={4} xs={12}>
               <Box direction="row" align="center" fill justify="end">
-                <Button label="New Flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
+                <Button label="New flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
               </Box>
             </Col>
           </Row>
