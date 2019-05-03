@@ -17,7 +17,7 @@ export function availableServices(state = defaultState, action) {
 
         case services.GET_ALL_SERVICES_SUCCESS: {
             const nextState = { ...state };
-            nextState.data = action.allServices;
+            nextState.data = [...action.userServices, ...action.allServices];
             nextState.loading = false;
             return nextState;
         }

@@ -70,7 +70,7 @@ class MyTasks extends Component {
           <Row>
             <Col lg={8} sm={8} xs={12}>
               <Box direction="row" align="center">
-                <Heading size='small' margin={{ right: 'medium' }}>My Tasks</Heading>
+                <Heading size='small' margin={{ right: 'medium' }}>My tasks</Heading>
               </Box>
             </Col>
           </Row>

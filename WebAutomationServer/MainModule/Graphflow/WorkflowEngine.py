@@ -151,8 +151,10 @@ class WorkflowEngine:
     #setup timer to event
     def setTimer(self, timer_list):
         for timer in timer_list:
+            date = timer['targetDate']
+            time = timer['targetTime']
             event = self.state[timer]
-            event.setEventDefination(timer_list[timer][0])
+            event.setTimeEvent(date, time)
 
     #setup condition to gateway
     def setCondition(self, condition_list):
@@ -282,6 +284,10 @@ class WorkflowEngine:
             request_data = {"user_id":user_id, "message":message_data}
             requests.get(url , data= request_data)
         '''
+
+    def update(self):
+        pass
+
     #use to show all finite state machine formal defination
     def showDefination(self):
         print()

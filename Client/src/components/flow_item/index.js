@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Box, Button, Text, Paragraph } from 'grommet'
-import { Edit, PauseFill, Trash } from 'grommet-icons'
+import { Edit, Group, Trash, UserManager } from 'grommet-icons'
 
 import { Snackbar } from './style'
 
 import PlainButton from 'components/plain_button'
+import { colors } from 'theme';
 
 const iconColor = "#915591"
 
@@ -46,31 +47,32 @@ export default class FlowItem extends Component {
     console.log('delete')
   }
 
-
   render() {
-    const { onSelectFlow, description, owner, name, delay, } = this.props;
-
+    const { onSelectFlow, description, owner, name, delay, type } = this.props;
     return (
-      <Box fill onMouseEnter={this.showSnackbar}
+      <Box fill onMouseEnter={this.showSnackbar}  
         onMouseLeave={this.hideSnackbar}
         animation={[
           { delay: delay * 100, type: "fadeIn" },
           { delay: delay * 100, type: "zoomIn", size: 'xlarge' }]}>
         <Box round={{ size: "small" }} margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
-          <Box pad="xsmall">
-            <Button onClick={onSelectFlow} >
-              <Text weight="bold">{name}</Text>
-            </Button>
-          </Box>
-          <Box pad={{ horizontal: 'xsmall' }}>
-            <Paragraph color="dark-2">{description}</Paragraph>
-            <Text color="dark-2">Owner : {owner}</Text>
+          <Box pad="xsmall" gap="small">
+            <Box direction="row" justify="between">
+              <Button onClick={onSelectFlow} >
+                <Text truncate weight="bold" >{name || "Untitled"}</Text>
+              </Button>
+              {type === "group" ?
+                <Group size="18px" color={colors["dark-3"]} /> :
+                <UserManager size="18px" color={colors["dark-3"]} />}
+            </Box>
+
+            <Text truncate color="dark-3">{description || "No description"}</Text>
+            <Text truncate color="dark-3">Owner : {owner}</Text>
           </Box>
 
           <Snackbar hidden={this.state.hideSnackbar}>
             <Box animation={{ type: 'fadeIn', duration: 300 }} direction="row" align="center" justify="end" background="light-0" gap="small">
-              <PlainButton icon={<Edit color={iconColor} />} onClick={this.handleEdit} />
-              <PlainButton icon={<PauseFill color={iconColor} />} onClick={this.handlePause} />
+              <PlainButton icon={<Edit color={iconColor} />} onClick={onSelectFlow} />
               <PlainButton icon={<Trash color={iconColor} />} onClick={this.handleDelete} />
             </Box>
           </Snackbar>

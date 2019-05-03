@@ -13,6 +13,11 @@ def main_index(request):
 def end_index(request):
     return render(request, 'end_web.html', {})
 
+#update state from event handler (web hooking)
+@csrf_exempt
+def updateState(request):
+    pass
+
 @csrf_exempt
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))

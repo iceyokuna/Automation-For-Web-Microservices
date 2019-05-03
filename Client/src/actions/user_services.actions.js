@@ -16,7 +16,7 @@ function toggleDefineServiceDialog() {
 }
 
 function getUserServices() {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(request());
     userService.getUserServices().then(res => {
       dispatch(success(res.data));
