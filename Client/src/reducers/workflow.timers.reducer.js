@@ -15,8 +15,8 @@ export function workflowTimers(state = defaultState, action) {
 
     case workflowContants.APPLY_TIMER_TO_ELEMENT: {
       const nextState = { ...state };
-      const { elementId, time } = action;
-      nextState.appliedTimers[elementId] = time;
+      const { elementId, dateTime } = action;
+      nextState.appliedTimers[elementId] = dateTime;
       return nextState;
     }
 

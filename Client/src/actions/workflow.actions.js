@@ -96,11 +96,11 @@ function setWorkflowId(workflowId) {
   }
 }
 
-function applyTimerToElement(elementId, time) {
+function applyTimerToElement(elementId, dateTime) {
   return {
     type: workflowContants.APPLY_TIMER_TO_ELEMENT,
     elementId,
-    time
+    dateTime
   }
 
 }
