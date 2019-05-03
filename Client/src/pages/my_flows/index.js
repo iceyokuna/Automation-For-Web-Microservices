@@ -68,7 +68,8 @@ class MyFlows extends Component {
           onSelectFlow={() => this.onSelectFlow(item)}
           name={item.name}
           description={item.description}
-          owner={item.user_id} />
+          owner={item.user_id}
+          type={item.type} />
       </Col>
     )
   }

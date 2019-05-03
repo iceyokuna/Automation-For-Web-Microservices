@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Box, Button, Text, Paragraph } from 'grommet'
-import { Edit, PauseFill, Trash } from 'grommet-icons'
+import { Edit, Group, Trash, UserManager } from 'grommet-icons'
 
 import { Snackbar } from './style'
 
 import PlainButton from 'components/plain_button'
+import { colors } from 'theme';
 
 const iconColor = "#915591"
 
@@ -47,8 +48,8 @@ export default class FlowItem extends Component {
   }
 
   render() {
-    const { onSelectFlow, description, owner, name, delay, } = this.props;
-
+    const { onSelectFlow, description, owner, name, delay, type } = this.props;
+    console.log({ type });
     return (
       <Box fill onMouseEnter={this.showSnackbar}
         onMouseLeave={this.hideSnackbar}
@@ -57,11 +58,17 @@ export default class FlowItem extends Component {
           { delay: delay * 100, type: "zoomIn", size: 'xlarge' }]}>
         <Box round={{ size: "small" }} margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
           <Box pad="xsmall" gap="small">
-            <Button onClick={onSelectFlow} >
-              <Text truncate weight="bold" >{name || "Untitled"}</Text>
-            </Button>
-            <Text truncate color="dark-2">{description || "No description"}</Text>
-            <Text truncate color="dark-2">Owner : {owner}</Text>
+            <Box direction="row" justify="between">
+              <Button onClick={onSelectFlow} >
+                <Text truncate weight="bold" >{name || "Untitled"}</Text>
+              </Button>
+              {type === "group" ?
+                <Group size="18px" color={colors["dark-3"]} /> :
+                <UserManager size="18px" color={colors["dark-3"]} />}
+            </Box>
+
+            <Text truncate color="dark-3">{description || "No description"}</Text>
+            <Text truncate color="dark-3">Owner : {owner}</Text>
           </Box>
 
           <Snackbar hidden={this.state.hideSnackbar}>
