@@ -137,4 +137,9 @@ class AllUserServiceView(viewsets.ModelViewSet):
             query_set = queryset.filter(username=json.loads(response.content)['username'])
             return query_set
         return {}
-        
+
+class NewServiceView(APIView):
+    def post(self, request):
+        service = request.data.get('service')
+        json_service = json.loads(service)
+        return Response({json_service},status = HTTP_200_OK)

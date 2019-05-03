@@ -80,7 +80,7 @@ class NotificationView(APIView):
 class SendNotificationView(APIView):
     def post(self, request):
         to = request.data.get('to')
-                body = request.data.get('body')
+        body = request.data.get('body')
         title = request.data.get('title')
         data = request.data.get('data')
         click_action = request.data.get('click_action')
@@ -91,7 +91,7 @@ class SendNotificationView(APIView):
         noti = request.data.get('notification')
         
         for i in to:
-                        user = User.objects.filter(username = i).first()
+            user = User.objects.filter(username = i).first()
             token = FcmToken.objects.filter(user=user).values('fcmToken').first()['fcmToken']
 
             data = {"to":token,"notification":{"title":title, "body":body, "click_action":click_action,"data":data}}
