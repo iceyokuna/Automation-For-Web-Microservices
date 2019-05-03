@@ -107,6 +107,7 @@ class WorkflowEngine:
                 parallel_gateway_object = self.state[transition['sourceRef']]
                 parallel_gateway_object.addFlowReference(transition['targetRef'])
                 self.transition[(transition['sourceRef'],transition['targetRef'])] = transition['targetRef']
+            
             #case converging parallel
             elif(isinstance(self.state[transition['targetRef']],ParallelGateway)):
                 parallel_gateway_object = self.state[transition['targetRef']]
@@ -150,9 +151,10 @@ class WorkflowEngine:
 
     #setup timer to event
     def setTimer(self, timer_list):
+        print(timer_list)
         for timer in timer_list:
-            date = timer['targetDate']
-            time = timer['targetTime']
+            date = timer_list[timer]['targetDate']
+            time = timer_list[timer]['targetTime']
             event = self.state[timer]
             event.setTimeEvent(date, time)
 
@@ -207,6 +209,13 @@ class WorkflowEngine:
         #TimeEvent case (Intermidiate)
         if(isinstance(element_object, TimeEvent)):
             eventDefination = element_object.getEventDefination()
+            #push event to event queue using cloud service
+            url = "http://127.0.0.1:5000/timeEvent"
+            payload = {"elementEventId": element_object.getId(), "time":element_object.getTriggerTime(), "date":element_object.getTriggerDate()}
+            result = requests.post(url , data=payload)
+            print()
+            print(result.text)
+            print()
             
 
         #exclusive gateway case
