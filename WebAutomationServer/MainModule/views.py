@@ -29,10 +29,11 @@ def saveFlow(request):
     service_list = (resquest['appliedMethods'])
     preInput_list = (resquest['appliedPreInputs'])
     condition_list = (resquest['appliedConditions'])
+    timer_list = (resquest['appliedTimers'])
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
-    workflowEngine.initialize(elements_list, HTML_list, service_list, preInput_list, condition_list)
+    workflowEngine.initialize(elements_list, HTML_list, service_list, preInput_list, condition_list, timer_list)
 
     #Workflow Engine Initiate construction and [save]!!!
     with open('HTMLs.pkl', 'wb') as f:

@@ -10,8 +10,12 @@ export const userService = {
   getUserServices,
 };
 
-function getUserServices(username) {
-  return axios.post(globalConstants.USER_SERVICE_URL, { username });
+function getUserServices() {
+  return axios.get(globalConstants.GET_ALL_USER_SERVICES_URL, {
+    headers: {
+      Authorization: "Token " + getUserToken()
+    }
+  });
 }
 
 function updateUserService(serviceId, username, serviceName,
@@ -28,7 +32,6 @@ function updateUserService(serviceId, username, serviceName,
 }
 
 function addNewMethod(
-  username,
   methodName,
   methodInfo,
   methodType,
@@ -37,23 +40,23 @@ function addNewMethod(
   outputInterface,
   methodUrl,
 ) {
-  return axios.post(globalConstants.USER_METHOD_URL, {
-    username,
+  return axios.post(globalConstants.USER_METHOD_URL + serviceId, {
     name: methodName,
     info: methodInfo,
     method_type: methodType,
-    service_id: serviceId,
     input_interface: inputInterface,
     output_interface: outputInterface,
     path: methodUrl,
+  }, {
+    headers: {
+      Authorization: "Token " + getUserToken()
+    }
   })
-
 }
 
-function addNewService(username, serviceName,
+function addNewService(serviceName,
   serviceInfo, serviceUrl) {
   return axios.post(globalConstants.USER_SERVICE_URL, {
-    username,
     name: serviceName,
     info: serviceInfo,
     url: serviceUrl,

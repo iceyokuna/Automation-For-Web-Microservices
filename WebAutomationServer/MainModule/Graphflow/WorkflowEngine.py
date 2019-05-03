@@ -19,7 +19,7 @@ class WorkflowEngine:
         self.transition = {} #delta
 
     #parsing workflow
-    def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None):
+    def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
         element_ref_lane_owner = {}
         sequenceFlow_ref = []
 
@@ -63,7 +63,7 @@ class WorkflowEngine:
             elif(element['name'] == 'bpmn2:sequenceFlow'):
                 sequenceFlow_ref.append(element['attributes'])
 
-            #Intermediate Event
+            #Intermediate Time Event
             elif(element['name'] == 'bpmn2:intermediateCatchEvent'):
                 Id = element['attributes']['id']
                 name = element['attributes']['name']
@@ -97,6 +97,7 @@ class WorkflowEngine:
         self.setPreDefindInput(preInput_list)
         self.setCondition(condition_list)
         self.createTransition(sequenceFlow_ref)
+        self.setTimer(timer_list)
 
     #construct state transition function
     def createTransition(self, transition_list):
@@ -147,6 +148,12 @@ class WorkflowEngine:
             task.setInputInterface(serviceInputInterface)
             task.setOutputInterface(serviceOutputInterface)
 
+    #setup timer to event
+    def setTimer(self, timer_list):
+        for timer in timer_list:
+            event = self.state[timer]
+            event.setEventDefination(timer_list[timer][0])
+
     #setup condition to gateway
     def setCondition(self, condition_list):
         for condition_ref in condition_list:
@@ -194,6 +201,11 @@ class WorkflowEngine:
             else:
                 #have html form
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
+
+        #TimeEvent case (Intermidiate)
+        if(isinstance(element_object, TimeEvent)):
+            eventDefination = element_object.getEventDefination()
+            
 
         #exclusive gateway case
         if(isinstance(element_object, ExclusiveGateway)):

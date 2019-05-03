@@ -14,7 +14,7 @@ class index extends Component {
   state = {
     serviceName: '',
     serviceInfo: '',
-    serviceUrl: '',
+    serviceUrl: 'http://',
   }
 
   onChangeServiceName = (e) => {
@@ -43,16 +43,16 @@ class index extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { createNewService } = nextProps.userServices;
-    if (createNewService === "success") {
+    const { creatingNewService } = nextProps.userServices;
+    if (creatingNewService === "success") {
       this.props.onNextStep();
     }
   }
 
   renderNextButton = () => {
     const { userServices } = this.props;
-    const { createNewService } = userServices;
-    if (createNewService === "loading") {
+    const { creatingNewService } = userServices;
+    if (creatingNewService === "loading") {
       return (
         <Box align="center" pad='small'>
           <Spinner
@@ -70,19 +70,20 @@ class index extends Component {
 
 
   render() {
+    const { serviceName, serviceInfo, serviceUrl } = this.state
     return (
       <Box gap="small" pad="medium">
         <FormField>
           <TextInput placeholder="Service name" size="small"
-            onChange={this.onChangeServiceName} />
+            onChange={this.onChangeServiceName} value={serviceName} />
         </FormField>
         <FormField>
           <TextInput placeholder="What does this service do ?" size="small"
-            onChange={this.onChangeServiceInfo} />
+            onChange={this.onChangeServiceInfo} value={serviceInfo} />
         </FormField>
         <FormField>
           <TextInput placeholder="Service 's URL e.g. https://myservice.com/api/" size="small"
-            onChange={this.onChangeServiceUrl} />
+            onChange={this.onChangeServiceUrl} value={serviceUrl} />
         </FormField>
         {this.renderNextButton()}
 

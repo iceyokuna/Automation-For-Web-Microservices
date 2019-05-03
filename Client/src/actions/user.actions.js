@@ -21,7 +21,7 @@ function login(username, password) {
           dispatch(success(user));
           user = JSON.stringify(user);
           localStorage.setItem('user', user);
-          history.push('/home/my_flows');
+          history.push('/my_flows');
         },
         error => {
           dispatch(failure(error.toString()));
@@ -34,7 +34,7 @@ function login(username, password) {
     //   const token = 1234788989
     //   localStorage.setItem('user', token);
     //   dispatch(success(token));
-    //   history.push('/home/my_flows');
+    //   history.push('/my_flows');
     // }, 500)
   };
 

@@ -33,8 +33,6 @@ const App = () => (
           closeButton={<Close color="#ffffff" size="14px" />}
           toastClassName="toast-container" />
         <Switch>
-          <PrivateRoute path="/home" component={Home} />
-          <Route exact path="/" component={Login} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/reset_password" component={ResetPassword} />
@@ -44,8 +42,9 @@ const App = () => (
           <Route exact path="/test_component" component={Test} />
           <Route exact path="/execute_flow/:flowId" component={ExecuteFlow} />
 
+          <PrivateRoute path="/" component={Home} />
           <Route component={NotFound} />
-          {/* <Redirect from="*" to="/home/my_flows" /> */}
+          {/* <Redirect from="*" to="/my_flows" /> */}
         </Switch>
       </Grommet>
     </Provider>

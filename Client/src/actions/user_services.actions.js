@@ -16,12 +16,9 @@ function toggleDefineServiceDialog() {
 }
 
 function getUserServices() {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch(request());
-
-    const username = getState().authentication.user.username;
-
-    userService.getUserServices(username).then(res => {
+    userService.getUserServices().then(res => {
       dispatch(success(res.data));
     }).catch(e => {
       dispatch(failure());
@@ -55,10 +52,8 @@ function addNewService(
 ) {
   return (dispatch, getState) => {
     dispatch(request());
-
-    const username = getState().authentication.user.username;
     userService.addNewService(
-      username, serviceName,
+      serviceName,
       serviceInfo, serviceUrl
     ).then(res => {
       dispatch(success(res.data));
@@ -91,15 +86,14 @@ function addNewMethod(
   methodName,
   methodInfo,
   methodType,
-  serviceId,
   inputInterface,
   outputInterface,
   methodUrl,
 ) {
   return (dispatch, getState) => {
     dispatch(request());
-    const username = getState().authentication.user.username;
-    userService.addNewMethod(username, methodName,
+    const serviceId = getState().userServices.currentServiceId;
+    userService.addNewMethod(methodName,
       methodInfo, methodType, serviceId,
       inputInterface, outputInterface, methodUrl).then(
         res => dispatch(success(res.data))

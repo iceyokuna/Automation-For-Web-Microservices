@@ -1,5 +1,5 @@
 import React, { Component, } from 'react'
-import { Box, Button, } from 'grommet';
+import { Box, Button, Text } from 'grommet';
 import { Add } from 'grommet-icons'
 
 import { connect } from 'react-redux';
@@ -20,13 +20,13 @@ class index extends Component {
       this.setState({ loadingServices: false });
     }, 2000);
 
-    this.props.dispatch(userServicesActions.getUserServices())
+    this.props.dispatch(userServicesActions.getUserServices());
   }
 
   onAddService = () => {
     const { match } = this.props;
     this.props.history.push(match.url + '/addService');
-    // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());
+    // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());3
   }
 
   onSelectService = (index) => {
@@ -43,17 +43,31 @@ class index extends Component {
           name="ball-scale-multiple" color={colors.brand} />
       </Box>
     );
+
+    const { userServices } = this.props;
+    if (userServices.data.length == 0) {
+      return (
+        <Box align="center" justify="center" pad="medium" gap="medium">
+          <Text size="medium">You don't have any service</Text>
+          <Box direction="row" justify="end" align="center">
+            <Button label="Add Service" color="accent-1"
+              icon={<Add />}
+              primary onClick={this.onAddService} />
+          </Box>
+        </Box>
+      )
+    }
     return (
       <Box animation={["fadeIn"]}>
         <table>
           <tr>
-            <th>Service Name</th>
-            <th>Service URL</th>
+            <th>Service name</th>
+            <th>Service info</th>
           </tr>
-          {this.props.userServices.data.map((item, index) =>
+          {userServices.data.map((service, index) =>
             <tr className="service" onClick={() => this.onSelectService(index)}>
-              <td>{item.serviceName}</td>
-              <td>{item.serviceUrl}</td>
+              <td>{service.name}</td>
+              <td>{service.info}</td>
             </tr>
           )}
         </table>
