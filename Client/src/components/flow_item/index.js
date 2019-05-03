@@ -46,7 +46,6 @@ export default class FlowItem extends Component {
     console.log('delete')
   }
 
-
   render() {
     const { onSelectFlow, description, owner, name, delay, } = this.props;
 
@@ -57,20 +56,17 @@ export default class FlowItem extends Component {
           { delay: delay * 100, type: "fadeIn" },
           { delay: delay * 100, type: "zoomIn", size: 'xlarge' }]}>
         <Box round={{ size: "small" }} margin="small" pad="small" background="light-0" style={{ position: 'relative' }}>
-          <Box pad="xsmall">
+          <Box pad="xsmall" gap="small">
             <Button onClick={onSelectFlow} >
-              <Text weight="bold">{name}</Text>
+              <Text truncate weight="bold" >{name || "Untitled"}</Text>
             </Button>
-          </Box>
-          <Box pad={{ horizontal: 'xsmall' }}>
-            <Paragraph color="dark-2">{description}</Paragraph>
-            <Text color="dark-2">Owner : {owner}</Text>
+            <Text truncate color="dark-2">{description || "No description"}</Text>
+            <Text truncate color="dark-2">Owner : {owner}</Text>
           </Box>
 
           <Snackbar hidden={this.state.hideSnackbar}>
             <Box animation={{ type: 'fadeIn', duration: 300 }} direction="row" align="center" justify="end" background="light-0" gap="small">
-              <PlainButton icon={<Edit color={iconColor} />} onClick={this.handleEdit} />
-              <PlainButton icon={<PauseFill color={iconColor} />} onClick={this.handlePause} />
+              <PlainButton icon={<Edit color={iconColor} />} onClick={onSelectFlow} />
               <PlainButton icon={<Trash color={iconColor} />} onClick={this.handleDelete} />
             </Box>
           </Snackbar>
