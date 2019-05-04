@@ -5,9 +5,38 @@ export const userServicesActions = {
   toggleDefineServiceDialog,
 
   getUserServices,
+
+  uploadNewService,
   createNewLocalService,
+
   addNewMethod,
   addNewLocalMethod,
+}
+
+function uploadNewService() {
+  return (dispatch, getState) => {
+    dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_REQUEST });
+
+    const { newService } = getState().userServices;
+    let { methods, serviceName, serviceInfo, serviceUrl } = newService;
+    methods = methods.map((item) => {
+      return {
+        name: item.methodName,
+        info: item.methodInfo,
+        path: item.methodUrl,
+        method_type: item.methodType,
+        input_interface: item.inputInterface,
+        output_interface: item.outputInterface,
+      }
+    })
+    userService.uploadNewService(serviceName, serviceInfo, serviceUrl, methods).then(
+      res => {
+        dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_SUCCESS, data: res.data });
+      }
+    ).catch(e => {
+      dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_FAILURE });
+    });
+  }
 }
 
 function addNewLocalMethod(methodObject) {

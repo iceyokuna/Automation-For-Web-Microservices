@@ -38,8 +38,9 @@ class index extends Component {
   onNextStep = () => {
     // this.props.onNextStep();
     const { serviceName, serviceInfo, serviceUrl } = this.state;
-    this.props.dispatch(userServicesActions.addNewService(
+    this.props.dispatch(userServicesActions.createNewLocalService(
       serviceName, serviceInfo, serviceUrl));
+    this.props.onNextStep();
   }
 
   componentWillReceiveProps(nextProps) {

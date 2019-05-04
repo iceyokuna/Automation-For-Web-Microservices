@@ -35,7 +35,7 @@ class index extends Component {
     methodName: '',
     methodInfo: '',
     methodUrl: '',
-    requestType: '',
+    methodType: '',
     inputInterface: interfacePlaceholder,
     outputInterface: interfacePlaceholder,
   }
@@ -60,7 +60,7 @@ class index extends Component {
 
   onChangeRequestType = ({ option }) => {
     this.setState({
-      requestType: option,
+      methodType: option,
     })
   }
 
@@ -88,11 +88,25 @@ class index extends Component {
   }
 
   onAddMethod = () => {
-    const { methods } = this.state;
-    methods.push(mets[0]);
+    const { methodName,
+      methodInfo,
+      methodUrl,
+      methodType,
+      inputInterface,
+      outputInterface, } = this.state;
+
+    const methodObject = {
+      methodName,
+      methodInfo,
+      methodUrl,
+      methodType,
+      inputInterface: JSON.parse(inputInterface),
+      outputInterface: JSON.parse(outputInterface),
+    };
+
+    this.props.dispatch(userServicesActions.addNewLocalMethod(methodObject));
 
     this.setState({
-      methods: methods,
       resetBadgeAnim: true,
     });
   }
@@ -102,23 +116,10 @@ class index extends Component {
   }
 
   onSubmit = () => {
-    const { methodName,
-      methodInfo,
-      methodUrl,
-      requestType,
-      inputInterface,
-      outputInterface, } = this.state;
+    this.props.dispatch(userServicesActions.uploadNewService());
 
-    this.props.dispatch(userServicesActions.addNewMethod(
-      methodName, methodInfo, requestType,
-      JSON.parse(inputInterface),
-      JSON.parse(outputInterface),
-      methodUrl,
-    ))
-
-
-    toast.success("Your service is added");
-    this.props.history.replace('/setting/services');
+    // toast.success("Your service is added");
+    // this.props.history.replace('/setting/services');
   }
 
   onAddmoreMethod = () => {
@@ -129,6 +130,8 @@ class index extends Component {
 
 
   renderMethodList = () => {
+    const { userServices } = this.props;
+    const newMethods = userServices.newService.methods;
     return (
       <Fragment>
         <table>
@@ -137,11 +140,11 @@ class index extends Component {
             <th>URL's endpoint</th>
             <th>Request type</th>
           </tr>
-          {this.state.methods.map((item, index) =>
+          {newMethods.map((item, index) =>
             <tr className="service" onClick={() => this.onSelectMethod(item)}>
               <td>{item.methodName}</td>
               <td>{item.methodUrl}</td>
-              <td>{item.requestType}</td>
+              <td>{item.methodType}</td>
             </tr>
           )}
         </table>
@@ -158,8 +161,10 @@ class index extends Component {
 
   renderCreateMethod = () => {
     const { methodName, methodInfo, methodUrl,
-      requestType, inputInterface, outputInterface,
-      methods, resetBadgeAnim } = this.state
+      methodType, inputInterface, outputInterface,
+      methods, resetBadgeAnim } = this.state;
+
+    const newMethods = this.props.userServices.newService.methods;
     return (
       <Fragment>
         <Row >
@@ -185,10 +190,10 @@ class index extends Component {
           <Col xs={12} md={4} lg={4}>
             <FormField>
               <Select
-                id="requestType"
-                name="requestType"
+                id="methodType"
+                name="methodType"
                 placeholder="GET"
-                value={requestType}
+                value={methodType}
                 options={requestTypeOptions}
                 onChange={this.onChangeRequestType}
               />
@@ -220,7 +225,7 @@ class index extends Component {
               reset={resetBadgeAnim}
               onRest={() => this.setState({ resetBadgeAnim: false })}
             >
-              {props => <BadgeIcon style={props}>{methods.length}</BadgeIcon>}
+              {props => <BadgeIcon style={props}>{newMethods.length}</BadgeIcon>}
             </Spring>
 
           </MethodContainer>
