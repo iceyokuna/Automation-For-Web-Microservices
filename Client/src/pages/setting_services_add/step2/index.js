@@ -111,7 +111,9 @@ class index extends Component {
 
     this.props.dispatch(userServicesActions.addNewMethod(
       methodName, methodInfo, requestType,
-      inputInterface, outputInterface, methodUrl,
+      JSON.parse(inputInterface),
+      JSON.parse(outputInterface),
+      methodUrl,
     ))
 
 

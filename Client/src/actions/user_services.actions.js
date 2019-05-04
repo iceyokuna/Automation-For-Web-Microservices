@@ -5,8 +5,16 @@ export const userServicesActions = {
   toggleDefineServiceDialog,
 
   getUserServices,
-  addNewService,
+  createNewLocalService,
   addNewMethod,
+  addNewLocalMethod,
+}
+
+function addNewLocalMethod(methodObject) {
+  return {
+    type: userServicesConstants.ADD_NEW_LOCAL_METHOD,
+    methodObject,
+  }
 }
 
 function toggleDefineServiceDialog() {
@@ -45,40 +53,16 @@ function getUserServices() {
   }
 }
 
-function addNewService(
+function createNewLocalService(
   serviceName,
   serviceInfo,
   serviceUrl
 ) {
-  return (dispatch, getState) => {
-    dispatch(request());
-    userService.addNewService(
-      serviceName,
-      serviceInfo, serviceUrl
-    ).then(res => {
-      dispatch(success(res.data));
-    }).catch(e => {
-      dispatch(failure())
-    })
-  }
-
-  function request() {
-    return {
-      type: userServicesConstants.ADD_USER_SERVICE_REQUEST,
-    }
-  }
-
-  function success(data) {
-    return {
-      type: userServicesConstants.ADD_USER_SERVICE_SUCCESS,
-      data,
-    }
-  }
-
-  function failure() {
-    return {
-      type: userServicesConstants.ADD_USER_SERVICE_FAILURE,
-    }
+  return {
+    type: userServicesConstants.CREATE_NEW_LOCAL_SERVICE,
+    serviceName,
+    serviceInfo,
+    serviceUrl,
   }
 }
 

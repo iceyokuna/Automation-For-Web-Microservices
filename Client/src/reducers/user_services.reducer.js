@@ -7,6 +7,8 @@ const defaultState = {
   creatingNewMethod: false,
   data: [],
   currentServiceId: null,
+
+  newService: {},
 }
 
 export function userServices(state = defaultState, action) {
@@ -25,6 +27,25 @@ export function userServices(state = defaultState, action) {
       };
       return nextState;
     }
+
+    case userServicesConstants.CREATE_NEW_LOCAL_SERVICE: {
+      const nextState = { ...state };
+      nextState.newService = {
+        serviceName: action.serviceName,
+        serviceInfo: action.serviceInfo,
+        serviceUrl: action.serviceUrl,
+        methods: [],
+      }
+      return nextState;
+    }
+
+    case userServicesConstants.ADD_NEW_LOCAL_METHOD: {
+      const nextState = { ...state };
+      nextState.newService.methods.push({
+        ...action.methodObject
+      })
+    }
+
     case userServicesConstants.ADD_USER_SERVICE_FAILURE: {
       return { ...state, creatingNewService: "failure", }
     }
