@@ -49,7 +49,7 @@ class GetMacView(APIView):
 class RegisterView(APIView):
 
     def get(self, request):
-        url = 'http://v1.zmote.io/client/register'
+        url = 'http://api.zmote.io/client/register'
         response = requests.get(url)
         name = request.data.get('name')
         content = json.loads(response.content)
@@ -74,14 +74,13 @@ class AuthView(APIView):
         data['secret'] = secret
         data['_id'] = c_id
         json_data = json.dumps(data)
-        #data ={'secret': 'QyFAGcVfihf1no4wbF7gnYV5T5MuIHl7FSSrSy32Uc04GapbAhC0OTmdjgGqupUD' ,'_id': '5cb9c8e19acac808c0cc99b9'}
-        #data = {'secret':secret,'_id':c_id}
+        
         response = requests.post(url, headers= headers, data=json_data)
         extIP = json.loads(response.content)['extIP']
         client.update(extIP=extIP)
         
-        return Response({"detail": json.loads(response.content)}, status=HTTP_200_OK)
-
+        #return Response({"detail": json.loads(response.content)}, status=HTTP_200_OK)
+        return Response({"detail": response.cookies}, status=HTTP_200_OK)
 
 class EmitIRView(APIView):
 
@@ -89,15 +88,24 @@ class EmitIRView(APIView):
         return Response({"detail":"GET is not available"}, status=HTTP_200_OK)
 
     def post(self, request):
+        url = 'http://v1.zmote.io/client/auth'
+        headers =  {'Content-Type':  'application/json'}
+        #data = 
+        response = requests.get(url, headers=headers)
+        
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        #if(json.loads(response.content)['username']):
+
+
+
         ip = request.data.get("ip") #192.168.4.1
         uuid = request.data.get("uuid")
         freq = request.data.get("freq")
         c_id = request.data.get("c_id")
         ip =request.data.get("ip")
-        #c_id = Client.objects.filter(id = )
-        #url = ip+c_id+'/api/ir/write' #5c-cf-7f-13-be-fd #
-        url  ='http://192.168.2.22/5c-cf-7f-13-be-fd/api/ir/write'
-
+        #url  ='http://192.168.2.22/5c-cf-7f-13-be-fd/api/ir/write'
+        url  ='http://192.168.1.1/5c-cf-7f-13-be-fd/api/ir/write'
         headers =  {"Content-Type":  "application/json"}
 
         data = {}
@@ -140,12 +148,25 @@ class GetUUIDView(APIView):
 
 class DiscoverView(APIView):
     def get(self, request):
-        #ip = request.data.get("ip")
-        url = 'http://v1.zmote.io/widgets' #"http://" + ip + "/discover"
+        url = 'http://api.zmote.io/client/auth'
+        headers =  {'Content-Type':  'application/json'}
+        data = {}
+        data['secret'] = "39lr8TtQ6gNQolW9kr1LYXKzGYkZNFcRdh7jcrrg9N1d6Zco0qMOWNwAxYdGrF19"
+        data['_id'] = "5ccbdaa44f0676010049a7d8"
+        json_data = json.dumps(data)
+        
+        response = requests.post(url, headers= headers, data=json_data)
+        
 
-        r = requests.get(url)
-        cookies = 'zmote-auth='+r.cookies['zmote-auth']
-        response = requests.get(url, headers = {'Cookie':cookies})
+        #ip = request.data.get("ip")
+        url = 'https://api.zmote.io/widgets' #"http://" + ip + "/discover"
+
+        #r = requests.get(url)
+        cookies = {'zmote-v2-auth': response.cookies['zmote-v2-auth']}
+        #cookies = {}
+        #cookies["zmote-v2-auth"] = "s%3AqT_hmkBlgP8Z4-ib5M9OJG-W_eouoQ6s.vk6%2F4AFG4qA5RslwDwjkekxjXXrTeIB70L2ErKz6PYM"
+        #cookies = {'zmote-v2-auth' :"s%3AqT_hmkBlgP8Z4-ib5M9OJG-W_eouoQ6s.vk6%2F4AFG4qA5RslwDwjkekxjXXrTeIB70L2ErKz6PYM"}
+        response = requests.get(url, cookies=cookies)#headers = {'Cookie':r.cookies})
         return Response({"detail":json.loads(response.content)}, status=HTTP_200_OK)
 
 class ZMoteView(viewsets.ModelViewSet):

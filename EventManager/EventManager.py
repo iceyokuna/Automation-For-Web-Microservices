@@ -41,8 +41,9 @@ def messageEvent():
 
 if __name__ == '__main__':
     #ping firebase server to check time event (to trigger time event)
-    worker = BackgroundThread(1, "PingFirebase")
+    worker = BackgroundThread(1, "PingFirebase", messager)
     worker.start()
 
     #start app (REST API)
     app.run(host='0.0.0.0', debug=True, threaded=True)
+    
