@@ -12,23 +12,20 @@ class TimeEvent(IntermediateEvent):
         self.date = date
         self.time = time
 
+    def getTriggerDate(self):
+        return self.date
+
+    def getTriggerTime(self):
+        return self.time
+
     def setEventDefination(self, defination):
         self.eventDefination = defination
 
     def getEventDefination(self):
         return self.eventDefination
-    
-    def initiate(self):
-        pass
 
     def setDefination(self, eventDefination):
         self.eventDefination = eventDefination
 
     def getDefination(self):
         return self.eventDefination
-
-    def isReady(self):
-        pass
-
-    def getRemainingTime(self):
-        pass

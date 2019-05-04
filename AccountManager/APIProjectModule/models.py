@@ -13,6 +13,7 @@ class Workflow(models.Model):
     appliedMethods = JSONField(null=True)
     appliedConditions = JSONField(null=True)
     appliedPreInputs = JSONField(null=True)
+    appliedTimers = JSONField(null=True)
     generatedForms = JSONField(null=True)
     workflowObject = models.BinaryField(null=True)#models.BinaryField(default=None)
 

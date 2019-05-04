@@ -17,7 +17,8 @@ from rest_framework.status import (
 )
 from rest_framework.response import Response
 from .models import Notification, FcmToken
-
+import json
+import requests
 @permission_classes((AllowAny,))
 class RegisterView(APIView):
     def post(self, request, format='json'):
@@ -79,9 +80,25 @@ class NotificationView(APIView):
 class SendNotificationView(APIView):
     def post(self, request):
         to = request.data.get('to')
+        body = request.data.get('body')
+        title = request.data.get('title')
+        data = request.data.get('data')
+        click_action = request.data.get('click_action')
+
+        url = 'https://fcm.googleapis.com/fcm/send'
+        key = 'key=AAAAvAxbvG8:APA91bFUI5zOJF0ITlKBDbdGJRGN70ENPiAM3WaNjOiMyOi6XBS-BnWyhvVUHk8BPZDSr2pmLuzQrt3m497wKIG51--G7DzGlEAeVoA9G8Fx3pfPQlYl11zZ-xdmfC5Za0ILS011Fe9y'
+        headers =   {'Content-Type':  'application/json', 'Authorization':key}
+        noti = request.data.get('notification')
+        
         for i in to:
-            user = User.objects.filter(id = i).first()
-            noti = Notification.objects.create(user=user, title=request.data.get('title'),body=request.data.get('body'),click_action =request.data.get('click_action'), data=request.data.get('data'))
+            user = User.objects.filter(username = i).first()
+            token = FcmToken.objects.filter(user=user).values('fcmToken').first()['fcmToken']
+
+            data = {"to":token,"notification":{"title":title, "body":body, "click_action":click_action,"data":data}}
+            data = json.dumps(data)
+
+            res =  requests.post(url, headers=headers, data=data)
+            noti = Notification.objects.create(user=user, title=title,body=body,click_action =click_action, data=data)
         return Response({"detail": "successfully created"})
 
 @permission_classes((IsAuthenticated,))
