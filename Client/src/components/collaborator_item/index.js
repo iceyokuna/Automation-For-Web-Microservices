@@ -5,9 +5,10 @@ import { FormDown } from 'grommet-icons'
 import Avatar from 'react-avatar';
 import DropContent from 'components/dropdown_content'
 import PlainButton from 'components/plain_button'
+import { workflowActions } from 'actions';
+import { connect } from 'react-redux';
 
-
-export default class index extends Component {
+class index extends Component {
 
   constructor(props) {
     super(props)
@@ -24,8 +25,13 @@ export default class index extends Component {
   };
 
 
-  onSelectAction = (name, index) => {
-    alert(name)
+  onSelectAction = (name) => {
+    const { userName, dispatch } = this.props;
+    switch (name) {
+      case "Remove": dispatch(workflowActions.deleteCollaborators([userName])); break;
+      default:
+        break;
+    }
   }
 
 
@@ -48,7 +54,7 @@ export default class index extends Component {
             dropContent={
               <DropContent
                 title="Actions"
-                items={[{ label: 'Edit Permission' }, { label: 'Remove' }]}
+                items={[{ label: 'Remove' },]}
                 onSelect={this.onSelectAction}
                 onClose={this.onCloseDropdown} />}
           >
@@ -61,5 +67,5 @@ export default class index extends Component {
   }
 }
 
-
+export default connect()(index);
 

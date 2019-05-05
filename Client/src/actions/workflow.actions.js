@@ -9,6 +9,8 @@ export const workflowActions = {
   addNameToId,
   addNewCollaborators,
 
+  deleteCollaborators,
+
   applyMethodToTask,
   applyConditionsToGateWay,
   applyPreInputsToTask,
@@ -36,6 +38,19 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function deleteCollaborators(collaborators) {
+  return (dispatch, getState) => {
+    dispatch({ type: workflowContants.DELETE_COLLABORATORS_REQUEST });
+    const workflow_id = getState().workflowMyFlows.currentFlow.id;
+    workflowService.deleteCollaborators(workflow_id, collaborators).then(
+      res => {
+        dispatch({ type: workflowContants.DELETE_COLLABORATORS_SUCCESS });
+        dispatch(getAllCollaborators(workflow_id));
+      }
+    ).catch(e => dispatch({ type: workflowContants.DELETE_COLLABORATORS_FAILURE }))
+  }
+}
 
 function setNextNodes(nextNodes) {
   return {
