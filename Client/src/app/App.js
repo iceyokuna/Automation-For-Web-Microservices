@@ -1,8 +1,7 @@
 import './index.css';
+import './toast.css';
 import "bpmn-js/dist/assets/diagram-js.css"
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css"
-import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css"
-import 'react-toastify/dist/ReactToastify.css';
 
 import React from 'react';
 
@@ -30,8 +29,8 @@ const App = () => (
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <ToastContainer hideProgressBar position="top-center"
-          closeButton={<Close color="#ffffff" size="14px" />}
-          toastClassName="toast-container" />
+          closeButton={<Close color="#000" size="14px" />}
+        />
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />

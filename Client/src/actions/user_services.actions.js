@@ -1,14 +1,13 @@
 import { userServicesConstants } from '_constants';
-import { userService } from 'services'
+import { userService } from 'services';
+import { toast } from 'react-toastify';
+import { history } from '_helpers';
 
 export const userServicesActions = {
   toggleDefineServiceDialog,
-
   getUserServices,
-
   uploadNewService,
   createNewLocalService,
-
   addNewMethod,
   addNewLocalMethod,
 }
@@ -28,10 +27,13 @@ function uploadNewService() {
         input_interface: item.inputInterface,
         output_interface: item.outputInterface,
       }
-    })
+    });
+
     userService.uploadNewService(serviceName, serviceInfo, serviceUrl, methods).then(
       res => {
         dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_SUCCESS, data: res.data });
+        toast.success("A new service is added");
+        history.replace('/setting/services');
       }
     ).catch(e => {
       dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_FAILURE });

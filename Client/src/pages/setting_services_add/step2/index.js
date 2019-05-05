@@ -30,7 +30,6 @@ class index extends Component {
   state = {
     resetBadgeAnim: false,
     showMethodList: false,
-    methods: mets,
 
     methodName: '',
     methodInfo: '',
@@ -117,9 +116,6 @@ class index extends Component {
 
   onSubmit = () => {
     this.props.dispatch(userServicesActions.uploadNewService());
-
-    // toast.success("Your service is added");
-    // this.props.history.replace('/setting/services');
   }
 
   onAddmoreMethod = () => {
@@ -127,7 +123,6 @@ class index extends Component {
       showMethodList: false,
     })
   }
-
 
   renderMethodList = () => {
     const { userServices } = this.props;
@@ -162,7 +157,7 @@ class index extends Component {
   renderCreateMethod = () => {
     const { methodName, methodInfo, methodUrl,
       methodType, inputInterface, outputInterface,
-      methods, resetBadgeAnim } = this.state;
+      resetBadgeAnim } = this.state;
 
     const newMethods = this.props.userServices.newService.methods;
     return (
@@ -174,7 +169,7 @@ class index extends Component {
                 onChange={this.onChangeMethodName} value={methodName} />
             </FormField>
           </Col>
-          <Col xs={12} md={7} ld={7}>
+          <Col xs={12} md={7} ld={7} >
             <FormField>
               <TextInput placeholder="What does this method do ?" size="small"
                 onChange={this.onChangeMethodInfo} value={methodInfo} />
