@@ -395,7 +395,7 @@ class BpmnContainer extends Component {
     const { workflow, availableServices } = this.props;
 
     return (
-      <Box fill>
+      <Box fill animation="fadeIn">
         <div className="content">
           <div id="canvas" />
         </div>
