@@ -9,7 +9,11 @@ import PlainButton from 'components/plain_button'
 const sideBarWidth = 200;
 
 const iconColor = "#ffffff";
-const menus = ["my_tasks", "my_flows", "my_team", "setting"];
+const menus = [
+  { label: "Tasks", link: "my_tasks", icon: <Task color={iconColor} /> },
+  { label: "Flows", link: "my_flows", icon: <Sort color={iconColor} /> },
+  { label: "Team", link: "my_team", icon: <Group color={iconColor} /> },
+  { label: "Setting", link: "setting/services", icon: <Performance color={iconColor} /> },];
 
 export default class SideBar extends Component {
 
@@ -57,38 +61,15 @@ export default class SideBar extends Component {
                   elevation="small" pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }}
                   background='dark-1'
                   gap="small">
-                  <Box fill="horizontal">
-                    <PlainButton hoverIndicator
-                      color="light-0"
-                      background={activeIndex == 0 ? "light-4" : "default"}
-                      onClick={() => this.handleSelectMenu('/my_tasks', 0)}
-                      icon={<Task color={iconColor} />}
-                      label="Tasks" />
-                  </Box>
-                  <Box fill="horizontal">
-                    <PlainButton hoverIndicator
-                      color="light-0"
-                      background={activeIndex == 1 ? "light-4" : "default"}
-                      onClick={() => this.handleSelectMenu('/my_flows', 1)}
-                      icon={<Sort color={iconColor} />}
-                      label="Flows" />
-                  </Box>
-                  <Box fill="horizontal">
-                    <PlainButton hoverIndicator
-                      color="light-0"
-                      background={activeIndex == 2 ? "light-4" : "default"}
-                      onClick={() => this.handleSelectMenu('/my_team', 2)}
-                      icon={<Group color={iconColor} />}
-                      label="Team" />
-                  </Box>
-                  <Box fill="horizontal">
-                    <PlainButton hoverIndicator
-                      color="light-0"
-                      background={activeIndex == 3 ? "light-4" : "default"}
-                      onClick={() => this.handleSelectMenu('/setting/services', 3)}
-                      icon={<Performance color={iconColor} />}
-                      label="Setting" />
-                  </Box>
+                  {menus.map((menu, index) =>
+                    <Box fill="horizontal">
+                      <PlainButton hoverIndicator
+                        color="light-0"
+                        background={activeIndex == index ? "light-4" : "default"}
+                        onClick={() => this.handleSelectMenu(`/${menu.link}`, index)}
+                        icon={menu.icon}
+                        label={menu.label} />
+                    </Box>)}
                 </Box>
               </div>
             : null
