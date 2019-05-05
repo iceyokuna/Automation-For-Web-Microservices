@@ -404,8 +404,6 @@ class BpmnContainer extends Component {
           <Layer
             position="center"
             modal
-            onClickOutside={this.onCloseLoadingDialog}
-            onEsc={this.onCloseLoadingDialog}
           >
             <Box pad="medium" gap="large" width="medium"
               direction="row" justify='center' align="center">

@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import {
   TextInput, Box, Button, FormField,
-  Select, TextArea,
+  Select, TextArea, Layer, Text
 } from 'grommet';
 
 import { Sort, Add } from 'grommet-icons'
@@ -13,9 +13,9 @@ import { Spring, Transition, } from 'react-spring';
 import { methods as mets } from './mockup';
 import { colors } from 'theme';
 import { userServicesActions } from 'actions';
-import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -153,6 +153,26 @@ class index extends Component {
     );
   }
 
+  renderLoadingSpinner = () => {
+    const { creatingNewService } = this.props.userServices;
+    if (creatingNewService === "loading") return (
+      <Layer
+        position="center"
+        modal
+      >
+        <Box pad="medium" gap="large" width="medium"
+          direction="row" justify='center' align="center">
+          <Text>Saving your service</Text>
+          <Spinner
+            fadeIn="half"
+            name="ball-scale-multiple"
+            color={colors.brand} />
+
+        </Box>
+      </Layer>)
+  }
+
+
 
   renderCreateMethod = () => {
     const { methodName, methodInfo, methodUrl,
@@ -162,6 +182,7 @@ class index extends Component {
     const newMethods = this.props.userServices.newService.methods;
     return (
       <Fragment>
+        {this.renderLoadingSpinner()}
         <Row >
           <Col xs={12} md={5} lg={5}>
             <FormField>
