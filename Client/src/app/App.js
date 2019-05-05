@@ -2,6 +2,7 @@ import './index.css';
 import './toast.css';
 import "bpmn-js/dist/assets/diagram-js.css"
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css"
+import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css"
 
 import React from 'react';
 
