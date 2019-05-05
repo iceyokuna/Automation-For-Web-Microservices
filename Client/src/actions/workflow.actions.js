@@ -329,10 +329,10 @@ function createNewWorkflow(name, description, mode) {
 
 }
 
-function addNewCollaborators(workflow_id, collaborators) {
+function addNewCollaborators(collaborators) {
   return (dispatch, getState) => {
-
     dispatch(request());
+    const workflow_id = getState().workflowMyFlows.currentFlow.id;
     axios.post(globalConstants.COLLABORATORS_URL, {
       workflow_id,
       collaborators,

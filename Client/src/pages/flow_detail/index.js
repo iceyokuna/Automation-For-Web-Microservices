@@ -10,12 +10,14 @@ import {
   FormField
 } from 'grommet';
 
-import { Checkmark, Cluster, Play } from 'grommet-icons';
+import { Checkmark, Cluster, Play, Add } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
 import CollaboratorItem from 'components/collaborator_item'
-import TaskItem from 'components/task_item'
+import ViewerDock from 'components/bpmn_viewer_dock';
+import TaskItem from 'components/task_item';
+import MemberDialog from 'components/member_dialog';
 
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -23,7 +25,6 @@ import { workflowActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
-import ViewerDock from 'components/bpmn_viewer_dock'
 
 class FlowDetail extends Component {
 
@@ -98,6 +99,10 @@ class FlowDetail extends Component {
 
   }
 
+  onAddCollaborator = () => {
+    this.props.dispatch(workflowActions.toggleMemberDialog());
+  }
+
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
@@ -111,8 +116,11 @@ class FlowDetail extends Component {
       );
     } if (collaborators.length === 0) {
       return (
-        <Box pad={{ vertical: 'small' }}>
-          <Text>You have not invited any collaborator yet.</Text>
+        <Box align="center" justify="center" pad="medium" gap="small">
+          <Text size="medium">You don't have any collaborator</Text>
+          <Button label="Invite" color="accent-1"
+            icon={<Add />}
+            primary onClick={this.onAddCollaborator} />
         </Box>)
     }
 
@@ -205,6 +213,7 @@ class FlowDetail extends Component {
       <div style={global.mainContainer}>
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
+        <MemberDialog />
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name || "Untitled"}</Heading>

@@ -10,7 +10,7 @@ import EditingTools from './components/EditingTools';
 import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
 import ParticipantSelector from './components/participant_selector';
-import MemberDialog from './components/member_dialog';
+import MemberDialog from 'components/member_dialog';
 import TimerTrigger from 'components/timer_trigger';
 import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
