@@ -144,6 +144,7 @@ class FlowDetail extends Component {
     const { currentFlow } = this.props;
     return (
       <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
+        animation={[{ type: "fadeIn" }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Description</Text>
         <Paragraph color="dark-2">{currentFlow.description || "No description"}</Paragraph>
@@ -154,6 +155,7 @@ class FlowDetail extends Component {
   renderCollaboratorsBox = () => {
     return (
       <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
+        animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Collaborators</Text>
         {/* List of collaborators*/}
@@ -165,6 +167,7 @@ class FlowDetail extends Component {
   renderTaskBox = () => {
     return (
       <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
+        animation={[{ type: "fadeIn", delay: 400 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }}
         background="light-0" >
         <Text size="large" weight="bold">Tasks</Text>
