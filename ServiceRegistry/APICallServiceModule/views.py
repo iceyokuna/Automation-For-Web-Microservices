@@ -27,10 +27,8 @@ class ServiceCallView(APIView):
                         status=HTTP_503_SERVICE_UNAVAILABLE)
 
     def post(self, request):
-        if(request.META.get('HTTP_AUTHORIZATION')):
-            headers = {"Content-Type":"application/json","Authorization" : request.META.get('HTTP_AUTHORIZATION')}
-        else:
-            headers = {"Content-Type":"application/json"}
+        
+        headers = {"Content-Type":"application/json"}
         data = json.loads(json.dumps(request.data.get("input")))
         service_id = request.data.get("service_id")
         method_id = request.data.get("method_id")
