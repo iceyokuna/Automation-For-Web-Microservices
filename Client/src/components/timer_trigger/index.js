@@ -38,7 +38,11 @@ export class index extends Component {
     try {
       const currentTimer = appliedTimers[currentNode.id];
       if (currentTimer) {
-        this.setState({ ...defaultState, ...currentTimer });
+        this.setState({
+          ...defaultState,
+          targetDate: currentTimer.targetDate,
+          targetTime: moment(currentTimer.targetTime, "hh:mm").format("h:mm a"),
+        });
       }
     } catch (e) {
       console.error(e);

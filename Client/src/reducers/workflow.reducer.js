@@ -33,6 +33,10 @@ export function workflow(state = defaultState, action) {
 
     }
 
+    case workflowContants.SET_MODE: {
+      return { ...state, mode: action.mode };
+    }
+
     case workflowContants.CREATE_NEW_WORKFLOW_REQUEST: {
       return { ...state, sendingWorkflowData: true };
     }

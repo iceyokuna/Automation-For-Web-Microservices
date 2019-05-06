@@ -68,6 +68,7 @@ class FlowDetail extends Component {
 
   navigateToModeler = () => {
     const { history, match, currentFlow, dispatch } = this.props;
+    dispatch(workflowActions.setMode("VIEW_EXISTING"));
     dispatch(workflowActions.setWorkflowId(currentFlow.id));
     history.push(match.url + '/edit_diagram');
   }
@@ -129,7 +130,7 @@ class FlowDetail extends Component {
         <CollaboratorItem key={index}
           userName={item.collaborator__username}
           firstName={item.collaborator__first_name}
-          lastName={item.collaborator__last_name}/>
+          lastName={item.collaborator__last_name} />
       </Col>)
   }
 
@@ -226,7 +227,6 @@ class FlowDetail extends Component {
               <Button label="Edit diagram" primary icon={<Cluster size="16px" />}
                 color="accent-1" onClick={this.navigateToModeler} />
             </Box>
-
           </Box>
         </Box>
 

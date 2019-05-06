@@ -9,6 +9,8 @@ export const workflowActions = {
   addNameToId,
   addNewCollaborators,
 
+  setMode,
+
   prepareNewWorkflow,
 
   deleteCollaborators,
@@ -41,6 +43,13 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function setMode(mode) {
+  return {
+    type: workflowContants.SET_MODE,
+    mode,
+  }
+}
 
 function prepareNewWorkflow(workflowName, description, mode) {
   return dispatch => {

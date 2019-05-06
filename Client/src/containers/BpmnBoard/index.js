@@ -315,7 +315,8 @@ class BpmnContainer extends Component {
         const bpmnJson = JSON.parse(
           xml2json(xml, { compact: false, spaces: 2 }));
 
-        const { workflowConditions, workflowPreInputs, workflowTimers } = this.props;
+        const { workflowConditions, workflowPreInputs,
+          workflowTimers, dispatch } = this.props;
         const { appliedConditions } = workflowConditions;
         const { appliedPreInputs } = workflowPreInputs;
         const { appliedTimers } = workflowTimers;
@@ -330,17 +331,22 @@ class BpmnContainer extends Component {
         }
 
         if (debug === "ToEngine") {
-          this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
+          dispatch(workflowActions.sendWorkflowDataToEngine(
             name,
             description,
             workflowData
           ));
         } if (mode === "CREATE_NEW") {
-          this.props.dispatch(workflowActions.createNewWorkflow(
+          dispatch(workflowActions.createNewWorkflow(
             name,
             description,
             workflowData
           ));
+        } if (mode === "VIEW_EXISTING") {
+          dispatch(workflowActions.updateWorkflow(
+            name,
+            description,
+            workflowData));
         }
       }
     });
