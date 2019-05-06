@@ -21,7 +21,8 @@ def timeEvent():
         event_id = data['elementEventId']
         eventTime = data['time']
         eventDate = data['date']
-        payload = {"time": eventTime, "date":eventDate}
+        payload = {"trigger_time": eventTime, "trigger_date":eventDate}
+        #push to firebase event queue
         messager.put('TimeEvent', event_id, payload)
     #pack to JSON response
     response = jsonify({'status':'201'})
