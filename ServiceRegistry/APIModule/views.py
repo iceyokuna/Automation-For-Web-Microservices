@@ -158,7 +158,7 @@ class UserMethodDeleteView(APIView):
                 service = UserMethod.objects.filter(id=method_id).delete()
                 return Response({"detail": "successfully deleted by "+username}, status=HTTP_200_OK)
             else:
-                return Response({"detail": request.user.username+" does not have access to the service"}, status=HTTP_200_OK)
+                return Response({"detail": username+" does not have access to the service"}, status=HTTP_200_OK)
             return Response({"detail": "service does not exist"}, status=HTTP_200_OK)
 
 class AllUserServiceView(viewsets.ModelViewSet):
