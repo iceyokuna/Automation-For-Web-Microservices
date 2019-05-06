@@ -103,7 +103,7 @@ class UserServiceView(APIView):
             return Response({"detail":  "User unauthorized"}, status=HTTP_400_BAD_REQUEST) 
 
         if(request.data.get('service_id')):
-            owner = UserService.objects.filter(id=request.data.get('id')).values('username')
+            owner = UserService.objects.filter(id=request.data.get('service_id')).values('username')
             if(username == owner[0].get('username')):
                 service = UserService.objects.filter(id=request.data.get('id')).delete()
                 return Response({"detail": "successfully deleted by "+request.user.username}, status=HTTP_200_OK)
