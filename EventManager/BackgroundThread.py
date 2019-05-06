@@ -21,9 +21,10 @@ class BackgroundThread(threading.Thread):
                 #check and trigger event
                 triggered_list = self.getTimeTriggered(time_event_data)
                 self.triggerTimeEvent(triggered_list)
-                print("pending time event !!")
-                print(time_event_data)
-                print("fetch time event successfully!!\n")
+                ##debuging time event
+                #print("pending time event !!")
+                #print(time_event_data)
+                #print("fetch time event successfully!!\n")
         except KeyboardInterrupt:
             print("Interrupted!")
 
