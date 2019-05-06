@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import { Box, FormField, TextInput, Button,  Text, Image } from 'grommet';
+import { Box, FormField, TextInput, Button, Text, Image } from 'grommet';
 import { Login as Signin } from 'grommet-icons';
-import {  withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { userActions } from 'actions';
@@ -66,11 +66,13 @@ class Login extends Component {
     return (
       <Box flex direction="column" align="center" justify="center" fill='vertical'
         style={{ ...global.globalContainer, paddingTop: 0 }}>
-        <Box  pad='medium'
+        <Box pad='medium'
           style={{ width: 350 }} background="light-0"
           round={{ size: 'small' }}
           animation='fadeIn' gap="small">
-          <Image height="150px" src={require('assets/images/autoweb_icon_2.png')} fit="cover" />
+          <Box height="150px">
+            <Image src={require('assets/images/autoweb_icon_2.png')} fit="contain" />
+          </Box>
           <FormField >
             <TextInput
               ref='usernameInput'
