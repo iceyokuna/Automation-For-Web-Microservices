@@ -92,7 +92,7 @@ class ExecuteFlow extends Component {
                             dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
                     <Box direction="row" align="center" justify="end" gap="small">
-                        <Button style={styles.navButton}  label="Previous" onClick={() => this.getPreviousForm()} />
+                        <Button style={styles.navButton} label="Previous" onClick={() => this.getPreviousForm()} />
                         <Button style={styles.navButton} label="Next" primary onClick={() => this.getNextForm()} />
                     </Box>
                 </Box>

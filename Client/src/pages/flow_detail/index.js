@@ -129,7 +129,7 @@ class FlowDetail extends Component {
         <CollaboratorItem key={index}
           userName={item.collaborator__username}
           firstName={item.collaborator__first_name}
-          lastName={item.collaborator__last_name} />
+          lastName={item.collaborator__last_name}/>
       </Col>)
   }
 
