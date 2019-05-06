@@ -66,8 +66,8 @@ class index extends Component {
           </tr>
           {userServices.data.map((service, index) =>
             <tr className="service" onClick={() => this.onSelectService(index)}>
-              <td>{service.name}</td>
-              <td>{service.info}</td>
+              <td>{service.name || "Untitled"}</td>
+              <td>{service.info || "Undefined"}</td>
             </tr>
           )}
         </table>

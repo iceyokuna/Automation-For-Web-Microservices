@@ -93,7 +93,7 @@ class MyFlows extends Component {
           </Row>
         </Box>
 
-        <Box pad={{ bottom: 'large' }}>
+        <Box pad={{ bottom: 'large', horizontal: 'small' }}>
           <Row >
             {this.renderFlows()}
           </Row>

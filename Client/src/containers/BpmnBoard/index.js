@@ -10,7 +10,7 @@ import EditingTools from './components/EditingTools';
 import BpmnProperty from './components/bpmn_property';
 import ServiceRequirement from './components/service_requirement';
 import ParticipantSelector from './components/participant_selector';
-import MemberDialog from './components/member_dialog';
+import MemberDialog from 'components/member_dialog';
 import TimerTrigger from 'components/timer_trigger';
 import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
@@ -95,7 +95,6 @@ class BpmnContainer extends Component {
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
     // Request all availale services to be selected on the properties panel
-    dispatch(userServicesActions.getUserServices());
     dispatch(availableServicesActions.getAllServices());
     this.renderDiagram(xmlStr);
     this.bindEvenCallback();
@@ -395,7 +394,7 @@ class BpmnContainer extends Component {
     const { workflow, availableServices } = this.props;
 
     return (
-      <Box fill>
+      <Box fill animation="fadeIn">
         <div className="content">
           <div id="canvas" />
         </div>
@@ -404,8 +403,6 @@ class BpmnContainer extends Component {
           <Layer
             position="center"
             modal
-            onClickOutside={this.onCloseLoadingDialog}
-            onEsc={this.onCloseLoadingDialog}
           >
             <Box pad="medium" gap="large" width="medium"
               direction="row" justify='center' align="center">

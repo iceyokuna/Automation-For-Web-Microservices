@@ -1,12 +1,51 @@
 import { userServicesConstants } from '_constants';
-import { userService } from 'services'
+import { userService } from 'services';
+import { toast } from 'react-toastify';
+import { history } from '_helpers';
 
 export const userServicesActions = {
   toggleDefineServiceDialog,
-
   getUserServices,
-  addNewService,
+  uploadNewService,
+  createNewLocalService,
   addNewMethod,
+  addNewLocalMethod,
+}
+
+function uploadNewService() {
+  return (dispatch, getState) => {
+    dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_REQUEST });
+
+    const { newService } = getState().userServices;
+    let { methods, serviceName, serviceInfo, serviceUrl } = newService;
+    methods = methods.map((item) => {
+      return {
+        name: item.methodName,
+        info: item.methodInfo,
+        path: item.methodUrl,
+        method_type: item.methodType,
+        input_interface: item.inputInterface,
+        output_interface: item.outputInterface,
+      }
+    });
+
+    userService.uploadNewService(serviceName, serviceInfo, serviceUrl, methods).then(
+      res => {
+        dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_SUCCESS, data: res.data });
+        toast.success("A new service is added");
+        history.replace('/setting/services');
+      }
+    ).catch(e => {
+      dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_FAILURE });
+    });
+  }
+}
+
+function addNewLocalMethod(methodObject) {
+  return {
+    type: userServicesConstants.ADD_NEW_LOCAL_METHOD,
+    methodObject,
+  }
 }
 
 function toggleDefineServiceDialog() {
@@ -45,40 +84,16 @@ function getUserServices() {
   }
 }
 
-function addNewService(
+function createNewLocalService(
   serviceName,
   serviceInfo,
   serviceUrl
 ) {
-  return (dispatch, getState) => {
-    dispatch(request());
-    userService.addNewService(
-      serviceName,
-      serviceInfo, serviceUrl
-    ).then(res => {
-      dispatch(success(res.data));
-    }).catch(e => {
-      dispatch(failure())
-    })
-  }
-
-  function request() {
-    return {
-      type: userServicesConstants.ADD_USER_SERVICE_REQUEST,
-    }
-  }
-
-  function success(data) {
-    return {
-      type: userServicesConstants.ADD_USER_SERVICE_SUCCESS,
-      data,
-    }
-  }
-
-  function failure() {
-    return {
-      type: userServicesConstants.ADD_USER_SERVICE_FAILURE,
-    }
+  return {
+    type: userServicesConstants.CREATE_NEW_LOCAL_SERVICE,
+    serviceName,
+    serviceInfo,
+    serviceUrl,
   }
 }
 

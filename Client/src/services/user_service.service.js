@@ -4,7 +4,7 @@ import { globalConstants } from '_constants';
 import { getUserToken } from '_helpers'
 
 export const userService = {
-  addNewService,
+  uploadNewService,
   addNewMethod,
   updateUserService,
   getUserServices,
@@ -20,7 +20,7 @@ function getUserServices() {
 
 function updateUserService(serviceId, username, serviceName,
   serviceInfo, serviceUrl, ) {
-  return axios.post(globalConstants.USER_SERVICE_URL, {
+  return axios.post(globalConstants.CREATE_USER_SERVICE_URL, {
     id: serviceId,
     username,
     data: {
@@ -48,18 +48,19 @@ function addNewMethod(
     output_interface: outputInterface,
     path: methodUrl,
   }, {
-    headers: {
-      Authorization: "Token " + getUserToken()
-    }
-  })
+      headers: {
+        Authorization: "Token " + getUserToken()
+      }
+    })
 }
 
-function addNewService(serviceName,
-  serviceInfo, serviceUrl) {
-  return axios.post(globalConstants.USER_SERVICE_URL, {
+function uploadNewService(serviceName,
+  serviceInfo, serviceUrl, methods) {
+  return axios.post(globalConstants.CREATE_USER_SERVICE_URL, {
     name: serviceName,
     info: serviceInfo,
     url: serviceUrl,
+    methods,
   }, {
       headers: {
         Authorization: "Token " + getUserToken(),
