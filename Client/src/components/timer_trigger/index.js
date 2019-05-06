@@ -26,6 +26,8 @@ export class index extends Component {
     days: 0,
     hours: 0,
     minutes: 20,
+
+    countdownError: false,
   }
 
   onDateChange = (dateTime) => {
@@ -42,14 +44,26 @@ export class index extends Component {
 
   onSetTimer = () => {
     const { currentNode } = this.props;
-    let { targetDate, targetTime } = this.state;
+    let { targetDate, targetTime, currentTabIndex,
+      days, hours, minutes } = this.state;
 
-    // Convert time to 24 hrs format
-    const time = moment(targetTime, "h:mm a").format("HH:mm");
-    const dateTime = { targetDate, targetTime: time };
-    this.props.dispatch(workflowActions.applyTimerToElement(
-      currentNode.id,
-      dateTime))
+    if (currentTabIndex == 0) {
+      // Convert time to 24 hrs format
+      const time = moment(targetTime, "h:mm a").format("HH:mm");
+      const dateTime = { targetDate, targetTime: time };
+      this.props.dispatch(workflowActions.applyTimerToElement(
+        currentNode.id,
+        dateTime));
+    } else {
+      const countdownTime = {
+        type: "countdown",
+        days, hours, minutes,
+      }
+      this.props.dispatch(workflowActions.applyTimerToElement(
+        currentNode.id,
+        countdownTime));
+    }
+
     this.onColseDialog();
   }
 
@@ -60,7 +74,26 @@ export class index extends Component {
   }
 
   handleIsNumber = (num) => {
-    if (isNaN(num)) return "Accept only number !";
+    if (isNaN(num)) {
+      return "Accept only number !";
+    }
+    else {
+      return "";
+    }
+  }
+
+  handleErrorHours = (num) => {
+    if (num > 24) {
+      this.setState({ countdownError: true });
+      return "Invalid hours";
+    }
+  }
+
+  handleErrorMinutes = (num) => {
+    if (num > 60) {
+      this.setState({ countdownError: true });
+      return "Invalid minutes";
+    }
   }
 
   renderTab1 = () => {
@@ -105,7 +138,7 @@ export class index extends Component {
   }
 
   renderTab2 = () => {
-    const { days, hours, minutes } = this.state
+    const { days, hours, minutes } = this.state;
     return (
       <Box direction="row" gap="medium" pad="small">
         <Box gap="xsmall">
@@ -121,7 +154,7 @@ export class index extends Component {
         </Box>
         <Box gap="xsmall">
           <Text>Hours</Text>
-          <FormField error={this.handleIsNumber(days) + hours > 24 ? "Invalid" : null}
+          <FormField error={hours > 24 ? "Invalid" : null}
             htmlFor="hours">
             <TextInput size="xsmall" value={hours}
               id="hours"
@@ -132,8 +165,10 @@ export class index extends Component {
         </Box>
         <Box gap="xsmall">
           <Text>Minutes</Text>
-          <FormField error={this.handleIsNumber(days) + minutes > 60 ? "Invalid" : null}>
+          <FormField error={minutes > 60 ? "Invalid" : null}
+            htmlFor="minutes">
             <TextInput size="xsmall" value={minutes}
+              id="minutes"
               onChange={e => this.setState({
                 minutes: e.target.value
               })} />
