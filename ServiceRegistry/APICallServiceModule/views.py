@@ -28,8 +28,7 @@ class ServiceCallView(APIView):
 
     def post(self, request):
         
-        headers = {}
-        headers["Content-Type"] = "application/json"
+        headers = {"Content-Type":"application/json"}
         data = json.loads(json.dumps(request.data.get("input")))
         service_id = request.data.get("service_id")
         method_id = request.data.get("method_id")
@@ -38,8 +37,8 @@ class ServiceCallView(APIView):
             service_type = request.data.get("serviceType")
         else:
             service_type = ''
-        service = ServiceObj(service_id = service_id, service_type= service_type, headers=headers)
-        response = service.call_method(method_id, data = data)
+        service = ServiceObj(service_id = service_id, service_type= service_type,)
+        response = service.call_method(method_id, data = data, headers = headers)
         
         return response
 
