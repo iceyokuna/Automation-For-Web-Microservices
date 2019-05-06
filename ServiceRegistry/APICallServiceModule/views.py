@@ -28,7 +28,11 @@ class ServiceCallView(APIView):
 
     def post(self, request):
         
-        headers = {"Content-Type":"application/json"}
+        if(request.META.get('HTTP_AUTHORIZATION')):
+            headers = {"Content-Type":"application/json","Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        else:
+            headers = {"Content-Type":"application/json"}
+
         data = json.loads(json.dumps(request.data.get("input")))
         service_id = request.data.get("service_id")
         method_id = request.data.get("method_id")
