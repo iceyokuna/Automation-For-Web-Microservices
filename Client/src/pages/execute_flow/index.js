@@ -39,6 +39,12 @@ class ExecuteFlow extends Component {
         } if (executingForm === "DONE") {
             toast.success("Done all forms");
             this.props.history.replace('/my_flows');
+        } if (executingForm === "FAIL") {
+            this.setState({
+                currentFormHtml: "<div>FAIL</div>",
+                currentFormCss: "",
+                currentFormJs: "",
+            });
         }
     }
 

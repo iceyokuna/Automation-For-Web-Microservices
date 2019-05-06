@@ -33,7 +33,6 @@ export function workflow(state = defaultState, action) {
 
     }
 
-
     case workflowContants.SET_WORKFLOW_ID: {
       const nextState = { ...state };
       nextState.workflowId = action.workflowId;

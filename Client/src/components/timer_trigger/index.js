@@ -25,7 +25,8 @@ export class index extends Component {
 
     days: 0,
     hours: 0,
-    minutes: 20,
+    minutes: 0,
+    seconds: 10,
 
     countdownError: false,
   }
@@ -45,7 +46,7 @@ export class index extends Component {
   onSetTimer = () => {
     const { currentNode } = this.props;
     let { targetDate, targetTime, currentTabIndex,
-      days, hours, minutes } = this.state;
+      days, hours, minutes, seconds } = this.state;
 
     if (currentTabIndex == 0) {
       // Convert time to 24 hrs format
@@ -57,7 +58,7 @@ export class index extends Component {
     } else {
       const countdownTime = {
         type: "countdown",
-        days, hours, minutes,
+        days, hours, minutes, seconds,
       }
       this.props.dispatch(workflowActions.applyTimerToElement(
         currentNode.id,
@@ -68,8 +69,6 @@ export class index extends Component {
   }
 
   onSelectTab = (currentTabIndex) => {
-    const { tabs } = this.state;
-    const { match } = this.props;
     this.setState({ currentTabIndex });
   }
 
@@ -79,20 +78,6 @@ export class index extends Component {
     }
     else {
       return "";
-    }
-  }
-
-  handleErrorHours = (num) => {
-    if (num > 24) {
-      this.setState({ countdownError: true });
-      return "Invalid hours";
-    }
-  }
-
-  handleErrorMinutes = (num) => {
-    if (num > 60) {
-      this.setState({ countdownError: true });
-      return "Invalid minutes";
     }
   }
 
@@ -138,7 +123,7 @@ export class index extends Component {
   }
 
   renderTab2 = () => {
-    const { days, hours, minutes } = this.state;
+    const { days, hours, minutes, seconds } = this.state;
     return (
       <Box direction="row" gap="medium" pad="small">
         <Box gap="xsmall">
@@ -171,6 +156,17 @@ export class index extends Component {
               id="minutes"
               onChange={e => this.setState({
                 minutes: e.target.value
+              })} />
+          </FormField>
+        </Box>
+        <Box gap="xsmall">
+          <Text>Seconds</Text>
+          <FormField error={seconds > 60 ? "Invalid" : null}
+            htmlFor="seconds">
+            <TextInput size="xsmall" value={seconds}
+              id="seconds"
+              onChange={e => this.setState({
+                seconds: e.target.value
               })} />
           </FormField>
         </Box>

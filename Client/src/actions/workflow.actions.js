@@ -1,4 +1,4 @@
-import { workflowContants, globalConstants } from '_constants';
+import { workflowContants, globalConstants, } from '_constants';
 import { workflowService } from 'services'
 import { toast } from 'react-toastify'
 import { history, getUserToken } from '_helpers';
