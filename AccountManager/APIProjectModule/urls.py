@@ -3,7 +3,7 @@ from . import views
 from rest_framework import routers
 
 
-from APIProjectModule.views import WorkflowView, CollaboratorView, LogView
+from APIProjectModule.views import WorkflowView, CollaboratorView, LogView, WorkflowObjView
 #routers = routers.DefaultRouter()
 
 #routers.register('admin', views.AdminView)
