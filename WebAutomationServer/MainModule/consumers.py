@@ -3,6 +3,7 @@ from MainModule.Controller import ClientHandler
 from MainModule.Graphflow.WorkflowEngine import WorkflowEngine
 import json
 import pickle
+import ast
 
 clientController = ClientHandler.ClientHandler()
 
@@ -23,8 +24,14 @@ class MainConsumer(WebsocketConsumer):
         #read workflow state
         if(message['type'] == "workflow/NEXT_FORM"):
             workflowEngine_load = WorkflowEngine()
-            with open('HTMLs.pkl', 'rb') as f:
-                workflowEngine_load = pickle.load(f)
+#            with open('HTMLs.pkl', 'rb') as f:
+#                workflowEngine_load = pickle.load(f)
+            #load state from database
+            headers = {"Authorization":"Token b78fba1a07dabd78c234e57eed52a527dcabca0e", "Content-Type":"application/json"}
+            url = "http://178.128.214.101:8003/api/workflow/obj/106"
+            response = requests.get(url, headers=headers)
+            response = json.loads(response.content)
+            workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
 
             #get next html
             task_data = workflowEngine_load.next(message)
@@ -43,8 +50,17 @@ class MainConsumer(WebsocketConsumer):
                 return            
  
             #write workflow state (update)
-            with open('HTMLs.pkl', 'wb') as f:
-                pickle.dump(workflowEngine_load, f)
+#            with open('HTMLs.pkl', 'wb') as f:
+#                pickle.dump(workflowEngine_load, f)
+            pickled_obj = pickle.dumps(workflowEngine_load)
+            pickled_obj_str = str(pickled_obj)
+
+            headers = {"Authorization":"Token b78fba1a07dabd78c234e57eed52a527dcabca0e", "Content-Type":"application/json"}
+            url = "http://178.128.214.101:8003/api/workflow"
+            payload = {"id": 106,"data": {"workflowObject": pickled_obj_str}}
+            data = json.dumps(payload)
+            r = requests.put(url, headers=headers, data=data)
+            print(r.content)
 
             #response to send html form to client
             self.send(text_data=json.dumps(
