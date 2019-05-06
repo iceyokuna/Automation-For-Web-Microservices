@@ -57,11 +57,11 @@ class WorkflowView(APIView):
             else:
                 return Response({"detail": request.user.username + " does not have access to the workflow"}, status=HTTP_200_OK) 
 
-    def delete(self, request):
-        if(request.data.get('id')):
-            owner = Workflow.objects.filter(id=request.data.get('id')).values('user')
+    def delete(self, request, workflow_id = 0):
+        if(workflow_id != 0):
+            owner = Workflow.objects.filter(id=workflow_id).values('user')
             if(request.user.username == owner[0].get('user')):
-                workflow = Workflow.objects.filter(id=request.data.get('id')).delete()
+                workflow = Workflow.objects.filter(id=workflow_id).delete()
                 return Response({"detail": "successfully deleted by "+request.user.username}, status=HTTP_200_OK)
             else:
                 return Response({"detail": request.user.username+" does not have access to the workflow"}, status=HTTP_200_OK)
@@ -114,11 +114,13 @@ class CollaboratorView(APIView):
 
 class WorkflowObjView(APIView):
     def get(self, request, workflow_id = 0):
+        
         workflow = Workflow.objects.filter(id=workflow_id).values('workflowObject')
         if(workflow.count()>0):
             workflow_obj = workflow.first()
             return Response({"detail":workflow_obj}, status= HTTP_200_OK)
         return Response({"detail":"No log file found"}, status= HTTP_400_BAD_REQUEST)
+    
 
 @permission_classes((AllowAny, ))
 class LogView(APIView):
