@@ -90,7 +90,6 @@ class SendNotificationView(APIView):
         headers =   {'Content-Type':  'application/json', 'Authorization':key}
         noti = request.data.get('notification')
         
-        
         for i in to:
             user = User.objects.filter(username = i).first()
             token = FcmToken.objects.filter(user=user).values('fcmToken').first()['fcmToken']
