@@ -3,10 +3,13 @@ import { connect } from 'react-redux'
 
 import {
   Heading, Box, Button,
-  Layer, Calendar, MaskedInput
+  Layer, Calendar, MaskedInput, TextInput,
+  Text, FormField
 } from 'grommet';
 
 import { workflowActions } from 'actions';
+
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import 'flatpickr/dist/themes/light.css'
 import './index.css';
@@ -16,8 +19,13 @@ export class index extends Component {
 
   state = {
     showTimerDialog: false,
-    targetDate: new Date(),
+    targetDate: moment(Date()).format('l'),
     targetTime: '',
+    currentTabIndex: 0,
+
+    days: 0,
+    hours: 0,
+    minutes: 20,
   }
 
   onDateChange = (dateTime) => {
@@ -35,7 +43,7 @@ export class index extends Component {
   onSetTimer = () => {
     const { currentNode } = this.props;
     let { targetDate, targetTime } = this.state;
-    
+
     // Convert time to 24 hrs format
     const time = moment(targetTime, "h:mm a").format("HH:mm");
     const dateTime = { targetDate, targetTime: time };
@@ -45,9 +53,100 @@ export class index extends Component {
     this.onColseDialog();
   }
 
+  onSelectTab = (currentTabIndex) => {
+    const { tabs } = this.state;
+    const { match } = this.props;
+    this.setState({ currentTabIndex });
+  }
+
+  handleIsNumber = (num) => {
+    if (isNaN(num)) return "Accept only number !";
+  }
+
+  renderTab1 = () => {
+    const { targetDate, targetTime } = this.state;
+
+    return (
+      <Box id="datepicker-container" margin={{ bottom: 'small' }} gap="small">
+        <Calendar
+          date={targetDate}
+          onSelect={this.onDateChange}
+          size="medium"
+        />
+        <MaskedInput
+          mask={[
+            {
+              length: [1, 2],
+              options: Array.from({ length: 12 }, (v, k) => k + 1),
+              regexp: /^1[0,1-2]$|^0?[1-9]$|^0$/,
+              placeholder: "hh"
+            },
+            { fixed: ":" },
+            {
+              length: 2,
+              options: ["00", "15", "30", "45"],
+              regexp: /^[0-5][0-9]$|^[0-9]$/,
+              placeholder: "mm"
+            },
+            { fixed: " " },
+            {
+              length: 2,
+              options: ["am", "pm"],
+              regexp: /^[ap]m$|^[AP]M$|^[aApP]$/,
+              placeholder: "ap"
+            }
+          ]}
+          value={targetTime}
+          onChange={this.onTimeChange}
+        />
+      </Box>
+
+    );
+  }
+
+  renderTab2 = () => {
+    const { days, hours, minutes } = this.state
+    return (
+      <Box direction="row" gap="medium" pad="small">
+        <Box gap="xsmall">
+          <Text>Days</Text>
+          <FormField error={this.handleIsNumber(days)}
+            htmlFor="days">
+            <TextInput size="xsmall" value={days}
+              id="days"
+              onChange={e => this.setState({
+                days: e.target.value
+              })} />
+          </FormField>
+        </Box>
+        <Box gap="xsmall">
+          <Text>Hours</Text>
+          <FormField error={this.handleIsNumber(days) + hours > 24 ? "Invalid" : null}
+            htmlFor="hours">
+            <TextInput size="xsmall" value={hours}
+              id="hours"
+              onChange={e => this.setState({
+                hours: e.target.value
+              })} />
+          </FormField>
+        </Box>
+        <Box gap="xsmall">
+          <Text>Minutes</Text>
+          <FormField error={this.handleIsNumber(days) + minutes > 60 ? "Invalid" : null}>
+            <TextInput size="xsmall" value={minutes}
+              onChange={e => this.setState({
+                minutes: e.target.value
+              })} />
+          </FormField>
+        </Box>
+      </Box>
+    );
+  }
+
+
   render() {
     const { workflowTimers } = this.props;
-    const { targetDate, targetTime } = this.state;
+    const { currentTabIndex } = this.state;
     return (
       <Fragment>
         {workflowTimers.showTimerDialog && (
@@ -59,39 +158,21 @@ export class index extends Component {
                 Set a timer
               </Heading>
 
-              <Box id="datepicker-container" margin={{ bottom: 'small' }} gap="small">
-                <Calendar
-                  date={targetDate}
-                  onSelect={this.onDateChange}
-                  size="medium"
-                />
-                <MaskedInput
-                  mask={[
-                    {
-                      length: [1, 2],
-                      options: Array.from({ length: 12 }, (v, k) => k + 1),
-                      regexp: /^1[0,1-2]$|^0?[1-9]$|^0$/,
-                      placeholder: "hh"
-                    },
-                    { fixed: ":" },
-                    {
-                      length: 2,
-                      options: ["00", "15", "30", "45"],
-                      regexp: /^[0-5][0-9]$|^[0-9]$/,
-                      placeholder: "mm"
-                    },
-                    { fixed: " " },
-                    {
-                      length: 2,
-                      options: ["am", "pm"],
-                      regexp: /^[ap]m$|^[AP]M$|^[aApP]$/,
-                      placeholder: "ap"
-                    }
-                  ]}
-                  value={targetTime}
-                  onChange={this.onTimeChange}
-                />
-              </Box>
+              <Tabs
+                selectedIndex={currentTabIndex}
+                onSelect={this.onSelectTab}>
+                <TabList>
+                  <Tab >Date time</Tab>
+                  <Tab >Countdown</Tab>
+                </TabList>
+
+                <TabPanel>
+                  {this.renderTab1()}
+                </TabPanel>
+                <TabPanel>
+                  {this.renderTab2()}
+                </TabPanel>
+              </Tabs>
 
               <Box direction="row" justify="end" align="center" gap="small">
                 <Button label="Ok" primary onClick={this.onSetTimer} />
