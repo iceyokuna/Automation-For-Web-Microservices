@@ -29,8 +29,7 @@ function deleteWorkflowById(workflowId) {
 }
 
 function deleteCollaborators(workflow_id, collaborators) {
-  return axios.post(globalConstants.COLLABORATORS_URL, {
-    workflow_id,
+  return axios.post(globalConstants.DELETE_COLLABORATORS_URL + workflow_id, {
     collaborators,
   }, {
       headers: {

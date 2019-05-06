@@ -33,12 +33,15 @@ export class index extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { currentNode, workflowTimers } = nextProps;
-
     const { appliedTimers } = workflowTimers;
 
-    const currentTimer = appliedTimers[currentNode.id];
-    if (currentTimer) {
-      this.setState({ ...currentTimer });
+    try {
+      const currentTimer = appliedTimers[currentNode.id];
+      if (currentTimer) {
+        this.setState({ ...currentTimer });
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
 

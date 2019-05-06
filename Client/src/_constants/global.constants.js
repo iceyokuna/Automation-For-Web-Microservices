@@ -14,4 +14,6 @@ export const globalConstants = {
 
   CREATE_USER_SERVICE_URL: 'http://178.128.214.101:8004/api/service/add',
   USER_METHOD_URL: 'http://178.128.214.101:8004/api/user_method/',
+
+  DELETE_COLLABORATORS_URL: 'http://178.128.214.101:8003/api/collaborator/delete/',
 };

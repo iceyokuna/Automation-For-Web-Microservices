@@ -333,6 +333,7 @@ function createNewWorkflow(name, description, mode) {
       appliedMethods: {},
       appliedConditions: {},
       appliedPreInputs: {},
+      appliedTimers: {},
       generatedForms: [],
     }
     workflowService.createNewWorkflow(name, description, workflowObject).then(res => {
@@ -340,7 +341,7 @@ function createNewWorkflow(name, description, mode) {
       dispatch(success(workflowObject, mode));
       history.push('design_workflow');
     }).catch(err => {
-      console.error(err);
+      toast.error("Can't create a new workflow");
       dispatch(failure());
     })
   }
