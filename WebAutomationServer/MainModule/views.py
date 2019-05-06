@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from MainModule.Graphflow.WorkflowEngine import WorkflowEngine
 import pickle
+import ast
 
 # Create your views here.
 
@@ -41,8 +42,19 @@ def saveFlow(request):
     workflowEngine.initialize(elements_list, HTML_list, service_list, preInput_list, condition_list, timer_list)
 
     #Workflow Engine Initiate construction and [save]!!!
-    with open('HTMLs.pkl', 'wb') as f:
-        pickle.dump(workflowEngine, f)
+#    with open('HTMLs.pkl', 'wb') as f:
+#        pickle.dump(workflowEngine, f)
+
+    #Save update new workflow in firebase   
+    pickled_obj = pickle.dumps(workflowEngine)
+    pickled_obj_str = str(pickled_obj)
+
+    headers = {"Authorization":"Token b78fba1a07dabd78c234e57eed52a527dcabca0e", "Content-Type":"application/json"}
+    url = "http://178.128.214.101:8003/api/workflow"
+    payload = {"id": 106,"data": {"workflowObject": pickled_obj_str}}
+    data = json.dumps(payload)
+    r = requests.put(url, headers=headers, data=data)
+    print(r.content)
 
     print("------saved workflow object successfully--------")
     #print all finite state machine defination
