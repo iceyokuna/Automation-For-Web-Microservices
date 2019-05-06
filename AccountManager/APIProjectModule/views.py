@@ -27,8 +27,6 @@ class WorkflowView(APIView):
         return Response({'collaborator_workflows': workflows,'owner_workflows':owner_workflows }, status=HTTP_200_OK)
         
 
-
-
     def post(self, request):
         if(request.data.get('id')):
             owner = Workflow.objects.filter(id=request.data.get('id')).values('user')
@@ -94,23 +92,25 @@ class CollaboratorView(APIView):
                 Collaborator.objects.create(workflow=workflow,  collaborator=user)
                 data[i] = "successfully addded"
         return Response({"detail":data}, status=HTTP_200_OK)
-    
-    def delete(self, request):
-        workflow_id = request.data.get('workflow_id')
-        workflow = Workflow.objects.filter(id=workflow_id).first()
-        data = {}
-        collaborator_list = request.data.get('collaborators')
-        for i in collaborator_list:
-            user = User.objects.filter(username=i).first()
-            if(user == None ):
-                data[i]= "user does not exist"
-            if(Collaborator.objects.filter(workflow=workflow,  collaborator=user).count()==0):
-                data[i]= "user is not a collaborator"
-            else:
-                col = Collaborator.objects.filter(workflow=workflow,  collaborator=user)
-                col.delete()
-                data[i] = "successfully removed"
-        return Response({"detail":data}, status=HTTP_200_OK)
+
+class WorkflowDeleteView(APIView):
+    def post(self, request, workflow_id = 0):
+        if(workflow_id != 0):
+            workflow = Workflow.objects.filter(id=workflow_id).first()
+            data = {}
+            collaborator_list = request.data.get('collaborators')
+            for i in collaborator_list:
+                user = User.objects.filter(username=i).first()
+                if(user == None ):
+                    data[i]= "user does not exist"
+                if(Collaborator.objects.filter(workflow=workflow,  collaborator=user).count()==0):
+                    data[i]= "user is not a collaborator"
+                else:
+                    col = Collaborator.objects.filter(workflow=workflow,  collaborator=user)
+                    col.delete()
+                    data[i] = "successfully removed"
+            return Response({"detail":data}, status=HTTP_200_OK)
+        return Response({"detail":"The selected workflow does not exist"}, status=HTTP_200_OK)
 
 class WorkflowObjView(APIView):
     def get(self, request, workflow_id = 0):
