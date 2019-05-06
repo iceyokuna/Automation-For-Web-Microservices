@@ -9,8 +9,8 @@ from rest_framework.response import Response
 import json 
 
 class ServiceObj:
-    def __init__(self, service_id, service_type='',header={"Content-Type":"application/json"}):
-        self.headers = header
+    def __init__(self, service_id, service_type='',headers={"Content-Type":"application/json"}):
+        self.headers = headers
         self.service = Service.objects.filter(id = service_id)
         self.service_url = self.service.values_list('url',flat = True)[0]
         self.service_type = service_type
