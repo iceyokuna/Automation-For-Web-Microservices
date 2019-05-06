@@ -17,7 +17,16 @@ export const workflowService = {
   sendWorkflowDataToEngine,
 
   deleteCollaborators,
+  deleteWorkflowById,
 };
+
+function deleteWorkflowById(workflowId) {
+  return axios.post(globalConstants.USER_WORKFLOW_URL, {id: workflowId}, {
+    headers: {
+      Authorization: "Token " + getUserToken()
+    }
+  })
+}
 
 function deleteCollaborators(workflow_id, collaborators) {
   return axios.post(globalConstants.COLLABORATORS_URL, {

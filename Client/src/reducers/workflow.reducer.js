@@ -28,6 +28,12 @@ const initState = { ...defaultState };
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowContants.DELETE_COLLABORATORS_SUCCESS: {
+
+    }
+
+
     case workflowContants.SET_WORKFLOW_ID: {
       const nextState = { ...state };
       nextState.workflowId = action.workflowId;

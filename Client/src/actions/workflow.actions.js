@@ -10,6 +10,7 @@ export const workflowActions = {
   addNewCollaborators,
 
   deleteCollaborators,
+  deleteWorkflowById,
 
   applyMethodToTask,
   applyConditionsToGateWay,
@@ -38,6 +39,20 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function deleteWorkflowById(workflowId) {
+  return (dispatch) => {
+
+    workflowService.deleteWorkflowById(workflowId).then(
+      res => {
+        dispatch({ type: workflowContants.DELETE_WORKFLOW_SUCCESS, workflowId });
+        toast.success("Delete the workflow");
+      }
+    ).catch(e => {
+      toast.error("Can't delete the workflow");
+    });
+  }
+}
 
 function deleteCollaborators(collaborators) {
   return (dispatch, getState) => {
