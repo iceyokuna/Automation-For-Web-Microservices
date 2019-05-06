@@ -153,7 +153,7 @@ class UserMethodView(APIView):
         if(request.data.get('service_id')):
             owner = UserService.objects.filter(id=request.data.get('service_id')).values('username')
             if(username == owner[0].get('username')):
-                service = UserMethod.objects.filter(id=request.data.get('service_id')).delete()
+                service = UserMethod.objects.filter(id=request.data.get('method_id')).delete()
                 return Response({"detail": "successfully deleted by "+username}, status=HTTP_200_OK)
             else:
                 return Response({"detail": request.user.username+" does not have access to the service"}, status=HTTP_200_OK)
