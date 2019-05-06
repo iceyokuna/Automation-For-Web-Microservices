@@ -13,7 +13,7 @@ from APIProjectModule.views import WorkflowView, CollaboratorView, LogView, Work
 urlpatterns = [
     path('workflow', WorkflowView.as_view()),
     path('workflow/<int:workflow_id>', WorkflowView.as_view()),
-    path('workflow/delete/<int:workflow_id>', WorkflowDeleteView.as_view()),
+    path('collaborator/delete/<int:workflow_id>', WorkflowDeleteView.as_view()),
     path('workflow/obj/<int:workflow_id>', WorkflowObjView.as_view()),
     path('collaborator/<int:workflow_id>', CollaboratorView.as_view()),
     path('collaborator/', CollaboratorView.as_view()),
