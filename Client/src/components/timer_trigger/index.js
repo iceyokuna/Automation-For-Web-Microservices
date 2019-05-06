@@ -97,7 +97,8 @@ export class index extends Component {
     const { targetDate, targetTime } = this.state;
 
     return (
-      <Box id="datepicker-container" margin={{ bottom: 'small' }} gap="small">
+      <Box id="datepicker-container" margin={{ bottom: 'small' }}
+        animation="fadeIn" gap="small">
         <Calendar
           date={targetDate}
           onSelect={this.onDateChange}
@@ -137,7 +138,8 @@ export class index extends Component {
   renderTab2 = () => {
     const { days, hours, minutes, seconds } = this.state;
     return (
-      <Box direction="row" gap="medium" pad="small">
+      <Box direction="row" gap="medium" pad="small"
+        animation="fadeIn">
         <Box gap="xsmall">
           <Text>Days</Text>
           <FormField error={this.handleIsNumber(days)}
