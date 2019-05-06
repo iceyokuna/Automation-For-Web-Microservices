@@ -93,6 +93,24 @@ class UserServiceView(APIView):
                 return Response({"detail": username + " does not have access to the service"}, status=HTTP_200_OK) 
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
     
+    def delete(self, request):
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        if(json.loads(response.content)['username']):
+            username = json.loads(response.content)['username']
+        else:
+            return Response({"detail":  "User unauthorized"}, status=HTTP_400_BAD_REQUEST) 
+
+        if(request.data.get('service_id')):
+            owner = UserService.objects.filter(id=request.data.get('id')).values('username')
+            if(username == owner[0].get('username')):
+                service = UserService.objects.filter(id=request.data.get('id')).delete()
+                return Response({"detail": "successfully deleted by "+request.user.username}, status=HTTP_200_OK)
+            else:
+                return Response({"detail": request.user.username+" does not have access to the workflow"}, status=HTTP_200_OK)
+
+
 class UserMethodView(APIView):
     def get(self, request, service_id=0):
 
