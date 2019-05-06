@@ -14,7 +14,7 @@ from rest_framework.status import (
 from rest_framework.response import Response
 import json
 from APIRegistrationModule.models import FcmToken, Notification
-
+import requests
 # Create your views here.
 @permission_classes((IsAuthenticated,))
 class WorkflowView(APIView):
@@ -128,15 +128,16 @@ class LogView(APIView):
         message = request.data.get('message')
         task_id = request.data.get('task_id')
         task_name = request.data.get('task_name')
-        to = request.data.get('to')
-
+        to = Collaborator.objects.filter(workflow = workflow).values_list('collaborator').first()
+        
         url = 'https://fcm.googleapis.com/fcm/send'
         key = 'key=AAAAvAxbvG8:APA91bFUI5zOJF0ITlKBDbdGJRGN70ENPiAM3WaNjOiMyOi6XBS-BnWyhvVUHk8BPZDSr2pmLuzQrt3m497wKIG51--G7DzGlEAeVoA9G8Fx3pfPQlYl11zZ-xdmfC5Za0ILS011Fe9y'
         headers =   {'Content-Type':  'application/json', 'Authorization':key}
         
         title = "[Task] "+task_name+" has been updated" 
         for i in to:
-            user = User.objects.filter(username = i).first()
+            
+            user = User.objects.filter(id = i).first()
             
             token = FcmToken.objects.filter(user=user).values('fcmToken').first()['fcmToken']
             
