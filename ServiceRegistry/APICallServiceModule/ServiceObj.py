@@ -30,13 +30,13 @@ class ServiceObj:
         method_type = method.values_list('method_type',flat = True)[0]
         
 
-        if(method_type == 'get'):
-            response = requests.get(url, json = data)
-            return Response({'data': response.json()}, status = HTTP_200_OK)
+        if(method_type == 'get' or method_type == 'GET'):
+            response = requests.get(url, data = data, headers = self.headers)
+            return Response({'data': response}, status = HTTP_200_OK)
         
-        elif(method_type == 'post'):
-            response = requests.post(url, json = data, headers = self.headers)
-            return Response({'data': response.json()}, status = HTTP_200_OK)
+        elif(method_type == 'post' or method_type == 'POST'):
+            response = requests.post(url, data = data, headers = self.headers)
+            return Response({'data': response}, status = HTTP_200_OK)
 
         else:
             return Response({'detail': method_type},
