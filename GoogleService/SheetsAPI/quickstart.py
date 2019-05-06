@@ -1,7 +1,7 @@
 from apiclient import discovery
 import httplib2
 from oauth2client import client
-
+CLIENT_SECRET_FILE = 'client_secrets.json'
 
 # (Receive auth_code by HTTPS POST)
 
