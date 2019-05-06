@@ -36,7 +36,7 @@ class ServiceObj:
 
         
         elif(method_type == 'post' ):
-            #response = requests.post(url, data = data, headers = self.headers)
+            response = requests.post(url, data = data)#, headers = self.headers)
             return Response({'data': data}, status = HTTP_200_OK)
 
         else:
