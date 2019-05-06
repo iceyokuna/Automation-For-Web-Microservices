@@ -145,10 +145,10 @@ class NewServiceView(APIView):
         response = requests.get(url, headers=headers)
         if(json.loads(response.content)['username']):
             username = json.loads(response.content)['username']
-            name = request.data.get('name')
+            name_service = request.data.get('name')
             info = request.data.get('info')
             url = request.data.get('url')
-            service = UserService.objects.create(username=username, name= name, url = url, info = info )
+            service = UserService.objects.create(username=username, name= name_service, url = url, info = info )
             methods = request.data.get('methods')
             a = []
             for m in methods:
@@ -161,7 +161,7 @@ class NewServiceView(APIView):
                 username = json.loads(response.content)['username']
                 method= UserMethod.objects.create(name = name, info= info, path = path, method_type=method_type,service=service, input_interface= input_interface, output_interface=output_interface)
                 
-            return Response({"detail": name+ " has been successfully created","service_id":service.id})####workflow_id
+            return Response({"detail": name_service+ " has been successfully created","service_id":service.id})####workflow_id
         return Response({"detail": "Unable to creat the service"})
         
         #return Response({json_service},status = HTTP_200_OK)
