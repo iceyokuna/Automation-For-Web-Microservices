@@ -136,7 +136,8 @@ class LogView(APIView):
         
         title = "[Task] "+task_name+" has been updated" 
         for i in to:
-            user = User.objects.filter(username = i).first()
+            
+            user = User.objects.filter(id = i).first()
             
             token = FcmToken.objects.filter(user=user).values('fcmToken').first()['fcmToken']
             
