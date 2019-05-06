@@ -1,6 +1,7 @@
 from channels.generic.websocket import WebsocketConsumer
 from MainModule.Controller import ClientHandler
 from MainModule.Graphflow.WorkflowEngine import WorkflowEngine
+import requests
 import json
 import pickle
 import ast
