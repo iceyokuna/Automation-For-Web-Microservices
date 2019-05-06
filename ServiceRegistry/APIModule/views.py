@@ -150,15 +150,17 @@ class NewServiceView(APIView):
             url = request.data.get('url')
             service = UserService.objects.create(username=username, name= name, url = url, info = info )
             methods = request.data.get('methods')
+            a = []
             for m in methods:
-                name = request.data.get('name')
-                info = request.data.get('info')
-                path = request.data.get('path')
-                method_type = request.data.get('method_type')
-                input_interface = request.data.get('input_interface')
-                output_interface = request.data.get('output_interface')
+                name = m['name']
+                info =  m['info']
+                path =  m['path']
+                method_type =  m['method_type']
+                input_interface =  m['input_interface']
+                output_interface =  m['output_interface']
                 username = json.loads(response.content)['username']
                 method= UserMethod.objects.create(name = name, info= info, path = path, method_type=method_type,service=service, input_interface= input_interface, output_interface=output_interface)
+                
             return Response({"detail": name+ " has been successfully created","service_id":service.id})####workflow_id
         return Response({"detail": "Unable to creat the service"})
         
