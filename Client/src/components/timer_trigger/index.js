@@ -15,21 +15,21 @@ import 'flatpickr/dist/themes/light.css'
 import './index.css';
 import moment from 'moment';
 
+const defaultState = {
+  showTimerDialog: false,
+  targetDate: moment(Date()).format('l'),
+  targetTime: '',
+  currentTabIndex: 0,
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 10,
+  countdownError: false,
+}
+
 export class index extends Component {
 
-  state = {
-    showTimerDialog: false,
-    targetDate: moment(Date()).format('l'),
-    targetTime: '',
-    currentTabIndex: 0,
-
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 10,
-
-    countdownError: false,
-  }
+  state = defaultState;
 
   componentWillReceiveProps(nextProps) {
     const { currentNode, workflowTimers } = nextProps;
@@ -38,13 +38,14 @@ export class index extends Component {
     try {
       const currentTimer = appliedTimers[currentNode.id];
       if (currentTimer) {
-        this.setState({ ...currentTimer });
+        this.setState({ ...defaultState, ...currentTimer });
+        console.log({ currentTimer });
+        console.log({ state: this.state });
       }
     } catch (e) {
       console.error(e);
     }
   }
-
 
   onDateChange = (dateTime) => {
     this.setState({ targetDate: moment(dateTime).format('l') });
