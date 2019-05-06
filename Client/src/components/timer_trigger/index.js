@@ -39,8 +39,6 @@ export class index extends Component {
       const currentTimer = appliedTimers[currentNode.id];
       if (currentTimer) {
         this.setState({ ...defaultState, ...currentTimer });
-        console.log({ currentTimer });
-        console.log({ state: this.state });
       }
     } catch (e) {
       console.error(e);

@@ -9,6 +9,8 @@ export const workflowActions = {
   addNameToId,
   addNewCollaborators,
 
+  prepareNewWorkflow,
+
   deleteCollaborators,
   deleteWorkflowById,
 
@@ -39,6 +41,26 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function prepareNewWorkflow(workflowName, description, mode) {
+  return dispatch => {
+
+    let workflowObject = {
+      bpmnJson: {},
+      appliedMethods: {},
+      appliedConditions: {},
+      appliedPreInputs: {},
+      appliedTimers: {},
+      generatedForms: [],
+    }
+
+    dispatch({
+      type: workflowContants.PREPARE_NEW_WORKFLOW,
+      workflowName, description, workflowObject, mode,
+    })
+    history.push('/my_flows/create/design_workflow');
+  }
+}
 
 function deleteWorkflowById(workflowId) {
   return (dispatch) => {
@@ -339,7 +361,7 @@ function createNewWorkflow(name, description, mode) {
     workflowService.createNewWorkflow(name, description, workflowObject).then(res => {
       workflowObject = { ...workflowObject, ...res.data };
       dispatch(success(workflowObject, mode));
-      history.push('design_workflow');
+      history.push('/my_flows');
     }).catch(err => {
       toast.error("Can't create a new workflow");
       dispatch(failure());
@@ -363,7 +385,6 @@ function createNewWorkflow(name, description, mode) {
       type: workflowContants.CREATE_NEW_WORKFLOW_FAILURE,
     }
   }
-
 }
 
 function addNewCollaborators(collaborators) {
@@ -459,7 +480,7 @@ function sendWorkflowDataToEngine(name, description,
       ).then(
         res => {
           dispatch(success())
-          history.push('/execute_flow/flow1133');
+          // history.push('/execute_flow/flow1133');
         }).catch(err => dispatch(failure(err)));
     }, 1000);
 

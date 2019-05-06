@@ -71,11 +71,9 @@ function createNewWorkflow(
   name,
   description,
   workflowData,
-  workflowId,
 ) {
   return axios.post(globalConstants.USER_WORKFLOW_URL,
     {
-      id: workflowId,
       name: name,
       description: description,
       ...workflowData

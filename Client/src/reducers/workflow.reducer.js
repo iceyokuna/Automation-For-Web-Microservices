@@ -33,6 +33,19 @@ export function workflow(state = defaultState, action) {
 
     }
 
+    case workflowContants.CREATE_NEW_WORKFLOW_REQUEST: {
+      return { ...state, sendingWorkflowData: true };
+    }
+
+    case workflowContants.PREPARE_NEW_WORKFLOW: {
+      const { workflowName, description, workflowObject } = action;
+      return {
+        ...state, name: workflowName,
+        description: description, mode: action.mode,
+        ...workflowObject
+      };
+    }
+
     case workflowContants.SET_WORKFLOW_ID: {
       const nextState = { ...state };
       nextState.workflowId = action.workflowId;
@@ -146,6 +159,7 @@ export function workflow(state = defaultState, action) {
         name: workflow_name,
         workflowId: workflow_id,
         description: workflow_description,
+        sendingWorkflowData: false,
         mode,
       };
       return nextState;

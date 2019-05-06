@@ -70,6 +70,7 @@ class BpmnContainer extends Component {
       } catch (e) {
         this.props.history.replace('/my_flows');
       }
+
     }
   }
 
@@ -305,8 +306,8 @@ class BpmnContainer extends Component {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
-  onSubmitDiagram = (mode) => {
-    const { name, description, generatedForms, appliedMethods } = this.props.workflow;
+  onSubmitDiagram = (debug) => {
+    const { name, description, generatedForms, appliedMethods, mode } = this.props.workflow;
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
@@ -328,14 +329,14 @@ class BpmnContainer extends Component {
           appliedTimers
         }
 
-        if (mode === "ToEngine") {
+        if (debug === "ToEngine") {
           this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
             name,
             description,
             workflowData
           ));
-        } else {
-          this.props.dispatch(workflowActions.updateWorkflow(
+        } if (mode === "CREATE_NEW") {
+          this.props.dispatch(workflowActions.createNewWorkflow(
             name,
             description,
             workflowData
