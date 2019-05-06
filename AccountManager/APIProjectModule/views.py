@@ -128,8 +128,8 @@ class LogView(APIView):
         message = request.data.get('message')
         task_id = request.data.get('task_id')
         task_name = request.data.get('task_name')
-        to = request.data.get('to')
-
+        to = Collaborator.objects.filter(workflow = workflow).values_list('collaborator').first()
+        
         url = 'https://fcm.googleapis.com/fcm/send'
         key = 'key=AAAAvAxbvG8:APA91bFUI5zOJF0ITlKBDbdGJRGN70ENPiAM3WaNjOiMyOi6XBS-BnWyhvVUHk8BPZDSr2pmLuzQrt3m497wKIG51--G7DzGlEAeVoA9G8Fx3pfPQlYl11zZ-xdmfC5Za0ILS011Fe9y'
         headers =   {'Content-Type':  'application/json', 'Authorization':key}
