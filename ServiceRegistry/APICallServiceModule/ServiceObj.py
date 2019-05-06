@@ -31,8 +31,9 @@ class ServiceObj:
         
 
         if(method_type == 'get' ):
-            response = requests.get(url, data = data, headers = self.headers)
+            response = requests.get(url, data = data)
             return Response({'data': response}, status = HTTP_200_OK)
+
         
         elif(method_type == 'post' ):
             response = requests.post(url, data = data, headers = self.headers)
