@@ -19,7 +19,7 @@ class ServiceObj:
         else:
             self.service = Service.objects.filter(id = service_id)
 
-    def call_method(self, method_id, data = "", headers=""):
+    def call_method(self, method_id, data = ""):
         if(self.service_type=='userService'):
             method = UserMethod.objects.filter(id = method_id)
         else:
@@ -31,7 +31,7 @@ class ServiceObj:
         
 
         if(method_type == 'get' ):
-            response = requests.get(url, data = data)
+            response = requests.get(url, data = data, headers=self.headers)
             return Response({'data': response}, status = HTTP_200_OK)
 
         
