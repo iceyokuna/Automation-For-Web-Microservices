@@ -111,7 +111,15 @@ class CollaboratorView(APIView):
                 col.delete()
                 data[i] = "successfully removed"
         return Response({"detail":data}, status=HTTP_200_OK)
-    
+
+class WorkflowObjView(APIView):
+    def get(self, request, workflow_id = 0):
+        workflow = Workflow.objects.filter(id=workflow_id)
+        if(workflow.count()>0):
+            workflow_obj = workflow.first().values('workflowObject')
+            return Response({"detail":workflow_obj}, status= HTTP_200_OK)
+        return Response({"detail":"No log file found"}, status= HTTP_400_BAD_REQUEST)
+
 @permission_classes((AllowAny, ))
 class LogView(APIView):
     def get(self, request, workflow_id):

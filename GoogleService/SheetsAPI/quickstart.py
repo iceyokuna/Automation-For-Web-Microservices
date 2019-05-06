@@ -1,55 +1,55 @@
-from __future__ import print_function
-import pickle
-import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+from apiclient import discovery
+import httplib2
+from oauth2client import client
 
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+
+# (Receive auth_code by HTTPS POST)
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
 SAMPLE_RANGE_NAME = 'Class Data!A2:E'
 
-def main():
-    """Shows basic usage of the Sheets API.
-    Prints values from a sample spreadsheet.
-    """
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server()
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
 
-    service = build('sheets', 'v4', credentials=creds)
+# Set path to the Web application client_secret_*.json file you downloaded from the
+# Google API Console: https://console.developers.google.com/apis/credentials
+CLIENT_SECRET_FILE = 'client_secrets.json'
+auth_code = "4/QgH1Hor9-Zrl8JDIjDd2YMhB-5k74hGBJTj4aS17USboOFpBqpiHcMnevtarnfOZoNEtqmBfqMTUmCJvG18hIsU"
 
-    # Call the Sheets API
-    sheet = service.spreadsheets()
-    result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-                                range=SAMPLE_RANGE_NAME).execute()
-    values = result.get('values', [])
 
-    if not values:
-        print('No data found.')
-    else:
-        print('Name, Major:')
-        for row in values:
-            # Print columns A and E, which correspond to indices 0 and 4.
-            print('%s, %s' % (row[0], row[4]))
+# Exchange auth code for access token, refresh token, and ID token
+credentials = client.credentials_from_clientsecrets_and_code(
+    CLIENT_SECRET_FILE,
+    ['https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/spreadsheets.readonly'],
+    auth_code)
 
-if __name__ == '__main__':
-    main()
+# Call Google API
+##http_auth = credentials.authorize(httplib2.Http())
+service = discovery.build('sheets', 'v4',  credentials=credentials)
+
+sheet = service.spreadsheets()
+
+spreadsheet = {
+    'properties': {
+        'title': "sheet example ja"
+    }
+}
+spreadsheet = sheet.create(body=spreadsheet,
+                                    fields='spreadsheetId').execute()
+print('Spreadsheet ID: {0}'.format(spreadsheet.get('spreadsheetId')))
+##appfolder = drive_service.files().get(fileId='appfolder').execute()
+
+# Call the Sheets API
+##sheet = service.spreadsheets()
+##result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
+##                            range=SAMPLE_RANGE_NAME).execute()
+##values = result.get('values', [])
+##
+##if not values:
+##    print('No data found.')
+##else:
+##    print('Name, Major:')
+##    for row in values:
+##        # Print columns A and E, which correspond to indices 0 and 4.
+##        print('%s, %s' % (row[0], row[4]))
+
+
