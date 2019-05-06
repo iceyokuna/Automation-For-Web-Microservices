@@ -276,7 +276,7 @@ class WorkflowEngine:
         #method_id = element_object.getServiceId()
         #request_input = {"service_id":service_id, "method_id":method_id, "input":request_data}
         #requests.post(url_api_gateway, json= request_input)
-        '''
+        
         #Use to debug (call without API gateway [without calling service manager])
         if(str(element_object.getServiceId()) == "1"):
             email = message['formInputValues']['email']['value']
@@ -292,7 +292,7 @@ class WorkflowEngine:
             message_data = message['formInputValues']['message']['value']
             request_data = {"user_id":user_id, "message":message_data}
             requests.get(url , data= request_data)
-        '''
+        
 
     def update(self):
         pass
