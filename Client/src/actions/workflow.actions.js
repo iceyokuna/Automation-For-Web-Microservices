@@ -51,7 +51,7 @@ function setMode(mode) {
   }
 }
 
-function prepareNewWorkflow(workflowName, description, mode) {
+function prepareNewWorkflow(workflowName, description) {
   return dispatch => {
 
     let workflowObject = {
@@ -65,7 +65,7 @@ function prepareNewWorkflow(workflowName, description, mode) {
 
     dispatch({
       type: workflowContants.PREPARE_NEW_WORKFLOW,
-      workflowName, description, workflowObject, mode,
+      workflowName, description, workflowObject,
     })
     history.push('/my_flows/create/design_workflow');
   }

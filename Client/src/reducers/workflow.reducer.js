@@ -34,7 +34,7 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowContants.SEND_WORKFLOW_TO_ENGINE_SUCCESS: {
-      
+
     }
 
     case workflowContants.SEND_WORKFLOW_TO_ENGINE_FAILURE: {
@@ -53,7 +53,7 @@ export function workflow(state = defaultState, action) {
       const { workflowName, description, workflowObject } = action;
       return {
         ...state, name: workflowName,
-        description: description, mode: action.mode,
+        description: description,
         ...workflowObject
       };
     }
