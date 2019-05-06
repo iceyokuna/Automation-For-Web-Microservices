@@ -14,7 +14,7 @@ class index extends Component {
   renderLogItems = () => {
     const { workflowLogs } = this.props;
     return workflowLogs.data.map((item, index) =>
-      <Text>{item.detail}</Text>)
+      <Text key={index}>{item.detail}</Text>)
   }
 
   onClose = () => {

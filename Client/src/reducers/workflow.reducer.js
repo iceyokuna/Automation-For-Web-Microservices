@@ -29,7 +29,15 @@ const initState = { ...defaultState };
 export function workflow(state = defaultState, action) {
   switch (action.type) {
 
-    case workflowContants.DELETE_COLLABORATORS_SUCCESS: {
+    case workflowContants.SEND_WORKFLOW_TO_ENGINE_REQUEST: {
+
+    }
+
+    case workflowContants.SEND_WORKFLOW_TO_ENGINE_SUCCESS: {
+      
+    }
+
+    case workflowContants.SEND_WORKFLOW_TO_ENGINE_FAILURE: {
 
     }
 

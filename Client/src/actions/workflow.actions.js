@@ -356,20 +356,14 @@ function setBpmnJson(bpmnJson) {
   }
 }
 
-function createNewWorkflow(name, description, mode) {
+function createNewWorkflow(name, description, workflowObject) {
   return (dispatch) => {
     dispatch(request());
-    let workflowObject = {
-      bpmnJson: {},
-      appliedMethods: {},
-      appliedConditions: {},
-      appliedPreInputs: {},
-      appliedTimers: {},
-      generatedForms: [],
-    }
     workflowService.createNewWorkflow(name, description, workflowObject).then(res => {
-      workflowObject = { ...workflowObject, ...res.data };
-      dispatch(success(workflowObject, mode));
+      const { detail, ...data } = res.data;
+      workflowObject = { ...workflowObject, ...data };
+      dispatch(success(workflowObject, "CREATE_NEW"));
+      dispatch(sendWorkflowDataToEngine(name, description, workflowObject));
       history.push('/my_flows');
     }).catch(err => {
       toast.error("Can't create a new workflow");
@@ -481,11 +475,12 @@ function updateWorkflow(name, description,
 
 function sendWorkflowDataToEngine(name, description,
   workflowData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(request());
     setTimeout(() => {
+      const { workflowId } = getState().workflow;
       workflowService.sendWorkflowDataToEngine(name, description,
-        workflowData
+        workflowData, workflowId
       ).then(
         res => {
           dispatch(success())
@@ -496,13 +491,13 @@ function sendWorkflowDataToEngine(name, description,
 
     function request() {
       return {
-        type: workflowContants.SEND_WORKFLOW_DATA_REQUEST
+        type: workflowContants.SEND_WORKFLOW_TO_ENGINE_REQUEST
       }
     }
 
     function success(data) {
       return {
-        type: workflowContants.SEND_WORKFLOW_DATA_SUCCESS,
+        type: workflowContants.SEND_WORKFLOW_TO_ENGINE_SUCCESS,
         data
       }
     }
@@ -510,7 +505,7 @@ function sendWorkflowDataToEngine(name, description,
     function failure(err) {
       console.error(err);
       return {
-        type: workflowContants.SEND_WORKFLOW_DATA_FAILURE
+        type: workflowContants.SEND_WORKFLOW_TO_ENGINE_FAILURE,
       }
     }
   }

@@ -3,9 +3,7 @@ import { globalConstants } from '_constants';
 import { getUserToken } from '_helpers';
 
 const domainName = "http://178.128.214.101:8002"
-
 const engineUrl = "http://127.0.0.1:8000/create_workflow/"
-
 
 export const workflowService = {
   getAllServices,
@@ -90,18 +88,17 @@ function sendWorkflowDataToEngine(
   name,
   description,
   workflowData,
+  workflow_id,
 ) {
   return axios.post(engineUrl,
     {
       name: name,
       description: description,
+      user_token: getUserToken(),
+      workflow_id,
       ...workflowData
-    },
-    {
-      headers: {
-        Authorization: "Token " + getUserToken(),
-      }
-    })
+    }
+  );
 }
 
 function getMyFlows() {

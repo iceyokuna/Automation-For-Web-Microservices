@@ -126,8 +126,8 @@ class FlowDetail extends Component {
     }
 
     return collaborators.map((item, index) =>
-      <Col >
-        <CollaboratorItem key={index}
+      <Col key={index}>
+        <CollaboratorItem
           userName={item.collaborator__username}
           firstName={item.collaborator__first_name}
           lastName={item.collaborator__last_name} />
@@ -217,7 +217,6 @@ class FlowDetail extends Component {
       <div style={global.mainContainer}>
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
-        <MemberDialog />
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name || "Untitled"}</Heading>
