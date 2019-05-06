@@ -3,7 +3,7 @@ from pprint import pprint
 
 from googleapiclient import discovery
 from django.shortcuts import render
-
+    
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework import viewsets
@@ -22,16 +22,20 @@ from rest_framework.status import (
 from rest_framework.response import Response
 import requests
 import json
+from apiclient import discovery
+import httplib2
+from oauth2client import client
+from django.conf import settings
 # Create your views here.
 
 class CreateView(APIView):
     def post(self, request):
-        
-        credentials = "ya29.Glv3BowHgX8TBdJfZyzy1HFewbcZlKOWqdu-uTSFu76ALH8sArx1WjSJ9-Lp-RMQxyf0djSssix1TXeaaYndR_C0B9GLkjGLIVIRQ9lRKO1Aqm657kHMbtW8RR_Q"#request.data.get('token')
+        CLIENT_SECRET_FILE = datafile(settings.GOOGLE_CREDENTIALS)
+        auth_code = "4/QgGYg6gF4Apvcaa_Vb2mQXQpbFxZqqnBAMYNdoURV6MQgrFX5ECzeaTe03wMr4QWPGdjk_doWDVulUfHWeJIhEQ"
+        credentials = client.credentials_from_clientsecrets_and_code(CLIENT_SECRET_FILE,['https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/spreadsheets.readonly'],auth_code)
         service = discovery.build('sheets', 'v4', credentials=credentials)
 
         spreadsheet_body = {
-            #request.data.get('body')
             {'properties': {'title': 'My new Sheet'}}
         }
 
@@ -40,7 +44,7 @@ class CreateView(APIView):
 
         #pprint(response)
         return response#Response({"detail":content}, status=HTTP_200_OK)
-
+'''
 class GetView(APIView):
     def get(self, request):
         credentials = request.data.get('token')
@@ -59,7 +63,28 @@ class GetView(APIView):
         # TODO: Change code below to process the `response` dict:
         #pprint(response)
         return response
-    
+
+
+class SpreadsheetSnippets(object):
+    def __init__(self):
+        credentials = "4/QgGYg6gF4Apvcaa_Vb2mQXQpbFxZqqnBAMYNdoURV6MQgrFX5ECzeaTe03wMr4QWPGdjk_doWDVulUfHWeJIhEQ"
+        
+        self.service = service = discovery.build('sheets', 'v4', credentials=credentials)#service
+
+    def create(self, title):
+        service = self.service
+        # [START sheets_create]
+        spreadsheet = {
+            'properties': {
+                'title': title
+            }
+        }
+        spreadsheet = service.spreadsheets().create(body=spreadsheet,
+                                            fields='spreadsheetId').execute()
+        print('Spreadsheet ID: {0}'.format(spreadsheet.get('spreadsheetId')))
+        # [END sheets_create]
+        return spreadsheet.get('spreadsheetId')
+
 
 class UpdateView(APIView):
     def post(self, request):
@@ -92,3 +117,4 @@ class UpdateView(APIView):
         find_replace_response = response.get('replies')[1].get('findReplace')
         print('{0} replacements made.'.format(
             find_replace_response.get('occurrencesChanged')))
+'''

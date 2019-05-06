@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import {
   TextInput, Box, Button, FormField,
-  Select, TextArea,
+  Select, TextArea, Layer, Text
 } from 'grommet';
 
 import { Sort, Add } from 'grommet-icons'
@@ -13,9 +13,9 @@ import { Spring, Transition, } from 'react-spring';
 import { methods as mets } from './mockup';
 import { colors } from 'theme';
 import { userServicesActions } from 'actions';
-import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -30,12 +30,11 @@ class index extends Component {
   state = {
     resetBadgeAnim: false,
     showMethodList: false,
-    methods: mets,
 
     methodName: '',
     methodInfo: '',
     methodUrl: '',
-    requestType: '',
+    methodType: '',
     inputInterface: interfacePlaceholder,
     outputInterface: interfacePlaceholder,
   }
@@ -60,7 +59,7 @@ class index extends Component {
 
   onChangeRequestType = ({ option }) => {
     this.setState({
-      requestType: option,
+      methodType: option,
     })
   }
 
@@ -88,11 +87,25 @@ class index extends Component {
   }
 
   onAddMethod = () => {
-    const { methods } = this.state;
-    methods.push(mets[0]);
+    const { methodName,
+      methodInfo,
+      methodUrl,
+      methodType,
+      inputInterface,
+      outputInterface, } = this.state;
+
+    const methodObject = {
+      methodName,
+      methodInfo,
+      methodUrl,
+      methodType,
+      inputInterface: JSON.parse(inputInterface),
+      outputInterface: JSON.parse(outputInterface),
+    };
+
+    this.props.dispatch(userServicesActions.addNewLocalMethod(methodObject));
 
     this.setState({
-      methods: methods,
       resetBadgeAnim: true,
     });
   }
@@ -102,21 +115,7 @@ class index extends Component {
   }
 
   onSubmit = () => {
-    const { methodName,
-      methodInfo,
-      methodUrl,
-      requestType,
-      inputInterface,
-      outputInterface, } = this.state;
-
-    this.props.dispatch(userServicesActions.addNewMethod(
-      methodName, methodInfo, requestType,
-      inputInterface, outputInterface, methodUrl,
-    ))
-
-
-    toast.success("Your service is added");
-    this.props.history.replace('/setting/services');
+    this.props.dispatch(userServicesActions.uploadNewService());
   }
 
   onAddmoreMethod = () => {
@@ -125,8 +124,9 @@ class index extends Component {
     })
   }
 
-
   renderMethodList = () => {
+    const { userServices } = this.props;
+    const newMethods = userServices.newService.methods;
     return (
       <Fragment>
         <table>
@@ -135,11 +135,11 @@ class index extends Component {
             <th>URL's endpoint</th>
             <th>Request type</th>
           </tr>
-          {this.state.methods.map((item, index) =>
+          {newMethods.map((item, index) =>
             <tr className="service" onClick={() => this.onSelectMethod(item)}>
               <td>{item.methodName}</td>
               <td>{item.methodUrl}</td>
-              <td>{item.requestType}</td>
+              <td>{item.methodType}</td>
             </tr>
           )}
         </table>
@@ -153,13 +153,36 @@ class index extends Component {
     );
   }
 
+  renderLoadingSpinner = () => {
+    const { creatingNewService } = this.props.userServices;
+    if (creatingNewService === "loading") return (
+      <Layer
+        position="center"
+        modal
+      >
+        <Box pad="medium" gap="large" width="medium"
+          direction="row" justify='center' align="center">
+          <Text>Saving your service</Text>
+          <Spinner
+            fadeIn="half"
+            name="ball-scale-multiple"
+            color={colors.brand} />
+
+        </Box>
+      </Layer>)
+  }
+
+
 
   renderCreateMethod = () => {
     const { methodName, methodInfo, methodUrl,
-      requestType, inputInterface, outputInterface,
-      methods, resetBadgeAnim } = this.state
+      methodType, inputInterface, outputInterface,
+      resetBadgeAnim } = this.state;
+
+    const newMethods = this.props.userServices.newService.methods;
     return (
       <Fragment>
+        {this.renderLoadingSpinner()}
         <Row >
           <Col xs={12} md={5} lg={5}>
             <FormField>
@@ -167,7 +190,7 @@ class index extends Component {
                 onChange={this.onChangeMethodName} value={methodName} />
             </FormField>
           </Col>
-          <Col xs={12} md={7} ld={7}>
+          <Col xs={12} md={7} ld={7} >
             <FormField>
               <TextInput placeholder="What does this method do ?" size="small"
                 onChange={this.onChangeMethodInfo} value={methodInfo} />
@@ -183,10 +206,10 @@ class index extends Component {
           <Col xs={12} md={4} lg={4}>
             <FormField>
               <Select
-                id="requestType"
-                name="requestType"
+                id="methodType"
+                name="methodType"
                 placeholder="GET"
-                value={requestType}
+                value={methodType}
                 options={requestTypeOptions}
                 onChange={this.onChangeRequestType}
               />
@@ -218,7 +241,7 @@ class index extends Component {
               reset={resetBadgeAnim}
               onRest={() => this.setState({ resetBadgeAnim: false })}
             >
-              {props => <BadgeIcon style={props}>{methods.length}</BadgeIcon>}
+              {props => <BadgeIcon style={props}>{newMethods.length}</BadgeIcon>}
             </Spring>
 
           </MethodContainer>

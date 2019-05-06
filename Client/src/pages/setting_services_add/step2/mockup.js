@@ -2,36 +2,36 @@ export const methods = [
   {
     methodName: 'Method#1',
     methodUrl: '/getAllProducts',
-    requestType: 'GET',
+    methodType: 'GET',
   },
   {
     methodName: 'Method#1',
     methodUrl: '/getAllProducts',
-    requestType: 'GET',
+    methodType: 'GET',
   },
   {
     methodName: 'Method#1',
     methodUrl: '/getAllProducts',
-    requestType: 'GET',
+    methodType: 'GET',
   },
   {
     methodName: 'Method#1',
     methodUrl: '/getAllProducts',
-    requestType: 'GET',
+    methodType: 'GET',
   },
   {
     methodName: 'Method#1',
     methodUrl: '/getAllProducts',
-    requestType: 'GET',
+    methodType: 'GET',
   },
   {
     methodName: 'Method#1',
     methodUrl: '/getAllProducts',
-    requestType: 'GET',
+    methodType: 'GET',
   },
   {
     methodName: 'Method#1',
     methodUrl: '/getAllProducts',
-    requestType: 'GET',
+    methodType: 'GET',
   },
 ]
