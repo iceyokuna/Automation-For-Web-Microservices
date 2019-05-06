@@ -14,12 +14,17 @@ class BackgroundThread(threading.Thread):
         try:
             #fetch event every 10 second
             while(True):
+                #fetching periodic time
                 time.sleep(10)
+                #get time event from firebase
                 time_event_data = self.messager.get("TimeEvent",None)
                 #check and trigger event
-
-                print(time_event_data)
-                print("fetch time event successfully!!\n")
+                triggered_list = self.getTimeTriggered(time_event_data)
+                self.triggerTimeEvent(triggered_list)
+                ##debuging time event
+                #print("pending time event !!")
+                #print(time_event_data)
+                #print("fetch time event successfully!!\n")
         except KeyboardInterrupt:
             print("Interrupted!")
 
@@ -38,11 +43,11 @@ class BackgroundThread(threading.Thread):
             #extract time from event in firebase
             date_data = data[event]["trigger_date"].split('/')
             time_data = data[event]["trigger_time"].split(':')
-            day_event= date_data[1]
-            month_event = date_data[0]
-            year_event = date_data[2]
-            hour_event = time_data[0]
-            minute_event =time_data[1]
+            day_event= int(date_data[1])
+            month_event = int(date_data[0])
+            year_event = int(date_data[2])
+            hour_event = int(time_data[0])
+            minute_event =int(time_data[1])
             time_event = datetime.datetime(year_event, month_event, day_event, hour_event, minute_event)
             #check triggering
             if(time_system > time_event):
@@ -51,4 +56,8 @@ class BackgroundThread(threading.Thread):
         return time_trigger_id_list
 
     def triggerTimeEvent(self, trigger_list):
-        pass
+        for event_id in trigger_list:
+            #update state
+            print("\n!!!!!!! trigger !!!!!!! ", event_id)
+            #remove event from message queue
+            self.messager.delete('TimeEvent', event_id)
