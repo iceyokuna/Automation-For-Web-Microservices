@@ -256,7 +256,7 @@ class WorkflowEngine:
         if(self.currentState["current"] in self.endState):
             return {"HTML":"DONE", "taskId":element_object.getId()}
 
-        return  {"HTML":"FAILED", "taskId":element_object.getId()}
+        return  {"HTML":"<div>FAILED</div>", "taskId":element_object.getId()}
 
     #execute send request to service manager
     def execute(self, message):
