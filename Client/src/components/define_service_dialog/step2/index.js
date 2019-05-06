@@ -29,7 +29,7 @@ export default class index extends Component {
     methodName: '',
     methodInfo: '',
     methodUrl: '',
-    requestType: '',
+    methodType: '',
     inputInterface: '',
     outputInterface: '',
   }
@@ -54,7 +54,7 @@ export default class index extends Component {
 
   onChangeRequestType = ({ option }) => {
     this.setState({
-      requestType: option,
+      methodType: option,
     })
   }
 
@@ -112,7 +112,7 @@ export default class index extends Component {
             <tr className="service" onClick={() => this.onSelectMethod(item)}>
               <td>{item.methodName}</td>
               <td>{item.methodUrl}</td>
-              <td>{item.requestType}</td>
+              <td>{item.methodType}</td>
             </tr>
           )}
         </table>
@@ -130,7 +130,7 @@ export default class index extends Component {
 
   renderCreateMethod = () => {
     const { methodName, methodInfo, methodUrl,
-      requestType, inputInterface, outputInterface,
+      methodType, inputInterface, outputInterface,
       numberOfNewMethods, resetBadgeAnim } = this.state
     return (
       <Fragment>
@@ -157,10 +157,10 @@ export default class index extends Component {
           <Col xs={12} md={4} lg={4}>
             <FormField>
               <Select
-                id="requestType"
-                name="requestType"
+                id="methodType"
+                name="methodType"
                 placeholder="GET"
-                value={requestType}
+                value={methodType}
                 options={requestTypeOptions}
                 onChange={this.onChangeRequestType}
               />

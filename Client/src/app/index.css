@@ -70,11 +70,6 @@ body {
   right: 360px !important;
 }
 
-.Toastify__toast {
-  border-radius: 6px !important;
-  padding: 12px !important;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;

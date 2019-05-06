@@ -36,8 +36,8 @@ export class index extends Component {
 
   onInvite = () => {
     const { selectedCollaborators } = this.state;
-    const { workflow, dispatch } = this.props;
-    dispatch(workflowActions.addNewCollaborators(workflow.workflowId, selectedCollaborators));
+    const { dispatch } = this.props;
+    dispatch(workflowActions.addNewCollaborators(selectedCollaborators));
   }
 
   renderCollaboratorItems = () => {

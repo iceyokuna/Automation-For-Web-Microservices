@@ -7,6 +7,8 @@ const defaultState = {
   creatingNewMethod: false,
   data: [],
   currentServiceId: null,
+
+  newService: {},
 }
 
 export function userServices(state = defaultState, action) {
@@ -14,10 +16,10 @@ export function userServices(state = defaultState, action) {
     case userServicesConstants.TOGGLE_DEFINE_SERVICE_DIALOG: {
       return { ...state, showDefineServiceDialog: !state.showDefineServiceDialog }
     }
-    case userServicesConstants.ADD_USER_SERVICE_REQUEST: {
+    case userServicesConstants.CREATE_NEW_USER_SERVICE_REQUEST: {
       return { ...state, creatingNewService: "loading", }
     }
-    case userServicesConstants.ADD_USER_SERVICE_SUCCESS: {
+    case userServicesConstants.CREATE_NEW_USER_SERVICE_SUCCESS: {
       const nextState = {
         ...state,
         currentServiceId: action.data.service_id,
@@ -25,9 +27,30 @@ export function userServices(state = defaultState, action) {
       };
       return nextState;
     }
-    case userServicesConstants.ADD_USER_SERVICE_FAILURE: {
+
+    case userServicesConstants.CREATE_NEW_LOCAL_SERVICE: {
+      const nextState = { ...state };
+      nextState.newService = {
+        serviceName: action.serviceName,
+        serviceInfo: action.serviceInfo,
+        serviceUrl: action.serviceUrl,
+        methods: [],
+      }
+      return nextState;
+    }
+
+    case userServicesConstants.CREATE_NEW_USER_SERVICE_FAILURE: {
       return { ...state, creatingNewService: "failure", }
     }
+
+    case userServicesConstants.ADD_NEW_LOCAL_METHOD: {
+      const nextState = { ...state };
+      nextState.newService.methods.push({
+        ...action.methodObject
+      })
+    }
+
+
 
     case userServicesConstants.GET_USER_SERVICES_REQUEST: {
       return { ...state, loadingUserServices: true };
