@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import User
-
+#from picklefield.fields import PickledObjectField
 
 # Create your models here.
 class Workflow(models.Model):
@@ -15,7 +15,7 @@ class Workflow(models.Model):
     appliedPreInputs = JSONField(null=True)
     appliedTimers = JSONField(null=True)
     generatedForms = JSONField(null=True)
-    workflowObject = models.BinaryField(null=True)#models.BinaryField(default=None)
+    workflowObject = models.TextField(null=True)#models.BinaryField(default=None)
 
     def __str__(self):
         return self.name

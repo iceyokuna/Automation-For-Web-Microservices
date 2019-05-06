@@ -93,7 +93,7 @@ class UserServiceView(APIView):
                 return Response({"detail": username + " does not have access to the service"}, status=HTTP_200_OK) 
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
     
-    def delete(self, request):
+    def delete(self, request, service_id = 0):
         url = settings.AUTHENTICATION +'/api/validate_token'
         headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
         response = requests.get(url, headers=headers)
@@ -102,10 +102,10 @@ class UserServiceView(APIView):
         else:
             return Response({"detail":  "User unauthorized"}, status=HTTP_400_BAD_REQUEST) 
 
-        if(request.data.get('service_id')):
-            owner = UserService.objects.filter(id=request.data.get('service_id')).values('username')
+        if(service_id != 0):
+            owner = UserService.objects.filter(id=service_id).values('username')
             if(username == owner[0].get('username')):
-                service = UserService.objects.filter(id=request.data.get('service_id')).delete()
+                service = UserService.objects.filter(id=service_id).delete()
                 return Response({"detail": "successfully deleted by "+username}, status=HTTP_200_OK)
             else:
                 return Response({"detail": request.user.username+" does not have access to the workflow"}, status=HTTP_200_OK)
@@ -141,7 +141,9 @@ class UserMethodView(APIView):
                 return Response({"detail":"method sucessfully created"},status = HTTP_200_OK)
         return Response({"detail":"Unable to create the method"},status = HTTP_200_OK)
 
-    def delete(self, request, service_id = 0):
+class UserMethodDeleteView(APIView):
+
+    def delete(self, request, service_id = 0, method_id = 0):
         url = settings.AUTHENTICATION +'/api/validate_token'
         headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
         response = requests.get(url, headers=headers)
@@ -153,10 +155,10 @@ class UserMethodView(APIView):
         if(service_id !=0 ):
             owner = UserService.objects.filter(id=service_id).values('username')
             if(username == owner[0].get('username')):
-                service = UserMethod.objects.filter(id=request.data.get('method_id')).delete()
+                service = UserMethod.objects.filter(id=method_id).delete()
                 return Response({"detail": "successfully deleted by "+username}, status=HTTP_200_OK)
             else:
-                return Response({"detail": request.user.username+" does not have access to the service"}, status=HTTP_200_OK)
+                return Response({"detail": username+" does not have access to the service"}, status=HTTP_200_OK)
             return Response({"detail": "service does not exist"}, status=HTTP_200_OK)
 
 class AllUserServiceView(viewsets.ModelViewSet):
