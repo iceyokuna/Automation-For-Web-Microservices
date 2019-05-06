@@ -19,7 +19,7 @@ class ServiceObj:
         else:
             self.service = Service.objects.filter(id = service_id)
 
-    def call_method(self, method_id, data = ""):
+    def call_method(self, method_id, data):
         if(self.service_type=='userService'):
             method = UserMethod.objects.filter(id = method_id)
         else:
