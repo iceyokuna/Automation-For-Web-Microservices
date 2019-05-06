@@ -20,6 +20,10 @@ export function workflowTimers(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowContants.SET_APPLIED_TIMER: {
+      return { ...state, appliedTimers: action.appliedTimers, }
+    }
+
     default:
       return state
   }

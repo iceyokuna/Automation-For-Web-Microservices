@@ -293,6 +293,12 @@ function setupExistingWorkflow() {
       type: workflowContants.SET_PRE_INPUTS,
       preInputs: currentFlow.appliedPreInputs,
     })
+
+
+    dispatch({
+      type: workflowContants.SET_APPLIED_TIMER,
+      appliedTimers: currentFlow.appliedTimers,
+    })
   }
 }
 

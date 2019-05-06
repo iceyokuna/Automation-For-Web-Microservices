@@ -31,6 +31,18 @@ export class index extends Component {
     countdownError: false,
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { currentNode, workflowTimers } = nextProps;
+
+    const { appliedTimers } = workflowTimers;
+
+    const currentTimer = appliedTimers[currentNode.id];
+    if (currentTimer) {
+      this.setState({ ...currentTimer });
+    }
+  }
+
+
   onDateChange = (dateTime) => {
     this.setState({ targetDate: moment(dateTime).format('l') });
   }
