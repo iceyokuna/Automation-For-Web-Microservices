@@ -1,5 +1,6 @@
-import { availableServicesContants } from '_constants';
-import { availaleServicesActions } from 'services'
+import { availableServicesContants, userServicesConstants } from '_constants';
+import { availaleServicesActions } from 'services';
+import { userService } from 'services'
 
 export const availableServicesActions = {
     getAllServices,
@@ -8,35 +9,28 @@ export const availableServicesActions = {
 
 function getAllServices() {
     return (dispatch, getState) => {
-        dispatch(request());
-
-        const userServices = getState().userServices.data;
+        dispatch({
+            type: availableServicesContants.GET_ALL_SERVICES_REQUEST
+        });
         availaleServicesActions.getAllServices().then(
             res => {
-                const services = res.data; // receive list of all services and its all methods
-                dispatch(success(services, userServices))
+                const publicServices = res.data; // receive list of all services and its all methods
+                userService.getUserServices().then(
+                    res => {
+                        const userServices = res.data;
+                        dispatch({
+                            type: availableServicesContants.GET_ALL_SERVICES_SUCCESS,
+                            allServices: publicServices,
+                            userServices
+                        })
+                    }
+                ).catch(e => {
+                    dispatch({ type: userServicesConstants.GET_USER_SERVICES_FAILURE });
+                })
             }
-        ).catch(error => dispatch(failure()))
-    }
-
-    function request() {
-        return {
-            type: availableServicesContants.GET_ALL_SERVICES_REQUEST
-        }
-    }
-
-    function success(services, userServices) {
-        return {
-            type: availableServicesContants.GET_ALL_SERVICES_SUCCESS,
-            allServices: services,
-            userServices
-        }
-    }
-
-    function failure() {
-        return {
+        ).catch(error => dispatch({
             type: availableServicesContants.GET_ALL_SERVICES_FAILURE
-        }
+        }))
     }
 }
 

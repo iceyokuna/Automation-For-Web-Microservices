@@ -95,7 +95,6 @@ class BpmnContainer extends Component {
     // this.bpmnModeler.on('commandStack.changed', this.onChange);
 
     // Request all availale services to be selected on the properties panel
-    dispatch(userServicesActions.getUserServices());
     dispatch(availableServicesActions.getAllServices());
     this.renderDiagram(xmlStr);
     this.bindEvenCallback();
