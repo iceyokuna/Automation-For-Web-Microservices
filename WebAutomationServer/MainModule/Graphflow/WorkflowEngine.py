@@ -278,6 +278,9 @@ class WorkflowEngine:
         #requests.post(url_api_gateway, json= request_input)
         
         #Use to debug (call without API gateway [without calling service manager])
+        print("method Id")
+        print(element_object.getServiceMethodId())
+
         if(str(element_object.getServiceId()) == "1"):
             email = message['formInputValues']['email']['value']
             subject = message['formInputValues']['subject']['value']
