@@ -438,17 +438,15 @@ function updateWorkflow(name, description,
   return (dispatch, getState) => {
     dispatch(request());
     const currentWorkflowId = getState().workflow.workflowId;
-    setTimeout(() => {
-      workflowService.updateWorkflow(
-        name, description,
-        workflowData, currentWorkflowId
-      ).then(
-        res => {
-          dispatch(success())
-          history.push('/my_flows');
-        }).catch(err => dispatch(failure(err)));
-    }, 1000);
-
+    workflowService.updateWorkflow(
+      name, description,
+      workflowData, currentWorkflowId
+    ).then(
+      res => {
+        dispatch(success());
+        dispatch(sendWorkflowDataToEngine(name, description, workflowData));
+        history.push('/my_flows');
+      }).catch(err => dispatch(failure(err)));
 
     function request() {
       return {
