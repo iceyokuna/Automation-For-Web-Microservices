@@ -17,9 +17,9 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
-        const { dispatch, authentication, } = this.props;
+        const { dispatch, authentication, currentWorkflowId } = this.props;
         const user = authentication.user;
-        dispatch(socketActions.nextForm(null, null, null, user));
+        dispatch(socketActions.nextForm(null, null, null, user, currentWorkflowId));
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -38,7 +38,7 @@ class ExecuteFlow extends Component {
 
         } if (executingForm === "DONE") {
             toast.success("Done all forms");
-            this.props.history.replace('/my_flows');
+            // this.props.history.replace('/my_flows');
         } if (executingForm === "FAIL") {
             this.setState({
                 currentFormHtml: "<div>FAIL</div>",
@@ -118,6 +118,7 @@ const mapStateToProps = (state) => {
     return {
         workflow: state.workflow,
         authentication: state.authentication,
+        currentWorkflowId: state.workflowMyFlows.currentFlow.id,
     }
 }
 
