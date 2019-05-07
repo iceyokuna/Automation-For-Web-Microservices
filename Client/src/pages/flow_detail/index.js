@@ -217,6 +217,7 @@ class FlowDetail extends Component {
       <div style={global.mainContainer}>
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
+        <MemberDialog />
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name || "Untitled"}</Heading>
