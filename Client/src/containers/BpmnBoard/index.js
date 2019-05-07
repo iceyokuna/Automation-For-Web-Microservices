@@ -90,8 +90,17 @@ class BpmnContainer extends Component {
     this.bindEvenCallback();
   }
 
+  centerCanvas = () => {
+    const canvas = this.bpmnModeler.get('canvas');
+    canvas.zoom('fit-viewport', 'center');
+  }
+
+
   bindEvenCallback = () => {
     // Binding events
+
+    window.onresize = this.centerCanvas.bind(this);
+
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
       const currentElement = event.element.businessObject;
@@ -166,7 +175,7 @@ class BpmnContainer extends Component {
         console.log("error rendering", err);
       } else {
         // Render success
-
+        this.centerCanvas();
         const linting = this.bpmnModeler.get('linting');
         linting.activateLinting(); // Activate validator
 
