@@ -122,6 +122,7 @@ function getAllCollaborators(workflowId) {
     }).then(
       res => {
         dispatch(success(res.data.collaborators));
+        dispatch(workflowActions.setupExistingWorkflow());
       }
     ).catch(err => {
       dispatch(failure(err));

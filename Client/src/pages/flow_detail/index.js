@@ -33,7 +33,7 @@ class FlowDetail extends Component {
     this.state = {
       newname: '',
       newDescription: '',
-      executeStatus: 'Execute',
+      executeStatus: 'Execute', // To do : Classify "Continue" & "Execute"
       showViewerDock: false,
       currentTask: null,
       tasks: [
@@ -77,6 +77,7 @@ class FlowDetail extends Component {
     const { dispatch, currentFlow } = this.props;
     try {
       dispatch(workflowActions.getAllCollaborators(currentFlow.id));
+      dispatch(workflowActions.setupExistingWorkflow());
     } catch (e) {
       this.props.history.push('/my_flows');
     }
@@ -97,7 +98,8 @@ class FlowDetail extends Component {
   }
 
   onExecuteFlow = () => {
-
+    const { currentFlow } = this.props;
+    this.props.history.push('/execute_flow/' + currentFlow.id);
   }
 
   onAddCollaborator = () => {

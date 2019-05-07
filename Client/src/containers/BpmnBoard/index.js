@@ -54,8 +54,6 @@ class BpmnContainer extends Component {
 
   constructor(props) {
     super(props);
-    const { dispatch, workflow } = props;
-
     this.state = {
       currentElement: null,
       selectedServiceMethod: null,
@@ -63,19 +61,10 @@ class BpmnContainer extends Component {
       showParticipantSelector: false,
       showConditionList: false,
     };
-
-    if (workflow.mode !== "CREATE_NEW") {
-      try {
-        dispatch(workflowActions.setupExistingWorkflow());
-      } catch (e) {
-        this.props.history.replace('/my_flows');
-      }
-
-    }
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, workflow } = this.props;
 
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
@@ -97,22 +86,8 @@ class BpmnContainer extends Component {
 
     // Request all availale services to be selected on the properties panel
     dispatch(availableServicesActions.getAllServices());
-    this.renderDiagram(xmlStr);
+    this.renderDiagram(workflow.bpmnJson);
     this.bindEvenCallback();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { workflow } = nextProps;
-    // If load a new workflow
-    if (this.props.workflow.bpmnJson !== workflow.bpmnJson) {
-      try {
-        const bpmnXml = json2xml(workflow.bpmnJson)
-        this.renderDiagram(bpmnXml);
-      } catch (error) {
-        const bpmnXml = xmlStr;
-        this.renderDiagram(bpmnXml);
-      }
-    }
   }
 
   bindEvenCallback = () => {
@@ -183,8 +158,9 @@ class BpmnContainer extends Component {
     // });
   }
 
-  renderDiagram = (xml) => {
-    this.bpmnModeler.importXML(xml, err => {
+  renderDiagram = (bpmnJson) => {
+    const diagram = json2xml(bpmnJson);
+    this.bpmnModeler.importXML(diagram, err => {
       if (err) {
         // Import failed
         console.log("error rendering", err);
