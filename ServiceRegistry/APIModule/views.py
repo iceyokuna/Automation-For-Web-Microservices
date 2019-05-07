@@ -93,6 +93,24 @@ class UserServiceView(APIView):
                 return Response({"detail": username + " does not have access to the service"}, status=HTTP_200_OK) 
         return Response({"detail":  " Unable to make change(s) to the service"}, status=HTTP_200_OK) 
     
+    def delete(self, request, service_id = 0):
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        if(json.loads(response.content)['username']):
+            username = json.loads(response.content)['username']
+        else:
+            return Response({"detail":  "User unauthorized"}, status=HTTP_400_BAD_REQUEST) 
+
+        if(service_id != 0):
+            owner = UserService.objects.filter(id=service_id).values('username')
+            if(username == owner[0].get('username')):
+                service = UserService.objects.filter(id=service_id).delete()
+                return Response({"detail": "successfully deleted by "+username}, status=HTTP_200_OK)
+            else:
+                return Response({"detail": request.user.username+" does not have access to the workflow"}, status=HTTP_200_OK)
+
+
 class UserMethodView(APIView):
     def get(self, request, service_id=0):
 
@@ -123,7 +141,26 @@ class UserMethodView(APIView):
                 return Response({"detail":"method sucessfully created"},status = HTTP_200_OK)
         return Response({"detail":"Unable to create the method"},status = HTTP_200_OK)
 
-      
+class UserMethodDeleteView(APIView):
+
+    def delete(self, request, service_id = 0, method_id = 0):
+        url = settings.AUTHENTICATION +'/api/validate_token'
+        headers =  { "Authorization" : request.META.get('HTTP_AUTHORIZATION')}
+        response = requests.get(url, headers=headers)
+        if(json.loads(response.content)['username']):
+            username = json.loads(response.content)['username']
+        else:
+            return Response({"detail":  "User unauthorized"}, status=HTTP_400_BAD_REQUEST) 
+
+        if(service_id !=0 ):
+            owner = UserService.objects.filter(id=service_id).values('username')
+            if(username == owner[0].get('username')):
+                service = UserMethod.objects.filter(id=method_id).delete()
+                return Response({"detail": "successfully deleted by "+username}, status=HTTP_200_OK)
+            else:
+                return Response({"detail": username+" does not have access to the service"}, status=HTTP_200_OK)
+            return Response({"detail": "service does not exist"}, status=HTTP_200_OK)
+
 class AllUserServiceView(viewsets.ModelViewSet):
     queryset = UserService.objects.all()
     serializer_class = AllUserServicesSerializer
@@ -145,21 +182,23 @@ class NewServiceView(APIView):
         response = requests.get(url, headers=headers)
         if(json.loads(response.content)['username']):
             username = json.loads(response.content)['username']
-            name = request.data.get('name')
+            name_service = request.data.get('name')
             info = request.data.get('info')
             url = request.data.get('url')
-            service = UserService.objects.create(username=username, name= name, url = url, info = info )
+            service = UserService.objects.create(username=username, name= name_service, url = url, info = info )
             methods = request.data.get('methods')
+            a = []
             for m in methods:
-                name = request.data.get('name')
-                info = request.data.get('info')
-                path = request.data.get('path')
-                method_type = request.data.get('method_type')
-                input_interface = request.data.get('input_interface')
-                output_interface = request.data.get('output_interface')
+                name = m['name']
+                info =  m['info']
+                path =  m['path']
+                method_type =  m['method_type']
+                input_interface =  m['input_interface']
+                output_interface =  m['output_interface']
                 username = json.loads(response.content)['username']
                 method= UserMethod.objects.create(name = name, info= info, path = path, method_type=method_type,service=service, input_interface= input_interface, output_interface=output_interface)
-            return Response({"detail": name+ " has been successfully created","service_id":service.id})####workflow_id
+                
+            return Response({"detail": name_service+ " has been successfully created","service_id":service.id})####workflow_id
         return Response({"detail": "Unable to creat the service"})
         
         #return Response({json_service},status = HTTP_200_OK)

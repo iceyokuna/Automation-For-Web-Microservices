@@ -7,6 +7,7 @@ class TimeEvent(IntermediateEvent):
         self.eventDefination = eventDefination
         self.date = None
         self.time = None
+        self.countdown = None
 
     def setTimeEvent(self, date, time):
         self.date = date

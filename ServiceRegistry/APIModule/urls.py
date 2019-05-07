@@ -13,7 +13,9 @@ urlpatterns = [
     path('', include(routers.urls)),
     path('lookup/', views.ServiceLookupView.as_view()),
     path('user_service/', views.UserServiceView.as_view()),  
+    path('user_service/<int:service_id>', views.UserServiceView.as_view()), 
     path('user_method/<int:service_id>', views.UserMethodView.as_view()),
+    path('user_method/<int:service_id>/<int:method_id>', views.UserMethodDeleteView.as_view()),
     path('service/add', views.NewServiceView.as_view())
     #path('all_user_service/', views.AllUserServiceView.as_view())
 ]

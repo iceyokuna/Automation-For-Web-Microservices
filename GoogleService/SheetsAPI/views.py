@@ -3,7 +3,7 @@ from pprint import pprint
 
 from googleapiclient import discovery
 from django.shortcuts import render
-
+    
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework import viewsets
@@ -22,73 +22,34 @@ from rest_framework.status import (
 from rest_framework.response import Response
 import requests
 import json
+from apiclient import discovery
+import httplib2
+from oauth2client import client
+from django.conf import settings
 # Create your views here.
-
+import gspread
 class CreateView(APIView):
     def post(self, request):
         
-        credentials = "ya29.Glv3BowHgX8TBdJfZyzy1HFewbcZlKOWqdu-uTSFu76ALH8sArx1WjSJ9-Lp-RMQxyf0djSssix1TXeaaYndR_C0B9GLkjGLIVIRQ9lRKO1Aqm657kHMbtW8RR_Q"#request.data.get('token')
-        service = discovery.build('sheets', 'v4', credentials=credentials)
+        CLIENT_SECRET_FILE = 'client_secrets.json'
+        auth_code = "4/PQELICMYJTtywERyDS8nkvp-xH3NKs7Qxuw4YeIZ-WscCBhVpifvX_ZQ02hvLt8j_tjROM_8wX74NPLK82dzB2I"
 
-        spreadsheet_body = {
-            #request.data.get('body')
-            {'properties': {'title': 'My new Sheet'}}
-        }
+        credentials = client.credentials_from_clientsecrets_and_code(
+            CLIENT_SECRET_FILE,
+            ['https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/spreadsheets.readonly'],
+            auth_code)
 
-        request = service.spreadsheets().create(body=spreadsheet_body)
-        response = request.execute()
+        service = discovery.build('sheets', 'v4',  credentials=credentials)
 
-        #pprint(response)
-        return response#Response({"detail":content}, status=HTTP_200_OK)
+        sheet = service.spreadsheets()
 
-class GetView(APIView):
-    def get(self, request):
-        credentials = request.data.get('token')
-
-        service = discovery.build('sheets', 'v4', credentials=credentials)
-
-        spreadsheet_id = request.data.get('spreadsheet_id')#'my-spreadsheet-id' 
-
-        ranges = []  
-
-        include_grid_data = False  # TODO: Update placeholder value.
-
-        request = service.spreadsheets().get(spreadsheetId=spreadsheet_id, ranges=ranges, includeGridData=include_grid_data)
-        response = request.execute()
-
-        # TODO: Change code below to process the `response` dict:
-        #pprint(response)
-        return response
-    
-
-class UpdateView(APIView):
-    def post(self, request):
-        requests = []
-        if(request.data.get("title")):
-                requests.append({
-                    'updateSpreadsheetProperties': {
-                        'properties': {
-                            'title': title
-                        },
-                        'fields': 'title'
-                    }
-                })
-        if(request.data.get('find')):
-            requests.append({
-                'findReplace': {
-                    'find': find,
-                    'replacement': replacement,
-                    'allSheets': True
-                }
-            })
-        if(request.data.get('body')):
-
-            body = {
-                'requests': requests
+        spreadsheet = {
+            'properties': {
+                'title': "TEST SHEET API"
             }
-        response = service.spreadsheets().batchUpdate(
-            spreadsheetId=spreadsheet_id,
-            body=body).execute()
-        find_replace_response = response.get('replies')[1].get('findReplace')
-        print('{0} replacements made.'.format(
-            find_replace_response.get('occurrencesChanged')))
+        }
+        spreadsheet = sheet.create(body=spreadsheet,
+                                            fields='spreadsheetId').execute()
+        print('Spreadsheet ID: {0}'.format(spreadsheet.get('spreadsheetId')))
+        
+        return Response({"detail":"Done"}, status=HTTP_200_OK)

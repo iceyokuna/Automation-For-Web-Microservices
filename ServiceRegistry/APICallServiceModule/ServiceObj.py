@@ -9,8 +9,8 @@ from rest_framework.response import Response
 import json 
 
 class ServiceObj:
-    def __init__(self, service_id, service_type='',header={"Content-Type":"application/json"}):
-        self.headers = header
+    def __init__(self, service_id, service_type='',headers={"Content-Type":"application/json"}):
+        self.headers = headers
         self.service = Service.objects.filter(id = service_id)
         self.service_url = self.service.values_list('url',flat = True)[0]
         self.service_type = service_type
@@ -19,7 +19,7 @@ class ServiceObj:
         else:
             self.service = Service.objects.filter(id = service_id)
 
-    def call_method(self, method_id, data = "", headers=""):
+    def call_method(self, method_id, data):
         if(self.service_type=='userService'):
             method = UserMethod.objects.filter(id = method_id)
         else:
@@ -30,13 +30,14 @@ class ServiceObj:
         method_type = method.values_list('method_type',flat = True)[0]
         
 
-        if(method_type == 'get'):
-            response = requests.get(url, json = data)
+        if(method_type == 'get' ):
+            response = requests.get(url, json = data, headers=self.headers)
             return Response({'data': response.json()}, status = HTTP_200_OK)
+
         
-        elif(method_type == 'post'):
+        elif(method_type == 'post' ):
             response = requests.post(url, json = data, headers = self.headers)
-            return Response({'data': response.json()}, status = HTTP_200_OK)
+            return Response({'data':  response.json()}, status = HTTP_200_OK)
 
         else:
             return Response({'detail': method_type},
