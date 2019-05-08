@@ -10,7 +10,7 @@ import {
   FormField
 } from 'grommet';
 
-import { Checkmark, Cluster, Play, Add } from 'grommet-icons';
+import { Checkmark, Cluster, Play, Add, Group } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -25,6 +25,7 @@ import { workflowActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
+import { CircleButton, RoundButton } from './style';
 
 class FlowDetail extends Component {
 
@@ -103,6 +104,10 @@ class FlowDetail extends Component {
   }
 
   onAddCollaborator = () => {
+    this.props.dispatch(workflowActions.toggleMemberDialog());
+  }
+
+  onInviteMembers = () => {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
@@ -224,9 +229,14 @@ class FlowDetail extends Component {
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name || "Untitled"}</Heading>
             <Box direction="row" gap="small">
-              <Button label={executeStatus} primary icon={<Play size="16px" />}
+              <CircleButton
+                color="accent-4"
+                primary plain={false} title="Collaborators"
+                icon={<Group color="#fff" size="18px" />}
+                onClick={this.onInviteMembers} />
+              <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
                 color="accent-3" onClick={this.onExecuteFlow} />
-              <Button label="Edit diagram" primary icon={<Cluster size="16px" />}
+              <RoundButton label="Edit diagram" primary icon={<Cluster size="16px" />}
                 color="accent-1" onClick={this.navigateToModeler} />
             </Box>
           </Box>

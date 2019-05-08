@@ -30,7 +30,7 @@ const App = () => (
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <ToastContainer hideProgressBar position="top-center"
-          closeButton={<Close color="#000" size="14px" />}
+          closeButton={<Close color="#fff" size="14px" />}
         />
         <Switch>
           <Route exact path="/login" component={Login} />
