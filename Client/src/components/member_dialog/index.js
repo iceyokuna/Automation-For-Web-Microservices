@@ -20,8 +20,8 @@ export class index extends Component {
   }
 
   componentDidMount = () => {
-    const { dispatch, workflow } = this.props;
-    dispatch(workflowActions.getAllCollaborators(workflow.workflowId));
+    const { dispatch, currentFlowId } = this.props;
+    dispatch(workflowActions.getAllCollaborators(currentFlowId));
   }
 
   onChangecollaborators = (chips) => {
@@ -114,6 +114,7 @@ const mapStateToProps = (state) => ({
   authentication: state.authentication,
   workflow: state.workflow,
   workflowCollaborators: state.workflowCollaborators,
+  currentFlowId: state.workflowMyFlows.currentFlow.id,
 })
 
 

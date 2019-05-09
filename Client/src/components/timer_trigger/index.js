@@ -15,17 +15,38 @@ import 'flatpickr/dist/themes/light.css'
 import './index.css';
 import moment from 'moment';
 
+const defaultState = {
+  showTimerDialog: false,
+  targetDate: moment(Date()).format('l'),
+  targetTime: '',
+  currentTabIndex: 0,
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 10,
+  countdownError: false,
+}
+
 export class index extends Component {
 
-  state = {
-    showTimerDialog: false,
-    targetDate: moment(Date()).format('l'),
-    targetTime: '',
-    currentTabIndex: 0,
+  state = defaultState;
 
-    days: 0,
-    hours: 0,
-    minutes: 20,
+  componentWillReceiveProps(nextProps) {
+    const { currentNode, workflowTimers } = nextProps;
+    const { appliedTimers } = workflowTimers;
+
+    try {
+      const currentTimer = appliedTimers[currentNode.id];
+      if (currentTimer) {
+        this.setState({
+          ...defaultState,
+          targetDate: currentTimer.targetDate,
+          targetTime: moment(currentTimer.targetTime, "hh:mm").format("h:mm a"),
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   onDateChange = (dateTime) => {
@@ -42,32 +63,48 @@ export class index extends Component {
 
   onSetTimer = () => {
     const { currentNode } = this.props;
-    let { targetDate, targetTime } = this.state;
+    let { targetDate, targetTime, currentTabIndex,
+      days, hours, minutes, seconds } = this.state;
 
-    // Convert time to 24 hrs format
-    const time = moment(targetTime, "h:mm a").format("HH:mm");
-    const dateTime = { targetDate, targetTime: time };
-    this.props.dispatch(workflowActions.applyTimerToElement(
-      currentNode.id,
-      dateTime))
+    if (currentTabIndex == 0) {
+      // Convert time to 24 hrs format
+      const time = moment(targetTime, "h:mm a").format("HH:mm");
+      const dateTime = { targetDate, targetTime: time };
+      this.props.dispatch(workflowActions.applyTimerToElement(
+        currentNode.id,
+        dateTime));
+    } else {
+      const countdownTime = {
+        type: "countdown",
+        days, hours, minutes, seconds,
+      }
+      this.props.dispatch(workflowActions.applyTimerToElement(
+        currentNode.id,
+        countdownTime));
+    }
+
     this.onColseDialog();
   }
 
   onSelectTab = (currentTabIndex) => {
-    const { tabs } = this.state;
-    const { match } = this.props;
     this.setState({ currentTabIndex });
   }
 
   handleIsNumber = (num) => {
-    if (isNaN(num)) return "Accept only number !";
+    if (isNaN(num)) {
+      return "Accept only number !";
+    }
+    else {
+      return "";
+    }
   }
 
   renderTab1 = () => {
     const { targetDate, targetTime } = this.state;
 
     return (
-      <Box id="datepicker-container" margin={{ bottom: 'small' }} gap="small">
+      <Box id="datepicker-container" margin={{ bottom: 'small' }}
+        animation="fadeIn" gap="small">
         <Calendar
           date={targetDate}
           onSelect={this.onDateChange}
@@ -105,9 +142,10 @@ export class index extends Component {
   }
 
   renderTab2 = () => {
-    const { days, hours, minutes } = this.state
+    const { days, hours, minutes, seconds } = this.state;
     return (
-      <Box direction="row" gap="medium" pad="small">
+      <Box direction="row" gap="medium" pad="small"
+        animation="fadeIn">
         <Box gap="xsmall">
           <Text>Days</Text>
           <FormField error={this.handleIsNumber(days)}
@@ -121,7 +159,7 @@ export class index extends Component {
         </Box>
         <Box gap="xsmall">
           <Text>Hours</Text>
-          <FormField error={this.handleIsNumber(days) + hours > 24 ? "Invalid" : null}
+          <FormField error={hours > 24 ? "Invalid" : null}
             htmlFor="hours">
             <TextInput size="xsmall" value={hours}
               id="hours"
@@ -132,10 +170,23 @@ export class index extends Component {
         </Box>
         <Box gap="xsmall">
           <Text>Minutes</Text>
-          <FormField error={this.handleIsNumber(days) + minutes > 60 ? "Invalid" : null}>
+          <FormField error={minutes > 60 ? "Invalid" : null}
+            htmlFor="minutes">
             <TextInput size="xsmall" value={minutes}
+              id="minutes"
               onChange={e => this.setState({
                 minutes: e.target.value
+              })} />
+          </FormField>
+        </Box>
+        <Box gap="xsmall">
+          <Text>Seconds</Text>
+          <FormField error={seconds > 60 ? "Invalid" : null}
+            htmlFor="seconds">
+            <TextInput size="xsmall" value={seconds}
+              id="seconds"
+              onChange={e => this.setState({
+                seconds: e.target.value
               })} />
           </FormField>
         </Box>

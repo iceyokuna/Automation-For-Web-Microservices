@@ -13,8 +13,6 @@ export const socketMiddleware = store => next => action => {
   socket.onmessage = (res) => {
     try {
       const data = JSON.parse(res.data);
-
-      console.log(data);
       switch (data.type) {
         case socketConstants.START_FLOW_SUCCESS: {
           const { form, taskId } = data;

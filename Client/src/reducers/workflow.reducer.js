@@ -28,6 +28,36 @@ const initState = { ...defaultState };
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowContants.SEND_WORKFLOW_TO_ENGINE_REQUEST: {
+
+    }
+
+    case workflowContants.SEND_WORKFLOW_TO_ENGINE_SUCCESS: {
+
+    }
+
+    case workflowContants.SEND_WORKFLOW_TO_ENGINE_FAILURE: {
+
+    }
+
+    case workflowContants.SET_MODE: {
+      return { ...state, mode: action.mode };
+    }
+
+    case workflowContants.CREATE_NEW_WORKFLOW_REQUEST: {
+      return { ...state, sendingWorkflowData: true };
+    }
+
+    case workflowContants.PREPARE_NEW_WORKFLOW: {
+      const { workflowName, description, workflowObject } = action;
+      return {
+        ...state, name: workflowName,
+        description: description,
+        ...workflowObject
+      };
+    }
+
     case workflowContants.SET_WORKFLOW_ID: {
       const nextState = { ...state };
       nextState.workflowId = action.workflowId;
@@ -141,6 +171,7 @@ export function workflow(state = defaultState, action) {
         name: workflow_name,
         workflowId: workflow_id,
         description: workflow_description,
+        sendingWorkflowData: false,
         mode,
       };
       return nextState;
