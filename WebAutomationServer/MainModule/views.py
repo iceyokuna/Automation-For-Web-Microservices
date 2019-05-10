@@ -27,6 +27,10 @@ def saveFlow(request):
     #app name
     app_name = (resquest['name'])
 
+    #header data
+    workflow_id = (request['workflow_id'])
+    user_token = (request['user_token'])
+
     #bpmn data
     workflow_detail = resquest['bpmnJson']
     elements_list = workflow_detail['elements'][0]['elements'][1]['elements']
@@ -50,9 +54,9 @@ def saveFlow(request):
     pickled_obj = pickle.dumps(workflowEngine)
     pickled_obj_str = str(pickled_obj)
 
-    headers = {"Authorization":"Token b78fba1a07dabd78c234e57eed52a527dcabca0e", "Content-Type":"application/json"}
+    headers = {"Authorization":("Token " + str(user_token)), "Content-Type":"application/json"}
     url = "http://178.128.214.101:8003/api/workflow"
-    payload = {"id": 106,"data": {"workflowObject": pickled_obj_str}}
+    payload = {"id": int(workflow_id),"data": {"workflowObject": pickled_obj_str}}
     data = json.dumps(payload)
     r = requests.put(url, headers=headers, data=data)
     print(r.content)
