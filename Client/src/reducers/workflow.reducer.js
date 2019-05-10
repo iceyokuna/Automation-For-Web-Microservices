@@ -41,6 +41,13 @@ export function workflow(state = defaultState, action) {
 
     }
 
+    case workflowContants.DELETE_BPMN_ELEMENT: {
+      const nextState = { ...state };
+      const {taskId} = action;
+      delete nextState.appliedMethods[taskId];
+      return nextState;
+    }
+
     case workflowContants.SET_MODE: {
       return { ...state, mode: action.mode };
     }

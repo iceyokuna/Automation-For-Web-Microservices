@@ -15,6 +15,7 @@ export const workflowActions = {
 
   deleteCollaborators,
   deleteWorkflowById,
+  deleteAppliedMethodByTaskId,
 
   applyMethodToTask,
   applyConditionsToGateWay,
@@ -43,6 +44,13 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function deleteAppliedMethodByTaskId(taskId) {
+  return {
+    type: workflowContants.DELETE_BPMN_ELEMENT,
+    taskId,
+  }
+}
 
 function setMode(mode) {
   return {
