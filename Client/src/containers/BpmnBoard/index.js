@@ -54,8 +54,6 @@ class BpmnContainer extends Component {
 
   constructor(props) {
     super(props);
-    const { dispatch, workflow } = props;
-
     this.state = {
       currentElement: null,
       selectedServiceMethod: null,
@@ -63,18 +61,10 @@ class BpmnContainer extends Component {
       showParticipantSelector: false,
       showConditionList: false,
     };
-
-    if (workflow.mode !== "CREATE_NEW") {
-      try {
-        dispatch(workflowActions.setupExistingWorkflow());
-      } catch (e) {
-        this.props.history.replace('/my_flows');
-      }
-    }
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, workflow } = this.props;
 
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
@@ -96,26 +86,21 @@ class BpmnContainer extends Component {
 
     // Request all availale services to be selected on the properties panel
     dispatch(availableServicesActions.getAllServices());
-    this.renderDiagram(xmlStr);
+    this.renderDiagram(workflow.bpmnJson);
     this.bindEvenCallback();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { workflow } = nextProps;
-    // If load a new workflow
-    if (this.props.workflow.bpmnJson !== workflow.bpmnJson) {
-      try {
-        const bpmnXml = json2xml(workflow.bpmnJson)
-        this.renderDiagram(bpmnXml);
-      } catch (error) {
-        const bpmnXml = xmlStr;
-        this.renderDiagram(bpmnXml);
-      }
-    }
+  centerCanvas = () => {
+    const canvas = this.bpmnModeler.get('canvas');
+    canvas.zoom('fit-viewport', 'center');
   }
+
 
   bindEvenCallback = () => {
     // Binding events
+
+    window.onresize = this.centerCanvas.bind(this);
+
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
       const currentElement = event.element.businessObject;
@@ -182,14 +167,15 @@ class BpmnContainer extends Component {
     // });
   }
 
-  renderDiagram = (xml) => {
-    this.bpmnModeler.importXML(xml, err => {
+  renderDiagram = (bpmnJson) => {
+    const diagram = json2xml(bpmnJson);
+    this.bpmnModeler.importXML(diagram, err => {
       if (err) {
         // Import failed
         console.log("error rendering", err);
       } else {
         // Render success
-
+        this.centerCanvas();
         const linting = this.bpmnModeler.get('linting');
         linting.activateLinting(); // Activate validator
 
@@ -305,8 +291,8 @@ class BpmnContainer extends Component {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
-  onSubmitDiagram = (mode) => {
-    const { name, description, generatedForms, appliedMethods } = this.props.workflow;
+  onSubmitDiagram = (debug) => {
+    const { name, description, generatedForms, appliedMethods, mode } = this.props.workflow;
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
@@ -314,7 +300,8 @@ class BpmnContainer extends Component {
         const bpmnJson = JSON.parse(
           xml2json(xml, { compact: false, spaces: 2 }));
 
-        const { workflowConditions, workflowPreInputs, workflowTimers } = this.props;
+        const { workflowConditions, workflowPreInputs,
+          workflowTimers, dispatch } = this.props;
         const { appliedConditions } = workflowConditions;
         const { appliedPreInputs } = workflowPreInputs;
         const { appliedTimers } = workflowTimers;
@@ -328,18 +315,23 @@ class BpmnContainer extends Component {
           appliedTimers
         }
 
-        if (mode === "ToEngine") {
-          this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
+        if (debug === "ToEngine") {
+          dispatch(workflowActions.sendWorkflowDataToEngine(
             name,
             description,
             workflowData
           ));
-        } else {
-          this.props.dispatch(workflowActions.updateWorkflow(
+        } if (mode === "CREATE_NEW") {
+          dispatch(workflowActions.createNewWorkflow(
             name,
             description,
             workflowData
           ));
+        } if (mode === "VIEW_EXISTING") {
+          dispatch(workflowActions.updateWorkflow(
+            name,
+            description,
+            workflowData));
         }
       }
     });

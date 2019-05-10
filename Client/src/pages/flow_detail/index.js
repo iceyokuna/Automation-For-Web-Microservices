@@ -10,7 +10,7 @@ import {
   FormField
 } from 'grommet';
 
-import { Checkmark, Cluster, Play, Add } from 'grommet-icons';
+import { Checkmark, Cluster, Play, Add, Group } from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -25,6 +25,7 @@ import { workflowActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
+import { CircleButton, RoundButton } from './style';
 
 class FlowDetail extends Component {
 
@@ -33,7 +34,7 @@ class FlowDetail extends Component {
     this.state = {
       newname: '',
       newDescription: '',
-      executeStatus: 'Execute',
+      executeStatus: 'Execute', // To do : Classify "Continue" & "Execute"
       showViewerDock: false,
       currentTask: null,
       tasks: [
@@ -68,6 +69,7 @@ class FlowDetail extends Component {
 
   navigateToModeler = () => {
     const { history, match, currentFlow, dispatch } = this.props;
+    dispatch(workflowActions.setMode("VIEW_EXISTING"));
     dispatch(workflowActions.setWorkflowId(currentFlow.id));
     history.push(match.url + '/edit_diagram');
   }
@@ -76,6 +78,7 @@ class FlowDetail extends Component {
     const { dispatch, currentFlow } = this.props;
     try {
       dispatch(workflowActions.getAllCollaborators(currentFlow.id));
+      dispatch(workflowActions.setupExistingWorkflow());
     } catch (e) {
       this.props.history.push('/my_flows');
     }
@@ -96,10 +99,15 @@ class FlowDetail extends Component {
   }
 
   onExecuteFlow = () => {
-
+    const { currentFlow } = this.props;
+    this.props.history.push('/execute_flow/' + currentFlow.id);
   }
 
   onAddCollaborator = () => {
+    this.props.dispatch(workflowActions.toggleMemberDialog());
+  }
+
+  onInviteMembers = () => {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
@@ -125,8 +133,8 @@ class FlowDetail extends Component {
     }
 
     return collaborators.map((item, index) =>
-      <Col >
-        <CollaboratorItem key={index}
+      <Col key={index}>
+        <CollaboratorItem
           userName={item.collaborator__username}
           firstName={item.collaborator__first_name}
           lastName={item.collaborator__last_name} />
@@ -221,12 +229,16 @@ class FlowDetail extends Component {
           <Box direction="row" fill align="center" justify="between">
             <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name || "Untitled"}</Heading>
             <Box direction="row" gap="small">
-              <Button label={executeStatus} primary icon={<Play size="16px" />}
+              <CircleButton
+                color="accent-4"
+                primary plain={false} title="Collaborators"
+                icon={<Group color="#fff" size="18px" />}
+                onClick={this.onInviteMembers} />
+              <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
                 color="accent-3" onClick={this.onExecuteFlow} />
-              <Button label="Edit diagram" primary icon={<Cluster size="16px" />}
+              <RoundButton label="Edit diagram" primary icon={<Cluster size="16px" />}
                 color="accent-1" onClick={this.navigateToModeler} />
             </Box>
-
           </Box>
         </Box>
 

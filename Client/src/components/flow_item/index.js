@@ -44,7 +44,7 @@ export default class FlowItem extends Component {
 
   handleDelete = (e) => {
     e.stopPropagation();
-    console.log('delete')
+    this.props.onDelete()
   }
 
   render() {

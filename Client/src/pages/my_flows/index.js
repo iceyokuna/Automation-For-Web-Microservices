@@ -46,6 +46,10 @@ class MyFlows extends Component {
     dispatch(workflowActions.setCurrentFlow(currentFlow, redirectUrl));
   }
 
+  onDeleteFlow = (flow) => {
+    this.props.dispatch(workflowActions.deleteWorkflowById(flow.id));
+  }
+
   renderFlows = () => {
     const { workflowMyFlows } = this.props;
     const { myFlows, loadingMyFlows } = workflowMyFlows;
@@ -69,6 +73,7 @@ class MyFlows extends Component {
           name={item.name}
           description={item.description}
           owner={item.user_id}
+          onDelete={() => this.onDeleteFlow(item)}
           type={item.type} />
       </Col>
     )

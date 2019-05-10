@@ -11,6 +11,12 @@ const defaultState = {
 export function workflowMyFlows(state = defaultState, action) {
   switch (action.type) {
 
+    case workflowContants.DELETE_WORKFLOW_SUCCESS: {
+      const nextState = { ...state };
+      nextState.myFlows = state.myFlows.filter((flow) => flow.id != action.workflowId);
+      return nextState;
+    }
+
     case workflowContants.SET_CURRENT_FLOW: {
       const nextState = { ...state };
       nextState.currentFlow = action.currentFlow;
