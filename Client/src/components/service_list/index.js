@@ -4,52 +4,70 @@ import { Box, Text, Accordion, AccordionPanel, Button } from 'grommet'
 import { FormDown } from 'grommet-icons'
 import PlainButton from 'components/plain_button'
 
-import { Scrollbars } from 'react-custom-scrollbars'
+import { Scrollbars } from 'react-custom-scrollbars';
+import { connect } from 'react-redux';
 
-export default class index extends Component {
+class index extends Component {
 
   state = {
     activeIndex: [0],
     selectedServiceMethod: null,
   };
 
-  renderPanelHeader = (name, info) => {
+  renderPanelHeader = (name, info, currentServiceId, serviceId) => {
+    const active = currentServiceId == serviceId ?
+      { size: "medium", color: "accent-4", side: "left" } : null;
     return (
-      <Box pad="small">
-        <Box direction="row" justify="between">
-          <Text size="large" weight="bold">{name}</Text>
-          <PlainButton icon={<FormDown />} />
+      <Box pad={{ vertical: 'small', right: 'small' }} >
+        <Box border={active} pad={{ left: 'small' }}>
+          <Box direction="row" justify="between">
+            <Text size="large" weight="bold">{name}</Text>
+            <PlainButton icon={<FormDown />} />
+          </Box>
+          <Text>{info}</Text>
         </Box>
-        <Text>{info}</Text>
-      </Box>
+      </Box >
     )
   };
 
-  renderListOfMethods = (service) => {
+  renderListOfMethods = (service, currentMethodId) => {
     const { id, name, info, methods } = service;
     const serviceId = id;
-    const views = methods.map((method, index) =>
-      <Box key={index} background="light-1">
-        <Button fill hoverIndicator onClick={() => this.props.onSelectServiceMethod({ serviceId, name, info, method })}>
-          <Box pad='small'>
-            <Text >{method.name}</Text>
+    return methods.map((method, index) => {
+      const active = currentMethodId == method.id ?
+        { size: "medium", color: "accent-4", side: "left" } : null;
+      return (
+        <Box key={index} background="light-1"  >
+          <Box border={active} pad={{ left: 'small' }}>
+            <Button fill hoverIndicator onClick={() => this.props.onSelectServiceMethod({ serviceId, name, info, method })}>
+              <Box pad='small'>
+                <Text >{method.name}</Text>
+              </Box>
+            </Button>
           </Box>
-        </Button>
-      </Box>)
-    return views;
+        </Box>);
+    })
   }
 
   renderServiceItem = () => {
-    const { services } = this.props;
-    const views = services.map((item, index) =>
+    const { services, workflow } = this.props;
+    const { appliedMethods } = workflow;
+    const currentNodeId = workflow.currentNode != null
+      ? workflow.currentNode.id : -1;
+
+    const currentServiceId = appliedMethods[currentNodeId] != null ?
+      appliedMethods[currentNodeId].serviceId : -1;
+
+    const currentMethodId = appliedMethods[currentNodeId] != null ?
+      appliedMethods[currentNodeId].method.id : -1;
+
+    return services.map((item, index) =>
       <AccordionPanel
         key={index}
-        header={this.renderPanelHeader(item.name, item.info)}
+        header={this.renderPanelHeader(item.name, item.info, currentServiceId, item.id)}
       >
-        {this.renderListOfMethods(item)}
+        {this.renderListOfMethods(item, currentMethodId)}
       </AccordionPanel>)
-
-    return views;
   }
 
   render() {
@@ -66,5 +84,8 @@ export default class index extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  workflow: state.workflow
+});
 
-
+export default connect(mapStateToProps)(index);
