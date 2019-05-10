@@ -28,8 +28,8 @@ def saveFlow(request):
     app_name = (resquest['name'])
 
     #header data
-    workflow_id = (request['workflow_id'])
-    user_token = (request['user_token'])
+    workflow_id = (resquest['workflow_id'])
+    user_token = (resquest['user_token'])
 
     #bpmn data
     workflow_detail = resquest['bpmnJson']
@@ -53,12 +53,13 @@ def saveFlow(request):
     #Save update new workflow in firebase   
     pickled_obj = pickle.dumps(workflowEngine)
     pickled_obj_str = str(pickled_obj)
-
+    
     headers = {"Authorization":("Token " + str(user_token)), "Content-Type":"application/json"}
     url = "http://178.128.214.101:8003/api/workflow"
     payload = {"id": int(workflow_id),"data": {"workflowObject": pickled_obj_str}}
     data = json.dumps(payload)
     r = requests.put(url, headers=headers, data=data)
+    print("----------")
     print(r.content)
 
     print("------saved workflow object successfully--------")
