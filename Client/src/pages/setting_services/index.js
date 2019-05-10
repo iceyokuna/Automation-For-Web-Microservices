@@ -1,6 +1,6 @@
 import React, { Component, } from 'react'
 import { Box, Button, Text } from 'grommet';
-import { Add } from 'grommet-icons'
+import { Add, Close } from 'grommet-icons'
 
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
@@ -35,6 +35,12 @@ class index extends Component {
     })
   }
 
+  onDeleteUserService = (service, itemIndex) => {
+    const { dispatch } = this.props;
+    dispatch(userServicesActions.deleteServiceById(service.id, itemIndex));
+  }
+
+
   renderServices = () => {
     if (this.state.loadingServices) return (
       <Box align="center" justify="center" pad="medium">
@@ -67,7 +73,15 @@ class index extends Component {
           {userServices.data.map((service, index) =>
             <tr className="service" onClick={() => this.onSelectService(index)}>
               <td>{service.name || "Untitled"}</td>
-              <td>{service.info || "Undefined"}</td>
+              <td>
+                <Box justify="between" direction="row" align="center">
+                  <Text>
+                    {service.info || "Undefined"}
+                  </Text>
+                  <Button onClick={() => this.onDeleteUserService(service)} 
+                    icon={<Close size="14px"/>} />
+                </Box>
+              </td>
             </tr>
           )}
         </table>
