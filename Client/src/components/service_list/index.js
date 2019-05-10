@@ -18,7 +18,7 @@ class index extends Component {
     const active = currentServiceId == serviceId ?
       { size: "medium", color: "accent-4", side: "left" } : null;
     return (
-      <Box pad="small" >
+      <Box pad={{ vertical: 'small', right: 'small' }} >
         <Box border={active} pad={{ left: 'small' }}>
           <Box direction="row" justify="between">
             <Text size="large" weight="bold">{name}</Text>
@@ -30,18 +30,23 @@ class index extends Component {
     )
   };
 
-  renderListOfMethods = (service) => {
+  renderListOfMethods = (service, currentMethodId) => {
     const { id, name, info, methods } = service;
     const serviceId = id;
-
-    return methods.map((method, index) =>
-      <Box key={index} background="light-1">
-        <Button fill hoverIndicator onClick={() => this.props.onSelectServiceMethod({ serviceId, name, info, method })}>
-          <Box pad='small'>
-            <Text >{method.name}</Text>
+    return methods.map((method, index) => {
+      const active = currentMethodId == method.id ?
+        { size: "medium", color: "accent-4", side: "left" } : null;
+      return (
+        <Box key={index} background="light-1"  >
+          <Box border={active} pad={{ left: 'small' }}>
+            <Button fill hoverIndicator onClick={() => this.props.onSelectServiceMethod({ serviceId, name, info, method })}>
+              <Box pad='small'>
+                <Text >{method.name}</Text>
+              </Box>
+            </Button>
           </Box>
-        </Button>
-      </Box>)
+        </Box>);
+    })
   }
 
   renderServiceItem = () => {
@@ -52,12 +57,16 @@ class index extends Component {
 
     const currentServiceId = appliedMethods[currentNodeId] != null ?
       appliedMethods[currentNodeId].serviceId : -1;
+
+    const currentMethodId = appliedMethods[currentNodeId] != null ?
+      appliedMethods[currentNodeId].method.id : -1;
+
     return services.map((item, index) =>
       <AccordionPanel
         key={index}
         header={this.renderPanelHeader(item.name, item.info, currentServiceId, item.id)}
       >
-        {this.renderListOfMethods(item)}
+        {this.renderListOfMethods(item, currentMethodId)}
       </AccordionPanel>)
   }
 
