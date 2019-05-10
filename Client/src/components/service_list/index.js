@@ -47,8 +47,11 @@ class index extends Component {
   renderServiceItem = () => {
     const { services, workflow } = this.props;
     const { appliedMethods } = workflow;
-    const currentNodeId = workflow.currentNode.id;
-    const currentServiceId = appliedMethods[currentNodeId].serviceId;
+    const currentNodeId = workflow.currentNode != null
+      ? workflow.currentNode.id : -1;
+
+    const currentServiceId = appliedMethods[currentNodeId] != null ?
+      appliedMethods[currentNodeId].serviceId : -1;
     return services.map((item, index) =>
       <AccordionPanel
         key={index}
