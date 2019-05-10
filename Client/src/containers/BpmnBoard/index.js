@@ -64,7 +64,7 @@ class BpmnContainer extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, workflow } = this.props;
+    const { dispatch } = this.props;
 
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
@@ -86,7 +86,8 @@ class BpmnContainer extends Component {
 
     // Request all availale services to be selected on the properties panel
     dispatch(availableServicesActions.getAllServices());
-    this.renderDiagram(workflow.bpmnJson);
+
+    this.renderDiagram();
     this.bindEvenCallback();
   }
 
@@ -167,8 +168,10 @@ class BpmnContainer extends Component {
     // });
   }
 
-  renderDiagram = (bpmnJson) => {
-    const diagram = json2xml(bpmnJson);
+  renderDiagram = () => {
+    const { workflow } = this.props;
+    const diagram = workflow.mode === "CREATE_NEW" ? xmlStr
+      : json2xml(workflow.bpmnJson);
     this.bpmnModeler.importXML(diagram, err => {
       if (err) {
         // Import failed
