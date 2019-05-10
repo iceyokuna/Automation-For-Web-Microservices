@@ -21,7 +21,7 @@ const defaultState = {
   showMemberDialog: false,
   showEditInfoDialog: false,
   showFormTypeDialog: false,
-  mode: null,
+  mode: "CREATE_NEW",
 }
 
 const initState = { ...defaultState };

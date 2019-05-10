@@ -36,7 +36,6 @@ import { Upload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 import {
   workflowActions, availableServicesActions,
   logsActions,
-  userServicesActions
 } from 'actions'
 
 import Spinner from 'react-spinkit'
@@ -64,7 +63,7 @@ class BpmnContainer extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, workflow } = this.props;
+    const { dispatch } = this.props;
 
     document.body.className = "shown";
     this.bpmnModeler = new BpmnModeler({
@@ -86,7 +85,8 @@ class BpmnContainer extends Component {
 
     // Request all availale services to be selected on the properties panel
     dispatch(availableServicesActions.getAllServices());
-    this.renderDiagram(workflow.bpmnJson);
+
+    this.renderDiagram();
     this.bindEvenCallback();
   }
 
@@ -138,37 +138,10 @@ class BpmnContainer extends Component {
     })
   }
 
-
-
-  attachFormToXML = (newForms) => {
-    // const { taskId, form } = newForms;
-
-    // const elementRegistry = this.bpmnModeler.get('elementRegistry');
-
-    // const sequenceFlowElement = elementRegistry.get(taskId),
-    //   businessObject = sequenceFlowElement.businessObject;
-
-    // // businessObject.id = 'NewEventName'; // Change ID of the element
-
-    // const moddle = this.bpmnModeler.get('moddle');
-    // const formTag = moddle.create('form:FormData');
-
-    // formTag.forTaskId = taskId;
-    // formTag.html = form.formHtml;
-    // formTag.css = form.formCss;
-
-    // businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
-    // const extensions = moddle.create('bpmn:ExtensionElements');
-    // extensions.get('values').push(formTag);
-
-    // const modeling = this.bpmnModeler.get('modeling');
-    // modeling.updateProperties(sequenceFlowElement, {
-    //   extensionElements: extensions
-    // });
-  }
-
-  renderDiagram = (bpmnJson) => {
-    const diagram = json2xml(bpmnJson);
+  renderDiagram = () => {
+    const { workflow } = this.props;
+    const diagram = workflow.mode == "CREATE_NEW" ? xmlStr
+      : json2xml(workflow.bpmnJson);
     this.bpmnModeler.importXML(diagram, err => {
       if (err) {
         // Import failed
