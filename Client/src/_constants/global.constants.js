@@ -13,6 +13,8 @@ export const globalConstants = {
   SET_FCM_TOKEN_URL: 'http://178.128.214.101:8003/api/fcm_token/',
 
   CREATE_USER_SERVICE_URL: 'http://178.128.214.101:8004/api/service/add',
+  DELETE_USER_SERVICE_URL: 'http://178.128.214.101:8004/api/user_service/',
+
   USER_METHOD_URL: 'http://178.128.214.101:8004/api/user_method/',
 
   DELETE_COLLABORATORS_URL: 'http://178.128.214.101:8003/api/collaborator/delete/',

@@ -98,8 +98,12 @@ class BpmnContainer extends Component {
 
   bindEvenCallback = () => {
     // Binding events
-
     window.onresize = this.centerCanvas.bind(this);
+
+    this.bpmnModeler.on('shape.remove', (event) => {
+      const elementId = event.element.id;
+      this.props.dispatch(workflowActions.deleteAppliedMethodByTaskId(elementId));
+    })
 
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {

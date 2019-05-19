@@ -10,6 +10,24 @@ export const userServicesActions = {
   createNewLocalService,
   addNewMethod,
   addNewLocalMethod,
+  deleteServiceById
+}
+
+function deleteServiceById(serviceId, indexToDelete) {
+  return dispatch => {
+    // dispatch({ type: userServicesConstants.DELETE_SERVICE_BY_ID, serviceId });
+
+    userService.deleteServiceById(serviceId).then(res => {
+      toast.success("Delete successfully");
+      dispatch({
+        type: userServicesConstants.DELETE_SERVICE_BY_ID_SUCCESS,
+        indexToDelete,
+      });
+    }).catch(e => {
+      toast.error("Fail to delete the service");
+    })
+  }
+
 }
 
 function uploadNewService() {

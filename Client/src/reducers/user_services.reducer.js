@@ -13,6 +13,13 @@ const defaultState = {
 
 export function userServices(state = defaultState, action) {
   switch (action.type) {
+
+    case userServicesConstants.DELETE_SERVICE_BY_ID_SUCCESS: {
+      const nextState = { ...state };
+      nextState.data.splice(action.indexToDelete, 1);
+      return nextState;
+    }
+
     case userServicesConstants.TOGGLE_DEFINE_SERVICE_DIALOG: {
       return { ...state, showDefineServiceDialog: !state.showDefineServiceDialog }
     }
@@ -49,8 +56,6 @@ export function userServices(state = defaultState, action) {
         ...action.methodObject
       })
     }
-
-
 
     case userServicesConstants.GET_USER_SERVICES_REQUEST: {
       return { ...state, loadingUserServices: true };
