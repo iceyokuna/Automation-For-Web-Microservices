@@ -4,11 +4,11 @@ import time
 import datetime
 
 class BackgroundThread(threading.Thread):
-    def __init__(self, threadID, name, messager):
+    def __init__(self, threadID, name, time_db_ref):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
-        self.messager = messager
+        self.time_db_ref = time_db_ref
 
     def run(self):
         try:
@@ -17,7 +17,9 @@ class BackgroundThread(threading.Thread):
                 #fetching periodic time
                 time.sleep(10)
                 #get time event from firebase
-                time_event_data = self.messager.get("TimeEvent",None)
+                time_event_data = self.time_db_ref.get()
+                if(time_event_data == None):
+                    continue
                 #check and trigger event
                 triggered_list = self.getTimeTriggered(time_event_data)
                 self.triggerTimeEvent(triggered_list)
@@ -60,4 +62,4 @@ class BackgroundThread(threading.Thread):
             #update state
             print("\n!!!!!!! trigger !!!!!!! ", event_id)
             #remove event from message queue
-            self.messager.delete('TimeEvent', event_id)
+            self.time_db_ref.update({event_id:None})
