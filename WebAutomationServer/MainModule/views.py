@@ -19,6 +19,7 @@ def end_index(request):
 @csrf_exempt
 def updateState(request):
     pass
+    resquest = json.loads(request.body.decode('utf-8'))
 
 @csrf_exempt
 def saveFlow(request):

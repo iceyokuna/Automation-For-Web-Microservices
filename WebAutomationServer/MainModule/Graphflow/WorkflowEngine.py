@@ -268,25 +268,35 @@ class WorkflowEngine:
         print(element_object.getId())
         print(message['formInputValues'])
         print()
+        print("service id :",end ="  ")
+        print(str(element_object.getServiceId()),end ="  ")
+        print(str(element_object.getServiceMethodId()))
 
         #call gateway API to execute service
         #test philips hue
         if(str(element_object.getServiceId()) == "74"):
             if(str(element_object.getServiceMethodId()) == "84"):
                 url = "http://127.0.0.1:5000/turnon"
-                requests.get(url , data= {})
+                requests.post(url , data= {})
             elif(str(element_object.getServiceMethodId()) == "85"):
                 url = "http://127.0.0.1:5000/turnoff"
-                requests.get(url , data= {})
+                requests.post(url , data= {})
             elif(str(element_object.getServiceMethodId()) == "86"):
                 url = "http://127.0.0.1:5000/red"
-                requests.get(url , data= {})
+                requests.post(url , data= {})
             elif(str(element_object.getServiceMethodId()) == "87"):
                 url = "http://127.0.0.1:5000/green"
-                requests.get(url , data= {})
+                requests.post(url , data= {})
             elif(str(element_object.getServiceMethodId()) == "88"):
                 url = "http://127.0.0.1:5000/blue"
-                requests.get(url , data= {})
+                requests.post(url , data= {})
+
+        elif(str(element_object.getServiceId()) == "4"):
+            url = "https://safe-beyond-22181.herokuapp.com/notify"
+            user_id = message['formInputValues']['user_id']['value']
+            message_data = message['formInputValues']['message']['value']
+            request_data = {"user_id":user_id, "message":message_data}
+            requests.post(url , data= request_data)
 
     def update(self):
         pass
