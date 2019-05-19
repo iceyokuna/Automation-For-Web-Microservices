@@ -189,6 +189,10 @@ class WorkflowEngine:
             #execute task, if message[taskId] is task object
             if(isinstance(self.state[message['taskId']], ServiceTask)):
                 self.execute(message)
+            elif(isinstance(self.state[message['taskId']], TimeEvent)):
+                wait_time_event_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\">Please!! wait time event is pending</div>"}
+                return ({"HTML": wait_time_event_form, "taskId":self.currentState["current"]})  
+
             #update state (for parallel change element_object to get from message)
             self.currentState["current"] = self.transition[(message['taskId'], status)]
             element_object = self.state[self.currentState["current"]]
