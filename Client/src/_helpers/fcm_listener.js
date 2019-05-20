@@ -1,8 +1,6 @@
 import messaging from '_helpers/firebase_setup';
 import { notificationActions } from 'actions';
 import { toast } from 'react-toastify';
-import { css } from 'glamor';
-import { colors } from 'theme';
 import { notificationServices } from 'services';
 import { getUserToken } from '_helpers'
 

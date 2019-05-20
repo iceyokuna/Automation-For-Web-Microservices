@@ -41,9 +41,13 @@ export function workflow(state = defaultState, action) {
 
     }
 
+    case workflowContants.RESET_WORKFLOW_PARAMS: {
+      return defaultState;
+    }
+
     case workflowContants.DELETE_BPMN_ELEMENT: {
       const nextState = { ...state };
-      const {taskId} = action;
+      const { taskId } = action;
       delete nextState.appliedMethods[taskId];
       return nextState;
     }

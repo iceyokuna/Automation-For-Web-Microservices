@@ -7,6 +7,11 @@ const defaultState = {
 
 export function workflowCollaborators(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowContants.RESET_COLLABORATOR_PARAMS: {
+      return defaultState;
+    }
+
     case workflowContants.GET_ALL_COLLABORATORS_REQUEST: {
       return { ...state, loadingCollaborators: true };
     }

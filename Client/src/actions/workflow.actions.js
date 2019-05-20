@@ -9,6 +9,8 @@ export const workflowActions = {
   addNameToId,
   addNewCollaborators,
 
+  resetToInitialParams,
+
   setMode,
 
   prepareNewWorkflow,
@@ -44,6 +46,17 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function resetToInitialParams() {
+  return dispatch => {
+    dispatch({ type: workflowContants.RESET_WORKFLOW_PARAMS });
+    dispatch({ type: workflowContants.RESET_COLLABORATOR_PARAMS });
+    dispatch({ type: workflowContants.RESET_CONDITION_PARAMS });
+    dispatch({ type: workflowContants.RESET_LOG_PARAMS });
+    dispatch({ type: workflowContants.RESET_PREINPUT_PARAMS });
+    dispatch({ type: workflowContants.RESET_TIMER_PARAMS });
+  }
+}
 
 function deleteAppliedMethodByTaskId(taskId) {
   return {
