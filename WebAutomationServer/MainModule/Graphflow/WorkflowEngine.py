@@ -189,6 +189,10 @@ class WorkflowEngine:
             #execute task, if message[taskId] is task object
             if(isinstance(self.state[message['taskId']], ServiceTask)):
                 self.execute(message)
+            elif(isinstance(self.state[message['taskId']], TimeEvent)):
+                wait_time_event_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\">Please!! wait time event is pending</div>"}
+                return ({"HTML": wait_time_event_form, "taskId":self.currentState["current"]})  
+
             #update state (for parallel change element_object to get from message)
             self.currentState["current"] = self.transition[(message['taskId'], status)]
             element_object = self.state[self.currentState["current"]]
@@ -213,10 +217,8 @@ class WorkflowEngine:
             url = "http://127.0.0.1:5000/timeEvent"
             payload = {"elementEventId": element_object.getId(), "time":element_object.getTriggerTime(), "date":element_object.getTriggerDate()}
             result = requests.post(url , data=payload)
-            print()
-            print(result.text)
-            print()
-            
+            wait_time_event_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\">Please wait time event is pending</div>"}
+            return ({"HTML": wait_time_event_form, "taskId":element_object.getId()})          
 
         #exclusive gateway case
         if(isinstance(element_object, ExclusiveGateway)):
@@ -291,6 +293,7 @@ class WorkflowEngine:
                 url = "http://127.0.0.1:5000/blue"
                 requests.post(url , data= {})
 
+        #test line
         elif(str(element_object.getServiceId()) == "4"):
             url = "https://safe-beyond-22181.herokuapp.com/notify"
             user_id = message['formInputValues']['user_id']['value']
@@ -298,7 +301,7 @@ class WorkflowEngine:
             request_data = {"user_id":user_id, "message":message_data}
             requests.post(url , data= request_data)
 
-    def update(self):
+    def updateState(self):
         pass
 
     #use to show all finite state machine formal defination

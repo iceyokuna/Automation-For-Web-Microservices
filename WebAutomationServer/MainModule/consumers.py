@@ -21,7 +21,7 @@ class MainConsumer(WebsocketConsumer):
         #case next flow
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-        
+        print(message)
         #header data
         user_id = message['user']['username']
         user_token = message['user']['token']
