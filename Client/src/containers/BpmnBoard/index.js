@@ -31,7 +31,7 @@ import download from 'downloadjs';
 import { json2xml, xml2json } from 'xml-js'
 
 import { Box, Layer, Text } from 'grommet'
-import { Upload, Group, Test, Edit, CaretUp } from 'grommet-icons'
+import { CloudUpload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 
 import {
   workflowActions, availableServicesActions,
@@ -440,8 +440,8 @@ class BpmnContainer extends Component {
           icon={<Group size="18px" />}
           onClick={this.onInvite} />
 
-        <NextButton color="accent-2" primary icon={<Upload size="18px" color="#fff" />}
-          data-tip="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
+        <NextButton color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
+          data-tip="Save Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
         <OpenDock plain icon={<CaretUp />} data-tip="Workflow logs" onClick={this.onOpenLogs} />
 
