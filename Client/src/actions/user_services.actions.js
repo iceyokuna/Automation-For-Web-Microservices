@@ -140,7 +140,10 @@ function addNewMethod(
       JSON.parse(inputInterface),
       JSON.parse(outputInterface),
       methodUrl).then(
-        res => dispatch(success(res.data))
+        res => {
+          toast.success("Add a new method successfully");
+          dispatch(getUserServices())
+        }
       ).catch(e => dispatch(failure()))
   }
 

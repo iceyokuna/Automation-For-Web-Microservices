@@ -55,7 +55,7 @@ class index extends Component {
         <Box align="center" justify="center" pad="medium" gap="medium">
           <Text size="medium">You don't have any service</Text>
           <Box direction="row" justify="end" align="center">
-            <Button label="Add Service" color="accent-1"
+            <Button label="Add service" color="accent-1"
               icon={<Add />}
               primary onClick={this.onAddService} />
           </Box>

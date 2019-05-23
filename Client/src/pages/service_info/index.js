@@ -5,7 +5,7 @@ import {
   TextInput, FormField,
   Text, Select
 } from 'grommet';
-import { Add, Edit } from 'grommet-icons'
+import { Add, Edit, Upload } from 'grommet-icons'
 import { withRouter } from 'react-router-dom';
 import { Row, Col } from 'react-flexbox-grid';
 import { colors } from 'theme';
@@ -37,6 +37,7 @@ const ServiceInfo = (props) => {
   const [methodType, setMethodType] = useState("");
   const [methodInputInterface, setMethodInputInterface] = useState("");
   const [methodOutputInterface, setMethodOutputInterface] = useState("");
+  const [mode, setMode] = useState("update");
 
   useEffect(() => {
     if (currentMethod != null) {
@@ -48,10 +49,11 @@ const ServiceInfo = (props) => {
       setMethodOutputInterface(JSON.stringify(currentMethod.output_interface, null, 2));
     }
 
-  }, [currentMethod])
+  }, [currentMethod,])
 
   const onSelectMethod = (method) => {
     setCurrentMethod(method);
+    setMode("update");
     setShowMethodDialog(true);
   }
 
@@ -73,11 +75,19 @@ const ServiceInfo = (props) => {
 
   }
 
+  const onShowMethodDialog = () => {
+    setMode("create");
+    setShowMethodDialog(true);
+  }
 
   function renderServiceInfo() {
     return (
       <Fragment>
-        <Text margin={{ bottom: 'small' }} size="large" weight="bold">Service's information</Text>
+        <Box direction="row" justify="between" align="center" margin={{ bottom: 'medium' }}>
+          <Text size="large" weight="bold">Service's information</Text>
+          <Button label="Update" icon={<Edit />} color="accent-1"
+            onClick={onUpdateServiceInfo} primary />
+        </Box>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6} >
             <FormField>
@@ -98,10 +108,6 @@ const ServiceInfo = (props) => {
             </FormField>
           </Col>
         </Row>
-        <Box direction="row" justify="end">
-          <Button label="Update" icon={<Edit />} color="accent-1"
-            onClick={onUpdateServiceInfo} primary />
-        </Box>
       </Fragment>);
   }
 
@@ -109,7 +115,11 @@ const ServiceInfo = (props) => {
     const { methods } = currentService;
     return (
       <Fragment>
-        <Text margin={{ bottom: 'small' }} size="large" weight="bold">Service's methods</Text>
+        <Box direction="row" justify="between" align="center" margin={{ bottom: 'medium' }}>
+          <Text size="large" weight="bold">Service's methods</Text>
+          <Button label="Add method" icon={<Add />} color="accent-3"
+            onClick={onShowMethodDialog} primary />
+        </Box>
         <table>
           <tr>
             <th>Method name</th>
@@ -130,7 +140,7 @@ const ServiceInfo = (props) => {
 
   function renderMethodInfo() {
     return (
-      <Box gap="small">
+      <Box gap="medium">
         <Row >
           <Col xs={12} md={5} lg={5}>
             <FormField>
@@ -179,11 +189,11 @@ const ServiceInfo = (props) => {
           </Col>
         </Row>
 
-        <Box direction="row" justify="end" gap="small">
-          <Button icon={<Add />} label="Create new"
-            onClick={onAddNewMethod} color="accent-1" />
-          <Button icon={<Edit />} label="Update" primary
-            onClick={onUpdateMethod} color="accent-1" />
+        <Box direction="row" justify="end">
+          {mode === "update" ? <Button icon={<Edit />} label="Update" primary
+            onClick={onUpdateMethod} color="accent-3" /> :
+            <Button label="Submit" icon={<Upload size="18px"/>} color="accent-3"
+              onClick={onAddNewMethod} primary />}
         </Box>
       </Box>
     );
