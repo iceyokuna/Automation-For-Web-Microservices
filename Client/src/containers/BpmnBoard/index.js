@@ -46,6 +46,7 @@ import {
   OpenDock
 } from './style'
 
+import ReactTooltip from 'react-tooltip';
 
 let scale = 1;
 
@@ -88,6 +89,7 @@ class BpmnContainer extends Component {
 
     this.renderDiagram();
     this.bindEvenCallback();
+    ReactTooltip.rebuild();
   }
 
   centerCanvas = () => {

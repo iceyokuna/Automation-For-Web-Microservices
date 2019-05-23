@@ -26,6 +26,7 @@ import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
 import { CircleButton, RoundButton } from './style';
+import ReactTooltip from 'react-tooltip';
 
 class FlowDetail extends Component {
 
@@ -48,6 +49,10 @@ class FlowDetail extends Component {
         { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
       ]
     };
+  }
+
+  componentDidMount() {
+    ReactTooltip.rebuild();
   }
 
   onChangename = (e) => {
@@ -225,13 +230,16 @@ class FlowDetail extends Component {
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
         <MemberDialog />
+        <ReactTooltip effect="solid"/>
+
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" fill align="center" justify="between">
-            <Heading size='small' margin={{ right: 'medium' }}>{currentFlow.name || "Untitled"}</Heading>
+            <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
             <Box direction="row" gap="small">
               <CircleButton
                 color="accent-4"
-                primary plain={false} title="Collaborators"
+                primary plain={false}
+                data-tip="Collaborators of this workflow"
                 icon={<Group color="#fff" size="18px" />}
                 onClick={this.onInviteMembers} />
               <RoundButton label={executeStatus} primary icon={<Play size="16px" />}

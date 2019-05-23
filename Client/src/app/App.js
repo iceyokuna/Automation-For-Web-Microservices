@@ -33,7 +33,8 @@ const App = () => (
         <ToastContainer hideProgressBar position="top-center"
           closeButton={<Close color="#fff" size="14px" />} />
 
-        <ReactTooltip effect="solid"/>
+        <ReactTooltip effect="solid" />
+        
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/reset_password" component={ResetPassword} />
