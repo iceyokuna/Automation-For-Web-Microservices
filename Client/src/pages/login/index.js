@@ -28,15 +28,15 @@ class Login extends Component {
       newUsername: '',
       lastName: '',
       email: '',
-      password: '',
-      confirmPass: '',
+      newPassword: '',
+      newConfirmPass: '',
       passwordError: null,
 
     };
 
   }
 
-  onChangeusername = (e) => {
+  onChangeUsername = (e) => {
     this.setState({ username: e.target.value });
   }
   onChangePassword = (e) => {
@@ -54,9 +54,9 @@ class Login extends Component {
 
   onSignup = () => {
     const { firstName, lastName, username, email,
-      password, confirmPass } = this.state;
+      password, newConfirmPass } = this.state;
 
-    if (password !== confirmPass) {
+    if (password !== newConfirmPass) {
       this.setState({ passwordError: 'Password must be the same' });
       return;
     }
@@ -88,20 +88,20 @@ class Login extends Component {
     this.setState({ email: e.target.value });
   }
 
-  onChangePassword = (e) => {
-    this.setState({ password: e.target.value });
+  onChangeNewPassword = (e) => {
+    this.setState({ newPassword: e.target.value });
   }
 
   onChangeConfirmPass = (e) => {
-    this.setState({ confirmPass: e.target.value });
+    this.setState({ newConfirmPass: e.target.value });
   }
 
 
   onRegister = () => {
     const { firstName, lastName, username, email,
-      password, confirmPass } = this.state;
+      password, newConfirmPass } = this.state;
 
-    if (password !== confirmPass) {
+    if (password !== newConfirmPass) {
       this.setState({ passwordError: 'Password must be the same' });
       return;
     }
@@ -144,8 +144,8 @@ class Login extends Component {
             ref='usernameInput'
             autoFocus
             placeholder="Username"
-            value={this.state.newUsername}
-            onChange={this.onChangeNewUsername} />
+            value={this.state.username}
+            onChange={this.onChangeUsername} />
         </FormField>
         <FormField>
           <TextInput
@@ -179,8 +179,8 @@ class Login extends Component {
                 ref='usernameInput'
                 autoFocus
                 placeholder="Username"
-                value={this.state.username}
-                onChange={this.onChangeUsername} />
+                value={this.state.newUsername}
+                onChange={this.onChangeNewUsername} />
             </FormField>
           </Col>
 
@@ -223,8 +223,8 @@ class Login extends Component {
               <TextInput
                 placeholder="Password"
                 type="password"
-                value={this.state.password}
-                onChange={this.onChangePassword} />
+                value={this.state.newPassword}
+                onChange={this.onChangeNewPassword} />
             </FormField>
           </Col>
 
@@ -234,7 +234,7 @@ class Login extends Component {
               <TextInput
                 placeholder="Confirm password"
                 type="password"
-                value={this.state.confirmPass}
+                value={this.state.newConfirmPass}
                 onChange={this.onChangeConfirmPass} />
             </FormField>
           </Col>
