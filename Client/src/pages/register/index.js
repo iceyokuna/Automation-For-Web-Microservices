@@ -85,7 +85,7 @@ class Register extends Component {
 
           <Row>
             <Col xs={12} md={12} lg={12} >
-              <FormField >
+              <FormField>
                 <TextInput
                   ref='usernameInput'
                   autoFocus
@@ -96,7 +96,7 @@ class Register extends Component {
             </Col>
 
             <Col xs={12} md={6} lg={6} >
-              <FormField >
+              <FormField>
                 <TextInput
                   ref='firstNameInput'
                   autoFocus
@@ -107,7 +107,7 @@ class Register extends Component {
             </Col>
 
             <Col xs={12} md={6} lg={6} >
-              <FormField >
+              <FormField>
                 <TextInput
                   ref='lastNameInput'
                   autoFocus

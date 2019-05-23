@@ -13,7 +13,7 @@ import {
 
 import { Router, Route, Switch, } from "react-router-dom";
 import { Grommet, Box } from 'grommet';
-import { Close } from 'grommet-icons'
+import { Close, UserAdd } from 'grommet-icons'
 
 import appTheme from 'theme';
 
@@ -34,7 +34,6 @@ const App = () => (
         />
         <Switch>
           <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
           <Route exact path="/reset_password" component={ResetPassword} />
 
           {/* For dev */}
