@@ -75,29 +75,16 @@ class Register extends Component {
         justify="center" fill='vertical'
         style={{ ...global.globalContainer, paddingTop: 0 }}>
         <Box pad='medium' style={{ width: 450 }}
-          background="light-0" 
+          background="light-0"
           round={{ size: 'small' }}
           animation='fadeIn'>
-          <Image height="150px" src={require('assets/images/autoweb_icon.png')} fit="contain" />
+
+          <Box height="150px">
+            <Image src={require('assets/images/autoweb_icon_2.png')} fit="contain" />
+          </Box>
 
           <Row>
-            <Col xs={12} lg={6} md={6}>
-              <FormField >
-                <TextInput
-                  ref='firstNameInput'
-                  autoFocus
-                  placeholder="First Name"
-                  value={this.state.firstName}
-                  onChange={this.onChangeFirstName} />
-              </FormField>
-              <FormField >
-                <TextInput
-                  ref='lastNameInput'
-                  autoFocus
-                  placeholder="Last Name"
-                  value={this.state.lastName}
-                  onChange={this.onChangeLastName} />
-              </FormField>
+            <Col xs={12} md={12} lg={12} >
               <FormField >
                 <TextInput
                   ref='usernameInput'
@@ -108,8 +95,30 @@ class Register extends Component {
               </FormField>
             </Col>
 
-            <Col xs={12} lg={6} md={6}>
+            <Col xs={12} md={6} lg={6} >
               <FormField >
+                <TextInput
+                  ref='firstNameInput'
+                  autoFocus
+                  placeholder="First Name"
+                  value={this.state.firstName}
+                  onChange={this.onChangeFirstName} />
+              </FormField>
+            </Col>
+
+            <Col xs={12} md={6} lg={6} >
+              <FormField >
+                <TextInput
+                  ref='lastNameInput'
+                  autoFocus
+                  placeholder="Last Name"
+                  value={this.state.lastName}
+                  onChange={this.onChangeLastName} />
+              </FormField>
+            </Col>
+
+            <Col xs={12} md={12} lg={12} >
+              <FormField>
                 <TextInput
                   ref='emailInput'
                   autoFocus
@@ -117,6 +126,9 @@ class Register extends Component {
                   value={this.state.email}
                   onChange={this.onChangeEmail} />
               </FormField>
+            </Col>
+
+            <Col xs={12} md={12} lg={12} >
               <FormField
                 error={passwordError}>
                 <TextInput
@@ -125,6 +137,9 @@ class Register extends Component {
                   value={this.state.password}
                   onChange={this.onChangePassword} />
               </FormField>
+            </Col>
+
+            <Col xs={12} md={12} lg={12} >
               <FormField
                 error={passwordError}>
                 <TextInput
@@ -137,11 +152,10 @@ class Register extends Component {
 
           </Row>
 
-
-
-          <Box pad="small">
-            <Button primary icon={<UserNew />} label="Create an account" onClick={this.onRegister} />
+          <Box pad={{ vertical: 'small' }}>
+            <Button label="Sign up" onClick={this.onRegister} primary />
           </Box>
+
         </Box>
       </Box>
     )
