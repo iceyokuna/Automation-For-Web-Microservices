@@ -128,7 +128,7 @@ const ServiceInfo = (props) => {
                 placeholder="GET"
                 value={methodType}
                 options={requestTypeOptions}
-                onChange={e => setMethodType(e.target.value)}
+                onChange={({option}) => setMethodType(option)}
               />
             </FormField>
           </Col>
