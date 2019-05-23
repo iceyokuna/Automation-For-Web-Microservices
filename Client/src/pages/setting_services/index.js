@@ -29,9 +29,9 @@ class index extends Component {
     // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());3
   }
 
-  onSelectService = (index) => {
+  onSelectService = (index, serviceId) => {
     const { match, dispatch, history } = this.props;
-    dispatch(userServicesActions.setCurrentService(index));
+    dispatch(userServicesActions.setCurrentService(index, serviceId));
     history.push(match.url + '/info');
   }
 
@@ -39,7 +39,6 @@ class index extends Component {
     const { dispatch } = this.props;
     dispatch(userServicesActions.deleteServiceById(service.id, itemIndex));
   }
-
 
   renderServices = () => {
     if (this.state.loadingServices) return (
@@ -71,7 +70,7 @@ class index extends Component {
             <th>Service info</th>
           </tr>
           {userServices.data.map((service, index) =>
-            <tr className="service" onClick={() => this.onSelectService(index)}>
+            <tr className="service" onClick={() => this.onSelectService(index, service.id)}>
               <td>{service.name || "Untitled"}</td>
               <td>
                 <Box justify="between" direction="row" align="center">

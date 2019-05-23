@@ -15,8 +15,8 @@ export function userServices(state = defaultState, action) {
   switch (action.type) {
 
     case userServicesConstants.SET_CURRENT_SERVICE: {
-      const { currentIndex } = action;
-      return { ...state, currentService: state.data[currentIndex] };
+      const { currentIndex, currentServiceId } = action;
+      return { ...state, currentService: state.data[currentIndex], currentServiceId };
     }
 
     case userServicesConstants.DELETE_SERVICE_BY_ID_SUCCESS: {

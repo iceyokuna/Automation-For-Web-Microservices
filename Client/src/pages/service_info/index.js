@@ -5,10 +5,12 @@ import {
   TextInput, FormField,
   Text, Select
 } from 'grommet';
+import { Add, Edit } from 'grommet-icons'
 import { withRouter } from 'react-router-dom';
 import { Row, Col } from 'react-flexbox-grid';
 import { colors } from 'theme';
 import Modal from 'components/modal';
+import { userServicesActions } from 'actions';
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const interfacePlaceholder = `{
@@ -26,7 +28,7 @@ const ServiceInfo = (props) => {
   }
   const [serviceName, setServiceName] = useState(currentService.name);
   const [serviceInfo, setServiceInfo] = useState(currentService.info);
-  // const [serviceUrl, setServiceUrl] = useState(currentService.path);
+  const [serviceUrl, setServiceUrl] = useState(currentService.path || "https://google.com/api");
   const [showMethodDialog, setShowMethodDialog] = useState(false);
   const [currentMethod, setCurrentMethod] = useState(null);
   const [methodName, setMethodName] = useState("");
@@ -53,6 +55,25 @@ const ServiceInfo = (props) => {
     setShowMethodDialog(true);
   }
 
+  const onUpdateMethod = () => {
+
+  }
+
+  const onAddNewMethod = () => {
+    props.dispatch(userServicesActions.addNewMethod(
+      methodName,
+      methodInfo,
+      methodType,
+      methodInputInterface,
+      methodOutputInterface,
+    ))
+  }
+
+  const onUpdateServiceInfo = () => {
+
+  }
+
+
   function renderServiceInfo() {
     return (
       <Fragment>
@@ -70,7 +91,17 @@ const ServiceInfo = (props) => {
                 onChange={e => setServiceInfo(e.target.value)} value={serviceInfo} />
             </FormField>
           </Col>
+          <Col xs={12} sm={12} md={12} lg={12} >
+            <FormField>
+              <TextInput placeholder="URL's path e.g. /news/techologies" size="small"
+                onChange={e => setServiceUrl(e.target.value)} value={serviceUrl} />
+            </FormField>
+          </Col>
         </Row>
+        <Box direction="row" justify="end">
+          <Button label="Update" icon={<Edit />} color="accent-1"
+            onClick={onUpdateServiceInfo} primary />
+        </Box>
       </Fragment>);
   }
 
@@ -99,7 +130,7 @@ const ServiceInfo = (props) => {
 
   function renderMethodInfo() {
     return (
-      <Fragment>
+      <Box gap="small">
         <Row >
           <Col xs={12} md={5} lg={5}>
             <FormField>
@@ -128,7 +159,7 @@ const ServiceInfo = (props) => {
                 placeholder="GET"
                 value={methodType}
                 options={requestTypeOptions}
-                onChange={({option}) => setMethodType(option)}
+                onChange={({ option }) => setMethodType(option)}
               />
             </FormField>
           </Col>
@@ -147,12 +178,19 @@ const ServiceInfo = (props) => {
               onChange={e => setMethodOutputInterface(e.target.value)} />
           </Col>
         </Row>
-      </Fragment>
+
+        <Box direction="row" justify="end" gap="small">
+          <Button icon={<Add />} label="Create new"
+            onClick={onAddNewMethod} color="accent-1" />
+          <Button icon={<Edit />} label="Update" primary
+            onClick={onUpdateMethod} color="accent-1" />
+        </Box>
+      </Box>
     );
   }
 
   return (
-    <Box gap="medium" pad="small" margin={{ top: "medium" }}>
+    <Box gap="small" pad="small" margin={{ top: "medium" }} animation="fadeIn">
       {renderServiceInfo()}
       {renderMethodList()}
       <Modal show={showMethodDialog}

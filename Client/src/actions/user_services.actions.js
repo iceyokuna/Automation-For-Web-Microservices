@@ -14,10 +14,11 @@ export const userServicesActions = {
   setCurrentService,
 }
 
-function setCurrentService(currentIndex) {
+function setCurrentService(currentIndex, currentServiceId) {
   return {
     type: userServicesConstants.SET_CURRENT_SERVICE,
     currentIndex,
+    currentServiceId,
   }
 }
 
@@ -136,7 +137,9 @@ function addNewMethod(
     const serviceId = getState().userServices.currentServiceId;
     userService.addNewMethod(methodName,
       methodInfo, methodType, serviceId,
-      inputInterface, outputInterface, methodUrl).then(
+      JSON.parse(inputInterface),
+      JSON.parse(outputInterface),
+      methodUrl).then(
         res => dispatch(success(res.data))
       ).catch(e => dispatch(failure()))
   }
