@@ -421,27 +421,27 @@ class BpmnContainer extends Component {
         <EditInfoButton
           color="accent-1" primary plain={false}
           icon={<Edit size="18px" color="#ffffff" />}
-          title="Edit information"
+          data-tip="Edit information"
           onClick={this.onEditDiagram}
         />
 
         <SendWorkflowButton
           color="accent-4" primary plain={false}
           icon={<Test size="18px" color="#ffffff" />}
-          title="Send workflow directly to engine"
+          data-tip="Send workflow directly to engine"
           onClick={() => this.onSubmitDiagram("ToEngine")}
         />
 
         <InviteButton
           color="accent-3"
-          primary plain={false} title="Collaborators"
+          primary plain={false} data-tip="Collaborators"
           icon={<Group size="18px" />}
           onClick={this.onInvite} />
 
         <NextButton color="accent-2" primary icon={<Upload size="18px" color="#fff" />}
-          title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
+          data-tip="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
-        <OpenDock plain icon={<CaretUp />} title="Workflow logs" onClick={this.onOpenLogs} />
+        <OpenDock plain icon={<CaretUp />} data-tip="Workflow logs" onClick={this.onOpenLogs} />
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}

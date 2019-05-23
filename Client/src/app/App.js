@@ -22,6 +22,7 @@ import { store, history } from '_helpers';
 
 import PrivateRoute from 'components/private_route'
 import { ToastContainer } from 'react-toastify';
+import ReactTooltip from 'react-tooltip'
 
 Box.defaultProps.responsive = false;
 
@@ -30,8 +31,9 @@ const App = () => (
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <ToastContainer hideProgressBar position="top-center"
-          closeButton={<Close color="#fff" size="14px" />}
-        />
+          closeButton={<Close color="#fff" size="14px" />} />
+
+        <ReactTooltip effect="solid"/>
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/reset_password" component={ResetPassword} />
