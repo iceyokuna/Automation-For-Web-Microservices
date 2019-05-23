@@ -14,6 +14,7 @@ import "./tabs.css";
 import SettingServices from 'pages/setting_services';
 import SettingNotification from 'pages/setting_notification';
 import AddService from 'pages/setting_services_add';
+import ServiceInfo from 'pages/service_info';
 
 import { Route } from 'react-router-dom';
 
@@ -57,6 +58,7 @@ class index extends Component {
 
               <TabPanel>
                 <Route exact path={match.url + "/services"} component={SettingServices} />
+                <Route path={match.url + "/services/info"} component={ServiceInfo} />
                 <Route path={match.url + "/services/addService"} component={AddService} />
                 <Route path={match.url + "/notification"} component={SettingNotification} />
               </TabPanel>

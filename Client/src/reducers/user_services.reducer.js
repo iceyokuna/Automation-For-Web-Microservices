@@ -7,12 +7,17 @@ const defaultState = {
   creatingNewMethod: false,
   data: [],
   currentServiceId: null,
-
+  currentService: null,
   newService: {},
 }
 
 export function userServices(state = defaultState, action) {
   switch (action.type) {
+
+    case userServicesConstants.SET_CURRENT_SERVICE: {
+      const { currentIndex } = action;
+      return { ...state, currentService: state.data[currentIndex] };
+    }
 
     case userServicesConstants.DELETE_SERVICE_BY_ID_SUCCESS: {
       const nextState = { ...state };

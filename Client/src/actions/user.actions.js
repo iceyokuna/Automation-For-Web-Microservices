@@ -22,12 +22,11 @@ function login(username, password) {
           user = JSON.stringify(user);
           localStorage.setItem('user', user);
           history.push('/my_flows');
-        },
-        error => {
-          dispatch(failure(error.toString()));
-          dispatch(alertActions.error(error.toString()));
         }
-      );
+      ).catch(error => {
+        dispatch(failure(error.toString()));
+        dispatch(alertActions.error(error.toString()));
+      })
 
     // Fake login
     // setTimeout(() => {
@@ -62,12 +61,11 @@ function register(user) {
           dispatch(success());
           history.push('/login');
           dispatch(alertActions.success('Registration successful'));
-        },
-        error => {
-          dispatch(failure(error.toString()));
-          dispatch(alertActions.error(error.toString()));
         }
-      );
+      ).catch(error => {
+        dispatch(failure(error.toString()));
+        dispatch(alertActions.error(error.toString()));
+      })
   };
 
   function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }

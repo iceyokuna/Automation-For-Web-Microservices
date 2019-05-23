@@ -24,15 +24,15 @@ class index extends Component {
   }
 
   onAddService = () => {
-    const { match } = this.props;
-    this.props.history.push(match.url + '/addService');
+    const { match, history } = this.props;
+    history.push(match.url + '/addService');
     // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());3
   }
 
   onSelectService = (index) => {
-    this.setState({
-      currentContent: "serviceDetail",
-    })
+    const { match, dispatch, history } = this.props;
+    dispatch(userServicesActions.setCurrentService(index));
+    history.push(match.url + '/info');
   }
 
   onDeleteUserService = (service, itemIndex) => {
@@ -78,8 +78,8 @@ class index extends Component {
                   <Text>
                     {service.info || "Undefined"}
                   </Text>
-                  <Button onClick={() => this.onDeleteUserService(service)} 
-                    icon={<Close size="14px"/>} />
+                  <Button onClick={() => this.onDeleteUserService(service)}
+                    icon={<Close size="14px" />} />
                 </Box>
               </td>
             </tr>

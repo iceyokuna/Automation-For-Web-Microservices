@@ -10,7 +10,15 @@ export const userServicesActions = {
   createNewLocalService,
   addNewMethod,
   addNewLocalMethod,
-  deleteServiceById
+  deleteServiceById,
+  setCurrentService,
+}
+
+function setCurrentService(currentIndex) {
+  return {
+    type: userServicesConstants.SET_CURRENT_SERVICE,
+    currentIndex,
+  }
 }
 
 function deleteServiceById(serviceId, indexToDelete) {
