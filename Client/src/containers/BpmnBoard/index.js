@@ -387,7 +387,7 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
-        <ExecutionLog />
+        {/* <ExecutionLog /> */}
         <FormTypeDialog />
         <EditWorkflowInfo />
         <MemberDialog />
@@ -443,7 +443,7 @@ class BpmnContainer extends Component {
         <NextButton color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
           data-tip="Save Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
-        <OpenDock plain icon={<CaretUp />} data-tip="Workflow logs" onClick={this.onOpenLogs} />
+        {/* <OpenDock plain icon={<CaretUp />} data-tip="Workflow logs" onClick={this.onOpenLogs} /> */}
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}
