@@ -66,10 +66,10 @@ export default class FlowItem extends Component {
               </Button>
 
               {type === "group" ?
-                <FlowType background="accent-3">
+                <FlowType background="accent-4">
                   <Group size="18px" color={colors["light-0"]} />
                 </FlowType> :
-                <FlowType background="accent-4">
+                <FlowType background="accent-3">
                   <UserManager size="18px" color={colors["light-0"]} />
                 </FlowType>
               }
