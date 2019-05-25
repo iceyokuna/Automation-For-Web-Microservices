@@ -17,9 +17,9 @@ class ExecuteFlow extends Component {
     }
 
     componentDidMount = () => {
-        const { dispatch, authentication, } = this.props;
+        const { dispatch, authentication, currentWorkflowId } = this.props;
         const user = authentication.user;
-        dispatch(socketActions.nextForm(null, null, null, user));
+        dispatch(socketActions.nextForm(null, null, null, user, currentWorkflowId));
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -38,7 +38,13 @@ class ExecuteFlow extends Component {
 
         } if (executingForm === "DONE") {
             toast.success("Done all forms");
-            this.props.history.replace('/my_flows');
+            // this.props.history.replace('/my_flows');
+        } if (executingForm === "FAIL") {
+            this.setState({
+                currentFormHtml: "<div>FAIL</div>",
+                currentFormCss: "",
+                currentFormJs: "",
+            });
         }
     }
 
@@ -73,11 +79,14 @@ class ExecuteFlow extends Component {
     }
 
     getNextForm = () => {
-        const { dispatch, workflow, authentication, } = this.props;
+        const { dispatch, workflow, authentication, currentWorkflowId } = this.props;
         const user = authentication.user
         const taskId = workflow.executingTaskId;
         const formInputValues = this.extractValuesFromCurrentForm();
-        dispatch(socketActions.nextForm("IC_MEETING", formInputValues, taskId, user));
+        dispatch(socketActions.nextForm(
+            "IC_MEETING", formInputValues,
+            taskId, user, currentWorkflowId
+        ));
     }
 
     render() {
@@ -92,7 +101,7 @@ class ExecuteFlow extends Component {
                             dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
                     </Box>
                     <Box direction="row" align="center" justify="end" gap="small">
-                        <Button style={styles.navButton}  label="Previous" onClick={() => this.getPreviousForm()} />
+                        <Button style={styles.navButton} label="Previous" onClick={() => this.getPreviousForm()} />
                         <Button style={styles.navButton} label="Next" primary onClick={() => this.getNextForm()} />
                     </Box>
                 </Box>
@@ -112,6 +121,7 @@ const mapStateToProps = (state) => {
     return {
         workflow: state.workflow,
         authentication: state.authentication,
+        currentWorkflowId: state.workflowMyFlows.currentFlow.id,
     }
 }
 

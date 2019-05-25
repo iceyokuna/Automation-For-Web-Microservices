@@ -28,7 +28,9 @@ class MyFlows extends Component {
   }
 
   componentDidMount = () => {
-    this.props.dispatch(workflowActions.getMyFlows());
+    const { dispatch } = this.props;
+    dispatch(workflowActions.getMyFlows());
+    dispatch(workflowActions.resetToInitialParams());
   }
 
   onCreateFlow = () => {
@@ -44,6 +46,10 @@ class MyFlows extends Component {
     const currentFlow = myFlows.find((item) => item.id === flow.id);
     const redirectUrl = match.url + '/' + flow.id;
     dispatch(workflowActions.setCurrentFlow(currentFlow, redirectUrl));
+  }
+
+  onDeleteFlow = (flow) => {
+    this.props.dispatch(workflowActions.deleteWorkflowById(flow.id));
   }
 
   renderFlows = () => {
@@ -69,6 +75,7 @@ class MyFlows extends Component {
           name={item.name}
           description={item.description}
           owner={item.user_id}
+          onDelete={() => this.onDeleteFlow(item)}
           type={item.type} />
       </Col>
     )

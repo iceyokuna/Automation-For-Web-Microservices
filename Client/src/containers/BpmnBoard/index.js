@@ -31,12 +31,11 @@ import download from 'downloadjs';
 import { json2xml, xml2json } from 'xml-js'
 
 import { Box, Layer, Text } from 'grommet'
-import { Upload, Group, Test, Edit, CaretUp } from 'grommet-icons'
+import { CloudUpload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 
 import {
   workflowActions, availableServicesActions,
   logsActions,
-  userServicesActions
 } from 'actions'
 
 import Spinner from 'react-spinkit'
@@ -47,6 +46,7 @@ import {
   OpenDock
 } from './style'
 
+import ReactTooltip from 'react-tooltip';
 
 let scale = 1;
 
@@ -54,8 +54,6 @@ class BpmnContainer extends Component {
 
   constructor(props) {
     super(props);
-    const { dispatch, workflow } = props;
-
     this.state = {
       currentElement: null,
       selectedServiceMethod: null,
@@ -63,14 +61,6 @@ class BpmnContainer extends Component {
       showParticipantSelector: false,
       showConditionList: false,
     };
-
-    if (workflow.mode !== "CREATE_NEW") {
-      try {
-        dispatch(workflowActions.setupExistingWorkflow());
-      } catch (e) {
-        this.props.history.replace('/my_flows');
-      }
-    }
   }
 
   componentDidMount() {
@@ -96,26 +86,27 @@ class BpmnContainer extends Component {
 
     // Request all availale services to be selected on the properties panel
     dispatch(availableServicesActions.getAllServices());
-    this.renderDiagram(xmlStr);
+
+    this.renderDiagram();
     this.bindEvenCallback();
+    ReactTooltip.rebuild();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { workflow } = nextProps;
-    // If load a new workflow
-    if (this.props.workflow.bpmnJson !== workflow.bpmnJson) {
-      try {
-        const bpmnXml = json2xml(workflow.bpmnJson)
-        this.renderDiagram(bpmnXml);
-      } catch (error) {
-        const bpmnXml = xmlStr;
-        this.renderDiagram(bpmnXml);
-      }
-    }
+  centerCanvas = () => {
+    const canvas = this.bpmnModeler.get('canvas');
+    canvas.zoom('fit-viewport', 'center');
   }
+
 
   bindEvenCallback = () => {
     // Binding events
+    window.onresize = this.centerCanvas.bind(this);
+
+    this.bpmnModeler.on('shape.remove', (event) => {
+      const elementId = event.element.id;
+      this.props.dispatch(workflowActions.deleteAppliedMethodByTaskId(elementId));
+    })
+
     const eventBus = this.bpmnModeler.get('eventBus');
     eventBus.on('element.click', (event) => {
       const currentElement = event.element.businessObject;
@@ -153,43 +144,17 @@ class BpmnContainer extends Component {
     })
   }
 
-
-
-  attachFormToXML = (newForms) => {
-    // const { taskId, form } = newForms;
-
-    // const elementRegistry = this.bpmnModeler.get('elementRegistry');
-
-    // const sequenceFlowElement = elementRegistry.get(taskId),
-    //   businessObject = sequenceFlowElement.businessObject;
-
-    // // businessObject.id = 'NewEventName'; // Change ID of the element
-
-    // const moddle = this.bpmnModeler.get('moddle');
-    // const formTag = moddle.create('form:FormData');
-
-    // formTag.forTaskId = taskId;
-    // formTag.html = form.formHtml;
-    // formTag.css = form.formCss;
-
-    // businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
-    // const extensions = moddle.create('bpmn:ExtensionElements');
-    // extensions.get('values').push(formTag);
-
-    // const modeling = this.bpmnModeler.get('modeling');
-    // modeling.updateProperties(sequenceFlowElement, {
-    //   extensionElements: extensions
-    // });
-  }
-
-  renderDiagram = (xml) => {
-    this.bpmnModeler.importXML(xml, err => {
+  renderDiagram = () => {
+    const { workflow } = this.props;
+    const diagram = workflow.mode == "CREATE_NEW" ? xmlStr
+      : json2xml(workflow.bpmnJson);
+    this.bpmnModeler.importXML(diagram, err => {
       if (err) {
         // Import failed
         console.log("error rendering", err);
       } else {
         // Render success
-
+        this.centerCanvas();
         const linting = this.bpmnModeler.get('linting');
         linting.activateLinting(); // Activate validator
 
@@ -305,8 +270,8 @@ class BpmnContainer extends Component {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
-  onSubmitDiagram = (mode) => {
-    const { name, description, generatedForms, appliedMethods } = this.props.workflow;
+  onSubmitDiagram = (debug) => {
+    const { name, description, generatedForms, appliedMethods, mode } = this.props.workflow;
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
@@ -314,7 +279,8 @@ class BpmnContainer extends Component {
         const bpmnJson = JSON.parse(
           xml2json(xml, { compact: false, spaces: 2 }));
 
-        const { workflowConditions, workflowPreInputs, workflowTimers } = this.props;
+        const { workflowConditions, workflowPreInputs,
+          workflowTimers, dispatch } = this.props;
         const { appliedConditions } = workflowConditions;
         const { appliedPreInputs } = workflowPreInputs;
         const { appliedTimers } = workflowTimers;
@@ -328,18 +294,23 @@ class BpmnContainer extends Component {
           appliedTimers
         }
 
-        if (mode === "ToEngine") {
-          this.props.dispatch(workflowActions.sendWorkflowDataToEngine(
+        if (debug === "ToEngine") {
+          dispatch(workflowActions.sendWorkflowDataToEngine(
             name,
             description,
             workflowData
           ));
-        } else {
-          this.props.dispatch(workflowActions.updateWorkflow(
+        } if (mode === "CREATE_NEW") {
+          dispatch(workflowActions.createNewWorkflow(
             name,
             description,
             workflowData
           ));
+        } if (mode === "VIEW_EXISTING") {
+          dispatch(workflowActions.updateWorkflow(
+            name,
+            description,
+            workflowData));
         }
       }
     });
@@ -416,7 +387,7 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
-        <ExecutionLog />
+        {/* <ExecutionLog /> */}
         <FormTypeDialog />
         <EditWorkflowInfo />
         <MemberDialog />
@@ -452,27 +423,27 @@ class BpmnContainer extends Component {
         <EditInfoButton
           color="accent-1" primary plain={false}
           icon={<Edit size="18px" color="#ffffff" />}
-          title="Edit information"
+          data-tip="Edit information"
           onClick={this.onEditDiagram}
         />
 
         <SendWorkflowButton
           color="accent-4" primary plain={false}
           icon={<Test size="18px" color="#ffffff" />}
-          title="Send workflow directly to engine"
+          data-tip="Send workflow directly to engine"
           onClick={() => this.onSubmitDiagram("ToEngine")}
         />
 
         <InviteButton
           color="accent-3"
-          primary plain={false} title="Collaborators"
+          primary plain={false} data-tip="Collaborators"
           icon={<Group size="18px" />}
           onClick={this.onInvite} />
 
-        <NextButton color="accent-2" primary icon={<Upload size="18px" color="#fff" />}
-          title="Upload Workflow" plain={false} onClick={this.onSubmitDiagram} />
+        <NextButton color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
+          data-tip="Save Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
-        <OpenDock plain icon={<CaretUp />} title="Workflow logs" onClick={this.onOpenLogs} />
+        {/* <OpenDock plain icon={<CaretUp />} data-tip="Workflow logs" onClick={this.onOpenLogs} /> */}
 
         <ServiceRequirement
           onCloseRequirement={() => this.setState({ showServiceRequirement: undefined })}

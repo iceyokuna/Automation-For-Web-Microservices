@@ -10,6 +10,33 @@ export const userServicesActions = {
   createNewLocalService,
   addNewMethod,
   addNewLocalMethod,
+  deleteServiceById,
+  setCurrentService,
+}
+
+function setCurrentService(currentIndex, currentServiceId) {
+  return {
+    type: userServicesConstants.SET_CURRENT_SERVICE,
+    currentIndex,
+    currentServiceId,
+  }
+}
+
+function deleteServiceById(serviceId, indexToDelete) {
+  return dispatch => {
+    // dispatch({ type: userServicesConstants.DELETE_SERVICE_BY_ID, serviceId });
+
+    userService.deleteServiceById(serviceId).then(res => {
+      toast.success("Delete successfully");
+      dispatch({
+        type: userServicesConstants.DELETE_SERVICE_BY_ID_SUCCESS,
+        indexToDelete,
+      });
+    }).catch(e => {
+      toast.error("Fail to delete the service");
+    })
+  }
+
 }
 
 function uploadNewService() {
@@ -110,8 +137,13 @@ function addNewMethod(
     const serviceId = getState().userServices.currentServiceId;
     userService.addNewMethod(methodName,
       methodInfo, methodType, serviceId,
-      inputInterface, outputInterface, methodUrl).then(
-        res => dispatch(success(res.data))
+      JSON.parse(inputInterface),
+      JSON.parse(outputInterface),
+      methodUrl).then(
+        res => {
+          toast.success("Add a new method successfully");
+          dispatch(getUserServices())
+        }
       ).catch(e => dispatch(failure()))
   }
 

@@ -8,7 +8,16 @@ export const userService = {
   addNewMethod,
   updateUserService,
   getUserServices,
+  deleteServiceById,
 };
+
+function deleteServiceById(id) {
+  return axios.delete(globalConstants.DELETE_USER_SERVICE_URL + id, {
+    headers: {
+      Authorization: "Token " + getUserToken()
+    }
+  })
+}
 
 function getUserServices() {
   return axios.get(globalConstants.GET_ALL_USER_SERVICES_URL, {

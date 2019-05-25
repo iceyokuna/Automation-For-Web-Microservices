@@ -7,6 +7,10 @@ const defaultState = {
 
 export function workflowTimers(state = defaultState, action) {
   switch (action.type) {
+    
+    case workflowContants.RESET_TIMER_PARAMS: {
+      return defaultState;
+    }
     case workflowContants.TOGGLE_TIMER_DIALOG: {
       const nextState = { ...state };
       nextState.showTimerDialog = !state.showTimerDialog;
@@ -18,6 +22,10 @@ export function workflowTimers(state = defaultState, action) {
       const { elementId, dateTime } = action;
       nextState.appliedTimers[elementId] = dateTime;
       return nextState;
+    }
+
+    case workflowContants.SET_APPLIED_TIMER: {
+      return { ...state, appliedTimers: action.appliedTimers, }
     }
 
     default:

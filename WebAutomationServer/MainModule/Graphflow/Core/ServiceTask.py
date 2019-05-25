@@ -25,7 +25,7 @@ class ServiceTask(Activity):
         return self.preDefineInput
 
     def setServiceReference(self,serviceId, serviceMethodId):
-        self.serviceId = serviceMethodId
+        self.serviceId = serviceId
         self.serviceMethodId = serviceMethodId
     
     def getServiceId(self):

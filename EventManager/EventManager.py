@@ -1,5 +1,7 @@
 from flask import Flask, request, abort, jsonify
-from firebase import firebase
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 from datetime import date, timedelta
 from BackgroundThread import BackgroundThread
 import datetime
@@ -10,8 +12,13 @@ import time
 app = Flask(__name__)
 
 #firebase header
-url = "https://web-automation-service-client.firebaseio.com/" #firebase db url (event queue)
-messager = firebase.FirebaseApplication(url)
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred,{
+    'databaseURL': 'https://web-automation-service-client.firebaseio.com/'
+})
+
+time_db_ref = db.reference('TimeEvent')
+message_db_ref = db.reference('MessageEvent')
 
 #Recieve time event (binding)
 @app.route('/timeEvent', methods=['POST'])
@@ -23,7 +30,7 @@ def timeEvent():
         eventDate = data['date']
         payload = {"trigger_time": eventTime, "trigger_date":eventDate}
         #push to firebase event queue
-        messager.put('TimeEvent', event_id, payload)
+        time_db_ref.update({event_id:payload})
     #pack to JSON response
     response = jsonify({'status':'201'})
     response.status_code = 201
@@ -34,7 +41,7 @@ def timeEvent():
 def messageEvent():
     data = request.form.to_dict()
     if(request.method == 'POST'):
-        messager.put('TimeEvent', data['eventDefination'])
+        pass
     #pack to JSON response
     response = jsonify({'status':'201'})
     response.status_code = 201
@@ -42,7 +49,7 @@ def messageEvent():
 
 if __name__ == '__main__':
     #ping firebase server to check time event (to trigger time event)
-    worker = BackgroundThread(1, "PingFirebase", messager)
+    worker = BackgroundThread(1, "PingFirebase", time_db_ref)
     worker.start()
 
     #start app (REST API)

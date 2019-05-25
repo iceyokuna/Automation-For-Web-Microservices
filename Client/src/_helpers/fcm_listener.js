@@ -1,19 +1,12 @@
 import messaging from '_helpers/firebase_setup';
 import { notificationActions } from 'actions';
 import { toast } from 'react-toastify';
-import { css } from 'glamor';
-import { colors } from 'theme';
 import { notificationServices } from 'services';
 import { getUserToken } from '_helpers'
 
 export function applyFCMListener(store) {
   messaging.onMessage(payload => {
-    toast(payload.notification.title, {
-      className: css({
-        backgroundColor: colors["accent-4"],
-        color: colors["light-0"],
-      })
-    });
+    toast.info(payload.notification.title);
     store.dispatch(notificationActions.addNewNotification(payload));
   }, err => {
     console.error(err)

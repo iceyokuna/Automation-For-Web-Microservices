@@ -7,6 +7,11 @@ const defaultState = {
 
 export function workflowPreInputs(state = defaultState, action) {
   switch (action.type) {
+    
+    case workflowContants.RESET_PREINPUT_PARAMS: {
+      return defaultState;
+    }
+
     case workflowContants.APPLY_PRE_INPUT: {
       const nextState = { ...state };
       const { elementId, preInputs, method } = action;

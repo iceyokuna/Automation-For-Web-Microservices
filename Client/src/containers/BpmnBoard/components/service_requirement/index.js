@@ -4,6 +4,7 @@ import { Box, Heading, Layer, Button, Text } from 'grommet'
 import { Checkmark } from 'grommet-icons'
 import JSONTree from 'react-json-tree'
 import { jsonTheme } from './jsonTheme'
+import Scrollbars from 'react-custom-scrollbars'
 
 export default class ServiceRequirement extends Component {
 
@@ -57,7 +58,7 @@ export default class ServiceRequirement extends Component {
 
               <Text>* Parameters required to use this service</Text>
 
-              <Box height="300px" overflow={{ vertical: 'scroll' }}>
+              <Scrollbars style={{ height: 250 }} autoHide={false}>
                 <Heading level={4} margin="none">
                   Input Interface
                 </Heading>
@@ -66,7 +67,7 @@ export default class ServiceRequirement extends Component {
                   Output Interface
                 </Heading>
                 <JSONTree hideRoot theme={jsonTheme} data={serviceMethod.method.output_interface} />
-              </Box>
+              </Scrollbars>
 
               <Box direction="row" justify="end">
                 <Button style={{ width: 100 }} label="OK" icon={<Checkmark />} primary color="accent-1" onClick={() => this.selectMethod(serviceMethod)} />

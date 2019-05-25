@@ -32,6 +32,7 @@ body {
 
 .bpmn-js-bpmnlint-button {
   left: 100px !important;
+  width: 175px !important;
 }
 
 #canvas>div>div>div.bpmn-js-bpmnlint-issues.bpmn-js-bpmnlint-process-issues {
@@ -86,7 +87,7 @@ table>tr:first-child>th {
 
 td, th {
   text-align: left;
-  padding: 10px;
+  padding: 5px 10px;
 }
 
 tr:nth-child(even) {

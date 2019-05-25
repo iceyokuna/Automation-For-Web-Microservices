@@ -11,6 +11,11 @@ const defaultState = {
 
 export function workflowConditions(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowContants.RESET_CONDITION_PARAMS: {
+      return defaultState;
+    }
+
     case workflowContants.SET_WORKFLOW_CONDITIONS: {
       return {
         ...state,

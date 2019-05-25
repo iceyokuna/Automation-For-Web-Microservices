@@ -19,6 +19,10 @@ const defaultState = {
 export function workflowLogs(state = defaultState, action) {
   switch (action.type) {
 
+    case workflowContants.RESET_LOG_PARAMS: {
+      return defaultState;
+    }
+
     case workflowContants.TOGGLE_LOGS: {
       return { ...state, show: !state.show };
     }

@@ -189,6 +189,10 @@ class WorkflowEngine:
             #execute task, if message[taskId] is task object
             if(isinstance(self.state[message['taskId']], ServiceTask)):
                 self.execute(message)
+            elif(isinstance(self.state[message['taskId']], TimeEvent)):
+                wait_time_event_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\">Please!! wait time event is pending</div>"}
+                return ({"HTML": wait_time_event_form, "taskId":self.currentState["current"]})  
+
             #update state (for parallel change element_object to get from message)
             self.currentState["current"] = self.transition[(message['taskId'], status)]
             element_object = self.state[self.currentState["current"]]
@@ -213,10 +217,8 @@ class WorkflowEngine:
             url = "http://127.0.0.1:5000/timeEvent"
             payload = {"elementEventId": element_object.getId(), "time":element_object.getTriggerTime(), "date":element_object.getTriggerDate()}
             result = requests.post(url , data=payload)
-            print()
-            print(result.text)
-            print()
-            
+            wait_time_event_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\">Please wait time event is pending</div>"}
+            return ({"HTML": wait_time_event_form, "taskId":element_object.getId()})          
 
         #exclusive gateway case
         if(isinstance(element_object, ExclusiveGateway)):
@@ -256,7 +258,7 @@ class WorkflowEngine:
         if(self.currentState["current"] in self.endState):
             return {"HTML":"DONE", "taskId":element_object.getId()}
 
-        return  {"HTML":"FAILED", "taskId":element_object.getId()}
+        return  {"HTML":"<div>FAILED</div>", "taskId":element_object.getId()}
 
     #execute send request to service manager
     def execute(self, message):
@@ -268,33 +270,38 @@ class WorkflowEngine:
         print(element_object.getId())
         print(message['formInputValues'])
         print()
+        print("service id :",end ="  ")
+        print(str(element_object.getServiceId()),end ="  ")
+        print(str(element_object.getServiceMethodId()))
 
-        #call service to API gateway (service manager)
-        #url_api_gateway = "http://178.128.214.101:8004/api/call_service"
-        #request_data = message['formInputValues']
-        #service_id = element_object.getServiceId()
-        #method_id = element_object.getServiceId()
-        #request_input = {"service_id":service_id, "method_id":method_id, "input":request_data}
-        #requests.post(url_api_gateway, json= request_input)
-        
-        #Use to debug (call without API gateway [without calling service manager])
-        if(str(element_object.getServiceId()) == "1"):
-            email = message['formInputValues']['email']['value']
-            subject = message['formInputValues']['subject']['value']
-            message_data = message['formInputValues']['message']['value']
+        #call gateway API to execute service
+        #test philips hue
+        if(str(element_object.getServiceId()) == "74"):
+            if(str(element_object.getServiceMethodId()) == "84"):
+                url = "http://127.0.0.1:5000/turnon"
+                requests.post(url , data= {})
+            elif(str(element_object.getServiceMethodId()) == "85"):
+                url = "http://127.0.0.1:5000/turnoff"
+                requests.post(url , data= {})
+            elif(str(element_object.getServiceMethodId()) == "86"):
+                url = "http://127.0.0.1:5000/red"
+                requests.post(url , data= {})
+            elif(str(element_object.getServiceMethodId()) == "87"):
+                url = "http://127.0.0.1:5000/green"
+                requests.post(url , data= {})
+            elif(str(element_object.getServiceMethodId()) == "88"):
+                url = "http://127.0.0.1:5000/blue"
+                requests.post(url , data= {})
 
-            request_input = {"receiver":[email],"emailBody":message_data,"emailTitle":subject}
-            requests.post('http://127.0.0.1:8001/api/email', json= request_input)
-
-        elif(str(element_object.getServiceId()) == "5"):
+        #test line
+        elif(str(element_object.getServiceId()) == "4"):
             url = "https://safe-beyond-22181.herokuapp.com/notify"
             user_id = message['formInputValues']['user_id']['value']
             message_data = message['formInputValues']['message']['value']
             request_data = {"user_id":user_id, "message":message_data}
-            requests.get(url , data= request_data)
-        
+            requests.post(url , data= request_data)
 
-    def update(self):
+    def updateState(self):
         pass
 
     #use to show all finite state machine formal defination

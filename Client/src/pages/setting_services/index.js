@@ -1,6 +1,6 @@
 import React, { Component, } from 'react'
 import { Box, Button, Text } from 'grommet';
-import { Add } from 'grommet-icons'
+import { Add, Close } from 'grommet-icons'
 
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
@@ -24,15 +24,20 @@ class index extends Component {
   }
 
   onAddService = () => {
-    const { match } = this.props;
-    this.props.history.push(match.url + '/addService');
+    const { match, history } = this.props;
+    history.push(match.url + '/addService');
     // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());3
   }
 
-  onSelectService = (index) => {
-    this.setState({
-      currentContent: "serviceDetail",
-    })
+  onSelectService = (index, serviceId) => {
+    const { match, dispatch, history } = this.props;
+    dispatch(userServicesActions.setCurrentService(index, serviceId));
+    history.push(match.url + '/info');
+  }
+
+  onDeleteUserService = (service, itemIndex) => {
+    const { dispatch } = this.props;
+    dispatch(userServicesActions.deleteServiceById(service.id, itemIndex));
   }
 
   renderServices = () => {
@@ -50,7 +55,7 @@ class index extends Component {
         <Box align="center" justify="center" pad="medium" gap="medium">
           <Text size="medium">You don't have any service</Text>
           <Box direction="row" justify="end" align="center">
-            <Button label="Add Service" color="accent-1"
+            <Button label="Add service" color="accent-1"
               icon={<Add />}
               primary onClick={this.onAddService} />
           </Box>
@@ -65,9 +70,17 @@ class index extends Component {
             <th>Service info</th>
           </tr>
           {userServices.data.map((service, index) =>
-            <tr className="service" onClick={() => this.onSelectService(index)}>
+            <tr className="service" onClick={() => this.onSelectService(index, service.id)}>
               <td>{service.name || "Untitled"}</td>
-              <td>{service.info || "Undefined"}</td>
+              <td>
+                <Box justify="between" direction="row" align="center">
+                  <Text>
+                    {service.info || "Undefined"}
+                  </Text>
+                  <Button onClick={() => this.onDeleteUserService(service)}
+                    icon={<Close size="14px" />} />
+                </Box>
+              </td>
             </tr>
           )}
         </table>

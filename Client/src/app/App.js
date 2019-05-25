@@ -13,7 +13,7 @@ import {
 
 import { Router, Route, Switch, } from "react-router-dom";
 import { Grommet, Box } from 'grommet';
-import { Close } from 'grommet-icons'
+import { Close, UserAdd } from 'grommet-icons'
 
 import appTheme from 'theme';
 
@@ -22,6 +22,7 @@ import { store, history } from '_helpers';
 
 import PrivateRoute from 'components/private_route'
 import { ToastContainer } from 'react-toastify';
+import ReactTooltip from 'react-tooltip'
 
 Box.defaultProps.responsive = false;
 
@@ -30,11 +31,12 @@ const App = () => (
     <Provider store={store}>
       <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <ToastContainer hideProgressBar position="top-center"
-          closeButton={<Close color="#000" size="14px" />}
-        />
+          closeButton={<Close color="#fff" size="14px" />} />
+
+        <ReactTooltip effect="solid" />
+        
         <Switch>
           <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
           <Route exact path="/reset_password" component={ResetPassword} />
 
           {/* For dev */}
