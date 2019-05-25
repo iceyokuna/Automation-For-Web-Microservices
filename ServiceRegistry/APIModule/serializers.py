@@ -31,14 +31,14 @@ class UserServiceSerializer(serializers.ModelSerializer):
 class UserMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserMethod
-        fields = ('id', 'name','info', 'service','input_interface','output_interface')
+        fields = ('id', 'name','info', 'service','input_interface','output_interface', 'path')
 
 class AllUserServicesSerializer(serializers.ModelSerializer):
     methods = UserMethodSerializer(many=True, read_only=True)
  
     class Meta:
         model = UserService
-        fields = ('id','name', 'username','info','methods')
+        fields = ('id','name', 'username','info', 'url','methods')
 
     '''
     def create(self, validated_data):

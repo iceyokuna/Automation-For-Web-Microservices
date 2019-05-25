@@ -119,7 +119,7 @@ class WorkflowObjView(APIView):
         if(workflow.count()>0):
             workflow_obj = workflow.first()
             return Response({"detail":workflow_obj}, status= HTTP_200_OK)
-        return Response({"detail":"No log file found"}, status= HTTP_400_BAD_REQUEST)
+        return Response({"detail":"No object found"}, status= HTTP_400_BAD_REQUEST)
     
 
 @permission_classes((AllowAny, ))
