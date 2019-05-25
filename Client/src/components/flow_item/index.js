@@ -6,6 +6,7 @@ import { Snackbar } from './style'
 
 import PlainButton from 'components/plain_button'
 import { colors } from 'theme';
+import { FlowType } from './style'
 
 const iconColor = "#915591"
 
@@ -63,9 +64,16 @@ export default class FlowItem extends Component {
               <Button onClick={onSelectFlow} >
                 <Text truncate weight="bold" >{name || "Untitled"}</Text>
               </Button>
+
               {type === "group" ?
-                <Group size="18px" color={colors["dark-3"]} /> :
-                <UserManager size="18px" color={colors["dark-3"]} />}
+                <FlowType background="accent-3">
+                  <Group size="18px" color={colors["light-0"]} />
+                </FlowType> :
+                <FlowType background="accent-4">
+                  <UserManager size="18px" color={colors["light-0"]} />
+                </FlowType>
+              }
+
             </Box>
 
             <Text truncate color="dark-3">{description || "No description"}</Text>
