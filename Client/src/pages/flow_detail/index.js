@@ -27,6 +27,7 @@ import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
 import { CircleButton, RoundButton } from './style';
 import ReactTooltip from 'react-tooltip';
+import Media from 'react-media';
 
 class FlowDetail extends Component {
 
@@ -230,23 +231,51 @@ class FlowDetail extends Component {
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
         <MemberDialog />
-        <ReactTooltip effect="solid"/>
+        <ReactTooltip effect="solid" />
 
         <Box pad={{ horizontal: 'medium' }}>
-          <Box direction="row" fill align="center" justify="between">
-            <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
-            <Box direction="row" gap="small">
-              <CircleButton
-                color="accent-4"
-                primary plain={false}
-                data-tip="Collaborators of this workflow"
-                icon={<Group color="#fff" size="18px" />}
-                onClick={this.onInviteMembers} />
-              <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
-                color="accent-3" onClick={this.onExecuteFlow} />
-              <RoundButton label="Edit diagram" primary icon={<Cluster size="16px" />}
-                color="accent-1" onClick={this.navigateToModeler} />
-            </Box>
+          <Box>
+            <Row between={3}>
+              <Col xs={12} sm={3} md={3} lg={6}>
+                <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
+              </Col>
+
+              <Col xs={12} sm={9} md={9} lg={6}>
+                <Media query="(max-width: 599px)">
+                  {matched => matched ? (
+                    <Box direction="row" gap="small"
+                      justify="center" align="center" fill>
+                      <CircleButton
+                        color="accent-4"
+                        primary plain={false}
+                        data-tip="Collaborators of this workflow"
+                        icon={<Group color="#fff" size="18px" />}
+                        onClick={this.onInviteMembers} />
+                      <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
+                        color="accent-3" onClick={this.onExecuteFlow} />
+                      <RoundButton label="Diagram" primary icon={<Cluster size="16px" />}
+                        color="accent-1" onClick={this.navigateToModeler} />
+                    </Box>
+                  ) : (
+                      <Box direction="row" gap="small"
+                        justify="end" align="center" fill>
+                        <CircleButton
+                          color="accent-4"
+                          primary plain={false}
+                          data-tip="Collaborators of this workflow"
+                          icon={<Group color="#fff" size="18px" />}
+                          onClick={this.onInviteMembers} />
+                        <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
+                          color="accent-3" onClick={this.onExecuteFlow} />
+                        <RoundButton label="Diagram" primary icon={<Cluster size="16px" />}
+                          color="accent-1" onClick={this.navigateToModeler} />
+                      </Box>
+                    )}
+
+                </Media>
+              </Col>
+            </Row>
+
           </Box>
         </Box>
 
