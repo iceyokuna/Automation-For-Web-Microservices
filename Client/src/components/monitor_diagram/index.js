@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 import { json2xml, } from 'xml-js';
-import { Box, Text, Button } from 'grommet';
+import { Box, } from 'grommet';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 
-const currentNodeOverlay = {
-  position: {
-    bottom: 5,
-    right: 30,
-  },
-  html: '<div class="currentNode">This task is here</div>',
-}
-
-const executedNodeOverlay = {
-  position: {
-    bottom: 5,
-    right: 30,
-  },
-  html: '<div class="executedNode">This task is here</div>',
+const colors = {
+  currentNode: "#00B900"
 }
 
 class index extends Component {
@@ -63,8 +52,40 @@ class index extends Component {
     if (currentTask) {
       this.setState({ currentTask });
       const overlays = this.viewer.get('overlays');
+      const elementRegistry = this.viewer.get('elementRegistry');
+      const shape = elementRegistry.get(currentTask.nodeId);
+
       overlays.clear();
-      overlays.add(currentTask.nodeId, currentNodeOverlay)
+      overlays.add(currentTask.nodeId,
+        {
+          position: {
+          },
+          html: $('<div class="currentNode"/>').css(
+            {
+              width: shape.width,
+              height: shape.height,
+              opacity: 0.3,
+              backgroundColor: colors.currentNode,
+            }
+          )
+        }
+      );
+
+      // Show status below the node
+      overlays.add(currentTask.nodeId,
+        {
+          position: {
+            bottom: -5,
+            right: shape.width / 2,
+          },
+          html: $('<div>Current</div>').css({
+            width: shape.width,
+            "text-align": 'center',
+            color: colors.currentNode,
+          }),
+        }
+      );
+
     }
   }
 

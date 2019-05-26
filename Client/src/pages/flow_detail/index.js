@@ -257,8 +257,8 @@ class FlowDetail extends Component {
     const { showViewerDock, currentTask, executeStatus } = this.state;
     return (
       <div style={global.mainContainer}>
-        <ViewerDock visible={showViewerDock} currentTask={currentTask}
-          onCloseDock={this.onCloseDock} />
+        {/* <ViewerDock visible={showViewerDock} currentTask={currentTask}
+          onCloseDock={this.onCloseDock} /> */}
         <MemberDialog />
         <ReactTooltip effect="solid" />
 
