@@ -121,21 +121,6 @@ class BpmnContainer extends Component {
         currentElement: currentElement
       });
     })
-
-    eventBus.on('element.dblclick', (event) => {
-      const currentElement = event.element.businessObject;
-      this.setState({
-        currentElement: currentElement
-      });
-
-      switch (currentElement.$type) {
-        case 'bpmn:Lane':
-          this.showParticipantSelector();
-          break;
-        default:
-          break;
-      }
-    })
   }
 
   showParticipantSelector = () => {

@@ -4,6 +4,21 @@ import { json2xml, } from 'xml-js';
 import { Box, Text, Button } from 'grommet';
 import { connect } from 'react-redux';
 
+const currentNodeOverlay = {
+  position: {
+    bottom: 5,
+    right: 30,
+  },
+  html: '<div class="currentNode">This task is here</div>',
+}
+
+const executedNodeOverlay = {
+  position: {
+    bottom: 5,
+    right: 30,
+  },
+  html: '<div class="executedNode">This task is here</div>',
+}
 
 class index extends Component {
 
@@ -49,13 +64,7 @@ class index extends Component {
       this.setState({ currentTask });
       const overlays = this.viewer.get('overlays');
       overlays.clear();
-      overlays.add(currentTask.nodeId, {
-        position: {
-          bottom: 5,
-          right: 30,
-        },
-        html: '<div class="highlight">This task is here</div>',
-      })
+      overlays.add(currentTask.nodeId, currentNodeOverlay)
     }
   }
 
