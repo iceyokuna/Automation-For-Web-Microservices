@@ -28,6 +28,8 @@ import { Redirect } from 'react-router-dom';
 import { CircleButton, RoundButton } from './style';
 import ReactTooltip from 'react-tooltip';
 import Media from 'react-media';
+import MonitorDiagram from 'components/monitor_diagram';
+import Scrollbars from 'react-custom-scrollbars'
 
 class FlowDetail extends Component {
 
@@ -122,7 +124,7 @@ class FlowDetail extends Component {
     const { collaborators, loadingCollaborators } = workflowCollaborators;
     if (loadingCollaborators === true) {
       return (
-        <Box align="center" pad='small'>
+        <Box align="center" pad='small' fill justify="center">
           <Spinner
             fadeIn="half"
             name="ball-scale-multiple" color={colors.brand} />
@@ -130,7 +132,7 @@ class FlowDetail extends Component {
       );
     } if (collaborators.length === 0) {
       return (
-        <Box align="center" justify="center" pad="medium" gap="small">
+        <Box align="center" justify="center" pad="medium" gap="small" fill>
           <Text size="medium">You don't have any collaborator</Text>
           <Button label="Invite" color="accent-1"
             icon={<Add />}
@@ -149,8 +151,17 @@ class FlowDetail extends Component {
 
   renderTaskList = () => {
     const { tasks } = this.state
+
+    if (tasks.length === 0) {
+      return (
+        <Box align="center" justify="center" pad="medium" gap="small" fill>
+          <Text size="medium">Don't have any tasks</Text>
+        </Box>)
+    }
+
     const views = tasks.map((item, index) =>
       <TaskItem key={index} {...item} onSelectTask={() => this.onClickTask(item)} />)
+
     return views;
   }
 
@@ -168,27 +179,33 @@ class FlowDetail extends Component {
 
   renderCollaboratorsBox = () => {
     return (
-      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
+      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="xsmall"
         animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Collaborators</Text>
         {/* List of collaborators*/}
-        {this.renderCollaboratorItems()}
+        <Scrollbars style={{ height: 170, }} autoHide>
+          {this.renderCollaboratorItems()}
+        </Scrollbars>
+
       </Box>
     )
   }
 
   renderTaskBox = () => {
     return (
-      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
+      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="xsmall"
         animation={[{ type: "fadeIn", delay: 400 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }}
         background="light-0" >
         <Text size="large" weight="bold">Tasks</Text>
         {/* List of Tasks*/}
-        {this.renderTaskList()}
+        <Scrollbars style={{ height: 329, }} autoHide>
+          {this.renderTaskList()}
+        </Scrollbars>
       </Box>
-    )
+    );
+
   }
 
   renderEditInformationDialog = () => {
@@ -218,6 +235,20 @@ class FlowDetail extends Component {
       </Box>
     )
   }
+
+  renderMonitoringDiagram = () => {
+    const { currentTask, } = this.state;
+    return (
+      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="medium"
+        animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
+        round={{ size: 'small' }} background="light-0" >
+        <Text size="large" weight="bold">Monitoring</Text>
+        <MonitorDiagram height="350px" currentTask={currentTask} />
+      </Box>
+
+    );
+  }
+
 
   render() {
     const { currentFlow } = this.props;
@@ -289,6 +320,10 @@ class FlowDetail extends Component {
             </Col>
             <Col lg={6} md={6} xl={6}>
               {this.renderTaskBox()}
+            </Col>
+
+            <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+              {this.renderMonitoringDiagram()}
             </Col>
           </Row>
         </Box>
