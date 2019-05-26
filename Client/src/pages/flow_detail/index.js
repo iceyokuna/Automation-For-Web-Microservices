@@ -179,11 +179,10 @@ class FlowDetail extends Component {
 
   renderCollaboratorsBox = () => {
     return (
-      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="xsmall"
+      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
         animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
-        <Text size="large" weight="bold">Collaborators</Text>
-        {/* List of collaborators*/}
+        <Text size="large" weight="bold" margin={{ bottom: 'small' }}>Collaborators</Text>
         <Scrollbars style={{ height: 170, }} autoHide>
           {this.renderCollaboratorItems()}
         </Scrollbars>
@@ -194,12 +193,11 @@ class FlowDetail extends Component {
 
   renderTaskBox = () => {
     return (
-      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="xsmall"
+      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
         animation={[{ type: "fadeIn", delay: 400 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }}
         background="light-0" >
-        <Text size="large" weight="bold">Tasks</Text>
-        {/* List of Tasks*/}
+        <Text size="large" weight="bold" margin={{ bottom: 'small' }}>Tasks</Text>
         <Scrollbars style={{ height: 329, }} autoHide>
           {this.renderTaskList()}
         </Scrollbars>
