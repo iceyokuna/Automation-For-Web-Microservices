@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 const colors = {
-  currentNode: "#00B900"
+  currentNode: "#00B900",
+  executed: "#000000",
 }
 
 class index extends Component {
