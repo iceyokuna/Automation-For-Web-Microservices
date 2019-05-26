@@ -19,7 +19,7 @@ export const workflowService = {
 };
 
 function deleteWorkflowById(workflowId) {
-  return axios.delete(globalConstants.USER_WORKFLOW_URL + `${workflowId}`, {
+  return axios.delete(globalConstants.USER_WORKFLOW_URL + `/${workflowId}`, {
     headers: {
       Authorization: "Token " + getUserToken(),
     }
