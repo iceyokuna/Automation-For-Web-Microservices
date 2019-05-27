@@ -180,11 +180,11 @@ class AppBar extends Component {
           </Link>
 
           <Box direction="row" gap="medium" pad="small">
-            <Link to="/my_tasks">
-              <Text size="medium" color='light-0'>Tasks</Text>
-            </Link>
             <Link to="/my_flows">
               <Text size="medium" color='light-0'>Flows</Text>
+            </Link>
+            <Link to="/my_tasks">
+              <Text size="medium" color='light-0'>Tasks</Text>
             </Link>
           </Box>
 
