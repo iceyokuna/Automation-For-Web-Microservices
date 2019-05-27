@@ -209,11 +209,7 @@ class BpmnContainer extends Component {
   };
 
   handleCreate = () => {
-    const { currentElement } = this.state
-    const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
-    const sequenceFlowElement = elementRegistry.get(currentElement.id);
-    console.log(sequenceFlowElement);
   }
 
   handleSaveFile = () => {
@@ -225,7 +221,11 @@ class BpmnContainer extends Component {
   }
 
   handleSaveImage = () => {
-    this.onToggleSidebar()
+    this.bpmnModeler.saveSVG((err, svg) => {
+      if (!err) {
+        download(svg, "diagram.svg", "image/svg+xml")
+      }
+    })
   }
 
   onToggleSidebar = () => {
