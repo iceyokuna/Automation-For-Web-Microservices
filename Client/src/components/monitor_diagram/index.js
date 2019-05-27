@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 import { json2xml, } from 'xml-js';
-import { Box, } from 'grommet';
+import { Box, Button, } from 'grommet';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
@@ -13,7 +13,8 @@ const colors = {
 class index extends Component {
 
   state = {
-    currentTask: {}
+    currentTask: {},
+    current: true,
   }
 
   componentDidMount() {
@@ -39,9 +40,106 @@ class index extends Component {
       }
     });
 
-    window.onresize = this.centerCanvas.bind(this);
     this.viewer = viewer;
+
+    this.bindEvents();
   }
+
+  highlightExecutedElement = (elementId) => {
+    const overlays = this.viewer.get('overlays');
+    const elementRegistry = this.viewer.get('elementRegistry');
+    const shape = elementRegistry.get(elementId);
+
+    if (shape != null) {
+      // overlays.clear();
+      overlays.add(elementId, {
+        position: {
+        },
+        html: $('<div class="currentNode"/>').css(
+          {
+            width: shape.width,
+            height: shape.height,
+            opacity: 0.3,
+            backgroundColor: colors.executed,
+          }
+        )
+      });
+
+      // Show status below the node
+      overlays.add(elementId, {
+        position: {
+          bottom: -5,
+          right: shape.width / 2,
+        },
+        html: $('<div>Executed</div>').css({
+          "text-align": 'center',
+          color: "white",
+          fontSize: "14px",
+          backgroundColor: colors.executed
+        }),
+      });
+    }
+  }
+
+  highlightCurrentElement = (elementId) => {
+    const overlays = this.viewer.get('overlays');
+    const elementRegistry = this.viewer.get('elementRegistry');
+    const shape = elementRegistry.get(elementId);
+
+    if (shape != null) {
+      // overlays.clear();
+      overlays.add(elementId, {
+        position: {
+        },
+        html: $('<div class="currentNode"/>').css(
+          {
+            width: shape.width,
+            height: shape.height,
+            opacity: 0.3,
+            backgroundColor: colors.currentNode,
+          }
+        )
+      });
+
+      // Show status below the node
+      overlays.add(elementId, {
+        position: {
+          bottom: -5,
+          right: shape.width / 2,
+        },
+        html: $('<div>Current</div>').css({
+          width: shape.width,
+          "text-align": 'center',
+          color: "white",
+          backgroundColor: colors.currentNode
+        }),
+      });
+    }
+  }
+
+
+  bindEvents = () => {
+    window.onresize = this.centerCanvas.bind(this);
+    const eventBus = this.viewer.get('eventBus');
+
+    // eventBus.on('element.dblclick', (event) => {
+    //   const currentElement = event.element.businessObject;
+    //   this.highlightExecutedElement(currentElement.id)
+    // })
+
+
+    eventBus.on('element.click', (event) => {
+      const currentElement = event.element.businessObject;
+      const { current } = this.state;
+      if (current) {
+        this.highlightCurrentElement(currentElement.id)
+      } else {
+        this.highlightExecutedElement(currentElement.id)
+      }
+    })
+
+  }
+
 
   centerCanvas = () => {
     const canvas = this.viewer.get('canvas');
@@ -55,10 +153,9 @@ class index extends Component {
       const overlays = this.viewer.get('overlays');
       const elementRegistry = this.viewer.get('elementRegistry');
       const shape = elementRegistry.get(currentTask.nodeId);
-
-      overlays.clear();
-      overlays.add(currentTask.nodeId,
-        {
+      if (shape != null) {
+        overlays.clear();
+        overlays.add(currentTask.nodeId, {
           position: {
           },
           html: $('<div class="currentNode"/>').css(
@@ -69,12 +166,10 @@ class index extends Component {
               backgroundColor: colors.currentNode,
             }
           )
-        }
-      );
+        });
 
-      // Show status below the node
-      overlays.add(currentTask.nodeId,
-        {
+        // Show status below the node
+        overlays.add(currentTask.nodeId, {
           position: {
             bottom: -5,
             right: shape.width / 2,
@@ -82,10 +177,11 @@ class index extends Component {
           html: $('<div>Current</div>').css({
             width: shape.width,
             "text-align": 'center',
-            color: colors.currentNode,
+            color: "white",
+            background: colors.currentNode
           }),
-        }
-      );
+        });
+      }
 
     }
   }
@@ -97,8 +193,11 @@ class index extends Component {
   }
 
   render() {
+    const { current } = this.state
     return (
       <Box height={this.props.height}>
+        <Button style={{ positon: 'fixed', top: 80, right: 30 }} label={current ? "Current" : "Executed"}
+          onClick={() => this.setState({ current: !current })} />
         <div className="content">
           <div id="monitoring" />
         </div>
