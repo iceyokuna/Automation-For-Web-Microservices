@@ -108,7 +108,6 @@ class index extends Component {
           right: shape.width / 2,
         },
         html: $('<div>Current</div>').css({
-          width: shape.width,
           "text-align": 'center',
           color: "white",
           backgroundColor: colors.currentNode
