@@ -18,7 +18,7 @@ const menus = [
 export default class SideBar extends Component {
 
   state = {
-    activeIndex: null,
+    activeIndex: 0,
   }
 
   handleSelectMenu = (pathName, selectedIndex) => {
