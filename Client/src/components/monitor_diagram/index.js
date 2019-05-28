@@ -121,20 +121,14 @@ class index extends Component {
     window.onresize = this.centerCanvas.bind(this);
     const eventBus = this.viewer.get('eventBus');
 
-    // eventBus.on('element.dblclick', (event) => {
-    //   const currentElement = event.element.businessObject;
-    //   this.highlightExecutedElement(currentElement.id)
-    // })
-
-
     eventBus.on('element.click', (event) => {
-      const currentElement = event.element.businessObject;
-      const { current } = this.state;
-      if (current) {
-        this.highlightCurrentElement(currentElement.id)
-      } else {
-        this.highlightExecutedElement(currentElement.id)
-      }
+      // const currentElement = event.element.businessObject;
+      // const { current } = this.state;
+      // if (current) {
+      //   this.highlightCurrentElement(currentElement.id)
+      // } else {
+      //   this.highlightExecutedElement(currentElement.id)
+      // }
     })
 
   }
@@ -195,8 +189,8 @@ class index extends Component {
     const { current } = this.state
     return (
       <Box height={this.props.height}>
-        <Button style={{ positon: 'fixed', top: 80, right: 30 }} label={current ? "Current" : "Executed"}
-          onClick={() => this.setState({ current: !current })} />
+        {/* <Button style={{ positon: 'fixed', top: 80, right: 30 }} label={current ? "Current" : "Executed"}
+          onClick={() => this.setState({ current: !current })} /> */}
         <div className="content">
           <div id="monitoring" />
         </div>
