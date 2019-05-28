@@ -30,7 +30,7 @@ class WorkflowEngine:
     #parsing workflow
     def initialize(self, id, name, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
         self.workflowId = id
-        self.name = name
+        self.workflowName = name
 
         element_ref_lane_owner = {}
         sequenceFlow_ref = []
@@ -209,17 +209,21 @@ class WorkflowEngine:
                 return ({"HTML": wait_time_event_form, "taskId":self.currentState["current"]})  
 
             #update state (for parallel change element_object to get from message)
+            #send execution notification detail
+            executedBy = self.state[self.currentState["current"]].getId()
+            executedTaskName = self.state[self.currentState["current"]].getName()
             localtime = time.localtime(time.time())
             execute_date = str(localtime.tm_mday) + "/" + str(localtime.tm_mon) + "/" + str(localtime.tm_year)
             execute_time = str(localtime.tm_hour) + ":" + str(localtime.tm_min)
-            executed_data = {"elementId": self.currentState["current"], "executedDate":execute_date, "executedTime":execute_time, "executedBy": "iceyo"}
+            executed_data = {"elementId": self.currentState["current"],"elementName": executedTaskName, "executedDate":execute_date, "executedTime":execute_time, "executedBy": "iceyo"}
             self.executed.insert(0,executed_data)
-            executedBy = self.state[self.currentState["current"]].getId()
+
+            #update state using state trainsition
             self.currentState["current"] = self.transition[(message['taskId'], status)]
             element_object = self.state[self.currentState["current"]]
 
             #send notification to all collaborator
-            self.sendNotification(executedBy)
+            self.sendNotification(executedBy, executedTaskName)
 
         #check execution permission (lane owner)
 
@@ -330,15 +334,15 @@ class WorkflowEngine:
             request_data = {"user_id":user_id, "message":message_data}
             requests.post(url , data= request_data)
 
-    def sendNotification(self, executeBy):
-        title =  "Iceyo " + " update" + str(self.workflowId)
+    def sendNotification(self, executeBy , executeTaskName):
+        title =  "Iceyo " + " update '" + str(self.workflowName) + "'\n(" + executeTaskName +")"
         body = "workflow"
         click_action = "none"
         payload = {'type':'WORKFLOW_STATUS',
         'workflow_id': self.workflowId,
         'workflow_name': self.workflowName,
         'executedItems':self.executed,
-        'currentId': {'elementId':self.currentState["current"]}}
+        'currentId': {'elementId':self.currentState["current"], "elementName": self.state[self.currentState["current"]].getName()}}
 
         url = "http://178.128.214.101:8003/api/send_notification/"
         data = {'title':title, 'body':body,'click_action':click_action,
