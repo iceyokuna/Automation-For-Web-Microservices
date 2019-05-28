@@ -90,7 +90,8 @@
 }
 
 .Toastify__toast--info {
-  background-color: #3498db;
+  background-color: white;
+  color: #444444;
 }
 
 .Toastify__toast--success {
