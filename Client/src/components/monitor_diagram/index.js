@@ -45,7 +45,8 @@ class index extends Component {
     this.bindEvents();
   }
 
-  highlightExecutedElement = (elementId) => {
+  highlightExecutedElement = (element) => {
+    const { elementId } = element;
     const overlays = this.viewer.get('overlays');
     const elementRegistry = this.viewer.get('elementRegistry');
     const shape = elementRegistry.get(elementId);
@@ -81,7 +82,8 @@ class index extends Component {
     }
   }
 
-  highlightCurrentElement = (elementId) => {
+  highlightCurrentElement = (element) => {
+    const { elementId } = element;
     const overlays = this.viewer.get('overlays');
     const elementRegistry = this.viewer.get('elementRegistry');
     const shape = elementRegistry.get(elementId);
@@ -140,43 +142,56 @@ class index extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentTask } = nextProps;
-    if (currentTask) {
-      this.setState({ currentTask });
-      const overlays = this.viewer.get('overlays');
-      const elementRegistry = this.viewer.get('elementRegistry');
-      const shape = elementRegistry.get(currentTask.nodeId);
-      if (shape != null) {
-        overlays.clear();
-        overlays.add(currentTask.nodeId, {
-          position: {
-          },
-          html: $('<div class="currentNode"/>').css(
-            {
-              width: shape.width,
-              height: shape.height,
-              opacity: 0.3,
-              backgroundColor: colors.currentNode,
-            }
-          )
-        });
 
-        // Show status below the node
-        overlays.add(currentTask.nodeId, {
-          position: {
-            bottom: -5,
-            right: shape.width / 2,
-          },
-          html: $('<div>Current</div>').css({
-            width: shape.width,
-            "text-align": 'center',
-            color: "white",
-            background: colors.currentNode
-          }),
-        });
-      }
+    const { workflowLogs } = nextProps;
+    const { executedItems, currentElement, } = workflowLogs;
 
-    }
+    const overlays = this.viewer.get('overlays');
+    overlays.clear();
+
+    executedItems.forEach((item, index) => {
+      this.highlightExecutedElement(item)
+    })
+
+    this.highlightCurrentElement(currentElement);
+
+    // const { currentTask } = nextProps;
+    // if (currentTask) {
+    //   this.setState({ currentTask });
+    //   const overlays = this.viewer.get('overlays');
+    //   const elementRegistry = this.viewer.get('elementRegistry');
+    //   const shape = elementRegistry.get(currentTask.nodeId);
+    //   if (shape != null) {
+    //     overlays.clear();
+    //     overlays.add(currentTask.nodeId, {
+    //       position: {
+    //       },
+    //       html: $('<div class="currentNode"/>').css(
+    //         {
+    //           width: shape.width,
+    //           height: shape.height,
+    //           opacity: 0.3,
+    //           backgroundColor: colors.currentNode,
+    //         }
+    //       )
+    //     });
+
+    //     // Show status below the node
+    //     overlays.add(currentTask.nodeId, {
+    //       position: {
+    //         bottom: -5,
+    //         right: shape.width / 2,
+    //       },
+    //       html: $('<div>Current</div>').css({
+    //         width: shape.width,
+    //         "text-align": 'center',
+    //         color: "white",
+    //         background: colors.currentNode
+    //       }),
+    //     });
+    //   }
+
+    // }
   }
 
   onClose = () => {
@@ -202,6 +217,7 @@ class index extends Component {
 const mapStateToProps = (state) => {
   return {
     currentFlow: state.workflowMyFlows.currentFlow,
+    workflowLogs: state.workflowLogs,
   }
 }
 
