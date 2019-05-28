@@ -13,11 +13,15 @@ export function applyFCMListener(store) {
     const parsedData = JSON.parse(payload.data["gcm.notification.data"]);
     const messageType = parsedData.type;
 
-    console.log(messageType);
+    console.log({ payload });
+    console.log({ parsedData });
 
     switch (messageType) {
       case "WORKFLOW_STATUS": {
-        store.dispatch({ type: workflowContants.RECEIVE_WORKFLOW_STATUS, data: parsedData.data })
+        store.dispatch({
+          type: workflowContants.RECEIVE_WORKFLOW_STATUS,
+          data: parsedData,
+        })
       } break;
       default: break;
     }
