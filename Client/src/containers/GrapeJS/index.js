@@ -8,6 +8,9 @@ import 'grapesjs/dist/css/grapes.min.css';
 // import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
 
 import { global } from 'style';
+import $ from 'jquery';
+import ReactDOMServer from 'react-dom/server';
+import { Box } from 'grommet';
 
 export default class GrapeJSWrapper extends Component {
 
@@ -34,18 +37,83 @@ export default class GrapeJSWrapper extends Component {
   }
 
   loadExistingForm = () => {
-    const { initialForm } = this.props;
+    const { initialForm, elementsIdSet } = this.props;
+
     if (initialForm != null) {
       const { editor } = this;
       editor.setComponents(initialForm.formHtml);
       editor.setStyle(initialForm.formCss);
     } else {
       const { editor } = this;
-      editor.setComponents("");
-      editor.setStyle("");
+      const html = this.createFormsByElementIds();
+      editor.setComponents(html);
+      // editor.setComponents("");
+      // editor.setStyle("");
     }
   }
 
+
+  createFormsByElementIds() {
+    const { service, formType } = this.props;
+    let typeOfForm, interfaceData = null;
+
+    if (formType === "inputForm") {
+      typeOfForm = "Input form";
+      interfaceData = service.method.input_interface;
+    } else {
+      typeOfForm = "Output form";
+      interfaceData = service.method.output_interface;
+    }
+
+    var elements = [];
+
+    const keys = Object.keys(interfaceData);
+    keys.forEach((key, index) => {
+      console.log({ key, data: interfaceData[key] });
+
+      const data = interfaceData[key];
+      const { elementType } = data;
+
+      switch (elementType) {
+        case "TextInput": {
+          elements.push(<input id={key} style={{
+            'width': '100%',
+            'margin-bottom': '15px',
+            'padding': '7px 10px',
+            'border-radius': '2px',
+            'color': '#444444',
+            'background-color': '#eee',
+            'border': 'none',
+          }} placeholder={`Type your ${key}`} />);
+        } break;
+        case "TextArea": {
+          elements.push(<textarea id={key} style={{
+            "width": "100%",
+            "margin-bottom": "15px",
+            "padding": "7px 10px",
+            "border-radius": "2px",
+            "color": "#444444",
+            "background-color": "#eeeeee",
+            "border": "none"
+          }} placeholder={`Type your ${key}`} />);
+
+        } break;
+
+        default:
+          break;
+      }
+    })
+
+    const html = ReactDOMServer.renderToString(
+      <div style={{ padding: 10 }}>
+        {elements}
+      </div>
+    );
+
+    console.log({ html });
+
+    return html;
+  }
 
   allowEditingCode() {
     const { editor } = this;
