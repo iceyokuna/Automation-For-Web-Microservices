@@ -197,6 +197,8 @@ class WorkflowEngine:
             self.currentState["current"] = self.transition[(message['taskId'], status)]
             element_object = self.state[self.currentState["current"]]
 
+        #check execution permission (lane owner)
+
         #start case
         if(isinstance(element_object, StartEvent)):
             return self.next({'formInputValues': None, 'taskId': element_object.getId()})
@@ -212,6 +214,8 @@ class WorkflowEngine:
 
         #TimeEvent case (Intermidiate)
         if(isinstance(element_object, TimeEvent)):
+            #check triggered first
+            
             eventDefination = element_object.getEventDefination()
             #push event to event queue using cloud service
             url = "http://127.0.0.1:5000/timeEvent"

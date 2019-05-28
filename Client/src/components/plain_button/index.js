@@ -12,10 +12,11 @@ const Button = styled(Box)`
 
 export default ({ onClick, icon, label, ...props }) => {
   return (
-    <Button onClick={onClick} pad="xsmall"
-      direction="row" align="center" gap="small" {...props}>
+    <Button onClick={onClick} pad={props.pad || "xsmall"}
+      direction={props.direction || "row"} align={props.align || "center"}
+      gap={props.gap || "small"} {...props}>
       {icon}
-      {label != null ? <Text color={props.color}>{label}</Text> : null}
+      {label != null ? <Text size={props.textSize} color={props.color}>{label}</Text> : null}
     </Button>
   )
 }

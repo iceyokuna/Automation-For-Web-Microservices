@@ -86,15 +86,15 @@ class MyFlows extends Component {
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
           <Row>
-            <Col lg={8} sm={8} xs={12}>
+            <Col lg={8} sm={8} xs={6}>
               <Box direction="row" align="center">
                 <Heading size='small' margin={{ right: 'medium' }}>My flows</Heading>
               </Box>
             </Col>
 
-            <Col lg={4} sm={4} xs={12}>
+            <Col lg={4} sm={4} xs={6}>
               <Box direction="row" align="center" fill justify="end">
-                <Button label="New flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
+                <Button label="Flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
               </Box>
             </Col>
           </Row>

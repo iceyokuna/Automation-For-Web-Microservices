@@ -77,7 +77,10 @@ class index extends Component {
                   <Text>
                     {service.info || "Undefined"}
                   </Text>
-                  <Button onClick={() => this.onDeleteUserService(service)}
+                  <Button onClick={(e) => {
+                    e.stopPropagation();
+                    this.onDeleteUserService(service)
+                  }}
                     icon={<Close size="14px" />} />
                 </Box>
               </td>

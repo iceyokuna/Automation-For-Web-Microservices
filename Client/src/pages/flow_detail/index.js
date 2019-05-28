@@ -27,6 +27,9 @@ import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
 import { CircleButton, RoundButton } from './style';
 import ReactTooltip from 'react-tooltip';
+import Media from 'react-media';
+import MonitorDiagram from 'components/monitor_diagram';
+import Scrollbars from 'react-custom-scrollbars'
 
 class FlowDetail extends Component {
 
@@ -121,7 +124,7 @@ class FlowDetail extends Component {
     const { collaborators, loadingCollaborators } = workflowCollaborators;
     if (loadingCollaborators === true) {
       return (
-        <Box align="center" pad='small'>
+        <Box align="center" pad='small' fill justify="center">
           <Spinner
             fadeIn="half"
             name="ball-scale-multiple" color={colors.brand} />
@@ -129,7 +132,7 @@ class FlowDetail extends Component {
       );
     } if (collaborators.length === 0) {
       return (
-        <Box align="center" justify="center" pad="medium" gap="small">
+        <Box align="center" justify="center" pad="medium" gap="small" fill>
           <Text size="medium">You don't have any collaborator</Text>
           <Button label="Invite" color="accent-1"
             icon={<Add />}
@@ -148,8 +151,17 @@ class FlowDetail extends Component {
 
   renderTaskList = () => {
     const { tasks } = this.state
+
+    if (tasks.length === 0) {
+      return (
+        <Box align="center" justify="center" pad="medium" gap="small" fill>
+          <Text size="medium">Don't have any tasks</Text>
+        </Box>)
+    }
+
     const views = tasks.map((item, index) =>
       <TaskItem key={index} {...item} onSelectTask={() => this.onClickTask(item)} />)
+
     return views;
   }
 
@@ -170,9 +182,11 @@ class FlowDetail extends Component {
       <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium"
         animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
-        <Text size="large" weight="bold">Collaborators</Text>
-        {/* List of collaborators*/}
-        {this.renderCollaboratorItems()}
+        <Text size="large" weight="bold" margin={{ bottom: 'small' }}>Collaborators</Text>
+        <Scrollbars style={{ height: 170, }} autoHide>
+          {this.renderCollaboratorItems()}
+        </Scrollbars>
+
       </Box>
     )
   }
@@ -183,11 +197,13 @@ class FlowDetail extends Component {
         animation={[{ type: "fadeIn", delay: 400 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }}
         background="light-0" >
-        <Text size="large" weight="bold">Tasks</Text>
-        {/* List of Tasks*/}
-        {this.renderTaskList()}
+        <Text size="large" weight="bold" margin={{ bottom: 'small' }}>Tasks</Text>
+        <Scrollbars style={{ height: 329, }} autoHide>
+          {this.renderTaskList()}
+        </Scrollbars>
       </Box>
-    )
+    );
+
   }
 
   renderEditInformationDialog = () => {
@@ -218,6 +234,20 @@ class FlowDetail extends Component {
     )
   }
 
+  renderMonitoringDiagram = () => {
+    const { currentTask, } = this.state;
+    return (
+      <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="medium"
+        animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
+        round={{ size: 'small' }} background="light-0" >
+        <Text size="large" weight="bold">Monitoring</Text>
+        <MonitorDiagram height="350px" currentTask={currentTask} />
+      </Box>
+
+    );
+  }
+
+
   render() {
     const { currentFlow } = this.props;
     if (currentFlow === null) {
@@ -230,23 +260,51 @@ class FlowDetail extends Component {
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
         <MemberDialog />
-        <ReactTooltip effect="solid"/>
+        <ReactTooltip effect="solid" />
 
         <Box pad={{ horizontal: 'medium' }}>
-          <Box direction="row" fill align="center" justify="between">
-            <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
-            <Box direction="row" gap="small">
-              <CircleButton
-                color="accent-4"
-                primary plain={false}
-                data-tip="Collaborators of this workflow"
-                icon={<Group color="#fff" size="18px" />}
-                onClick={this.onInviteMembers} />
-              <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
-                color="accent-3" onClick={this.onExecuteFlow} />
-              <RoundButton label="Edit diagram" primary icon={<Cluster size="16px" />}
-                color="accent-1" onClick={this.navigateToModeler} />
-            </Box>
+          <Box>
+            <Row between={3}>
+              <Col xs={12} sm={3} md={3} lg={6}>
+                <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
+              </Col>
+
+              <Col xs={12} sm={9} md={9} lg={6}>
+                <Media query="(max-width: 599px)">
+                  {matched => matched ? (
+                    <Box direction="row" gap="small"
+                      justify="center" align="center" fill>
+                      <CircleButton
+                        color="accent-4"
+                        primary plain={false}
+                        data-tip="Collaborators of this workflow"
+                        icon={<Group color="#fff" size="18px" />}
+                        onClick={this.onInviteMembers} />
+                      <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
+                        color="accent-3" onClick={this.onExecuteFlow} />
+                      <RoundButton label="Diagram" primary icon={<Cluster size="16px" />}
+                        color="accent-1" onClick={this.navigateToModeler} />
+                    </Box>
+                  ) : (
+                      <Box direction="row" gap="small"
+                        justify="end" align="center" fill>
+                        <CircleButton
+                          color="accent-4"
+                          primary plain={false}
+                          data-tip="Collaborators of this workflow"
+                          icon={<Group color="#fff" size="18px" />}
+                          onClick={this.onInviteMembers} />
+                        <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
+                          color="accent-3" onClick={this.onExecuteFlow} />
+                        <RoundButton label="Diagram" primary icon={<Cluster size="16px" />}
+                          color="accent-1" onClick={this.navigateToModeler} />
+                      </Box>
+                    )}
+
+                </Media>
+              </Col>
+            </Row>
+
           </Box>
         </Box>
 
@@ -260,6 +318,10 @@ class FlowDetail extends Component {
             </Col>
             <Col lg={6} md={6} xl={6}>
               {this.renderTaskBox()}
+            </Col>
+
+            <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+              {this.renderMonitoringDiagram()}
             </Col>
           </Row>
         </Box>

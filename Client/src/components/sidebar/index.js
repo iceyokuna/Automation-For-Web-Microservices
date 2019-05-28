@@ -10,15 +10,15 @@ const sideBarWidth = 200;
 
 const iconColor = "#ffffff";
 const menus = [
-  { label: "Tasks", link: "my_tasks", icon: <Task color={iconColor} /> },
   { label: "Flows", link: "my_flows", icon: <Sort color={iconColor} /> },
-  { label: "Team", link: "my_team", icon: <Group color={iconColor} /> },
+  { label: "Tasks", link: "my_tasks", icon: <Task color={iconColor} /> },
+  // { label: "Team", link: "my_team", icon: <Group color={iconColor} /> },
   { label: "Setting", link: "setting/services", icon: <Performance color={iconColor} /> },];
 
 export default class SideBar extends Component {
 
   state = {
-    activeIndex: null,
+    activeIndex: 0,
   }
 
   handleSelectMenu = (pathName, selectedIndex) => {
@@ -60,11 +60,14 @@ export default class SideBar extends Component {
                   height="100%" align="start"
                   elevation="small" pad={{ top: 'medium', bottom: 'medium', left: 'small', right: 'small' }}
                   background='dark-1'
-                  gap="small">
+                  justify="center"
+                >
                   {menus.map((menu, index) =>
                     <Box fill="horizontal">
                       <PlainButton hoverIndicator
                         color="light-0"
+                        pad="medium"
+                        textSize="medium"
                         background={activeIndex == index ? "light-4" : "default"}
                         onClick={() => this.handleSelectMenu(`/${menu.link}`, index)}
                         icon={menu.icon}
