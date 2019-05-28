@@ -76,7 +76,7 @@ class NotificationView(APIView):
             noti = Notification.objects.filter(id=i).update(readFlag=True)
         return Response({"detail": "successfully updated"})
 
-@permission_classes((IsAuthenticated,))
+@permission_classes((AllowAny,))
 class SendNotificationView(APIView):
     def post(self, request):
         to = request.data.get('to')
