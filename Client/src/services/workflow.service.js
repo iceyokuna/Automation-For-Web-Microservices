@@ -9,6 +9,7 @@ export const workflowService = {
   getAllServices,
   getAllMethodsByServiceId,
   getMyFlows,
+  getCurrentLogs,
 
   createNewWorkflow,
   updateWorkflow,
@@ -17,6 +18,14 @@ export const workflowService = {
   deleteCollaborators,
   deleteWorkflowById,
 };
+
+function getCurrentLogs(workflowId) {
+  return axios.get(globalConstants.WORKFLOW_LOG_URL + workflowId, {
+    headers: {
+      Authorization: "Token" + getUserToken(),
+    }
+  });
+}
 
 function deleteWorkflowById(workflowId) {
   return axios.delete(globalConstants.USER_WORKFLOW_URL + `/${workflowId}`, {

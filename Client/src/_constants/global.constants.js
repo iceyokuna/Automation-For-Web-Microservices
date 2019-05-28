@@ -12,6 +12,8 @@ export const globalConstants = {
   GET_ALL_NOTIFICATIONS_URL: `https://5c8f65998447f30014cb826b.mockapi.io/api/notifications`,
   GET_ALL_USER_SERVICES_URL: `${developmentServer}:8004/api/all_user_service/`,
 
+  WORKFLOW_LOG_URL: `${developmentServer}:8003/api/log/`,
+
   COLLABORATORS_URL: `${developmentServer}:8003/api/collaborator/`,
   SET_FCM_TOKEN_URL: `${developmentServer}:8003/api/fcm_token/`,
 
