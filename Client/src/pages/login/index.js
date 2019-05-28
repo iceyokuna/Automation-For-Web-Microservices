@@ -98,18 +98,18 @@ class Login extends Component {
 
 
   onRegister = () => {
-    const { firstName, lastName, username, email,
-      password, newConfirmPass } = this.state;
+    const { firstName, lastName, newUsername, email,
+      newPassword, newConfirmPass } = this.state;
 
-    if (password !== newConfirmPass) {
+    if (newPassword !== newConfirmPass) {
       this.setState({ passwordError: 'Password must be the same' });
       return;
     }
 
     const userInfo = {
-      username: username,
+      username: newUsername,
       email: email,
-      password: password,
+      password: newPassword,
       first_name: firstName,
       last_name: lastName,
     };

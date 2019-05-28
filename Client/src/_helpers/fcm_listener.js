@@ -22,8 +22,6 @@ export function applyFCMListener(store) {
       } break;
       default: break;
     }
-
-    // store.dispatch(notificationActions.addNewNotification(payload));
   }, err => {
     console.error(err)
   });

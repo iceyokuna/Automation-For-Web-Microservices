@@ -2,6 +2,7 @@ import { userConstants } from '_constants';
 import { accountService, notificationServices } from 'services';
 import { alertActions } from './';
 import { history, askForPermissioToReceiveNotifications } from '_helpers';
+import { toast } from 'react-toastify';
 
 export const userActions = {
   login,
@@ -59,12 +60,14 @@ function register(user) {
       .then(
         user => {
           dispatch(success());
-          history.push('/login');
-          dispatch(alertActions.success('Registration successful'));
+          toast.success("New user is created");
+          // history.push('/login');
+          // dispatch(alertActions.success('Registration successful'));
         }
       ).catch(error => {
-        dispatch(failure(error.toString()));
-        dispatch(alertActions.error(error.toString()));
+        toast.error("Register failure");
+        // dispatch(failure(error.toString()));
+        // dispatch(alertActions.error(error.toString()));
       })
   };
 

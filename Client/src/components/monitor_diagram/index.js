@@ -149,49 +149,13 @@ class index extends Component {
     const overlays = this.viewer.get('overlays');
     overlays.clear();
 
+    // Highlight executed elements
     executedItems.forEach((item, index) => {
       this.highlightExecutedElement(item)
     })
 
+    // Highlight current pointer
     this.highlightCurrentElement(currentElement);
-
-    // const { currentTask } = nextProps;
-    // if (currentTask) {
-    //   this.setState({ currentTask });
-    //   const overlays = this.viewer.get('overlays');
-    //   const elementRegistry = this.viewer.get('elementRegistry');
-    //   const shape = elementRegistry.get(currentTask.nodeId);
-    //   if (shape != null) {
-    //     overlays.clear();
-    //     overlays.add(currentTask.nodeId, {
-    //       position: {
-    //       },
-    //       html: $('<div class="currentNode"/>').css(
-    //         {
-    //           width: shape.width,
-    //           height: shape.height,
-    //           opacity: 0.3,
-    //           backgroundColor: colors.currentNode,
-    //         }
-    //       )
-    //     });
-
-    //     // Show status below the node
-    //     overlays.add(currentTask.nodeId, {
-    //       position: {
-    //         bottom: -5,
-    //         right: shape.width / 2,
-    //       },
-    //       html: $('<div>Current</div>').css({
-    //         width: shape.width,
-    //         "text-align": 'center',
-    //         color: "white",
-    //         background: colors.currentNode
-    //       }),
-    //     });
-    //   }
-
-    // }
   }
 
   onClose = () => {
