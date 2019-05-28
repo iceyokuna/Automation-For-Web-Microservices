@@ -38,7 +38,7 @@ class MainConsumer(WebsocketConsumer):
             response = requests.get(url, headers=headers)
             response = json.loads(response.content)
             workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
-
+            
             #get next html
             task_data = workflowEngine_load.next(message)
             HTML = task_data["HTML"]

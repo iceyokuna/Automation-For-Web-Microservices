@@ -10,16 +10,28 @@ from MainModule.Graphflow.Core.IOtypes import *
 import pickle
 import requests
 import threading
+import datetime
+import time
 
 class WorkflowEngine:
     def __init__(self):
+        #finite state machine attributes
         self.state = {} #Q
         self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
         self.transition = {} #delta
 
+        #workflow infomation
+        self.workflowId = None
+        self.workflowName = None
+        self.executed = []
+        self.collaborator = set()
+
     #parsing workflow
-    def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
+    def initialize(self, id, name, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
+        self.workflowId = id
+        self.workflowName = name
+
         element_ref_lane_owner = {}
         sequenceFlow_ref = []
 
@@ -31,8 +43,9 @@ class WorkflowEngine:
                     elements_in_lane = lane['elements']
                     for element_ref in elements_in_lane:
                         element_ref = element_ref['elements'][0]
+                        self.collaborator.add(str(lane['attributes']['name']))
                         element_ref_lane_owner[element_ref['text']] = str(lane['attributes']['name']) #bpmn_element_id : id_lane_owner
-
+            
             #Start Event
             elif(element['name'] == 'bpmn2:startEvent'):
                 Id = element['attributes']['id']
@@ -98,6 +111,8 @@ class WorkflowEngine:
         self.setCondition(condition_list)
         self.createTransition(sequenceFlow_ref)
         self.setTimer(timer_list)
+        print('-=-=--=-=-=-=--=-=-=-=')
+        print(self.collaborator)
 
     #construct state transition function
     def createTransition(self, transition_list):
@@ -194,8 +209,21 @@ class WorkflowEngine:
                 return ({"HTML": wait_time_event_form, "taskId":self.currentState["current"]})  
 
             #update state (for parallel change element_object to get from message)
+            #send execution notification detail
+            executedBy = self.state[self.currentState["current"]].getId()
+            executedTaskName = self.state[self.currentState["current"]].getName()
+            localtime = time.localtime(time.time())
+            execute_date = str(localtime.tm_mday) + "/" + str(localtime.tm_mon) + "/" + str(localtime.tm_year)
+            execute_time = str(localtime.tm_hour) + ":" + str(localtime.tm_min)
+            executed_data = {"elementId": self.currentState["current"],"elementName": executedTaskName, "executedDate":execute_date, "executedTime":execute_time, "executedBy": "iceyo"}
+            self.executed.insert(0,executed_data)
+
+            #update state using state trainsition
             self.currentState["current"] = self.transition[(message['taskId'], status)]
             element_object = self.state[self.currentState["current"]]
+
+            #send notification to all collaborator
+            self.sendNotification(executedBy, executedTaskName)
 
         #check execution permission (lane owner)
 
@@ -271,6 +299,7 @@ class WorkflowEngine:
         #show for debuging
         element_object.setInput(message['formInputValues'])
         print("execute")
+        print("by " + str(element_object.getLaneOwner()))
         print(element_object.getId())
         print(message['formInputValues'])
         print()
@@ -304,6 +333,23 @@ class WorkflowEngine:
             message_data = message['formInputValues']['message']['value']
             request_data = {"user_id":user_id, "message":message_data}
             requests.post(url , data= request_data)
+
+    def sendNotification(self, executeBy , executeTaskName):
+        title =  "Iceyo " + " update '" + str(self.workflowName) + "'\n(" + executeTaskName +")"
+        body = "workflow"
+        click_action = "none"
+        payload = {'type':'WORKFLOW_STATUS',
+        'workflow_id': self.workflowId,
+        'workflow_name': self.workflowName,
+        'executedItems':self.executed,
+        'currentElement': {'elementId':self.currentState["current"], "elementName": self.state[self.currentState["current"]].getName()}}
+
+        url = "http://178.128.214.101:8003/api/send_notification/"
+        data = {'title':title, 'body':body,'click_action':click_action,
+        'data': payload,'to': list(self.collaborator)}
+        headers = {'Content-type': 'application/json'}
+        result = requests.post(url , json = data, headers = headers)
+        print(result)
 
     def updateState(self):
         pass

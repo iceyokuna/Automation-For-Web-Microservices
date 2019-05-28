@@ -18,9 +18,8 @@ def end_index(request):
 #update state from event handler (web hooking)
 @csrf_exempt
 def updateState(request):
-    pass
     resquest = json.loads(request.body.decode('utf-8'))
-
+    
 @csrf_exempt
 def saveFlow(request):
     resquest = json.loads(request.body.decode('utf-8'))
@@ -30,6 +29,7 @@ def saveFlow(request):
 
     #header data
     workflow_id = (resquest['workflow_id'])
+    workflow_name = (resquest['name'])
     user_token = (resquest['user_token'])
 
     #bpmn data
@@ -45,7 +45,7 @@ def saveFlow(request):
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
-    workflowEngine.initialize(elements_list, HTML_list, service_list, preInput_list, condition_list, timer_list)
+    workflowEngine.initialize(workflow_id, workflow_name ,elements_list, HTML_list, service_list, preInput_list, condition_list, timer_list)
 
     #Workflow Engine Initiate construction and [save]!!!
 #    with open('HTMLs.pkl', 'wb') as f:
