@@ -62,7 +62,7 @@ class index extends Component {
           bottom: 5,
           right: 30,
         },
-        html: '<div class="highlight">This task is here</div>',
+        html: '<div class="currentNode">This task is here</div>',
       })
     }
   }

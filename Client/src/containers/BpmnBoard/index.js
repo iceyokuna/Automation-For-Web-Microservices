@@ -99,12 +99,14 @@ class BpmnContainer extends Component {
 
 
   bindEvenCallback = () => {
+    const { dispatch } = this.props;
+
     // Binding events
     window.onresize = this.centerCanvas.bind(this);
 
     this.bpmnModeler.on('shape.remove', (event) => {
       const elementId = event.element.id;
-      this.props.dispatch(workflowActions.deleteAppliedMethodByTaskId(elementId));
+      dispatch(workflowActions.deleteAppliedMethodByTaskId(elementId));
     })
 
     const eventBus = this.bpmnModeler.get('eventBus');
@@ -120,21 +122,6 @@ class BpmnContainer extends Component {
       this.setState({
         currentElement: currentElement
       });
-    })
-
-    eventBus.on('element.dblclick', (event) => {
-      const currentElement = event.element.businessObject;
-      this.setState({
-        currentElement: currentElement
-      });
-
-      switch (currentElement.$type) {
-        case 'bpmn:Lane':
-          this.showParticipantSelector();
-          break;
-        default:
-          break;
-      }
     })
   }
 
@@ -224,11 +211,7 @@ class BpmnContainer extends Component {
   };
 
   handleCreate = () => {
-    const { currentElement } = this.state
-    const elementRegistry = this.bpmnModeler.get('elementRegistry');
 
-    const sequenceFlowElement = elementRegistry.get(currentElement.id);
-    console.log(sequenceFlowElement);
   }
 
   handleSaveFile = () => {
@@ -240,7 +223,11 @@ class BpmnContainer extends Component {
   }
 
   handleSaveImage = () => {
-    this.onToggleSidebar()
+    this.bpmnModeler.saveSVG((err, svg) => {
+      if (!err) {
+        download(svg, "diagram.svg", "image/svg+xml")
+      }
+    })
   }
 
   onToggleSidebar = () => {

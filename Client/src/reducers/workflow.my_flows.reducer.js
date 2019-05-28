@@ -1,5 +1,5 @@
 import { workflowContants } from '_constants';
-import { history } from '_helpers';
+import { history, getUnique } from '_helpers';
 
 const defaultState = {
   myFlows: [],
@@ -37,7 +37,10 @@ export function workflowMyFlows(state = defaultState, action) {
       const group_flows = collaborator_workflows.map((item, index) => {
         item["type"] = "group"; return item;
       })
-      nextState.myFlows = [...owner_workflows, ...group_flows];
+
+      let allFlows = [...owner_workflows, ...group_flows];
+      allFlows = getUnique(allFlows, 'id'); // remove duplicate workflow id
+      nextState.myFlows = allFlows;
       return nextState;
     }
     case workflowContants.GET_MY_FLOWS_FAILURE: {
