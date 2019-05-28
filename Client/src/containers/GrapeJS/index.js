@@ -1,4 +1,4 @@
-import React, { Component, } from 'react'
+import React, { Component, Fragment, } from 'react'
 
 import grapesjs from 'grapesjs';
 import presetWebpage from 'grapesjs-preset-webpage';
@@ -46,16 +46,15 @@ export default class GrapeJSWrapper extends Component {
       editor.setStyle(initialForm.formCss);
     } else {
       const { editor } = this;
+      // create initial forms according to service interface
       const html = this.createFormsByElementIds();
       editor.setComponents(html);
-      // editor.setComponents("");
-      // editor.setStyle("");
     }
   }
 
 
   createFormsByElementIds() {
-    const { service, formType } = this.props;
+    const { service, formType, onSetElementId } = this.props;
     let typeOfForm, interfaceData = null;
 
     if (formType === "inputForm") {
@@ -66,23 +65,31 @@ export default class GrapeJSWrapper extends Component {
       interfaceData = service.method.output_interface;
     }
 
-    var elements = [];
-
+    const elements = [];
     const keys = Object.keys(interfaceData);
     keys.forEach((key, index) => {
-      console.log({ key, data: interfaceData[key] });
-
+      onSetElementId(key, true);
       const data = interfaceData[key];
       const { elementType } = data;
 
       switch (elementType) {
         case "TextInput": {
-          elements.push(<input id={key} style={styles.textinput}
-            placeholder={`Type your ${key}`} />);
+          elements.push(
+            <Fragment>
+              <label>{key.toUpperCase()}</label>
+              <input id={key} style={styles.textinput}
+                placeholder={`Type your ${key}`} />
+            </Fragment>
+          );
         } break;
         case "TextArea": {
-          elements.push(<textarea id={key} style={styles.textarea}
-            placeholder={`Type your ${key}`} />);
+          elements.push(
+            <Fragment>
+              <label>{key.toUpperCase()}</label>
+              <textarea id={key} style={styles.textarea}
+                placeholder={`Type your ${key}`} />
+            </Fragment>
+          );
         } break;
 
         default:
