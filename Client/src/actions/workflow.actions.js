@@ -466,7 +466,7 @@ function updateWorkflow(name, description,
     ).then(
       res => {
         dispatch(success());
-        dispatch(sendWorkflowDataToEngine(name, description, workflowData));
+        dispatch(sendWorkflowDataToEngine(name, description, workflowData, currentWorkflowId));
         history.push('/my_flows');
       }).catch(err => dispatch(failure(err)));
 
@@ -494,20 +494,16 @@ function updateWorkflow(name, description,
 }
 
 function sendWorkflowDataToEngine(name, description,
-  workflowData) {
+  workflowData, workflowId) {
   return (dispatch, getState) => {
     dispatch(request());
-    setTimeout(() => {
-      const { workflowId } = getState().workflow;
-      workflowService.sendWorkflowDataToEngine(name, description,
-        workflowData, workflowId
-      ).then(
-        res => {
-          dispatch(success())
-          // history.push('/execute_flow/flow1133');
-        }).catch(err => dispatch(failure(err)));
-    }, 1000);
-
+    workflowService.sendWorkflowDataToEngine(name, description,
+      workflowData, workflowId
+    ).then(
+      res => {
+        dispatch(success())
+        // history.push('/execute_flow/flow1133');
+      }).catch(err => dispatch(failure(err)));
 
     function request() {
       return {
