@@ -153,7 +153,9 @@ class FlowDetail extends Component {
 
     const views = executedItems.map((item, index) =>
       <TaskItem key={index}
-        name={item.elementId} executedBy={item.executedBy}
+        name={item.elementId}
+        executedBy={item.executedBy}
+        executedDate={item.executedDate}
         executedTime={item.executedTime}
         onSelectTask={() => this.onClickTask(item)} />)
 
