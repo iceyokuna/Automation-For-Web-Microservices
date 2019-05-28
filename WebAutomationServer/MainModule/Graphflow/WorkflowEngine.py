@@ -195,7 +195,15 @@ class WorkflowEngine:
 
         
     #message from client input (run time)
-    def next(self, message , status = "done"):
+    def next(self, message , user_name, status = "done"):
+        #check execution permission (lane owner)
+        try:
+            if(user_name != self.state[self.currentState["current"]].getLaneOwner()):
+                wait_collaborator_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\"></div>"}
+                return ({"HTML": wait_collaborator_form, "taskId":self.currentState["current"]})  
+        except:
+            pass
+
         #get object from current execution
         element_object = None
         if(message['taskId'] == None):
@@ -224,18 +232,16 @@ class WorkflowEngine:
 
             #send notification to all collaborator
             self.sendNotification(executedBy, executedTaskName)
-
-        #check execution permission (lane owner)
-
+        
         #start case
         if(isinstance(element_object, StartEvent)):
-            return self.next({'formInputValues': None, 'taskId': element_object.getId()})
+            return self.next({'formInputValues': None, 'taskId': element_object.getId()}, user_name)
 
         #Task case
         if(isinstance(element_object, ServiceTask)):
             if(element_object.getHTML() is None):
                 #no html form
-                return self.next({'formInputValues': element_object.getInput(), 'taskId': element_object.getId()})
+                return self.next({'formInputValues': element_object.getInput(), 'taskId': element_object.getId()}, user_name)
             else:
                 #have html form
                 return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
@@ -261,7 +267,7 @@ class WorkflowEngine:
                 required_task_dict[task] = self.state[task]
             #get flow refernece that make condition true
             flow_ref = element_object.getFlowReference(required_task_dict)
-            return self.next({'formInputValues': None, 'taskId': element_object.getId()}, flow_ref)
+            return self.next({'formInputValues': None, 'taskId': element_object.getId()},user_name, flow_ref)
 
         #parallel gateway case
         if(isinstance(element_object, ParallelGateway)):
@@ -280,11 +286,11 @@ class WorkflowEngine:
             elif(len(element_object.getFlowReference()) != 1):
                 flow_reference_list = element_object.getFlowReference()
                 for flow in flow_reference_list:
-                    thread = threading.Thread(target=self.next({'formInputValues': None, 'taskId': element_object.getId()}, flow))
+                    thread = threading.Thread(target=self.next({'formInputValues': None, 'taskId': element_object.getId()},user_name, flow))
                     thread.start()
                     thread.join()
                 converging_gateway = self.state[self.currentState["current"]]
-                return self.next({'formInputValues': None, 'taskId': self.currentState["current"]}, converging_gateway.getFlowReference()[0])
+                return self.next({'formInputValues': None, 'taskId': self.currentState["current"]}, user_name, converging_gateway.getFlowReference()[0])
 
         #End case
         if(self.currentState["current"] in self.endState):

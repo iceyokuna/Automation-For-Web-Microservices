@@ -40,7 +40,7 @@ class MainConsumer(WebsocketConsumer):
             workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
             
             #get next html
-            task_data = workflowEngine_load.next(message)
+            task_data = workflowEngine_load.next(message, user_id)
             HTML = task_data["HTML"]
             taskId = task_data["taskId"]
 
