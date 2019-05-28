@@ -41,16 +41,6 @@ class FlowDetail extends Component {
       executeStatus: 'Execute', // To do : Classify "Continue" & "Execute"
       showViewerDock: false,
       currentTask: null,
-      tasks: [
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_04hkkce', name: 'EEEEEEEEEE', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_04hkkce', name: 'SSSSSSSS', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_04hkkce', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-        { nodeId: 'Task_0qz6rn4', name: 'Vote a new meeting date', owner: 'Iceyo Kuna', time: moment().format('llll') },
-      ]
     };
   }
 
@@ -149,17 +139,23 @@ class FlowDetail extends Component {
   }
 
   renderTaskList = () => {
-    const { tasks } = this.state
+    // const { tasks } = this.state
 
-    if (tasks.length === 0) {
+    const { workflowLogs } = this.props;
+    const { executedItems } = workflowLogs;
+
+    if (executedItems.length === 0) {
       return (
         <Box align="center" justify="center" pad="medium" gap="small" fill>
           <Text size="medium">Don't have any tasks</Text>
         </Box>)
     }
 
-    const views = tasks.map((item, index) =>
-      <TaskItem key={index} {...item} onSelectTask={() => this.onClickTask(item)} />)
+    const views = executedItems.map((item, index) =>
+      <TaskItem key={index}
+        name={item.elementId} executedBy={item.executedBy}
+        executedTime={item.executedTime}
+        onSelectTask={() => this.onClickTask(item)} />)
 
     return views;
   }
@@ -335,6 +331,7 @@ const mapStateToProps = (state) => {
     workflowCollaborators: state.workflowCollaborators,
     workflow: state.workflow,
     workflowMyFlows: state.workflowMyFlows,
+    workflowLogs: state.workflowLogs,
   }
 }
 

@@ -3,12 +3,26 @@ import { notificationActions } from 'actions';
 import { toast } from 'react-toastify';
 import { notificationServices } from 'services';
 import { getUserToken } from '_helpers'
+import { workflowContants } from '_constants'
+
 
 export function applyFCMListener(store) {
   messaging.onMessage(payload => {
+    // Show notification
     toast.info(payload.notification.title);
-    console.log({payload});
-    store.dispatch(notificationActions.addNewNotification(payload));
+    const parsedData = JSON.parse(payload.data["gcm.notification.data"]);
+    const messageType = parsedData.type;
+
+    console.log(messageType);
+
+    switch (messageType) {
+      case "WORKFLOW_STATUS": {
+        store.dispatch({ type: workflowContants.RECEIVE_WORKFLOW_STATUS, data: parsedData.data })
+      } break;
+      default: break;
+    }
+
+    // store.dispatch(notificationActions.addNewNotification(payload));
   }, err => {
     console.error(err)
   });
