@@ -44,8 +44,11 @@ export default class CreateForm extends Component {
           service={currentTask.selectedService}
           elementsIdSet={elementsIdSet} />
         <GrapesContainer
+          formType={currentTask.formType}
           initialForm={currentTask.currentForm}
           onExportForm={this.handleGeneratedForm}
+          elementsIdSet={elementsIdSet}
+          service={currentTask.selectedService}
           onSetElementId={this.handleSetElementId} />
       </div>
     )

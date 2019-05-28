@@ -99,7 +99,7 @@ class EmitIRView(APIView):
 
 
 
-        ip = request.data.get("ip") #192.168.4.1
+        ip = "192.168.4.1" #request.data.get("ip") #192.168.4.1
         uuid = request.data.get("uuid")
         freq = request.data.get("freq")
         c_id = request.data.get("c_id")
@@ -110,7 +110,7 @@ class EmitIRView(APIView):
 
         data = {}
         freq = 38000
-        n = 68
+        n = 6323#68
         seq = [171,172,21,65,21,65,21,65,21,22,21,22,21,22,21,22,21,22,21,65,21,65,21,65,21,22,21,22,21,22,21,22,21,22,21,22,21,65,21,22,21,22,21,22,21,22,21,22,21,22,21,65,21,22,21,65,21,65,21,65,21,65,21,65,21,65,21,1672]
         repeat = [1,0,68]
 

@@ -1,4 +1,4 @@
-import React, { Component, } from 'react'
+import React, { Component, Fragment, } from 'react'
 
 import grapesjs from 'grapesjs';
 import presetWebpage from 'grapesjs-preset-webpage';
@@ -8,6 +8,10 @@ import 'grapesjs/dist/css/grapes.min.css';
 // import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
 
 import { global } from 'style';
+import $ from 'jquery';
+import ReactDOMServer from 'react-dom/server';
+import { Box } from 'grommet';
+import styles from './style';
 
 export default class GrapeJSWrapper extends Component {
 
@@ -34,18 +38,73 @@ export default class GrapeJSWrapper extends Component {
   }
 
   loadExistingForm = () => {
-    const { initialForm } = this.props;
+    const { initialForm, elementsIdSet } = this.props;
+
     if (initialForm != null) {
       const { editor } = this;
       editor.setComponents(initialForm.formHtml);
       editor.setStyle(initialForm.formCss);
     } else {
       const { editor } = this;
-      editor.setComponents("");
-      editor.setStyle("");
+      // create initial forms according to service interface
+      const html = this.createFormsByElementIds();
+      editor.setComponents(html);
     }
   }
 
+
+  createFormsByElementIds() {
+    const { service, formType, onSetElementId } = this.props;
+    let typeOfForm, interfaceData = null;
+
+    if (formType === "inputForm") {
+      typeOfForm = "Input form";
+      interfaceData = service.method.input_interface;
+    } else {
+      typeOfForm = "Output form";
+      interfaceData = service.method.output_interface;
+    }
+
+    const elements = [];
+    const keys = Object.keys(interfaceData);
+    keys.forEach((key, index) => {
+      onSetElementId(key, true);
+      const data = interfaceData[key];
+      const { elementType } = data;
+
+      switch (elementType) {
+        case "TextInput": {
+          elements.push(
+            <Fragment>
+              <label>{key.toUpperCase()}</label>
+              <input id={key} style={styles.textinput}
+                placeholder={`Type your ${key}`} />
+            </Fragment>
+          );
+        } break;
+        case "TextArea": {
+          elements.push(
+            <Fragment>
+              <label>{key.toUpperCase()}</label>
+              <textarea id={key} style={styles.textarea}
+                placeholder={`Type your ${key}`} />
+            </Fragment>
+          );
+        } break;
+
+        default:
+          break;
+      }
+    })
+
+    const html = ReactDOMServer.renderToString(
+      <div style={{ padding: 10 }}>
+        {elements}
+      </div>
+    );
+
+    return html;
+  }
 
   allowEditingCode() {
     const { editor } = this;
@@ -168,60 +227,12 @@ export default class GrapeJSWrapper extends Component {
     const input = sm.add('input'), inputRule = cssComposer.add([input]);
     const label = sm.add('label'), labelRule = cssComposer.add([label]);
 
-    buttonRule.set('style', {
-      'width': '100%',
-      'margin': '15px 0',
-      'background-color': global.color.green1,
-      'border': 'none',
-      'color': '#f6f6f6',
-      'border-radius': '2px',
-      'padding': '7px 10px',
-      'font-size': '1em',
-      'cursor': 'pointer',
-    });
-
-    formRule.set('style', {
-      'border-radius': `3px`,
-      'padding': `10px 15px`,
-      'box-shadow': `0 1px 4px rgba(0, 0, 0, 0.3)`,
-      'color': '#444444'
-    })
-
-    textAreaRule.set('style', {
-      "width": "100%",
-      "margin-bottom": "15px",
-      "padding": "7px 10px",
-      "border-radius": "2px",
-      "color": "#444444",
-      "background-color": "#eeeeee",
-      "border": "none"
-    });
-
-    selectRule.set('style', {
-      'width': '100%',
-      'margin-bottom': '15px',
-      'padding': '7px 10px',
-      'border-radius': '2px',
-      'color': '#fff',
-      'background-color': '#554c57',
-      'border': 'none',
-      'height': '30px',
-    })
-
-    inputRule.set('style', {
-      'width': '100%',
-      'margin-bottom': '15px',
-      'padding': '7px 10px',
-      'border-radius': '2px',
-      'color': '#444444',
-      'background-color': '#eee',
-      'border': 'none',
-    })
-
-    labelRule.set('style', {
-      'width': '100%',
-      'display': 'block',
-    })
+    buttonRule.set('style', styles.button);
+    formRule.set('style', styles.form)
+    textAreaRule.set('style', styles.textarea);
+    selectRule.set('style', styles.select)
+    inputRule.set('style', styles.textinput)
+    labelRule.set('style', styles.label)
   }
 
   setProperties = () => {
