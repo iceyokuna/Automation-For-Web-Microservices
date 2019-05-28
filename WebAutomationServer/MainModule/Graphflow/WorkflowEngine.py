@@ -45,7 +45,7 @@ class WorkflowEngine:
                         element_ref = element_ref['elements'][0]
                         self.collaborator.add(str(lane['attributes']['name']))
                         element_ref_lane_owner[element_ref['text']] = str(lane['attributes']['name']) #bpmn_element_id : id_lane_owner
-
+            
             #Start Event
             elif(element['name'] == 'bpmn2:startEvent'):
                 Id = element['attributes']['id']
@@ -342,7 +342,7 @@ class WorkflowEngine:
         'workflow_id': self.workflowId,
         'workflow_name': self.workflowName,
         'executedItems':self.executed,
-        'currentId': {'elementId':self.currentState["current"], "elementName": self.state[self.currentState["current"]].getName()}}
+        'currentElement': {'elementId':self.currentState["current"], "elementName": self.state[self.currentState["current"]].getName()}}
 
         url = "http://178.128.214.101:8003/api/send_notification/"
         data = {'title':title, 'body':body,'click_action':click_action,
