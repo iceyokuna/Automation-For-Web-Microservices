@@ -17,7 +17,10 @@ class WorkflowEngine:
         self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
         self.transition = {} #delta
-
+        
+        self.collaborator = {}
+        self.executed = {}
+        self.current = {}
     #parsing workflow
     def initialize(self, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
         element_ref_lane_owner = {}
