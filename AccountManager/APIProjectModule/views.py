@@ -151,7 +151,7 @@ class LogView(APIView):
             
             token = FcmToken.objects.filter(user=user).values('fcmToken').first()['fcmToken']
             
-            data = {"to":token,"notification":{"title":title, "body":message, "click_action":"","data":{}}}
+            data = {"to":token,"data":{"title":title, "body":message, "click_action":"","data":{}}}
             data = json.dumps(data)
 
             res =  requests.post(url, headers=headers, data=data)
