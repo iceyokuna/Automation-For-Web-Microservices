@@ -4,7 +4,7 @@ import { Box, Text, Button } from 'grommet';
 import { Checkmark, Help, FormDown } from 'grommet-icons';
 
 import { Transition, } from 'react-spring'
-import { Container, circleButton, CollapseButtonContainer } from './style'
+import { Container, circleButton, CollapseButton } from './style'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 
@@ -88,12 +88,10 @@ export default class FloatDropdown extends Component {
       interfaceData = service.method.output_interface;
     }
     return (
-      <Container >
-        <CollapseButtonContainer>
-          <Button primary icon={<FormDown color="#ffffff" />} style={circleButton}
-            onClick={() => this.toggleMenu()} >
-          </Button>
-        </CollapseButtonContainer>
+      <Container>
+        <CollapseButton primary icon={<FormDown color="#ffffff" />} style={circleButton}
+          onClick={() => this.toggleMenu()} >
+        </CollapseButton>
 
         <Transition
           items={show}
@@ -102,24 +100,26 @@ export default class FloatDropdown extends Component {
           leave={{ height: 0, opacity: 0 }}>
           {toggle =>
             toggle
-              ? props => <Box background="light-0" width="400px"
-                elevation="small" pad="medium" gap="xsmall" style={props}
-              >
-                <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
-                  <Text color="accent-4" >{typeOfForm}</Text>
-                  <Box direction="row" justify="between">
-                    <Text size="xlarge" weight="bold" >{service.method.name}</Text>
-                    <Text size="large" >{taskId}</Text>
+              ? props =>
+                <Box background="light-0" width="400px"
+                  round={{ corner: 'bottom', size: 'small' }}
+                  elevation="small" pad="medium" gap="xsmall" style={props}
+                >
+                  <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                    <Text color="accent-4" >{typeOfForm}</Text>
+                    <Box direction="row" justify="between">
+                      <Text size="xlarge" weight="bold" >{service.method.name}</Text>
+                      <Text size="large" >{taskId}</Text>
+                    </Box>
+                    <Box>
+                      <Text>{service.method.info}</Text>
+                    </Box>
                   </Box>
-                  <Box>
-                    <Text>{service.method.info}</Text>
-                  </Box>
-                </Box>
 
-                <Scrollbars autoHeightMax={250} autoHeight autoHide>
-                  {this.renderInterfaceItems(interfaceData)}
-                </Scrollbars>
-              </Box>
+                  <Scrollbars autoHeightMax={250} autoHeight autoHide>
+                    {this.renderInterfaceItems(interfaceData)}
+                  </Scrollbars>
+                </Box>
               : props => null
           }
         </Transition>

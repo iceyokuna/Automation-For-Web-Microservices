@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { Button, } from 'grommet';
 
 export const Container = styled.div`
 position: fixed;
@@ -10,7 +11,7 @@ font-size: 1.7rem;
 z-index: 12;
 `
 
-export const CollapseButtonContainer = styled.div`
+export const CollapseButton = styled(Button)`
 position: absolute;
 top: 10px;
 left: 50%;

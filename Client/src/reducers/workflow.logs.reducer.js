@@ -14,6 +14,7 @@ const defaultState = {
     { detail: "Workflow#1 : transfer task to user#2" },
   ],
   show: false,
+  loading: false,
 }
 
 export function workflowLogs(state = defaultState, action) {
@@ -21,6 +22,18 @@ export function workflowLogs(state = defaultState, action) {
 
     case workflowContants.RESET_LOG_PARAMS: {
       return defaultState;
+    }
+
+    case workflowContants.GET_CURRENT_LOGS_REQUEST: {
+      return { ...state, loading: true };
+    }
+
+    case workflowContants.GET_CURRENT_LOGS_SUCCESS: {
+      return { ...state, loading: false };
+    }
+
+    case workflowContants.GET_CURRENT_LOGS_FAILURE: {
+      return { ...state, loading: false };
     }
 
     case workflowContants.TOGGLE_LOGS: {
