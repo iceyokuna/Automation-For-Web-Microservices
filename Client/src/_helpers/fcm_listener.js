@@ -10,8 +10,20 @@ export function applyFCMListener(store) {
   messaging.onMessage(payload => {
     // Show notification
     toast.info(payload.notification.title);
-    const parsedData = JSON.parse(payload.data["gcm.notification.data"]);
-    const messageType = parsedData.type;
+    var parsedData = JSON.parse(payload.data["gcm.notification.data"]);
+    var messageType = parsedData.type;
+
+    console.log(parsedData);
+    // console.log(messageType);
+
+    if (messageType == null) {
+      messageType = parsedData.notification.data.type;
+      var data = JSON.parse(parsedData.notification.data);
+      messageType = data.notification.data.type;
+      parsedData = data.notification.data;
+    }
+
+    // console.log(messageType);
 
     switch (messageType) {
       case "WORKFLOW_STATUS": {
