@@ -11,6 +11,7 @@ import { global } from 'style';
 import $ from 'jquery';
 import ReactDOMServer from 'react-dom/server';
 import { Box } from 'grommet';
+import styles from './style';
 
 export default class GrapeJSWrapper extends Component {
 
@@ -76,27 +77,12 @@ export default class GrapeJSWrapper extends Component {
 
       switch (elementType) {
         case "TextInput": {
-          elements.push(<input id={key} style={{
-            'width': '100%',
-            'margin-bottom': '15px',
-            'padding': '7px 10px',
-            'border-radius': '2px',
-            'color': '#444444',
-            'background-color': '#eee',
-            'border': 'none',
-          }} placeholder={`Type your ${key}`} />);
+          elements.push(<input id={key} style={styles.textinput}
+            placeholder={`Type your ${key}`} />);
         } break;
         case "TextArea": {
-          elements.push(<textarea id={key} style={{
-            "width": "100%",
-            "margin-bottom": "15px",
-            "padding": "7px 10px",
-            "border-radius": "2px",
-            "color": "#444444",
-            "background-color": "#eeeeee",
-            "border": "none"
-          }} placeholder={`Type your ${key}`} />);
-
+          elements.push(<textarea id={key} style={styles.textarea}
+            placeholder={`Type your ${key}`} />);
         } break;
 
         default:
@@ -109,8 +95,6 @@ export default class GrapeJSWrapper extends Component {
         {elements}
       </div>
     );
-
-    console.log({ html });
 
     return html;
   }
@@ -236,60 +220,12 @@ export default class GrapeJSWrapper extends Component {
     const input = sm.add('input'), inputRule = cssComposer.add([input]);
     const label = sm.add('label'), labelRule = cssComposer.add([label]);
 
-    buttonRule.set('style', {
-      'width': '100%',
-      'margin': '15px 0',
-      'background-color': global.color.green1,
-      'border': 'none',
-      'color': '#f6f6f6',
-      'border-radius': '2px',
-      'padding': '7px 10px',
-      'font-size': '1em',
-      'cursor': 'pointer',
-    });
-
-    formRule.set('style', {
-      'border-radius': `3px`,
-      'padding': `10px 15px`,
-      'box-shadow': `0 1px 4px rgba(0, 0, 0, 0.3)`,
-      'color': '#444444'
-    })
-
-    textAreaRule.set('style', {
-      "width": "100%",
-      "margin-bottom": "15px",
-      "padding": "7px 10px",
-      "border-radius": "2px",
-      "color": "#444444",
-      "background-color": "#eeeeee",
-      "border": "none"
-    });
-
-    selectRule.set('style', {
-      'width': '100%',
-      'margin-bottom': '15px',
-      'padding': '7px 10px',
-      'border-radius': '2px',
-      'color': '#fff',
-      'background-color': '#554c57',
-      'border': 'none',
-      'height': '30px',
-    })
-
-    inputRule.set('style', {
-      'width': '100%',
-      'margin-bottom': '15px',
-      'padding': '7px 10px',
-      'border-radius': '2px',
-      'color': '#444444',
-      'background-color': '#eee',
-      'border': 'none',
-    })
-
-    labelRule.set('style', {
-      'width': '100%',
-      'display': 'block',
-    })
+    buttonRule.set('style', styles.button);
+    formRule.set('style', styles.form)
+    textAreaRule.set('style', styles.textarea);
+    selectRule.set('style', styles.select)
+    inputRule.set('style', styles.textinput)
+    labelRule.set('style', styles.label)
   }
 
   setProperties = () => {
