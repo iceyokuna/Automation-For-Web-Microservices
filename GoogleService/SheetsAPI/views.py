@@ -35,7 +35,7 @@ class CreateView(APIView):
     def post(self, request):
         SAMPLE_SPREADSHEET_ID = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
         SAMPLE_RANGE_NAME = 'Class Data!A2:E'
-        CLIENT_SECRET_FILE = os.path.join(os.path.dirname(__file__), '..', 'client_secrets.json'
+        #CLIENT_SECRET_FILE = os.path.join(os.path.dirname(__file__), '..', 'client_secrets.json'
 
         auth_code = "4/QgEWsHaVX2AHvgm_oFobYcvfHJFX4Kxmi9ELsOBDOTHlYndDlDnyGLwotzeQoV9R7xhZ058J82VsEUzwXoFfh3o"
 
@@ -64,7 +64,7 @@ class CreateView(APIView):
 
 
 
-'''
+
         auth_code = "4/PQELICMYJTtywERyDS8nkvp-xH3NKs7Qxuw4YeIZ-WscCBhVpifvX_ZQ02hvLt8j_tjROM_8wX74NPLK82dzB2I"
         scope =  ['https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/spreadsheets.readonly']
 
@@ -84,4 +84,3 @@ class CreateView(APIView):
         print('Spreadsheet ID: {0}'.format(spreadsheet.get('spreadsheetId')))
         
         return Response({"detail":"Done"}, status=HTTP_200_OK)
-'''

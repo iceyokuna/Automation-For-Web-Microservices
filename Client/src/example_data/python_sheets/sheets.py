@@ -13,8 +13,7 @@ SAMPLE_RANGE_NAME = 'Class Data!A2:E'
 # Set path to the Web application client_secret_*.json file you downloaded from the
 # Google API Console: https://console.developers.google.com/apis/credentials
 CLIENT_SECRET_FILE = 'client_secret.json'
-auth_code = "4/PQELICMYJTtywERyDS8nkvp-xH3NKs7Qxuw4YeIZ-WscCBhVpifvX_ZQ02hvLt8j_tjROM_8wX74NPLK82dzB2I"
-
+auth_code = "4/WQEKvQFsxHHBOD9aAHLlgGT2MaYwGStMWqMJXOorbCmLfVb-JapA6dwBviTPtL77iR6MyT9zD4PfT8eWeK7z72Y"
 
 # Exchange auth code for access token, refresh token, and ID token
 credentials = client.credentials_from_clientsecrets_and_code(
