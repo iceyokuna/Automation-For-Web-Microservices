@@ -16,7 +16,6 @@ class Workflow(models.Model):
     appliedTimers = JSONField(null=True)
     generatedForms = JSONField(null=True)
     workflowObject = models.TextField(null=True)#models.BinaryField(default=None)
-    logs = JSONField(null=True)
 
     def __str__(self):
         return self.name
@@ -47,9 +46,5 @@ class Collaborator(models.Model):
 
 class Log(models.Model):
     workflow = models.ForeignKey(Workflow, related_name='log_col', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='user_log', on_delete=models.CASCADE)
-    created = created = models.DateTimeField(auto_now_add=True)
-    message = models.TextField(null=True)
-    task_id = models.CharField(max_length=200, null=True)
-    task_name = models.TextField(null=True)
+    logs = JSONField(null=True)
 
