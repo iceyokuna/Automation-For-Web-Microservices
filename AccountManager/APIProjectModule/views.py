@@ -127,13 +127,13 @@ class LogView(APIView):
     def get(self, request, workflow_id):
         workflow = Workflow.objects.filter(id=workflow_id)
         if(workflow.count()>0):
-            logs = Log.objects.filter(workflow=workflow.first()).order_by('-created').values()
+            logs = Log.objects.filter(workflow=workflow.first()).values()#order_by('-created').values()
             return Response({"detail":logs}, status= HTTP_200_OK)
         return Response({"detail":"No log file found"}, status= HTTP_400_BAD_REQUEST)
 
     def post(self, request, workflow_id):
         workflow = Workflow.objects.filter(id=workflow_id).first()
-        
+        '''
         user = request.user
         message = request.data.get('message')
         task_id = request.data.get('task_id')
@@ -158,12 +158,24 @@ class LogView(APIView):
             noti = Notification.objects.create(user=user, title=title,body=message,click_action ="", data=data)
             
         ############
-
-        if(Log.objects.create(workflow=workflow, user=user, message=message, task_id=task_id,task_name=task_name)):
+        '''
+        logs = request.data.get('logs')
+        if(Log.objects.create(logs=logs, workflow=workflow)):
             return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
         return Response({"detail":"Unable to create a log file"}, status= HTTP_400_BAD_REQUEST)
 
-    #def put(self, request):
+    def put(self, request, workflow_id = 0):
+        logs = request.data.get('logs')
+        workflow = Workflow.objects.filter(id=workflow_id).first()
+        log = Log.objects.filter(workflow= workflow).values_list()
+
+        if(len(log) > 0):
+            Log.objects.filter(workflow= workflow).update(logs=logs)
+        elif(len(log) == 0):
+            Log.objects.create(logs=logs, workflow=workflow)
+        return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
+        #return Response({"detail":"Unable to create a log file"}, status= HTTP_400_BAD_REQUEST)
+
 '''
 class AdminView(viewsets.ModelViewSet):
     queryset = Admin.objects.all()

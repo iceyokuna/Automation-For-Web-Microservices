@@ -315,7 +315,7 @@ class WorkflowEngine:
 
         #call gateway API to execute service
         #test philips hue
-        '''
+        
         if(str(element_object.getServiceId()) == "74"):
             if(str(element_object.getServiceMethodId()) == "84"):
                 url = "http://127.0.0.1:5000/turnon"
@@ -332,7 +332,7 @@ class WorkflowEngine:
             elif(str(element_object.getServiceMethodId()) == "88"):
                 url = "http://127.0.0.1:5000/blue"
                 requests.post(url , data= {})
-        '''
+        
         #test line
         if(str(element_object.getServiceId()) == "4"):
             url = "https://safe-beyond-22181.herokuapp.com/notify"
@@ -357,8 +357,19 @@ class WorkflowEngine:
             'data': payload,'to': [colloaborator]}
             headers = {'Content-type': 'application/json'}
             result = requests.post(url , json = data, headers = headers)
-            print(result)
+            print("Send notification: " + str(result))
+            #update log to database
+            self.updateLog(data)
 
+    #update log of workflow to service manager
+    def updateLog(self, data):
+        url = "http://178.128.214.101:8003/api/log/" + str(self.workflowId)
+        headers = {'Content-type': 'application/json'}
+        payload  = {"logs": data}
+        result = requests.put(url , json = payload, headers = headers)
+        print("Update log: " + str(result))
+
+    #update workflow state -> next state from state transition
     def updateState(self):
         pass
 
