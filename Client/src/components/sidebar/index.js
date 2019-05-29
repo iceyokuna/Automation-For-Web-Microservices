@@ -13,7 +13,7 @@ const menus = [
   { label: "Flows", link: "my_flows", icon: <Sort color={iconColor} /> },
   { label: "Tasks", link: "my_tasks", icon: <Task color={iconColor} /> },
   // { label: "Team", link: "my_team", icon: <Group color={iconColor} /> },
-  { label: "Setting", link: "setting/services", icon: <Performance color={iconColor} /> },];
+  { label: "Services", link: "services", icon: <Performance color={iconColor} /> },];
 
 export default class SideBar extends Component {
 

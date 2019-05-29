@@ -1,11 +1,15 @@
 import React, { Component, } from 'react'
-import { Box, Button, Text } from 'grommet';
+import {
+  Box, Button, Text,
+  Heading,
+} from 'grommet';
 import { Add, Close } from 'grommet-icons'
 
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { userServicesActions } from 'actions'
+import { global } from 'style';
 
 class index extends Component {
 
@@ -25,7 +29,7 @@ class index extends Component {
 
   onAddService = () => {
     const { match, history } = this.props;
-    history.push(match.url + '/addService');
+    history.push(match.url + '/add_service');
     // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());3
   }
 
@@ -100,9 +104,16 @@ class index extends Component {
 
   render() {
     return (
-      <Box pad={{ vertical: 'small' }}>
-        {this.renderServices()}
-      </Box>
+      <div style={global.mainContainer}>
+        <Box pad={{ horizontal: 'medium' }}>
+          <Box direction="row" align="center">
+            <Heading size='small' margin={{ right: 'medium' }}>My services</Heading>
+          </Box>
+          <Box background="light-0" round={{ size: "small" }} pad="large">
+            {this.renderServices()}
+          </Box>
+        </Box>
+      </div>
     )
   }
 }

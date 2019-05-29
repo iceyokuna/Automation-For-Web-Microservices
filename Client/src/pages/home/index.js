@@ -16,8 +16,8 @@ import CreateFlow from 'pages/create_flow'
 import Workflow from 'pages/workflow'
 import MyTasks from 'pages/my_tasks'
 import InboxTaskDetail from 'pages/inbox_task_detail'
-import Setting from 'pages/setting';
 import Services from 'pages/services';
+import ServiceAdd from 'pages/service_add'
 
 import { Route, Switch, Redirect } from 'react-router-dom'
 
@@ -25,6 +25,7 @@ import Media from 'react-media'
 
 import { history, askForPermissioToReceiveNotifications } from '_helpers';
 import { notificationServices } from 'services'
+import ServiceInfo from 'pages/service_info';
 
 export default class Home extends Component {
   state = {
@@ -65,8 +66,10 @@ export default class Home extends Component {
           <Route exact path={"/my_tasks"} component={MyTasks} />
           <Route exact path={"/design_form"} component={CreateForm} />
           <Route path={"/my_tasks/:taskId"} component={InboxTaskDetail} />
-          <Route path={"/services"} component={Services} />
-          <Route path={"/setting"} component={Setting} />
+          <Route exact path={"/services"} component={Services} />
+          <Route path={"/services/add_service"} component={ServiceAdd} />
+          <Route path={"/services/info"} component={ServiceInfo} />
+          {/* <Route path={"/setting"} component={Setting} /> */}
           {/* <Route component={NotFound} /> */}
           <Redirect from="*" to="/my_flows" />
         </Switch>
