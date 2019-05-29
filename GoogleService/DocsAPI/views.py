@@ -31,14 +31,10 @@ import os
 class CreateView(APIView):
 
     def post(self, request):
-        AUTH = "4/WQHsc4UIBQhe0JhxgGKLxbJ_fIUnqLV4PAZHVQ9ivaz_fCxGvOrtpuR5LbScduRiWRKNazIvV2Xlwc7AJS28ImE"
-        SCOPES = ['https://docs.googleapis.com/v1/documents','https://www.googleapis.com/auth/drive.file']
+        AUTH = "4/WQFhORcnikJSJNpnriPVU4hUXwB6Fjw1F1wbpZ8sPn8-Z1sMzOEvy-UHG5eTzI5iI5XubFpMky4VwTP0K-2NEUY"
+        SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents.readonly']
 
-        #json_data = open('DocsAPI/client_secrets.json')  
-        #CLIENT_SECRET_FILE = json_data
-        #a = json.load(json_data)
-        #CLIENT_SECRET_FILE = json.dumps(json_data)
-        #json_data.close()
+     
         CLIENT_SECRET_FILE = 'DocsAPI/client_secrets.json'
         creds = client.credentials_from_clientsecrets_and_code(
             CLIENT_SECRET_FILE,SCOPES, AUTH)
