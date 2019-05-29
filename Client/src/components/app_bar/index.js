@@ -186,8 +186,8 @@ class AppBar extends Component {
             <Link to="/my_tasks">
               <PlainButton label="Tasks" color="light-0" />
             </Link>
-            <Link to="/setting">
-              <PlainButton label="Setting" color="light-0" />
+            <Link to="/services">
+              <PlainButton label="Services" color="light-0" />
             </Link>
           </Box>
 
