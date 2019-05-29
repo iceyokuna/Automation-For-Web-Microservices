@@ -4,3 +4,4 @@ from .models import Workflow, Collaborator
 
 admin.site.register(Workflow)
 admin.site.register(Collaborator)
+admin.site.register(Log)
