@@ -164,7 +164,7 @@ class LogView(APIView):
             return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
         return Response({"detail":"Unable to create a log file"}, status= HTTP_400_BAD_REQUEST)
 
-    def put(self, request, workflow_id):
+    def put(self, request, workflow_id = 0):
         logs = request.data.get('logs')
         workflow = Workflow.objects.filter(id=workflow_id).first()
 
