@@ -29,7 +29,7 @@ class Test extends Component {
   render() {
     return (
       <div>
-        <Button label="Get Token" onClick={this.handlegetUserToken} />
+        {/* <Button label="Get Token" onClick={this.handlegetUserToken} /> */}
         <GoogleLogin
           clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
           buttonText="Login"
@@ -43,9 +43,6 @@ class Test extends Component {
 
         />
 
-        <Button label="Open Dock" onClick={() => {
-          this.props.dispatch(logsActions.toggleDock())
-        }} />
 
         <Button label="POST" onClick={() => {
           axios.post('https://safe-beyond-22181.herokuapp.com/notify', {
@@ -55,7 +52,6 @@ class Test extends Component {
             console.error(e)
           })
         }} />
-        <ExecutionLog show={this.state.showDock} />
       </div>
     )
   }
