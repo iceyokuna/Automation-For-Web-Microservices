@@ -39,7 +39,7 @@ class WorkflowView(APIView):
                 return Response({"detail": request.user.username + " does not have access to the workflow"}, status=HTTP_200_OK) 
         
         workflow = Workflow.objects.create(user=request.user, bpmnJson=request.data.get('bpmnJson'), name=request.data.get('name'), description=request.data.get(
-            'description'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'),  appliedPreInputs=request.data.get('appliedPreInputs'), generatedForms=request.data.get('generatedForms'), appliedTimers=request.data.get('appliedTimers'))
+            'description'), appliedMethods=request.data.get('appliedMethods'), appliedConditions=request.data.get('appliedConditions'), logs=request.data.get('logs'), appliedPreInputs=request.data.get('appliedPreInputs'), generatedForms=request.data.get('generatedForms'), appliedTimers=request.data.get('appliedTimers'))
         Collaborator.objects.create(workflow=workflow,  collaborator=request.user)
 
         return Response({"detail": "successfully created by "+request.user.username, "workflow_id":workflow.id, "workflow_name":workflow.name,"workflow_description":workflow.description, }, status=HTTP_200_OK)

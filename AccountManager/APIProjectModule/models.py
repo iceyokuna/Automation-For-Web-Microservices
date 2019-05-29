@@ -16,6 +16,7 @@ class Workflow(models.Model):
     appliedTimers = JSONField(null=True)
     generatedForms = JSONField(null=True)
     workflowObject = models.TextField(null=True)#models.BinaryField(default=None)
+    logs = JSONField(null=True)
 
     def __str__(self):
         return self.name
