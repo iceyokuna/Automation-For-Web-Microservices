@@ -36,9 +36,11 @@ class ExecuteFlow extends Component {
             script.appendChild(scriptText);
             document.body.appendChild(script);
 
-        } if (executingForm === "DONE") {
-            toast.success("Done all forms");
-            // this.props.history.replace('/my_flows');
+        } 
+        if (executingForm === "DONE") {
+            // toast.success("Done all forms");
+            // this.props.dispatch(socketActions.closeSocket());
+            // this.props.history.push('/my_flows');
         } if (executingForm === "FAIL") {
             this.setState({
                 currentFormHtml: "<div>FAIL</div>",

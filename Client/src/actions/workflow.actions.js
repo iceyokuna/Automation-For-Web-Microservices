@@ -10,6 +10,7 @@ export const workflowActions = {
   addNewCollaborators,
 
   resetToInitialParams,
+  resetExecutingForm,
 
   setMode,
 
@@ -228,6 +229,11 @@ function togglePreInputDialog() {
   }
 }
 
+function resetExecutingForm() {
+  return {
+    type: workflowContants.RESET_EXECUTING_FORM,
+  }
+}
 
 function setExecutingForm(form, taskId) {
   return {

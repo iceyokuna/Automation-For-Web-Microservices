@@ -17,4 +17,6 @@ export const socketConstants = {
 
   FINISH_ALL_FORMS: Prefix + 'FINISH_ALL_FORM',
 
+  OPEN_SOCKET: 'OPEN_SOCKET',
+  CLOSE_SOCKET: 'CLOSE_SOCKET',
 };

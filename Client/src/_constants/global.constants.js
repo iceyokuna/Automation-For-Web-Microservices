@@ -2,8 +2,6 @@ const productionServer = "https://the-timemachine.com";
 const developmentServer = "http://178.128.214.101";
 
 export const globalConstants = {
-  
-
   USER_REGISTER_URL: `${developmentServer}:8003/api/register`,
   USER_LOGIN_URL: `${developmentServer}:8003/api/login`,
   USER_LOGOUT_URL: `${developmentServer}:8003/api/logout`,

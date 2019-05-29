@@ -21,7 +21,7 @@ import MemberDialog from 'components/member_dialog';
 
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { workflowActions, logsActions } from 'actions';
+import { workflowActions, logsActions, socketActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
@@ -96,8 +96,8 @@ class FlowDetail extends Component {
   }
 
   onExecuteFlow = () => {
-    const { currentFlow } = this.props;
-    this.props.history.push('/execute_flow/' + currentFlow.id);
+    const { dispatch } = this.props;
+    dispatch(socketActions.openSocket());
   }
 
   onAddCollaborator = () => {

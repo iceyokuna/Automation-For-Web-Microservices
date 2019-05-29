@@ -177,7 +177,6 @@ class Login extends Component {
             <FormField>
               <TextInput
                 ref='usernameInput'
-                autoFocus
                 placeholder="Username"
                 value={this.state.newUsername}
                 onChange={this.onChangeNewUsername} />
@@ -188,7 +187,6 @@ class Login extends Component {
             <FormField>
               <TextInput
                 ref='firstNameInput'
-                autoFocus
                 placeholder="First Name"
                 value={this.state.firstName}
                 onChange={this.onChangeFirstName} />
@@ -199,7 +197,6 @@ class Login extends Component {
             <FormField>
               <TextInput
                 ref='lastNameInput'
-                autoFocus
                 placeholder="Last Name"
                 value={this.state.lastName}
                 onChange={this.onChangeLastName} />
@@ -210,7 +207,6 @@ class Login extends Component {
             <FormField>
               <TextInput
                 ref='emailInput'
-                autoFocus
                 placeholder="Email"
                 value={this.state.email}
                 onChange={this.onChangeEmail} />

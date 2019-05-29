@@ -159,6 +159,14 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowContants.RESET_EXECUTING_FORM: {
+      return {
+        ...state,
+        executingForm: null,
+        executingTaskId: null
+      };
+    }
+
     case workflowContants.SET_CURRENT_EXECUTING_FORM: {
       const nextState = { ...state };
       const { executingForm, executingTaskId } = action;

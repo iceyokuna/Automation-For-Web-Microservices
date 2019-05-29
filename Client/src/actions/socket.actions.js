@@ -6,7 +6,22 @@ export const socketActions = {
 
   startFlow,
   nextForm,
+
+  openSocket,
+  closeSocket,
 };
+
+function closeSocket() {
+  return {
+    type: socketConstants.CLOSE_SOCKET,
+  }
+}
+
+function openSocket() {
+  return {
+    type: socketConstants.OPEN_SOCKET,
+  }
+}
 
 function sendMessage(title, body) {
   return {
