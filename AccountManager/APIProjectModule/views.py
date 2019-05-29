@@ -167,10 +167,14 @@ class LogView(APIView):
     def put(self, request, workflow_id = 0):
         logs = request.data.get('logs')
         workflow = Workflow.objects.filter(id=workflow_id).first()
+        log = Log.objects.filter(workflow= workflow).values_list()
 
-        if(Log.objects.filter(workflow= workflow).update(logs=logs)):
-            return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
-        return Response({"detail":"Unable to create a log file"}, status= HTTP_400_BAD_REQUEST)
+        if(len(log) > 0):
+            Log.objects.filter(workflow= workflow).update(logs=logs)
+        elif(len(log) == 0):
+            Log.objects.create(logs=logs, workflow=workflow)
+        return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
+        #return Response({"detail":"Unable to create a log file"}, status= HTTP_400_BAD_REQUEST)
 
 '''
 class AdminView(viewsets.ModelViewSet):
