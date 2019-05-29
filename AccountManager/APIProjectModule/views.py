@@ -168,7 +168,7 @@ class LogView(APIView):
         logs = request.data.get('logs')
         workflow = Workflow.objects.filter(id=workflow_id).first()
 
-        if(Log.objects.filter(workflow= workflow).update_or_create(logs=logs)):
+        if(Log.objects.filter(workflow= workflow).update(logs=logs)):
             return Response({"detail":"successfully saved"}, status=HTTP_200_OK)
         return Response({"detail":"Unable to create a log file"}, status= HTTP_400_BAD_REQUEST)
 
