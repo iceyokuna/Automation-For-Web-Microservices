@@ -59,6 +59,8 @@ class BackgroundThread(threading.Thread):
 
     def triggerTimeEvent(self, trigger_list):
         for event_id in trigger_list:
+            #update workflow
+
             #update state
             print("\n!!!!!!! trigger !!!!!!! ", event_id)
             #remove event from message queue

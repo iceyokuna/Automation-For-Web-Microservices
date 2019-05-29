@@ -363,9 +363,9 @@ class WorkflowEngine:
 
     #update log of workflow to service manager
     def updateLog(self, data):
-        url = "http://178.128.214.101:8003/api/workflow"
+        url = "http://178.128.214.101:8003/api/log/" + str(self.workflowId)
         headers = {'Content-type': 'application/json'}
-        payload  = {"id": self.workflowId, "logs": data}
+        payload  = {"logs": data}
         result = requests.put(url , json = payload, headers = headers)
         print("Update log: " + str(result))
 
