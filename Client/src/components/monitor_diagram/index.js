@@ -13,7 +13,6 @@ const colors = {
 class index extends Component {
 
   state = {
-    currentTask: {},
     current: true,
   }
 
@@ -144,18 +143,24 @@ class index extends Component {
   componentWillReceiveProps(nextProps) {
 
     const { workflowLogs } = nextProps;
-    const { executedItems, currentElement, } = workflowLogs;
+    const { currentTask } = nextProps;
 
-    const overlays = this.viewer.get('overlays');
-    overlays.clear();
 
-    // Highlight executed elements
-    executedItems.forEach((item, index) => {
-      this.highlightExecutedElement(item)
-    })
+    try {
+      const { executedItems, currentElement, } = currentTask;
+      const overlays = this.viewer.get('overlays');
+      overlays.clear();
 
-    // Highlight current pointer
-    this.highlightCurrentElement(currentElement);
+      // Highlight executed elements
+      executedItems.forEach((item, index) => {
+        this.highlightExecutedElement(item)
+      })
+
+      // Highlight current pointer
+      this.highlightCurrentElement(currentElement);
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   onClose = () => {

@@ -50,6 +50,16 @@ class FlowDetail extends Component {
     ReactTooltip.rebuild();
   }
 
+  componentWillReceiveProps(nextProps) {
+
+    const { workflowLogs } = nextProps;
+    const { data } = workflowLogs;
+
+    if (data.length != 0) {
+      this.setState({ currentTask: data[0].logs.data });
+    }
+  }
+
   onChangename = (e) => {
     this.setState({ newname: e.target.value });
   }
@@ -150,22 +160,26 @@ class FlowDetail extends Component {
     // const { tasks } = this.state
 
     const { workflowLogs } = this.props;
-    const { executedItems } = workflowLogs;
+    const { data } = workflowLogs;
 
-    if (executedItems.length === 0) {
+    if (data.length === 0) {
       return (
         <Box align="center" justify="center" pad="medium" gap="small" fill>
           <Text size="medium">Don't have any tasks</Text>
         </Box>)
     }
 
-    const views = executedItems.map((item, index) =>
-      <TaskItem key={index}
-        name={item.elementName}
-        executedBy={item.executedBy}
-        executedDate={item.executedDate}
-        executedTime={item.executedTime}
-        onSelectTask={() => this.onClickTask(item)} />)
+    const views = data.map((item, index) => {
+      const { data } = item.logs;
+      const { elementId, elementName } = data.currentElement;
+      return (
+        <TaskItem key={index}
+          name={elementName}
+          // executedBy={item.executedBy}
+          // executedDate={item.executedDate}
+          // executedTime={item.executedTime}
+          onSelectTask={() => this.onClickTask(data)} />);
+    })
 
     return views;
   }
@@ -284,8 +298,8 @@ class FlowDetail extends Component {
     const { showViewerDock, currentTask, executeStatus } = this.state;
     return (
       <div style={global.mainContainer}>
-        <ViewerDock visible={showViewerDock} currentTask={currentTask}
-          onCloseDock={this.onCloseDock} />
+        {/* <ViewerDock visible={showViewerDock} currentTask={currentTask}
+          onCloseDock={this.onCloseDock} /> */}
         <MemberDialog />
         <ReactTooltip effect="solid" />
 

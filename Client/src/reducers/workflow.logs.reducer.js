@@ -18,6 +18,7 @@ const defaultState = {
 
   executedItems: [],
   currentElement: {},
+  data: [],
 }
 
 export function workflowLogs(state = defaultState, action) {
@@ -42,7 +43,8 @@ export function workflowLogs(state = defaultState, action) {
     }
 
     case workflowContants.GET_CURRENT_LOGS_SUCCESS: {
-      return { ...state, loading: false };
+      let { logs } = action;
+      return { ...state, loading: false, data: logs };
     }
 
     case workflowContants.GET_CURRENT_LOGS_FAILURE: {
