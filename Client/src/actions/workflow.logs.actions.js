@@ -13,7 +13,7 @@ function getCurrentLogs(workflowId) {
       res => {
         dispatch({
           type: workflowContants.GET_CURRENT_LOGS_SUCCESS,
-          data: res.data,
+          logs: res.data.detail,
         });
       }).catch(e =>
         dispatch({ type: workflowContants.GET_CURRENT_LOGS_FAILURE })

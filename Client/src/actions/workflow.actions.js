@@ -11,6 +11,7 @@ export const workflowActions = {
 
   resetToInitialParams,
   resetExecutingForm,
+  resetExecutionState,
 
   setMode,
 
@@ -47,6 +48,19 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function resetExecutionState(workflowId) {
+  return async dispatch => {
+    dispatch({ type: workflowContants.RESET_EXECUTION_STATE_REQUEST });
+    try {
+      const res = await workflowService.resetExecutionState(workflowId);
+      // dispatch({ type: workflowContants.RESET_EXECUTION_STATE_SUCCESS });
+      toast.success("Workflow's state is reset");;
+    } catch (e) {
+      toast.error("Can't reset the workflow's state");
+    }
+  }
+}
 
 function resetToInitialParams() {
   return dispatch => {

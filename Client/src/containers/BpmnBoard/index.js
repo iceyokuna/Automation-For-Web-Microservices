@@ -417,7 +417,7 @@ class BpmnContainer extends Component {
         <InviteButton
           color="accent-4"
           primary plain={false} data-tip="Collaborators"
-          icon={<Group size="18px" color={colors["light-0"]}/>}
+          icon={<Group size="18px" color={colors["light-0"]} />}
           onClick={this.onInvite} />
 
         <SaveButton color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
