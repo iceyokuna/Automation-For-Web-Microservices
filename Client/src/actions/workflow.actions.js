@@ -3,6 +3,7 @@ import { workflowService } from 'services'
 import { toast } from 'react-toastify'
 import { history, getUserToken } from '_helpers';
 import axios from 'axios';
+import { logsActions } from 'actions';
 
 export const workflowActions = {
   addNewForm,
@@ -60,6 +61,9 @@ function resetExecutionState(name, description,
       );
       dispatch({ type: workflowContants.RESET_EXECUTION_STATE_SUCCESS });
       toast.success("Workflow's state is reset");;
+
+      // Get current logs after reset state
+      dispatch(logsActions.getCurrentLogs(workflowId));
     } catch (e) {
       toast.error("Can't reset the workflow's state");
     }
