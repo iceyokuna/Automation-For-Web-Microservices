@@ -28,6 +28,7 @@ function updateService(serviceId, updatedService) {
     try {
       await userService.updateService(serviceId, updatedService);
       dispatch({ type: userServicesConstants.UPDATE_SERVICE_SUCCESS });
+      toast.success("Service is updated");
     } catch (e) {
       toast.error("Can't update the service");
       dispatch({ type: userServicesConstants.UPDATE_SERVICE_FAILURE });
@@ -47,6 +48,7 @@ function updateMethod(serviceId, methodId, currentMethodIndex, updatedMethod) {
         currentMethodIndex,
         updatedMethod,
       });
+      toast.success("Method is updated");
     } catch (e) {
       toast.error("Can't update the method");
       dispatch({ type: userServicesConstants.UPDATE_METHOD_FAILURE })
