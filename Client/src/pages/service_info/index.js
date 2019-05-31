@@ -32,6 +32,7 @@ const ServiceInfo = (props) => {
   const [serviceUrl, setServiceUrl] = useState(currentService.path || "https://google.com/api");
   const [showMethodDialog, setShowMethodDialog] = useState(false);
   const [currentMethod, setCurrentMethod] = useState(null);
+  const [currentMethodIndex, setCurrentMethodIndex] = useState(null);
   const [methodName, setMethodName] = useState("");
   const [methodInfo, setMethodInfo] = useState("");
   const [methodUrl, setMethodUrl] = useState("");
@@ -52,8 +53,9 @@ const ServiceInfo = (props) => {
 
   }, [currentMethod,])
 
-  const onSelectMethod = (method) => {
+  const onSelectMethod = (method, index) => {
     setCurrentMethod(method);
+    setCurrentMethodIndex(index);
     setMode("update");
     setShowMethodDialog(true);
   }
@@ -68,7 +70,13 @@ const ServiceInfo = (props) => {
       input_interface: JSON.parse(methodInputInterface),
       output_interface: JSON.parse(methodOutputInterface),
     }
-    props.dispatch(userServicesActions.updateMethod(currentServiceId, currentMethod.id, updatedMethod));
+    props.dispatch(userServicesActions.updateMethod(
+      currentServiceId,
+      currentMethod.id,
+      currentMethodIndex,
+      updatedMethod));
+
+    setShowMethodDialog(false);
   }
 
   const onAddNewMethod = () => {
@@ -82,6 +90,7 @@ const ServiceInfo = (props) => {
     }
 
     props.dispatch(userServicesActions.addNewMethod(data))
+    setShowMethodDialog(false);
   }
 
   const onUpdateServiceInfo = () => {
@@ -146,7 +155,7 @@ const ServiceInfo = (props) => {
             <th>Request type</th>
           </tr>
           {methods.map((item, index) =>
-            <tr className="service" onClick={() => onSelectMethod(item)}>
+            <tr className="service" onClick={() => onSelectMethod(item, index)}>
               <td>{item.name}</td>
               <td>{item.info}</td>
               <td>{item.methodType || "GET"}</td>

@@ -36,12 +36,17 @@ function updateService(serviceId, updatedService) {
 
 }
 
-function updateMethod(serviceId, methodId, updatedMethod) {
+function updateMethod(serviceId, methodId, currentMethodIndex, updatedMethod) {
   return async dispatch => {
-    dispatch({ type: userServicesConstants.UPDATE_METHOD_BY_ID_REQUEST });
+    dispatch({ type: userServicesConstants.UPDATE_METHOD_REQUEST });
     try {
       await userService.updateMethod(serviceId, methodId, updatedMethod);
-      dispatch({ type: userServicesConstants.UPDATE_METHOD_BY_ID_SUCCESS, });
+      updatedMethod.id = methodId;
+      dispatch({
+        type: userServicesConstants.UPDATE_METHOD_SUCCESS,
+        currentMethodIndex,
+        updatedMethod,
+      });
     } catch (e) {
       toast.error("Can't update the method");
       dispatch({ type: userServicesConstants.UPDATE_METHOD_FAILURE })
@@ -166,9 +171,9 @@ function addNewMethod(newMethod) {
     const serviceId = getState().userServices.currentServiceId;
     userService.addNewMethod(serviceId, newMethod).then(
       res => {
-        toast.success("Add a new method successfully");
+        newMethod.id = res.data.method_id
         dispatch(success(newMethod))
-        // dispatch(getUserServices())
+        toast.success("Add a new method successfully");
       }
     ).catch(e => dispatch(failure()))
   }
