@@ -259,16 +259,16 @@ class FlowDetail extends Component {
           color="accent-4"
           primary plain={false}
           data-tip="Collaborators of this workflow"
-          icon={<Group color="#fff" size="16px" />}
+          icon={<Group color="#fff" size="18px" />}
           onClick={this.onInviteMembers} />
         <CircleButton primary data-tip="Start workflow"
           icon={<CirclePlay size="18px" />} plain={false}
           color="accent-3" onClick={this.onExecuteFlow} />
         <CircleButton primary data-tip="Restart workflow"
-          icon={<Refresh size="16px" />} plain={false}
+          icon={<Refresh size="18px" />} plain={false}
           color="accent-2" onClick={this.onResetExecutionState} />
-        <CircleButton data-tip="Edit diagram" primary icon={<Cluster size="16px" />}
-          plain={false}
+        <CircleButton data-tip="Edit diagram" primary
+          plain={false} icon={<Cluster size="18px" />}
           color="accent-1" onClick={this.navigateToModeler} />
       </Box >
     );
