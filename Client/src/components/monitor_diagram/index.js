@@ -71,7 +71,7 @@ class index extends Component {
         html: $('<div>You are here</div>').css({
           "text-align": 'start',
           color: colors.userLane,
-          fontSize: 48,
+          fontSize: 28,
           width: 300,
         }),
       });
