@@ -18,7 +18,6 @@ class index extends Component {
     currentContent: "services",
   }
 
-
   componentDidMount() {
     setTimeout(() => {
       this.setState({ loadingServices: false });
@@ -30,7 +29,6 @@ class index extends Component {
   onAddService = () => {
     const { match, history } = this.props;
     history.push(match.url + '/add_service');
-    // this.props.dispatch(userServicesActions.toggleDefineServiceDialog());3
   }
 
   onSelectService = (index, serviceId) => {
@@ -67,7 +65,8 @@ class index extends Component {
       )
     }
     return (
-      <Box animation={["fadeIn"]}>
+      <Box animation={["fadeIn"]} pad="medium"
+        background="light-0" round={{ size: "smal" }}>
         <table>
           <tr>
             <th>Service name</th>
@@ -93,7 +92,7 @@ class index extends Component {
         </table>
 
         <Box direction="row" justify="end" align="center">
-          <Button label="Add Service" color="accent-1"
+          <Button label="Add service" color="accent-1"
             icon={<Add />}
             primary onClick={this.onAddService} />
 
@@ -109,9 +108,7 @@ class index extends Component {
           <Box direction="row" align="center">
             <Heading size='small' margin={{ right: 'medium' }}>My services</Heading>
           </Box>
-          <Box background="light-0" round={{ size: "small" }} pad="large">
-            {this.renderServices()}
-          </Box>
+          {this.renderServices()}
         </Box>
       </div>
     )
