@@ -42,7 +42,6 @@ export function workflowLogs(state = defaultState, action) {
     }
 
     case workflowContants.GET_CURRENT_LOGS_SUCCESS: {
-      console.log({action})
       const { currentElement, executedItems } = action.log;
       return {
         ...state, loading: false,
@@ -51,7 +50,7 @@ export function workflowLogs(state = defaultState, action) {
     }
 
     case workflowContants.GET_CURRENT_LOGS_FAILURE: {
-      return { ...state, loading: false, };
+      return { ...state, loading: false, executedItems: [], currentElement: {} };
     }
 
     case workflowContants.TOGGLE_LOGS: {

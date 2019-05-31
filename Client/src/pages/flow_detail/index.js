@@ -149,12 +149,10 @@ class FlowDetail extends Component {
   }
 
   renderTaskList = () => {
-    // const { tasks } = this.state
-
     const { workflowLogs } = this.props;
     const { executedItems } = workflowLogs;
 
-    if (executedItems.length === 0) {
+    if (executedItems.length == 0) {
       return (
         <Box align="center" justify="center" pad="medium" gap="small" fill>
           <Text size="medium">Don't have any tasks</Text>
