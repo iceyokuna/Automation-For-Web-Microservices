@@ -17,10 +17,12 @@ export const globalConstants = {
   COLLABORATORS_URL: `${developmentServer}:8003/api/collaborator/`,
   SET_FCM_TOKEN_URL: `${developmentServer}:8003/api/fcm_token/`,
 
+  UPDATE_USER_SERVICE_URL: `${developmentServer}:8004/api/user_service/`,
+
   CREATE_USER_SERVICE_URL: `${developmentServer}:8004/api/service/add`,
   DELETE_USER_SERVICE_URL: `${developmentServer}:8004/api/user_service/`,
 
-  USER_METHOD_URL: `${developmentServer}:8003/api/user_method/`,
+  USER_METHOD_URL: `${developmentServer}:8004/api/user_method/`,
 
   DELETE_COLLABORATORS_URL: `${developmentServer}:8003/api/collaborator/delete/`,
 };

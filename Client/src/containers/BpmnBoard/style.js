@@ -1,7 +1,7 @@
 import { Button } from 'grommet';
 import styled from 'styled-components';
 
-export const SendWorkflowButton = styled(Button)`
+export const EditInfoButton = styled(Button)`
   position: absolute;
   top: 22px;
   right: 470px;
@@ -14,14 +14,14 @@ export const InviteButton = styled(Button)`
   right: 415px;
   border-radius: 100%;
 `
-export const NextButton = styled(Button)`
+export const SaveButton = styled(Button)`
   position: absolute;
   top: 22px;
   right: 360px;
   border-radius: 100%;
 `
 
-export const EditInfoButton = styled(Button)`
+export const SendWorkflowButton = styled(Button)`
   position: absolute;
   top: 22px;
   right: 525px;

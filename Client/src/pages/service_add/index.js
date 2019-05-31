@@ -6,6 +6,7 @@ import Stepper from 'react-stepper-horizontal';
 import Step1 from './step1';
 import Step2 from './step2';
 import { colors } from 'theme';
+import AppPage from 'components/app_page';
 
 
 export default class index extends Component {
@@ -41,18 +42,19 @@ export default class index extends Component {
   render() {
     const { currentStepIndex } = this.state;
     return (
-      <Box pad="small" gap="small" fill direction="column">
-        <Stepper steps={[
-          { title: 'Define your service', onClick: () => this.onClickStep(0) },
-          { title: 'Service interface', onClick: () => this.onClickStep(1) },
-          { title: 'Done', },
-        ]} activeStep={currentStepIndex}
-          activeColor={colors.brand} completeColor={colors.brand}
-          completeBarColor={colors.brand}
-        />
-        {this.renderContents()}
-
-      </Box>
+      <AppPage title="Add service">
+        <Box pad="small" gap="small" fill direction="column">
+          <Stepper steps={[
+            { title: 'Define your service', onClick: () => this.onClickStep(0) },
+            { title: 'Service interface', onClick: () => this.onClickStep(1) },
+            { title: 'Done', },
+          ]} activeStep={currentStepIndex}
+            activeColor={colors.brand} completeColor={colors.brand}
+            completeBarColor={colors.brand}
+          />
+          {this.renderContents()}
+        </Box>
+      </AppPage>
     )
   }
 }

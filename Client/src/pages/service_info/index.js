@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { Row, Col } from 'react-flexbox-grid';
 import { colors } from 'theme';
 import Modal from 'components/modal';
+import AppPage from 'components/app_page';
 import { userServicesActions } from 'actions';
 
 const requestTypeOptions = ["GET", "POST", "PUT", "DELETE", "PATCH"];
@@ -23,7 +24,7 @@ const interfacePlaceholder = `{
 const ServiceInfo = (props) => {
   const { currentService } = props.userServices;
   if (currentService == null) {
-    props.history.replace('/setting/services');
+    props.history.replace('/services');
     return null;
   }
   const [serviceName, setServiceName] = useState(currentService.name);
@@ -31,6 +32,7 @@ const ServiceInfo = (props) => {
   const [serviceUrl, setServiceUrl] = useState(currentService.path || "https://google.com/api");
   const [showMethodDialog, setShowMethodDialog] = useState(false);
   const [currentMethod, setCurrentMethod] = useState(null);
+  const [currentMethodIndex, setCurrentMethodIndex] = useState(null);
   const [methodName, setMethodName] = useState("");
   const [methodInfo, setMethodInfo] = useState("");
   const [methodUrl, setMethodUrl] = useState("");
@@ -51,28 +53,54 @@ const ServiceInfo = (props) => {
 
   }, [currentMethod,])
 
-  const onSelectMethod = (method) => {
+  const onSelectMethod = (method, index) => {
     setCurrentMethod(method);
+    setCurrentMethodIndex(index);
     setMode("update");
     setShowMethodDialog(true);
   }
 
   const onUpdateMethod = () => {
+    const { currentServiceId } = props.userServices;
+    const updatedMethod = {
+      name: methodName,
+      info: methodInfo,
+      path: methodUrl,
+      // methodType,
+      input_interface: JSON.parse(methodInputInterface),
+      output_interface: JSON.parse(methodOutputInterface),
+    }
+    props.dispatch(userServicesActions.updateMethod(
+      currentServiceId,
+      currentMethod.id,
+      currentMethodIndex,
+      updatedMethod));
 
+    setShowMethodDialog(false);
   }
 
   const onAddNewMethod = () => {
-    props.dispatch(userServicesActions.addNewMethod(
-      methodName,
-      methodInfo,
-      methodType,
-      methodInputInterface,
-      methodOutputInterface,
-    ))
+    const data = {
+      name: methodName,
+      info: methodInfo,
+      method_type: methodType,
+      input_interface: JSON.parse(methodInputInterface),
+      output_interface: JSON.parse(methodOutputInterface),
+      path: methodUrl,
+    }
+
+    props.dispatch(userServicesActions.addNewMethod(data))
+    setShowMethodDialog(false);
   }
 
   const onUpdateServiceInfo = () => {
-
+    const { currentServiceId } = props.userServices;
+    const updatedService = {
+      name: serviceName,
+      info: serviceInfo,
+      url: serviceUrl,
+    }
+    props.dispatch(userServicesActions.updateService(currentServiceId, updatedService))
   }
 
   const onShowMethodDialog = () => {
@@ -84,7 +112,7 @@ const ServiceInfo = (props) => {
     return (
       <Fragment>
         <Box direction="row" justify="between" align="center" margin={{ bottom: 'medium' }}>
-          <Text size="large" weight="bold">Service's information</Text>
+          <Text size="large" weight="bold">Title</Text>
           <Button label="Update" icon={<Edit />} color="accent-1"
             onClick={onUpdateServiceInfo} primary />
         </Box>
@@ -116,7 +144,7 @@ const ServiceInfo = (props) => {
     return (
       <Fragment>
         <Box direction="row" justify="between" align="center" margin={{ bottom: 'medium' }}>
-          <Text size="large" weight="bold">Service's methods</Text>
+          <Text size="large" weight="bold">Methods</Text>
           <Button label="Add method" icon={<Add />} color="accent-3"
             onClick={onShowMethodDialog} primary />
         </Box>
@@ -127,7 +155,7 @@ const ServiceInfo = (props) => {
             <th>Request type</th>
           </tr>
           {methods.map((item, index) =>
-            <tr className="service" onClick={() => onSelectMethod(item)}>
+            <tr className="service" onClick={() => onSelectMethod(item, index)}>
               <td>{item.name}</td>
               <td>{item.info}</td>
               <td>{item.methodType || "GET"}</td>
@@ -192,7 +220,7 @@ const ServiceInfo = (props) => {
         <Box direction="row" justify="end">
           {mode === "update" ? <Button icon={<Edit />} label="Update" primary
             onClick={onUpdateMethod} color="accent-3" /> :
-            <Button label="Submit" icon={<Upload size="18px"/>} color="accent-3"
+            <Button label="Submit" icon={<Upload size="18px" />} color="accent-3"
               onClick={onAddNewMethod} primary />}
         </Box>
       </Box>
@@ -200,14 +228,16 @@ const ServiceInfo = (props) => {
   }
 
   return (
-    <Box gap="small" pad="small" margin={{ top: "medium" }} animation="fadeIn">
-      {renderServiceInfo()}
-      {renderMethodList()}
-      <Modal show={showMethodDialog}
-        width="650px"
-        onCloseModal={() => setShowMethodDialog(false)}
-        header="Method's information" component={renderMethodInfo()} />
-    </Box>
+    <AppPage title="Service's information">
+      <Box gap="small" pad="small" animation="fadeIn">
+        {renderServiceInfo()}
+        {renderMethodList()}
+        <Modal show={showMethodDialog}
+          width="650px"
+          onCloseModal={() => setShowMethodDialog(false)}
+          header="Method's information" component={renderMethodInfo()} />
+      </Box>
+    </AppPage>
   );
 }
 

@@ -8,10 +8,53 @@ export const userServicesActions = {
   getUserServices,
   uploadNewService,
   createNewLocalService,
+
   addNewMethod,
   addNewLocalMethod,
+  // addNewMethodToCurrentService,
+
+  updateService,
+  updateMethod,
+
   deleteServiceById,
+
   setCurrentService,
+}
+
+
+function updateService(serviceId, updatedService) {
+  return async dispatch => {
+    dispatch({ type: userServicesConstants.UPDATE_SERVICE_REQUEST });
+    try {
+      await userService.updateService(serviceId, updatedService);
+      dispatch({ type: userServicesConstants.UPDATE_SERVICE_SUCCESS });
+      toast.success("Service is updated");
+    } catch (e) {
+      toast.error("Can't update the service");
+      dispatch({ type: userServicesConstants.UPDATE_SERVICE_FAILURE });
+    }
+  }
+
+}
+
+function updateMethod(serviceId, methodId, currentMethodIndex, updatedMethod) {
+  return async dispatch => {
+    dispatch({ type: userServicesConstants.UPDATE_METHOD_REQUEST });
+    try {
+      await userService.updateMethod(serviceId, methodId, updatedMethod);
+      updatedMethod.id = methodId;
+      dispatch({
+        type: userServicesConstants.UPDATE_METHOD_SUCCESS,
+        currentMethodIndex,
+        updatedMethod,
+      });
+      toast.success("Method is updated");
+    } catch (e) {
+      toast.error("Can't update the method");
+      dispatch({ type: userServicesConstants.UPDATE_METHOD_FAILURE })
+    }
+  }
+
 }
 
 function setCurrentService(currentIndex, currentServiceId) {
@@ -124,27 +167,17 @@ function createNewLocalService(
   }
 }
 
-function addNewMethod(
-  methodName,
-  methodInfo,
-  methodType,
-  inputInterface,
-  outputInterface,
-  methodUrl,
-) {
+function addNewMethod(newMethod) {
   return (dispatch, getState) => {
     dispatch(request());
     const serviceId = getState().userServices.currentServiceId;
-    userService.addNewMethod(methodName,
-      methodInfo, methodType, serviceId,
-      JSON.parse(inputInterface),
-      JSON.parse(outputInterface),
-      methodUrl).then(
-        res => {
-          toast.success("Add a new method successfully");
-          dispatch(getUserServices())
-        }
-      ).catch(e => dispatch(failure()))
+    userService.addNewMethod(serviceId, newMethod).then(
+      res => {
+        newMethod.id = res.data.method_id
+        dispatch(success(newMethod))
+        toast.success("Add a new method successfully");
+      }
+    ).catch(e => dispatch(failure()))
   }
 
   function request() {
@@ -153,10 +186,10 @@ function addNewMethod(
     }
   }
 
-  function success(data) {
+  function success(newMethod) {
     return {
       type: userServicesConstants.ADD_METHOD_SUCCESS,
-      data,
+      newMethod,
     }
   }
 
