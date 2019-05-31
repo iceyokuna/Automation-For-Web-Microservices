@@ -6,18 +6,32 @@ import { getUserToken } from '_helpers'
 export const userService = {
   uploadNewService,
   addNewMethod,
-  updateUserService,
+  updateService,
   updateMethod,
   getUserServices,
   deleteServiceById,
 };
 
+
+function updateService(serviceId, data) {
+  return axios.post(globalConstants.UPDATE_USER_SERVICE_URL, {
+    id: serviceId,
+    data
+  }, {
+      headers: {
+        Authorization: 'Token ' + getUserToken()
+      }
+    })
+}
+
 function updateMethod(serviceId, methodId, data) {
   return axios.put(`${globalConstants.USER_METHOD_URL}${serviceId}/${methodId}`, {
     data,
-  }, {headers: {
-    Authorization: 'Token ' + getUserToken() 
-  }})
+  }, {
+      headers: {
+        Authorization: 'Token ' + getUserToken()
+      }
+    })
 
 }
 
@@ -35,19 +49,6 @@ function getUserServices() {
       Authorization: "Token " + getUserToken()
     }
   });
-}
-
-function updateUserService(serviceId, username, serviceName,
-  serviceInfo, serviceUrl, ) {
-  return axios.post(globalConstants.CREATE_USER_SERVICE_URL, {
-    id: serviceId,
-    username,
-    data: {
-      name: serviceName,
-      info: serviceInfo,
-      url: serviceUrl,
-    }
-  })
 }
 
 function addNewMethod(

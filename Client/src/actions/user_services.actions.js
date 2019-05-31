@@ -12,11 +12,24 @@ export const userServicesActions = {
   addNewMethod,
   addNewLocalMethod,
 
+  updateService,
   updateMethod,
 
   deleteServiceById,
 
   setCurrentService,
+}
+
+function updateService(serviceId, updatedService) {
+  return async dispatch => {
+    dispatch({ type: userServicesConstants.UPDATE_SERVICE_REQUEST });
+    try {
+      await userService.updateService(serviceId, updatedService)
+    } catch (e) {
+      toast.error("Can't update the service");
+    }
+  }
+
 }
 
 function updateMethod(serviceId, methodId, updatedMethod) {

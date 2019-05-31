@@ -82,7 +82,13 @@ const ServiceInfo = (props) => {
   }
 
   const onUpdateServiceInfo = () => {
-    const { dispatch } = this.props;
+    const { currentServiceId } = props.userServices;
+    const updatedService = {
+      name: serviceName,
+      info: serviceInfo,
+      url: serviceUrl,
+    }
+    props.dispatch(userServicesActions.updateService(currentServiceId, updatedService))
   }
 
   const onShowMethodDialog = () => {
