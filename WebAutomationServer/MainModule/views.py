@@ -51,7 +51,7 @@ def saveFlow(request):
 #    with open('HTMLs.pkl', 'wb') as f:
 #        pickle.dump(workflowEngine, f)
 
-    #Save update new workflow in firebase   
+    #Save update new workflow object to database
     pickled_obj = pickle.dumps(workflowEngine)
     pickled_obj_str = str(pickled_obj)
     
@@ -62,6 +62,12 @@ def saveFlow(request):
     r = requests.put(url, headers=headers, data=data)
     print("----------")
     print(r.content)
+    
+    #Re-start log of workflow in database
+    url = "http://178.128.214.101:8003/api/log/" + str(workflow_id)
+    headers = {'Content-type': 'application/json'}
+    result = requests.put(url , json = {"logs": {}}, headers = headers)
+    print("Restart log: " + str(result))
 
     print("------saved workflow object successfully--------")
     #print all finite state machine defination
