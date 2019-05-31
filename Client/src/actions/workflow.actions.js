@@ -49,12 +49,16 @@ export const workflowActions = {
   getAllCollaborators,
 };
 
-function resetExecutionState(workflowId) {
+function resetExecutionState(name, description,
+  workflowData, workflowId) {
   return async dispatch => {
     dispatch({ type: workflowContants.RESET_EXECUTION_STATE_REQUEST });
     try {
-      const res = await workflowService.resetExecutionState(workflowId);
-      // dispatch({ type: workflowContants.RESET_EXECUTION_STATE_SUCCESS });
+      const res = await workflowService.sendWorkflowDataToEngine(
+        name, description,
+        workflowData, workflowId
+      );
+      dispatch({ type: workflowContants.RESET_EXECUTION_STATE_SUCCESS });
       toast.success("Workflow's state is reset");;
     } catch (e) {
       toast.error("Can't reset the workflow's state");
