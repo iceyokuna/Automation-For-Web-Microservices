@@ -14,7 +14,7 @@ export const userService = {
 
 
 function updateService(serviceId, data) {
-  return axios.post(globalConstants.UPDATE_USER_SERVICE_URL, {
+  return axios.put(globalConstants.UPDATE_USER_SERVICE_URL, {
     id: serviceId,
     data
   }, {
@@ -51,22 +51,9 @@ function getUserServices() {
   });
 }
 
-function addNewMethod(
-  methodName,
-  methodInfo,
-  methodType,
-  serviceId,
-  inputInterface,
-  outputInterface,
-  methodUrl,
-) {
+function addNewMethod(serviceId, data) {
   return axios.post(globalConstants.USER_METHOD_URL + serviceId, {
-    name: methodName,
-    info: methodInfo,
-    method_type: methodType,
-    input_interface: inputInterface,
-    output_interface: outputInterface,
-    path: methodUrl,
+    ...data
   }, {
       headers: {
         Authorization: "Token " + getUserToken()

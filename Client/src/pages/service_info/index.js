@@ -72,13 +72,16 @@ const ServiceInfo = (props) => {
   }
 
   const onAddNewMethod = () => {
-    props.dispatch(userServicesActions.addNewMethod(
-      methodName,
-      methodInfo,
-      methodType,
-      methodInputInterface,
-      methodOutputInterface,
-    ))
+    const data = {
+      name: methodName,
+      info: methodInfo,
+      method_type: methodType,
+      input_interface: JSON.parse(methodInputInterface),
+      output_interface: JSON.parse(methodOutputInterface),
+      path: methodUrl,
+    }
+
+    props.dispatch(userServicesActions.addNewMethod(data))
   }
 
   const onUpdateServiceInfo = () => {

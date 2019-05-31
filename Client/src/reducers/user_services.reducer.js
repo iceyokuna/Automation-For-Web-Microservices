@@ -81,7 +81,9 @@ export function userServices(state = defaultState, action) {
     }
 
     case userServicesConstants.ADD_METHOD_SUCCESS: {
-      return { ...state, creatingNewMethod: "success" };
+      const { newMethod } = action;
+      state.currentService.methods.push(newMethod);
+      return { ...state, creatingNewMethod: "success", };
     }
 
     case userServicesConstants.ADD_METHOD_FAILURE: {
