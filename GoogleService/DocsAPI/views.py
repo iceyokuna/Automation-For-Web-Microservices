@@ -31,8 +31,8 @@ import os
 class CreateView(APIView):
 
     def post(self, request):
-        AUTH = "4/WwGXElRtn_fjbfcq7DcJATAUZnMUQXeCDGYPr1mEE2IpJXDvTVcxSjX-FPHprfUWFJyTTmQZtiGQigH60lg2-eg"
-        SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents.readonly']
+        AUTH = "4/WwEVX1HA7Y63tPoqL4HABJPxFjcwszP4qBXOmkGlPC_BkxJpy3QW1QOjavcaIaa8h7DE8fQJ5AnLZWe1qRSh2LE"
+        SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents']
 
      
         CLIENT_SECRET_FILE = 'DocsAPI/client_secrets.json'
@@ -43,8 +43,7 @@ class CreateView(APIView):
 
         title = 'Test document'
         
-        body = {"title":title, 
-        "body": {
+        body = {"title":title, "body": {
         "content": [
             {
                 "endIndex": 1,
@@ -75,8 +74,7 @@ class CreateView(APIView):
                 },
                 "startIndex": 1
             }]
-        }
-        }
+            }}
         doc = service.documents().create(body=body).execute()
         return Response({"detail":"done"}, status=HTTP_200_OK)
         
