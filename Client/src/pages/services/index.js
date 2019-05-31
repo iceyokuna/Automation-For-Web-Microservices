@@ -66,7 +66,7 @@ class index extends Component {
     }
     return (
       <Box animation={["fadeIn"]} pad="medium"
-        background="light-0" round={{ size: "smal" }}>
+        background="light-0" round={{ size: "small" }}>
         <table>
           <tr>
             <th>Service name</th>
