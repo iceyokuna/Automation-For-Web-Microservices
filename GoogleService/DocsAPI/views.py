@@ -31,7 +31,8 @@ import os
 class CreateView(APIView):
 
     def post(self, request):
-        AUTH = "4/WwEVX1HA7Y63tPoqL4HABJPxFjcwszP4qBXOmkGlPC_BkxJpy3QW1QOjavcaIaa8h7DE8fQJ5AnLZWe1qRSh2LE"
+        auth = request.data.get('auth')
+        AUTH = auth
         SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents']
 
      
@@ -74,7 +75,9 @@ class CreateView(APIView):
                 },
                 "startIndex": 1
             }]
-            }}
+
+            }
+            }
         doc = service.documents().create(body=body).execute()
         return Response({"detail":"done"}, status=HTTP_200_OK)
         
