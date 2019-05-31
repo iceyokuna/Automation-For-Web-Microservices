@@ -84,10 +84,10 @@ class FlowDetail extends Component {
   }
 
   onClickTask = (task) => {
-    this.setState({
-      showViewerDock: true,
-      currentTask: task,
-    })
+    // this.setState({
+    //   showViewerDock: true,
+    //   currentTask: task,
+    // })
   }
 
 
@@ -104,7 +104,9 @@ class FlowDetail extends Component {
 
   onResetExecutionState = () => {
     const { dispatch, currentFlow } = this.props;
-    dispatch(workflowActions.resetExecutionState(currentFlow.id));
+    // dispatch(workflowActions.resetExecutionState(currentFlow.id));
+    const { name, description, id, workflowObject, ...workflowData, } = currentFlow;
+    dispatch(workflowActions.sendWorkflowDataToEngine(name, description, workflowData, id));
   }
 
 

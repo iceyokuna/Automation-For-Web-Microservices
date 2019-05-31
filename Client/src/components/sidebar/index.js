@@ -11,7 +11,7 @@ const sideBarWidth = 200;
 const iconColor = "#ffffff";
 const menus = [
   { label: "Flows", link: "my_flows", icon: <Sort color={iconColor} /> },
-  { label: "Tasks", link: "my_tasks", icon: <Task color={iconColor} /> },
+  // { label: "Tasks", link: "my_tasks", icon: <Task color={iconColor} /> },
   // { label: "Team", link: "my_team", icon: <Group color={iconColor} /> },
   { label: "Services", link: "services", icon: <Performance color={iconColor} /> },];
 
