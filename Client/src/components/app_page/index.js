@@ -9,7 +9,7 @@ const index = ({ title, children }) => {
         <Box direction="row" align="center">
           <Heading size='small' margin={{ right: 'medium' }}>{title}</Heading>
         </Box>
-        <Box background="light-0" round={{ size: "small" }} pad="large">
+        <Box background="light-0" round={{ size: "small" }} pad="medium">
           {children}
         </Box>
       </Box>

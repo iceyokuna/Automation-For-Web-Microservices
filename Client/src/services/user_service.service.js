@@ -7,9 +7,19 @@ export const userService = {
   uploadNewService,
   addNewMethod,
   updateUserService,
+  updateMethod,
   getUserServices,
   deleteServiceById,
 };
+
+function updateMethod(serviceId, methodId, data) {
+  return axios.put(`${globalConstants.USER_METHOD_URL}${serviceId}/${methodId}`, {
+    data,
+  }, {headers: {
+    Authorization: 'Token ' + getUserToken() 
+  }})
+
+}
 
 function deleteServiceById(id) {
   return axios.delete(globalConstants.DELETE_USER_SERVICE_URL + id, {
