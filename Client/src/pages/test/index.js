@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Button } from 'grommet';
+import { Button, Text,Box, } from 'grommet';
 import { askForPermissioToReceiveNotifications } from '_helpers';
 import { GoogleLogin } from 'react-google-login';
 
@@ -11,7 +11,7 @@ import axios from 'axios';
 
 class Test extends Component {
 
-  state = { showDock: true, }
+  state = { showDock: true, authCode: ''}
 
   handlegetUserToken = () => {
     askForPermissioToReceiveNotifications().then(token => {
@@ -23,12 +23,15 @@ class Test extends Component {
   }
 
   responseGoogle = (response) => {
-    console.log(response);
+    // console.log(response.code);
+    this.setState({
+      authCode: response.code
+    })
   }
 
   render() {
     return (
-      <div>
+      <Box direction="column">
         {/* <Button label="Get Token" onClick={this.handlegetUserToken} /> */}
         <GoogleLogin
           clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
@@ -44,15 +47,19 @@ class Test extends Component {
         />
 
 
-        <Button label="POST" onClick={() => {
+        {/* <Button label="POST" onClick={() => {
           axios.post('https://safe-beyond-22181.herokuapp.com/notify', {
             "user_id": "U49df655b5d705af302785bf2811e60b6",
             "message": "hello#2222"
           }).then(res => console.log(res)).catch(e => {
             console.error(e)
           })
-        }} />
-      </div>
+        }} /> */}
+
+        <Box>
+          <Text>{this.state.authCode}</Text>
+        </Box>
+      </Box>
     )
   }
 }
