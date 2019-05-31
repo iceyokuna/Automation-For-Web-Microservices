@@ -4,7 +4,7 @@ from .models import Service, Method, Connecting_method, UserMethod, UserService
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ('id','name','info','url')
+        fields = ('id','name','info','url','provider')
 
 class MethodSerializer(serializers.ModelSerializer):
     class Meta:
