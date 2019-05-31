@@ -8,7 +8,7 @@ class Service(models.Model):
     name = models.CharField(max_length=200)
     info = models.TextField(null=True)
     url = models.TextField(null=True)
-
+    provider = models.TextField(null=True)
     
     def __str__(self):
         return self.name
