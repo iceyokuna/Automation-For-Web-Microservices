@@ -66,7 +66,7 @@ def saveFlow(request):
     #Re-start log of workflow in database
     url = "http://178.128.214.101:8003/api/log/" + str(workflow_id)
     headers = {'Content-type': 'application/json'}
-    result = requests.put(url , json = {"logs": {"data" : {}}}, headers = headers)
+    result = requests.put(url , json = {"logs": {"data" : None}}, headers = headers)
     print("Restart log: " + str(result))
 
     print("------saved workflow object successfully--------")
