@@ -183,9 +183,6 @@ class AppBar extends Component {
             <Link to="/my_flows">
               <PlainButton label="Flows" color="light-0" />
             </Link>
-            <Link to="/my_tasks">
-              <PlainButton label="Tasks" color="light-0" />
-            </Link>
             <Link to="/services">
               <PlainButton label="Services" color="light-0" />
             </Link>
