@@ -4,10 +4,12 @@ import { json2xml, } from 'xml-js';
 import { Box, Button, } from 'grommet';
 import { connect } from 'react-redux';
 import $ from 'jquery';
+import { getElementIdFromLaneValue } from './helper'
 
 const colors = {
   currentNode: "#00B900",
   executed: "#000000",
+  userLane: '#FF4080',
 }
 
 class index extends Component {
@@ -41,9 +43,41 @@ class index extends Component {
     });
 
     this.viewer = viewer;
-
     this.bindEvents();
   }
+
+  highlightUserlane = () => {
+    const { username, currentFlow, } = this.props;
+    const overlays = this.viewer.get('overlays');
+    const elementRegistry = this.viewer.get('elementRegistry');
+    const elementId = getElementIdFromLaneValue(username, currentFlow.bpmnJson);
+    const shape = elementRegistry.get(elementId);
+    if (shape != null) {
+      overlays.add(elementId, {
+        position: {},
+        html: $('<div/>').css({
+          width: shape.width,
+          height: shape.height,
+          opacity: 0.1,
+          backgroundColor: colors.userLane
+        })
+      });
+
+      overlays.add(elementId, {
+        position: {
+          bottom: 30,
+          right: -10,
+        },
+        html: $('<div>You are here</div>').css({
+          "text-align": 'start',
+          color: colors.userLane,
+          fontSize: 28,
+          width: 300,
+        }),
+      });
+    };
+  }
+
 
   highlightExecutedElement = (element) => {
     const { elementId } = element;
@@ -52,15 +86,12 @@ class index extends Component {
     const shape = elementRegistry.get(elementId);
 
     if (shape != null) {
-      // overlays.clear();
       overlays.add(elementId, {
-        position: {
-        },
         html: $('<div class="currentNode"/>').css(
           {
             width: shape.width,
             height: shape.height,
-            opacity: 0.3,
+            opacity: 0.2,
             backgroundColor: colors.executed,
           }
         )
@@ -91,8 +122,7 @@ class index extends Component {
     if (shape != null) {
       // overlays.clear();
       overlays.add(elementId, {
-        position: {
-        },
+        position: {},
         html: $('<div class="currentNode"/>').css(
           {
             width: shape.width,
@@ -145,7 +175,7 @@ class index extends Component {
 
     const { workflowLogs } = nextProps;
     const { executedItems, currentElement, } = workflowLogs;
-    
+
 
     const overlays = this.viewer.get('overlays');
     overlays.clear();
@@ -157,6 +187,7 @@ class index extends Component {
 
     // Highlight current pointer
     this.highlightCurrentElement(currentElement);
+    this.highlightUserlane();
   }
 
   onClose = () => {
@@ -183,6 +214,7 @@ const mapStateToProps = (state) => {
   return {
     currentFlow: state.workflowMyFlows.currentFlow,
     workflowLogs: state.workflowLogs,
+    username: state.authentication.user.username,
   }
 }
 
