@@ -200,7 +200,7 @@ class WorkflowEngine:
         try:
             if(user_name != self.state[self.currentState["current"]].getLaneOwner()):
                 wait_collaborator_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\"></div>"}
-                return ({"HTML": wait_collaborator_form, "taskId":self.currentState["current"]})  
+                return {"HTML":"WAIT_LANE", "taskId":self.currentState["current"]}
         except:
             pass
 
@@ -315,7 +315,7 @@ class WorkflowEngine:
 
         #call gateway API to execute service
         #test philips hue
-        '''
+        
         if(str(element_object.getServiceId()) == "74"):
             if(str(element_object.getServiceMethodId()) == "84"):
                 url = "http://127.0.0.1:5000/turnon"
@@ -332,7 +332,7 @@ class WorkflowEngine:
             elif(str(element_object.getServiceMethodId()) == "88"):
                 url = "http://127.0.0.1:5000/blue"
                 requests.post(url , data= {})
-        '''
+        
         #test line
         if(str(element_object.getServiceId()) == "4"):
             url = "https://safe-beyond-22181.herokuapp.com/notify"
