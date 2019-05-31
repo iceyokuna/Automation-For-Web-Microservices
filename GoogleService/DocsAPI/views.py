@@ -31,7 +31,7 @@ import os
 class CreateView(APIView):
 
     def post(self, request):
-        AUTH = "4/WQFhORcnikJSJNpnriPVU4hUXwB6Fjw1F1wbpZ8sPn8-Z1sMzOEvy-UHG5eTzI5iI5XubFpMky4VwTP0K-2NEUY"
+        AUTH = "4/WwGXElRtn_fjbfcq7DcJATAUZnMUQXeCDGYPr1mEE2IpJXDvTVcxSjX-FPHprfUWFJyTTmQZtiGQigH60lg2-eg"
         SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents.readonly']
 
      
@@ -41,10 +41,43 @@ class CreateView(APIView):
         
         service = discovery.build('docs', 'v1', credentials=creds)
 
-        #title = 'Test document'
-        body = {
-            'title': "test2222"
+        title = 'Test document'
+        
+        body = {"title":title, 
+        "body": {
+        "content": [
+            {
+                "endIndex": 1,
+                "sectionBreak": {
+                    "sectionStyle": {
+                        "columnSeparatorStyle": "NONE",
+                        "contentDirection": "LEFT_TO_RIGHT"
+                    }
+                }
+            },
+            {
+                "endIndex": 75,
+                "paragraph": {
+                    "elements": [
+                        {
+                            "endIndex": 75,
+                            "startIndex": 1,
+                            "textRun": {
+                                "content": "This is an ordinary paragraph. It is the first paragraph of the document.\n",
+                                "textStyle": {}
+                            }
+                        }
+                    ],
+                    "paragraphStyle": {
+                        "direction": "LEFT_TO_RIGHT",
+                        "namedStyleType": "NORMAL_TEXT"
+                    }
+                },
+                "startIndex": 1
+            }]
+        }
         }
         doc = service.documents().create(body=body).execute()
         return Response({"detail":"done"}, status=HTTP_200_OK)
         
+    
