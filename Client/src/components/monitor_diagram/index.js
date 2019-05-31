@@ -145,6 +145,7 @@ class index extends Component {
 
     const { workflowLogs } = nextProps;
     const { executedItems, currentElement, } = workflowLogs;
+    
 
     const overlays = this.viewer.get('overlays');
     overlays.clear();
