@@ -25,7 +25,7 @@ SECRET_KEY = 'hm-82^+eqzh5+c#!_ywmz3pi_h6(&t%-r3o1^h61+*(3ye1ksv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +48,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'GoogleService.urls'
 
@@ -72,29 +76,6 @@ WSGI_APPLICATION = 'GoogleService.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-'''
-DATABASES = {
-        'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wasdb',
-        'USER': 'postgres',
-        'PASSWORD': '123159',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
-
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'service_db',
-        'PORT': 5432,
-    }
-}
-
 
 
 # Password validation
@@ -134,3 +115,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+GOOGLE_CREDENTIALS = {
+    "web": {
+        "client_id": "807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com",
+        "project_id": "web-automation-service-client",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "AiFJdoms1OeyTrn_vfB4hROj",
+        "redirect_uris": [
+            "https://web-automation-service-client.firebaseapp.com/oauth2callback",
+            "http://localhost:3000/oauth2callback"
+        ],
+        "javascript_origins": [
+            "http://localhost:3000"
+        ]
+    }
+}

@@ -138,7 +138,7 @@ class UserMethodView(APIView):
             username = json.loads(response.content)['username']
             if(service.count() > 0 ):
                 method= UserMethod.objects.create(name = name, info= info, path = path, method_type=method_type,service=service.first(), input_interface= input_interface, output_interface=output_interface)
-                return Response({"detail":"method sucessfully created"},status = HTTP_200_OK)
+                return Response({"method_id":method.id},status = HTTP_200_OK)
         return Response({"detail":"Unable to create the method"},status = HTTP_200_OK)
 
 class UserMethodUpdateView(APIView):

@@ -127,8 +127,8 @@ class LogView(APIView):
     def get(self, request, workflow_id):
         workflow = Workflow.objects.filter(id=workflow_id)
         if(workflow.count()>0):
-            logs = Log.objects.filter(workflow=workflow.first()).values()#order_by('-created').values()
-            return Response({"detail":logs}, status= HTTP_200_OK)
+            logs = Log.objects.filter(workflow=workflow.first()).values("logs")[0]["logs"]#order_by('-created').values()
+            return Response({"log":logs["data"]}, status= HTTP_200_OK)
         return Response({"detail":"No log file found"}, status= HTTP_400_BAD_REQUEST)
 
     def post(self, request, workflow_id):
