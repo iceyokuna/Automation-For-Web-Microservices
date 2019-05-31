@@ -106,7 +106,7 @@ class FlowDetail extends Component {
     const { dispatch, currentFlow } = this.props;
     // dispatch(workflowActions.resetExecutionState(currentFlow.id));
     const { name, description, id, workflowObject, ...workflowData, } = currentFlow;
-    dispatch(workflowActions.sendWorkflowDataToEngine(name, description, workflowData, id));
+    dispatch(workflowActions.resetExecutionState(name, description, workflowData, id));
   }
 
 
