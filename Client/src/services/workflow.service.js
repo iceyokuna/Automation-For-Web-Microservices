@@ -11,6 +11,8 @@ export const workflowService = {
   getMyFlows,
   getCurrentLogs,
 
+  resetExecutionState,
+
   createNewWorkflow,
   updateWorkflow,
   sendWorkflowDataToEngine,
@@ -18,6 +20,11 @@ export const workflowService = {
   deleteCollaborators,
   deleteWorkflowById,
 };
+
+function resetExecutionState(workflowId) {
+  return axios.post(engineUrl, { workflowId });
+
+}
 
 function getCurrentLogs(workflowId) {
   return axios.get(globalConstants.WORKFLOW_LOG_URL + workflowId, {

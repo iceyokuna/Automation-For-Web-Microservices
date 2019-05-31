@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import {
   Box, Button,
@@ -10,7 +10,10 @@ import {
   FormField
 } from 'grommet';
 
-import { Checkmark, Cluster, Play, Add, Group } from 'grommet-icons';
+import {
+  Checkmark, Cluster, CirclePlay, Add, Group,
+  Refresh,
+} from 'grommet-icons';
 import { Row, Col } from 'react-flexbox-grid'
 import { global } from 'style';
 
@@ -19,7 +22,6 @@ import ViewerDock from 'components/bpmn_viewer_dock';
 import TaskItem from 'components/task_item';
 import MemberDialog from 'components/member_dialog';
 
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { workflowActions, logsActions, socketActions } from 'actions';
 import Spinner from 'react-spinkit';
@@ -99,6 +101,12 @@ class FlowDetail extends Component {
     const { dispatch } = this.props;
     dispatch(socketActions.openSocket());
   }
+
+  onResetExecutionState = () => {
+    const { dispatch, currentFlow } = this.props;
+    dispatch(workflowActions.resetExecutionState(currentFlow.id));
+  }
+
 
   onAddCollaborator = () => {
     this.props.dispatch(workflowActions.toggleMemberDialog());
@@ -244,6 +252,28 @@ class FlowDetail extends Component {
     );
   }
 
+  renderButtonGroup = () => {
+    return (
+      <Box gap="small" direction="row">
+        <CircleButton
+          color="accent-4"
+          primary plain={false}
+          data-tip="Collaborators of this workflow"
+          icon={<Group color="#fff" size="18px" />}
+          onClick={this.onInviteMembers} />
+        <CircleButton primary data-tip="Start workflow"
+          icon={<CirclePlay size="18px" />} plain={false}
+          color="accent-3" onClick={this.onExecuteFlow} />
+        <CircleButton primary data-tip="Restart workflow"
+          icon={<Refresh size="18px" />} plain={false}
+          color="accent-2" onClick={this.onResetExecutionState} />
+        <CircleButton data-tip="Edit diagram" primary
+          plain={false} icon={<Cluster size="18px" />}
+          color="accent-1" onClick={this.navigateToModeler} />
+      </Box >
+    );
+  }
+
 
   render() {
     const { currentFlow } = this.props;
@@ -262,42 +292,23 @@ class FlowDetail extends Component {
         <Box pad={{ horizontal: 'medium' }}>
           <Box>
             <Row between={3}>
-              <Col xs={12} sm={3} md={3} lg={6}>
+              <Col xs={12} sm={6} md={4} lg={4}>
                 <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
               </Col>
 
-              <Col xs={12} sm={9} md={9} lg={6}>
+              <Col xs={12} sm={6} md={8} lg={8}>
                 <Media query="(max-width: 599px)">
                   {matched => matched ? (
-                    <Box direction="row" gap="small"
+                    <Box direction="row"
                       justify="center" align="center" fill>
-                      <CircleButton
-                        color="accent-4"
-                        primary plain={false}
-                        data-tip="Collaborators of this workflow"
-                        icon={<Group color="#fff" size="18px" />}
-                        onClick={this.onInviteMembers} />
-                      <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
-                        color="accent-3" onClick={this.onExecuteFlow} />
-                      <RoundButton label="Diagram" primary icon={<Cluster size="16px" />}
-                        color="accent-1" onClick={this.navigateToModeler} />
+                      {this.renderButtonGroup()}
                     </Box>
                   ) : (
-                      <Box direction="row" gap="small"
+                      <Box direction="row"
                         justify="end" align="center" fill>
-                        <CircleButton
-                          color="accent-4"
-                          primary plain={false}
-                          data-tip="Collaborators of this workflow"
-                          icon={<Group color="#fff" size="18px" />}
-                          onClick={this.onInviteMembers} />
-                        <RoundButton label={executeStatus} primary icon={<Play size="16px" />}
-                          color="accent-3" onClick={this.onExecuteFlow} />
-                        <RoundButton label="Diagram" primary icon={<Cluster size="16px" />}
-                          color="accent-1" onClick={this.navigateToModeler} />
+                        {this.renderButtonGroup()}
                       </Box>
                     )}
-
                 </Media>
               </Col>
             </Row>
@@ -332,7 +343,6 @@ const mapStateToProps = (state) => {
     currentFlow: state.workflowMyFlows.currentFlow,
     workflowCollaborators: state.workflowCollaborators,
     workflow: state.workflow,
-    workflowMyFlows: state.workflowMyFlows,
     workflowLogs: state.workflowLogs,
   }
 }

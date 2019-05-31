@@ -14,6 +14,13 @@ const defaultState = {
 export function userServices(state = defaultState, action) {
   switch (action.type) {
 
+    case userServicesConstants.UPDATE_METHOD_SUCCESS: {
+      const { currentMethodIndex, updatedMethod } = action;
+      const nextState = { ...state };
+      nextState.currentService.methods[currentMethodIndex] = updatedMethod;
+      return nextState;
+    }
+
     case userServicesConstants.SET_CURRENT_SERVICE: {
       const { currentIndex, currentServiceId } = action;
       return { ...state, currentService: state.data[currentIndex], currentServiceId };
@@ -81,7 +88,9 @@ export function userServices(state = defaultState, action) {
     }
 
     case userServicesConstants.ADD_METHOD_SUCCESS: {
-      return { ...state, creatingNewMethod: "success" };
+      const { newMethod } = action;
+      state.currentService.methods.push(newMethod);
+      return { ...state, creatingNewMethod: "success", };
     }
 
     case userServicesConstants.ADD_METHOD_FAILURE: {

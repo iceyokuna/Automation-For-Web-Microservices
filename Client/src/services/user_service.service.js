@@ -6,10 +6,34 @@ import { getUserToken } from '_helpers'
 export const userService = {
   uploadNewService,
   addNewMethod,
-  updateUserService,
+  updateService,
+  updateMethod,
   getUserServices,
   deleteServiceById,
 };
+
+
+function updateService(serviceId, data) {
+  return axios.put(globalConstants.UPDATE_USER_SERVICE_URL, {
+    id: serviceId,
+    data
+  }, {
+      headers: {
+        Authorization: 'Token ' + getUserToken()
+      }
+    })
+}
+
+function updateMethod(serviceId, methodId, data) {
+  return axios.put(`${globalConstants.USER_METHOD_URL}${serviceId}/${methodId}`, {
+    data,
+  }, {
+      headers: {
+        Authorization: 'Token ' + getUserToken()
+      }
+    })
+
+}
 
 function deleteServiceById(id) {
   return axios.delete(globalConstants.DELETE_USER_SERVICE_URL + id, {
@@ -27,35 +51,9 @@ function getUserServices() {
   });
 }
 
-function updateUserService(serviceId, username, serviceName,
-  serviceInfo, serviceUrl, ) {
-  return axios.post(globalConstants.CREATE_USER_SERVICE_URL, {
-    id: serviceId,
-    username,
-    data: {
-      name: serviceName,
-      info: serviceInfo,
-      url: serviceUrl,
-    }
-  })
-}
-
-function addNewMethod(
-  methodName,
-  methodInfo,
-  methodType,
-  serviceId,
-  inputInterface,
-  outputInterface,
-  methodUrl,
-) {
+function addNewMethod(serviceId, data) {
   return axios.post(globalConstants.USER_METHOD_URL + serviceId, {
-    name: methodName,
-    info: methodInfo,
-    method_type: methodType,
-    input_interface: inputInterface,
-    output_interface: outputInterface,
-    path: methodUrl,
+    ...data
   }, {
       headers: {
         Authorization: "Token " + getUserToken()

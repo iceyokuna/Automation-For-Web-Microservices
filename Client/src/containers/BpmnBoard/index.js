@@ -16,7 +16,7 @@ import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
 import EditWorkflowInfo from 'components/edit_workflow_dialog';
 import FormTypeDialog from 'components/form_type_dialog';
-import ExecutionLog from 'components/execution_log';
+// import ExecutionLog from 'components/execution_log';
 
 import "./style/app.less";
 
@@ -41,8 +41,8 @@ import {
 import Spinner from 'react-spinkit'
 import { colors } from 'theme';
 import {
-  InviteButton, NextButton,
-  SendWorkflowButton, EditInfoButton,
+  InviteButton, SaveButton,
+  EditInfoButton,
   OpenDock
 } from './style'
 
@@ -408,26 +408,19 @@ class BpmnContainer extends Component {
         />
 
         <EditInfoButton
-          color="accent-1" primary plain={false}
+          color="accent-3" primary plain={false}
           icon={<Edit size="18px" color="#ffffff" />}
           data-tip="Edit information"
           onClick={this.onEditDiagram}
         />
 
-        <SendWorkflowButton
-          color="accent-4" primary plain={false}
-          icon={<Test size="18px" color="#ffffff" />}
-          data-tip="Send workflow directly to engine"
-          onClick={() => this.onSubmitDiagram("ToEngine")}
-        />
-
         <InviteButton
-          color="accent-3"
+          color="accent-4"
           primary plain={false} data-tip="Collaborators"
-          icon={<Group size="18px" />}
+          icon={<Group size="18px" color={colors["light-0"]} />}
           onClick={this.onInvite} />
 
-        <NextButton color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
+        <SaveButton color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
           data-tip="Save Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
         {/* <OpenDock plain icon={<CaretUp />} data-tip="Workflow logs" onClick={this.onOpenLogs} /> */}
