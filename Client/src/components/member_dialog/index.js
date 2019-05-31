@@ -83,9 +83,11 @@ export class index extends Component {
                   autoHide
                   style={{ height: 250 }}
                 >
-                  <Row >
-                    {this.renderCollaboratorItems()}
-                  </Row>
+                  <Box pad="small">
+                    <Row >
+                      {this.renderCollaboratorItems()}
+                    </Row>
+                  </Box>
                 </Scrollbars>
 
               </Box>
