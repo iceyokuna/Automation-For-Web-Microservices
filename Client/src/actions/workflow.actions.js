@@ -22,6 +22,8 @@ export const workflowActions = {
   deleteWorkflowById,
   deleteAppliedMethodByTaskId,
 
+  deleteAssociatedVariableOfElement,
+
   applyMethodToTask,
   applyConditionsToGateWay,
   applyPreInputsToTask,
@@ -78,6 +80,15 @@ function resetToInitialParams() {
     dispatch({ type: workflowContants.RESET_LOG_PARAMS });
     dispatch({ type: workflowContants.RESET_PREINPUT_PARAMS });
     dispatch({ type: workflowContants.RESET_TIMER_PARAMS });
+  }
+}
+
+function deleteAssociatedVariableOfElement(elementId) {
+  return dispatch => {
+    dispatch({ type: workflowContants.REMOVE_APPLIED_CONDITION, elementId });
+    dispatch({ type: workflowContants.REMOVE_APPLIED_METHOD, elementId });
+    dispatch({ type: workflowContants.REMOVE_APPLIED_PREINPUT, elementId });
+    dispatch({ type: workflowContants.REMOVE_APPLIED_TIMER, elementId });
   }
 }
 
