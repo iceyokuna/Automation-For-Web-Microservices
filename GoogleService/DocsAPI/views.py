@@ -35,7 +35,9 @@ class CreateView(APIView):
         title = request.data.get('title')
         f_name = request.data.get('f_name')
         l_name = request.data.get('l_name')
-
+        dct = request.data.get('dct')
+        
+        
         auth = request.data.get('auth')
         AUTH = auth
         SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents']
@@ -54,8 +56,15 @@ class CreateView(APIView):
         
         #doc = service.documents().create(body=template).execute()
         #docId = doc.get('documentId')
-
+       
+        requests = []
+        for i in dct:
+            #i = '{{'+i+'}}'
+            replace = dct[i]
+            requests.append({'replaceAllText': {'containsText': {'text': '{{'+i+'}}' ,'matchCase':  'true'},'replaceText': replace,}})
+        
         fileId = file.get('id')
+        '''
         requests = [
             {
                 'replaceAllText': {
@@ -74,8 +83,9 @@ class CreateView(APIView):
                 }
             }
         ]
+        '''
         result = service.documents().batchUpdate(documentId=fileId, body={'requests': requests}).execute()
         
         return Response({"detail":"https://docs.google.com/document/d/"+file.get("id")+"/edit"}, status=HTTP_200_OK)
         
-    
+        # return Response({"detail":requests})
