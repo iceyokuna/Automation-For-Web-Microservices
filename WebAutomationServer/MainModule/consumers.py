@@ -53,7 +53,8 @@ class MainConsumer(WebsocketConsumer):
                         'form': None,
                         'message' : 'Execution is done'
                     }
-                )) 
+                ))
+                print("send status DONE ALL FORM")
             elif (HTML == "WAIT_LANE"): 
                 self.send(text_data=json.dumps(
                     {
@@ -63,6 +64,7 @@ class MainConsumer(WebsocketConsumer):
                         'message' : 'Please wait other collaborator for execution !!'
                     }
                 )) 
+                print("send status WAIT Lane")
             elif (HTML == "WAIT_TIME"): 
                 self.send(text_data=json.dumps(
                     {
@@ -72,6 +74,7 @@ class MainConsumer(WebsocketConsumer):
                         'message' : 'Please wait time event to trigger !!'
                     }
                 ))
+                print("send status WAIT Time")
             else:
                 #response to send html form to client
                 self.send(text_data=json.dumps(
@@ -81,6 +84,7 @@ class MainConsumer(WebsocketConsumer):
                     'form': HTML
                 }
                 ))
+                print("send status NEXT FORM")
             
             #write workflow state (update)
 #            with open('HTMLs.pkl', 'wb') as f:
