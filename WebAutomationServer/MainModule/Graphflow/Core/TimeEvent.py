@@ -1,5 +1,6 @@
 from MainModule.Graphflow.Core.IntermediateEvent import *
 from MainModule.Graphflow.Core.IOtypes import *
+import datetime
 
 class TimeEvent(IntermediateEvent):
     def __init__(self , id, name, inputType , outputType, eventDefination):
@@ -42,10 +43,30 @@ class TimeEvent(IntermediateEvent):
 
     def getTriggerDate(self):
         #check type of event
+        if(self.type == "countdown"):
+            days = int(self.countdown['days'])
+            hours = int(self.countdown['hours'])
+            minutes = int(self.countdown['minutes'])
+            seconds = int(self.countdown['seconds'])
+            deltaTime = datetime.timedelta(days=days, hours =hours, minutes = minutes, seconds = seconds)
+            now = datetime.datetime.now()
+            result = now + deltaTime
+            date = str(result.month) + '/' + str(result.day) + '/' + str(result.year)
+            return date
         return self.date
 
     def getTriggerTime(self):
         #check type of event
+        if(self.type == "countdown"):
+            days = int(self.countdown['days'])
+            hours = int(self.countdown['hours'])
+            minutes = int(self.countdown['minutes'])
+            seconds = int(self.countdown['seconds'])
+            deltaTime = datetime.timedelta(days=days, hours =hours, minutes = minutes, seconds = seconds)
+            now = datetime.datetime.now()
+            result = now + deltaTime
+            time = str(result.hour) + ':' + str(result.minute) + ':' + str(result.second)
+            return time
         return self.time
 
     def setEventDefination(self, defination):
