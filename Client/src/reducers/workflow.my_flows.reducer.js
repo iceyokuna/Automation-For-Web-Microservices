@@ -11,6 +11,10 @@ const defaultState = {
 export function workflowMyFlows(state = defaultState, action) {
   switch (action.type) {
 
+    case workflowConstants.RESET_MYFLOWS_PARAMS: {
+      return defaultState;
+    }
+
     case workflowConstants.DELETE_WORKFLOW_SUCCESS: {
       const nextState = { ...state };
       nextState.myFlows = state.myFlows.filter((flow) => flow.id != action.workflowId);

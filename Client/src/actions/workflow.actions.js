@@ -107,6 +107,7 @@ function resetExecutionState(name, description,
 function resetToInitialParams() {
   return dispatch => {
     dispatch({ type: workflowConstants.RESET_WORKFLOW_PARAMS });
+    dispatch({ type: workflowConstants.RESET_MYFLOWS_PARAMS });
     dispatch({ type: workflowConstants.RESET_COLLABORATOR_PARAMS });
     dispatch({ type: workflowConstants.RESET_CONDITION_PARAMS });
     dispatch({ type: workflowConstants.RESET_LOG_PARAMS });
