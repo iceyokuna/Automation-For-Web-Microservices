@@ -58,8 +58,7 @@ class index extends Component {
         html: $('<div/>').css({
           width: shape.width,
           height: shape.height,
-          opacity: 0.1,
-          backgroundColor: colors.userLane
+          border: `5px solid ${colors.userLane}`
         })
       });
 
