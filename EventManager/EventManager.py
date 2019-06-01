@@ -28,7 +28,10 @@ def timeEvent():
         event_id = data['elementEventId']
         eventTime = data['time']
         eventDate = data['date']
-        payload = {"trigger_time": eventTime, "trigger_date":eventDate}
+        workflowId = data['workflowId']
+        userId = data['userId']
+        payload = {"workflowId": workflowId, "userId": userId,
+                   "trigger_time": eventTime, "trigger_date":eventDate}
         #push to firebase event queue
         time_db_ref.update({event_id:payload})
     #pack to JSON response

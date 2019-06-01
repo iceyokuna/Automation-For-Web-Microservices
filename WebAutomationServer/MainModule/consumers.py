@@ -50,10 +50,32 @@ class MainConsumer(WebsocketConsumer):
                     {
                         'type': 'workflow/FINISH_ALL_FORM',
                         'taskId': taskId,
-                        'form': None
+                        'form': None,
+                        'message' : 'Execution is done'
                     }
                 )) 
-                return            
+                return 
+            elif (HTML == "WAIT_LANE"): 
+                self.send(text_data=json.dumps(
+                    {
+                        'type': 'workflow/WAIT',
+                        'taskId': taskId,
+                        'form': None,
+                        'message' : 'Please wait other collaborator for execution !!'
+                    }
+                )) 
+                return
+
+            elif (HTML == "WAIT_TIME"): 
+                self.send(text_data=json.dumps(
+                    {
+                        'type': 'workflow/WAIT',
+                        'taskId': taskId,
+                        'form': None,
+                        'message' : 'Please wait time event to trigger !!'
+                    }
+                ))
+                return        
             
             #write workflow state (update)
 #            with open('HTMLs.pkl', 'wb') as f:
