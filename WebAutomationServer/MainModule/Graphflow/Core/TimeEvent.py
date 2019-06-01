@@ -9,6 +9,7 @@ class TimeEvent(IntermediateEvent):
         self.time = None
         self.countdown = None
         self.status = "none"
+        self.type = "none"
 
     def trigger(self):
         self.status = "triggered"
@@ -25,6 +26,12 @@ class TimeEvent(IntermediateEvent):
         if(self.status == "pending"):
             return True
         return False
+
+    def setCountDownType(self):
+        self.type = "countdown"
+
+    def setDateTimeType(self):
+        self.type = "datetime"
 
     def setTimeEvent(self, date, time):
         self.date = date
