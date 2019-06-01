@@ -99,6 +99,11 @@ def saveFlow(request):
     result = requests.put(url , json = {"logs": {"data" : None}}, headers = headers)
     print("Restart log: " + str(result))
 
+    #Clear Event Queue
+    url = "http://127.0.0.1:5000/clear"
+    result = requests.post(url , data= {'workflowId': workflow_id})
+    print("Restart Event Queue: " + str(result))
+
     print("------saved workflow object successfully--------")
     #print all finite state machine defination
     #workflowEngine.showDefination()
