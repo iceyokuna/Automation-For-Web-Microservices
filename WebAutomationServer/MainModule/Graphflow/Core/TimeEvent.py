@@ -37,10 +37,15 @@ class TimeEvent(IntermediateEvent):
         self.date = date
         self.time = time
 
+    def setCountDown(self, countdown):
+        self.countdown = countdown
+
     def getTriggerDate(self):
+        #check type of event
         return self.date
 
     def getTriggerTime(self):
+        #check type of event
         return self.time
 
     def setEventDefination(self, defination):
