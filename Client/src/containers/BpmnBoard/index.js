@@ -106,7 +106,8 @@ class BpmnContainer extends Component {
 
     this.bpmnModeler.on('shape.remove', (event) => {
       const elementId = event.element.id;
-      dispatch(workflowActions.deleteAppliedMethodByTaskId(elementId));
+      // dispatch(workflowActions.deleteAppliedMethodByTaskId(elementId));
+      dispatch(workflowActions.deleteAssociatedVariableOfElement(elementId));
     })
 
     const eventBus = this.bpmnModeler.get('eventBus');

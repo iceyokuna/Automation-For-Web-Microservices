@@ -87,6 +87,7 @@ class index extends Component {
 
     if (shape != null) {
       overlays.add(elementId, {
+        position: {},
         html: $('<div class="currentNode"/>').css(
           {
             width: shape.width,
