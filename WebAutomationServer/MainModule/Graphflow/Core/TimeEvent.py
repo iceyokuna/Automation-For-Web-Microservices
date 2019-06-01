@@ -20,6 +20,11 @@ class TimeEvent(IntermediateEvent):
         if(self.status == "triggered"):
             return True
         return False
+    
+    def isPending(self):
+        if(self.status == "pending"):
+            return True
+        return False
 
     def setTimeEvent(self, date, time):
         self.date = date
