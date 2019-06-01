@@ -168,10 +168,18 @@ class WorkflowEngine:
     def setTimer(self, timer_list):
         print(timer_list)
         for timer in timer_list:
-            date = timer_list[timer]['targetDate']
-            time = timer_list[timer]['targetTime']
-            event = self.state[timer]
-            event.setTimeEvent(date, time)
+            try:
+                days = timer_list[timer]['days']
+                hours = timer_list[timer]['hours']
+                minutes = timer_list[timer]['minutes']
+                seconds = timer_list[timer]['seconds']
+                event = self.state[timer]
+                event.setTimeEvent(date, time)
+            except:
+                date = timer_list[timer]['targetDate']
+                time = timer_list[timer]['targetTime'] + ":00"
+                event = self.state[timer]
+                event.setTimeEvent(date, time)
 
     #setup condition to gateway
     def setCondition(self, condition_list):
