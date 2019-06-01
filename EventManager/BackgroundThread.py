@@ -51,7 +51,8 @@ class BackgroundThread(threading.Thread):
             year_event = int(date_data[2])
             hour_event = int(time_data[0])
             minute_event =int(time_data[1])
-            time_event = datetime.datetime(year_event, month_event, day_event, hour_event, minute_event)
+            second_event =int(time_data[2])
+            time_event = datetime.datetime(year_event, month_event, day_event, hour_event, minute_event,second_event)
             #check triggering
             if(time_system > time_event):
                 time_trigger_id_list.append(event)
