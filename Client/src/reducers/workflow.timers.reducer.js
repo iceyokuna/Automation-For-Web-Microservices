@@ -7,7 +7,19 @@ const defaultState = {
 
 export function workflowTimers(state = defaultState, action) {
   switch (action.type) {
-    
+
+    case workflowContants.REMOVE_APPLIED_TIMER: {
+      const nextState = { ...state };
+      const { elementId } = action;
+      try {
+        delete nextState.appliedTimers[elementId];
+      } catch (e) {
+        console.error(e);
+      }
+      
+      return nextState;
+    }
+
     case workflowContants.RESET_TIMER_PARAMS: {
       return defaultState;
     }

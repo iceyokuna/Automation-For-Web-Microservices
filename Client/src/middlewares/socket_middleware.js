@@ -40,6 +40,10 @@ export const socketMiddleware = store => next => action => {
 
             } break;
 
+            case socketConstants.WAIT: {
+
+            } break;
+
             case socketConstants.FINISH_ALL_FORMS: {
               store.dispatch(workflowActions.resetExecutingForm());
               socket.close();
