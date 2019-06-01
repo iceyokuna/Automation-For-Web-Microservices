@@ -35,10 +35,11 @@ export function workflow(state = defaultState, action) {
   switch (action.type) {
 
     case workflowConstants.SHOW_WAITING_DIALOG: {
-      return { ...state,
-         showWaitingDialog: true,
-         waitingMessage: action.message, 
-        };
+      return {
+        ...state,
+        showWaitingDialog: true,
+        waitingMessage: action.message,
+      };
     }
 
     case workflowConstants.CLOSE_WAITING_DIALOG: {
