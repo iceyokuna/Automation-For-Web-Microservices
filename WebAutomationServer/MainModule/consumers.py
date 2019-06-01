@@ -82,7 +82,7 @@ class MainConsumer(WebsocketConsumer):
 #                pickle.dump(workflowEngine_load, f)
             pickled_obj = pickle.dumps(workflowEngine_load)
             pickled_obj_str = str(pickled_obj)
-
+            
             headers = {"Authorization":("Token " + str(user_token)), "Content-Type":"application/json"}
             url = "http://178.128.214.101:8003/api/workflow"
             payload = {"id": int(workflow_id),"data": {"workflowObject": pickled_obj_str}}

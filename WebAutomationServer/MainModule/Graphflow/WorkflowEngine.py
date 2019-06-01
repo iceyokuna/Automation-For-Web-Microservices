@@ -258,7 +258,7 @@ class WorkflowEngine:
                        "userId": user_name}
             result = requests.post(url , data=payload)
             element_object.pending()
-            self.state[self.currentState["current"]] = element_object
+            print(element_object.getId())
             return ({"HTML": "WAIT_TIME", "taskId":element_object.getId()})          
 
         #exclusive gateway case
@@ -373,6 +373,7 @@ class WorkflowEngine:
 
     #update workflow state -> next state from state transition
     def TimerUpdateState(self ,user_id):
+        print("workflow engine updating from time triggered")
         element_object = self.state[self.currentState["current"]]
         element_object.trigger()
         self.state[self.currentState["current"]] = element_object
