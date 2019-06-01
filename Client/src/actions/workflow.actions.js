@@ -146,16 +146,14 @@ function prepareNewWorkflow(workflowName, description) {
     let workflowObject = {
       bpmnJson: {},
       appliedMethods: {},
-      appliedConditions: {},
-      appliedPreInputs: {},
-      appliedTimers: {},
       generatedForms: [],
     }
 
     dispatch({
       type: workflowConstants.PREPARE_NEW_WORKFLOW,
-      workflowName, description, workflowObject,
-    })
+      workflowName, description,
+    });
+
     history.push('/my_flows/create/design_workflow');
   }
 }

@@ -124,11 +124,11 @@ export function workflow(state = defaultState, action) {
     }
 
     case workflowConstants.PREPARE_NEW_WORKFLOW: {
-      const { workflowName, description, workflowObject } = action;
+      const { workflowName, description, } = action;
       return {
-        ...state, name: workflowName,
+        ...defaultState,
+        name: workflowName,
         description: description,
-        ...workflowObject
       };
     }
 
