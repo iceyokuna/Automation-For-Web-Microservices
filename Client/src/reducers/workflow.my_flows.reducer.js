@@ -1,4 +1,4 @@
-import { workflowContants } from '_constants';
+import { workflowConstants } from '_constants';
 import { history, getUnique } from '_helpers';
 
 const defaultState = {
@@ -11,25 +11,29 @@ const defaultState = {
 export function workflowMyFlows(state = defaultState, action) {
   switch (action.type) {
 
-    case workflowContants.DELETE_WORKFLOW_SUCCESS: {
+    case workflowConstants.RESET_MYFLOWS_PARAMS: {
+      return defaultState;
+    }
+
+    case workflowConstants.DELETE_WORKFLOW_SUCCESS: {
       const nextState = { ...state };
       nextState.myFlows = state.myFlows.filter((flow) => flow.id != action.workflowId);
       return nextState;
     }
 
-    case workflowContants.SET_CURRENT_FLOW: {
+    case workflowConstants.SET_CURRENT_FLOW: {
       const nextState = { ...state };
       nextState.currentFlow = action.currentFlow;
       history.push(action.redirectUrl)
       return nextState;
     }
 
-    case workflowContants.GET_MY_FLOWS_REQUEST: {
+    case workflowConstants.GET_MY_FLOWS_REQUEST: {
       const nextState = { ...state };
       nextState.loadingMyFlows = true;
       return nextState;
     }
-    case workflowContants.GET_MY_FLOWS_SUCCESS: {
+    case workflowConstants.GET_MY_FLOWS_SUCCESS: {
       const nextState = { ...state };
       nextState.loadingMyFlows = false;
       const { data } = action;
@@ -43,7 +47,7 @@ export function workflowMyFlows(state = defaultState, action) {
       nextState.myFlows = allFlows;
       return nextState;
     }
-    case workflowContants.GET_MY_FLOWS_FAILURE: {
+    case workflowConstants.GET_MY_FLOWS_FAILURE: {
       const nextState = { ...state };
       nextState.loadingMyFlows = false;
       nextState.err = action.err;

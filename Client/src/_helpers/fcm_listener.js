@@ -3,7 +3,7 @@ import { notificationActions } from 'actions';
 import { toast } from 'react-toastify';
 import { notificationServices } from 'services';
 import { getUserToken } from '_helpers'
-import { workflowContants } from '_constants'
+import { workflowConstants } from '_constants'
 
 
 export function applyFCMListener(store) {
@@ -28,7 +28,7 @@ export function applyFCMListener(store) {
     switch (messageType) {
       case "WORKFLOW_STATUS": {
         store.dispatch({
-          type: workflowContants.RECEIVE_WORKFLOW_STATUS,
+          type: workflowConstants.RECEIVE_WORKFLOW_STATUS,
           data: parsedData,
         })
       } break;

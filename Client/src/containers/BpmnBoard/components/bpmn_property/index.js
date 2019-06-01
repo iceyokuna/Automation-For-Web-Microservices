@@ -108,6 +108,7 @@ class BpmnProperty extends Component {
         element = [
           <TaskProperty
             key={1}
+            taskId={workflow.currentNode.id}
             onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)}
             services={services}
           />,

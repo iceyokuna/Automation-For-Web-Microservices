@@ -1,4 +1,4 @@
-import { workflowContants } from '_constants';
+import { workflowConstants } from '_constants';
 
 const defaultState = {
   nextFlowElements: [],
@@ -12,7 +12,7 @@ const defaultState = {
 export function workflowConditions(state = defaultState, action) {
   switch (action.type) {
 
-    case workflowContants.REMOVE_APPLIED_CONDITION: {
+    case workflowConstants.REMOVE_APPLIED_CONDITION: {
       const nextState = { ...state };
       const { elementId } = action;
       try {
@@ -23,11 +23,11 @@ export function workflowConditions(state = defaultState, action) {
       return nextState;
     }
 
-    case workflowContants.RESET_CONDITION_PARAMS: {
+    case workflowConstants.RESET_CONDITION_PARAMS: {
       return defaultState;
     }
 
-    case workflowContants.SET_WORKFLOW_CONDITIONS: {
+    case workflowConstants.SET_WORKFLOW_CONDITIONS: {
       return {
         ...state,
         appliedConditions: action.appliedConditions,
@@ -35,20 +35,20 @@ export function workflowConditions(state = defaultState, action) {
       }
     }
 
-    case workflowContants.APPLY_CONDITIONS_TO_GATEWAY: {
+    case workflowConstants.APPLY_CONDITIONS_TO_GATEWAY: {
       const nextState = { ...state };
       const { gatewayId, conditions } = action;
       nextState.appliedConditions[gatewayId] = conditions;
       return nextState;
     }
 
-    case workflowContants.UPDATE_CONDITION_VARIABLES: {
+    case workflowConstants.UPDATE_CONDITION_VARIABLES: {
       const nextState = { ...state };
       nextState.allVariables = action.allVariables;
       return nextState;
     }
 
-    case workflowContants.SET_NEXT_NODES: {
+    case workflowConstants.SET_NEXT_NODES: {
       return { ...state, bpmnNodes: action.nextNodes }
     }
 

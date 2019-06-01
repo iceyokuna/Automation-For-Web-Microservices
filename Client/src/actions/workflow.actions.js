@@ -1,4 +1,4 @@
-import { workflowContants, globalConstants, } from '_constants';
+import { workflowConstants, globalConstants, } from '_constants';
 import { workflowService } from 'services'
 import { toast } from 'react-toastify'
 import { history, getUserToken } from '_helpers';
@@ -24,6 +24,7 @@ export const workflowActions = {
 
   deleteAssociatedVariableOfElement,
 
+  applyAsyncToTask,
   applyMethodToTask,
   applyConditionsToGateWay,
   applyPreInputsToTask,
@@ -38,6 +39,10 @@ export const workflowActions = {
   setWorkflowId,
   setBpmnJson,
   setCurrentElement,
+
+  showWaitingDialog,
+  closeWaitingDialog,
+
   toggleMemberDialog,
   toggleTimerDialog,
   togglePreInputDialog,
@@ -52,16 +57,43 @@ export const workflowActions = {
   getAllCollaborators,
 };
 
+function showWaitingDialog(message) {
+  return {
+    type: workflowConstants.SHOW_WAITING_DIALOG,
+    message,
+  }
+}
+
+function closeWaitingDialog() {
+  return {
+    type: workflowConstants.CLOSE_WAITING_DIALOG,
+  }
+}
+
+function toggleWaitingDialog() {
+  return {
+    type: workflowConstants.TOGGLE_WAITING_DIALOG,
+  }
+}
+
+function applyAsyncToTask(taskId, checked) {
+  return {
+    type: workflowConstants.APPLY_ASYNC_TO_TASK,
+    taskId,
+    checked,
+  }
+}
+
 function resetExecutionState(name, description,
   workflowData, workflowId) {
   return async dispatch => {
-    dispatch({ type: workflowContants.RESET_EXECUTION_STATE_REQUEST });
+    dispatch({ type: workflowConstants.RESET_EXECUTION_STATE_REQUEST });
     try {
       const res = await workflowService.sendWorkflowDataToEngine(
         name, description,
         workflowData, workflowId
       );
-      dispatch({ type: workflowContants.RESET_EXECUTION_STATE_SUCCESS });
+      dispatch({ type: workflowConstants.RESET_EXECUTION_STATE_SUCCESS });
       toast.success("Workflow's state is reset");;
 
       // Get current logs after reset state
@@ -74,35 +106,37 @@ function resetExecutionState(name, description,
 
 function resetToInitialParams() {
   return dispatch => {
-    dispatch({ type: workflowContants.RESET_WORKFLOW_PARAMS });
-    dispatch({ type: workflowContants.RESET_COLLABORATOR_PARAMS });
-    dispatch({ type: workflowContants.RESET_CONDITION_PARAMS });
-    dispatch({ type: workflowContants.RESET_LOG_PARAMS });
-    dispatch({ type: workflowContants.RESET_PREINPUT_PARAMS });
-    dispatch({ type: workflowContants.RESET_TIMER_PARAMS });
+    dispatch({ type: workflowConstants.RESET_WORKFLOW_PARAMS });
+    dispatch({ type: workflowConstants.RESET_MYFLOWS_PARAMS });
+    dispatch({ type: workflowConstants.RESET_COLLABORATOR_PARAMS });
+    dispatch({ type: workflowConstants.RESET_CONDITION_PARAMS });
+    dispatch({ type: workflowConstants.RESET_LOG_PARAMS });
+    dispatch({ type: workflowConstants.RESET_PREINPUT_PARAMS });
+    dispatch({ type: workflowConstants.RESET_TIMER_PARAMS });
   }
 }
 
 function deleteAssociatedVariableOfElement(elementId) {
   return dispatch => {
-    dispatch({ type: workflowContants.REMOVE_GENERATED_FORM, elementId });
-    dispatch({ type: workflowContants.REMOVE_APPLIED_CONDITION, elementId });
-    dispatch({ type: workflowContants.REMOVE_APPLIED_METHOD, elementId });
-    dispatch({ type: workflowContants.REMOVE_APPLIED_PREINPUT, elementId });
-    dispatch({ type: workflowContants.REMOVE_APPLIED_TIMER, elementId });
+    dispatch({ type: workflowConstants.REMOVE_GENERATED_FORM, elementId });
+    dispatch({ type: workflowConstants.REMOVE_APPLIED_CONDITION, elementId });
+    dispatch({ type: workflowConstants.REMOVE_APPLIED_ASYNC, elementId });
+    dispatch({ type: workflowConstants.REMOVE_APPLIED_METHOD, elementId });
+    dispatch({ type: workflowConstants.REMOVE_APPLIED_PREINPUT, elementId });
+    dispatch({ type: workflowConstants.REMOVE_APPLIED_TIMER, elementId });
   }
 }
 
 function deleteAppliedMethodByTaskId(taskId) {
   return {
-    type: workflowContants.DELETE_BPMN_ELEMENT,
+    type: workflowConstants.DELETE_BPMN_ELEMENT,
     taskId,
   }
 }
 
 function setMode(mode) {
   return {
-    type: workflowContants.SET_MODE,
+    type: workflowConstants.SET_MODE,
     mode,
   }
 }
@@ -113,16 +147,14 @@ function prepareNewWorkflow(workflowName, description) {
     let workflowObject = {
       bpmnJson: {},
       appliedMethods: {},
-      appliedConditions: {},
-      appliedPreInputs: {},
-      appliedTimers: {},
       generatedForms: [],
     }
 
     dispatch({
-      type: workflowContants.PREPARE_NEW_WORKFLOW,
-      workflowName, description, workflowObject,
-    })
+      type: workflowConstants.PREPARE_NEW_WORKFLOW,
+      workflowName, description,
+    });
+
     history.push('/my_flows/create/design_workflow');
   }
 }
@@ -132,7 +164,7 @@ function deleteWorkflowById(workflowId) {
 
     workflowService.deleteWorkflowById(workflowId).then(
       res => {
-        dispatch({ type: workflowContants.DELETE_WORKFLOW_SUCCESS, workflowId });
+        dispatch({ type: workflowConstants.DELETE_WORKFLOW_SUCCESS, workflowId });
         toast.success("Delete the workflow");
       }
     ).catch(e => {
@@ -143,27 +175,27 @@ function deleteWorkflowById(workflowId) {
 
 function deleteCollaborators(collaborators) {
   return (dispatch, getState) => {
-    dispatch({ type: workflowContants.DELETE_COLLABORATORS_REQUEST });
+    dispatch({ type: workflowConstants.DELETE_COLLABORATORS_REQUEST });
     const workflow_id = getState().workflowMyFlows.currentFlow.id;
     workflowService.deleteCollaborators(workflow_id, collaborators).then(
       res => {
-        dispatch({ type: workflowContants.DELETE_COLLABORATORS_SUCCESS });
+        dispatch({ type: workflowConstants.DELETE_COLLABORATORS_SUCCESS });
         dispatch(getAllCollaborators(workflow_id));
       }
-    ).catch(e => dispatch({ type: workflowContants.DELETE_COLLABORATORS_FAILURE }))
+    ).catch(e => dispatch({ type: workflowConstants.DELETE_COLLABORATORS_FAILURE }))
   }
 }
 
 function setNextNodes(nextNodes) {
   return {
-    type: workflowContants.SET_NEXT_NODES,
+    type: workflowConstants.SET_NEXT_NODES,
     nextNodes,
   }
 }
 
 function toggleEditWorkflowDialog() {
   return {
-    type: workflowContants.TOGGLE_INFO_DIALOG
+    type: workflowConstants.TOGGLE_INFO_DIALOG
   }
 }
 
@@ -187,20 +219,20 @@ function getAllCollaborators(workflowId) {
 
   function request() {
     return {
-      type: workflowContants.GET_ALL_COLLABORATORS_REQUEST,
+      type: workflowConstants.GET_ALL_COLLABORATORS_REQUEST,
     }
   }
 
   function success(data) {
     return {
-      type: workflowContants.GET_ALL_COLLABORATORS_SUCCESS,
+      type: workflowConstants.GET_ALL_COLLABORATORS_SUCCESS,
       collaborators: data,
     }
   }
 
   function failure(err) {
     return {
-      type: workflowContants.GET_ALL_COLLABORATORS_FAILURE,
+      type: workflowConstants.GET_ALL_COLLABORATORS_FAILURE,
       err,
     }
   }
@@ -209,14 +241,14 @@ function getAllCollaborators(workflowId) {
 
 function setWorkflowId(workflowId) {
   return {
-    type: workflowContants.SET_WORKFLOW_ID,
+    type: workflowConstants.SET_WORKFLOW_ID,
     workflowId,
   }
 }
 
 function applyTimerToElement(elementId, dateTime) {
   return {
-    type: workflowContants.APPLY_TIMER_TO_ELEMENT,
+    type: workflowConstants.APPLY_TIMER_TO_ELEMENT,
     elementId,
     dateTime
   }
@@ -225,7 +257,7 @@ function applyTimerToElement(elementId, dateTime) {
 
 function applyPreInputsToTask(elementId, preInputs, method) {
   return {
-    type: workflowContants.APPLY_PRE_INPUT,
+    type: workflowConstants.APPLY_PRE_INPUT,
     elementId,
     preInputs,
     method,
@@ -234,44 +266,44 @@ function applyPreInputsToTask(elementId, preInputs, method) {
 
 function setCurrentElement(bpmnNode) {
   return {
-    type: workflowContants.SET_CURRENT_ELEMENT,
+    type: workflowConstants.SET_CURRENT_ELEMENT,
     bpmnNode,
   }
 }
 
 function toggleMemberDialog() {
   return {
-    type: workflowContants.TOGGLE_MEMBER_DIALOG
+    type: workflowConstants.TOGGLE_MEMBER_DIALOG
   }
 }
 
 function toggleFormTypeDialog() {
   return {
-    type: workflowContants.TOGGLE_FORM_TYPE_DIALOG,
+    type: workflowConstants.TOGGLE_FORM_TYPE_DIALOG,
   }
 }
 
 function toggleTimerDialog() {
   return {
-    type: workflowContants.TOGGLE_TIMER_DIALOG
+    type: workflowConstants.TOGGLE_TIMER_DIALOG
   }
 }
 
 function togglePreInputDialog() {
   return {
-    type: workflowContants.TOGGLE_PRE_INPUT_DIALOG
+    type: workflowConstants.TOGGLE_PRE_INPUT_DIALOG
   }
 }
 
 function resetExecutingForm() {
   return {
-    type: workflowContants.RESET_EXECUTING_FORM,
+    type: workflowConstants.RESET_EXECUTING_FORM,
   }
 }
 
 function setExecutingForm(form, taskId) {
   return {
-    type: workflowContants.SET_CURRENT_EXECUTING_FORM,
+    type: workflowConstants.SET_CURRENT_EXECUTING_FORM,
     executingForm: form,
     executingTaskId: taskId,
   }
@@ -279,7 +311,7 @@ function setExecutingForm(form, taskId) {
 
 function addNewForm(formType, form, taskId) {
   return {
-    type: workflowContants.ADD_NEW_FROM,
+    type: workflowConstants.ADD_NEW_FROM,
     formType,
     form,
     forTask: taskId
@@ -290,7 +322,7 @@ function addNameToId(name, value) {
   return {
     id: name,
     value,
-    type: workflowContants.NAME_TO_ID,
+    type: workflowConstants.NAME_TO_ID,
   };
 }
 
@@ -337,7 +369,7 @@ function applyMethodToTask(taskId, method) {
   return (dispatch, getState) => {
 
     dispatch({
-      type: workflowContants.APPLY_METHOD_TO_TASK,
+      type: workflowConstants.APPLY_METHOD_TO_TASK,
       taskId,
       method,
     });
@@ -346,7 +378,7 @@ function applyMethodToTask(taskId, method) {
     const allVariables = updateAllVariables(appliedMethods, taskId, method);
 
     dispatch({
-      type: workflowContants.UPDATE_CONDITION_VARIABLES,
+      type: workflowConstants.UPDATE_CONDITION_VARIABLES,
       allVariables
     })
 
@@ -356,7 +388,7 @@ function applyMethodToTask(taskId, method) {
 
 function applyConditionsToGateWay(gatewayId, conditions) {
   return {
-    type: workflowContants.APPLY_CONDITIONS_TO_GATEWAY,
+    type: workflowConstants.APPLY_CONDITIONS_TO_GATEWAY,
     gatewayId,
     conditions,
   }
@@ -367,44 +399,53 @@ function setupExistingWorkflow() {
     const currentFlow = getState().workflowMyFlows.currentFlow;
 
     // Load workflow
+    const { appliedConditions, appliedPreInputs, appliedTimers,
+      workflowObject, ...dataForWorkflowReducer } = currentFlow;
+
     dispatch({
-      type: workflowContants.SETUP_EXISTING_WORKFLOW,
-      currentFlow,
+      type: workflowConstants.SETUP_EXISTING_WORKFLOW,
+      dataForWorkflowReducer,
     });
 
     // Load workflow's conditions
     const { appliedMethods } = getState().workflow;
     const allVariables = updateAllVariables(appliedMethods);
     dispatch({
-      type: workflowContants.SET_WORKFLOW_CONDITIONS,
-      appliedConditions: currentFlow.appliedConditions,
+      type: workflowConstants.SET_WORKFLOW_CONDITIONS,
+      appliedConditions: appliedConditions,
       allVariables,
     });
 
     // Load workflow's preInputs
     dispatch({
-      type: workflowContants.SET_PRE_INPUTS,
-      preInputs: currentFlow.appliedPreInputs,
+      type: workflowConstants.SET_PRE_INPUTS,
+      preInputs: appliedPreInputs,
     })
 
-
+    // Load workflow's timers
     dispatch({
-      type: workflowContants.SET_APPLIED_TIMER,
-      appliedTimers: currentFlow.appliedTimers,
+      type: workflowConstants.SET_APPLIED_TIMER,
+      appliedTimers: appliedTimers,
+    })
+
+    // Load workflow's asyncs
+    dispatch({
+      type: workflowConstants.SET_APPLIED_ASYNCS,
+      appliedAsyncs: currentFlow.appliedAsyncs || {},
     })
   }
 }
 
 function setupNewWorkflow() {
   return {
-    type: workflowContants.SETUP_NEW_WORKFLOW
+    type: workflowConstants.SETUP_NEW_WORKFLOW
   }
 }
 
 function setCurrentFlow(currentFlow, redirectUrl) {
   return dispatch => {
     dispatch({
-      type: workflowContants.SET_CURRENT_FLOW,
+      type: workflowConstants.SET_CURRENT_FLOW,
       currentFlow,
       redirectUrl
     });
@@ -413,7 +454,7 @@ function setCurrentFlow(currentFlow, redirectUrl) {
 
 function setBpmnJson(bpmnJson) {
   return {
-    type: workflowContants.SET_BPMN_JSON,
+    type: workflowConstants.SET_BPMN_JSON,
     bpmnJson
   }
 }
@@ -435,19 +476,19 @@ function createNewWorkflow(name, description, workflowObject) {
 
   function request() {
     return {
-      type: workflowContants.CREATE_NEW_WORKFLOW_REQUEST,
+      type: workflowConstants.CREATE_NEW_WORKFLOW_REQUEST,
     }
   }
   function success(workflowObject, mode) {
     return {
-      type: workflowContants.CREATE_NEW_WORKFLOW_SUCCESS,
+      type: workflowConstants.CREATE_NEW_WORKFLOW_SUCCESS,
       workflowObject,
       mode,
     }
   }
   function failure(error) {
     return {
-      type: workflowContants.CREATE_NEW_WORKFLOW_FAILURE,
+      type: workflowConstants.CREATE_NEW_WORKFLOW_FAILURE,
     }
   }
 }
@@ -475,13 +516,13 @@ function addNewCollaborators(collaborators) {
 
   function request() {
     return {
-      type: workflowContants.ADD_NEW_COLLABORATORS_REQUEST
+      type: workflowConstants.ADD_NEW_COLLABORATORS_REQUEST
     }
   }
 
   function success(data) {
     return {
-      type: workflowContants.ADD_NEW_COLLABORATORS_SUCCESS,
+      type: workflowConstants.ADD_NEW_COLLABORATORS_SUCCESS,
       data
     }
   }
@@ -489,10 +530,9 @@ function addNewCollaborators(collaborators) {
   function failure(err) {
     console.error(err);
     return {
-      type: workflowContants.ADD_NEW_COLLABORATORS_FAILURE
+      type: workflowConstants.ADD_NEW_COLLABORATORS_FAILURE
     }
   }
-
 }
 
 function updateWorkflow(name, description,
@@ -512,13 +552,13 @@ function updateWorkflow(name, description,
 
     function request() {
       return {
-        type: workflowContants.SEND_WORKFLOW_DATA_REQUEST
+        type: workflowConstants.SEND_WORKFLOW_DATA_REQUEST
       }
     }
 
     function success(data) {
       return {
-        type: workflowContants.SEND_WORKFLOW_DATA_SUCCESS,
+        type: workflowConstants.SEND_WORKFLOW_DATA_SUCCESS,
         data
       }
     }
@@ -526,7 +566,7 @@ function updateWorkflow(name, description,
     function failure(err) {
       console.error(err);
       return {
-        type: workflowContants.SEND_WORKFLOW_DATA_FAILURE
+        type: workflowConstants.SEND_WORKFLOW_DATA_FAILURE
       }
     }
   }
@@ -547,13 +587,13 @@ function sendWorkflowDataToEngine(name, description,
 
     function request() {
       return {
-        type: workflowContants.SEND_WORKFLOW_TO_ENGINE_REQUEST
+        type: workflowConstants.SEND_WORKFLOW_TO_ENGINE_REQUEST
       }
     }
 
     function success(data) {
       return {
-        type: workflowContants.SEND_WORKFLOW_TO_ENGINE_SUCCESS,
+        type: workflowConstants.SEND_WORKFLOW_TO_ENGINE_SUCCESS,
         data
       }
     }
@@ -561,7 +601,7 @@ function sendWorkflowDataToEngine(name, description,
     function failure(err) {
       console.error(err);
       return {
-        type: workflowContants.SEND_WORKFLOW_TO_ENGINE_FAILURE,
+        type: workflowConstants.SEND_WORKFLOW_TO_ENGINE_FAILURE,
       }
     }
   }
@@ -581,13 +621,13 @@ function getMyFlows() {
 
     function request() {
       return {
-        type: workflowContants.GET_MY_FLOWS_REQUEST,
+        type: workflowConstants.GET_MY_FLOWS_REQUEST,
       }
     }
 
     function success(data) {
       return {
-        type: workflowContants.GET_MY_FLOWS_SUCCESS,
+        type: workflowConstants.GET_MY_FLOWS_SUCCESS,
         data
       }
     }
@@ -595,7 +635,7 @@ function getMyFlows() {
     function failure(err) {
       console.error(err);
       return {
-        type: workflowContants.GET_MY_FLOWS_FAILURE,
+        type: workflowConstants.GET_MY_FLOWS_FAILURE,
         err,
       }
     }

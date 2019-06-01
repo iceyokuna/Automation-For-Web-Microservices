@@ -1,4 +1,4 @@
-import { workflowContants } from '_constants';
+import { workflowConstants } from '_constants';
 
 const defaultState = {
   loadingCollaborators: false,
@@ -8,11 +8,11 @@ const defaultState = {
 export function workflowCollaborators(state = defaultState, action) {
   switch (action.type) {
 
-    case workflowContants.RESET_COLLABORATOR_PARAMS: {
+    case workflowConstants.RESET_COLLABORATOR_PARAMS: {
       return defaultState;
     }
 
-    case workflowContants.GET_ALL_COLLABORATORS_REQUEST: {
+    case workflowConstants.GET_ALL_COLLABORATORS_REQUEST: {
       return { ...state, loadingCollaborators: true };
     }
 
@@ -20,14 +20,14 @@ export function workflowCollaborators(state = defaultState, action) {
       return { ...state, loadingCollaborators: false };
     }
 
-    case workflowContants.GET_ALL_COLLABORATORS_SUCCESS: {
+    case workflowConstants.GET_ALL_COLLABORATORS_SUCCESS: {
       const nextState = { ...state };
       nextState.collaborators = action.collaborators;
       nextState.loadingCollaborators = false;
       return nextState;
     }
 
-    case workflowContants.GET_ALL_COLLABORATORS_FAILURE: {
+    case workflowConstants.GET_ALL_COLLABORATORS_FAILURE: {
       return { ...state, loadingCollaborators: false };
     }
 

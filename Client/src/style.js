@@ -1,5 +1,24 @@
-import styled from 'styled-components'
-import Background from 'assets/images/background_2.png'
+import styled, { keyframes } from 'styled-components';
+import Background from 'assets/images/background_2.png';
+import { TableRow as TRow } from 'grommet';
+
+const scaleUp = keyframes`
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.05);
+  }
+
+`
+
+export const TableRow = styled(TRow)`
+&:hover {
+  cursor: pointer;
+  animation: ${scaleUp} 0.5s forwards;
+}
+`
 
 export const FillParent = styled.div`
   width: 100%;

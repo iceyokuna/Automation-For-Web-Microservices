@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect, } from 'react'
 
-import { Box, } from 'grommet'
+import { Box, CheckBox } from 'grommet'
 import ServiceList from 'components/service_list'
+import { connect } from 'react-redux';
+import { workflowActions } from 'actions';
 
-export default function TaskProperty({ services, onSelectServiceMethod }) {
+function TaskProperty({ services, taskId, onSelectServiceMethod, ...props }) {
+
+  const onToggleAsync = (checked) => {
+    props.dispatch(workflowActions.applyAsyncToTask(taskId, checked))
+  }
+
   return (
     <Box gap="small" margin={{ bottom: 'small' }}>
-      {/* <CheckBox
+      <CheckBox
         toggle
         label="Asynchronous"
-        checked={true}
-        onChange={event => {}} /> */}
+        checked={props.appliedAsyncs[taskId] == true ? true : false}
+        onChange={event => onToggleAsync(event.target.checked)} />
       <Box fill="horizontal">
         <ServiceList services={services}
           onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
@@ -18,3 +25,11 @@ export default function TaskProperty({ services, onSelectServiceMethod }) {
     </Box>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    appliedAsyncs: state.workflow.appliedAsyncs,
+  }
+}
+
+export default connect(mapStateToProps)(TaskProperty);

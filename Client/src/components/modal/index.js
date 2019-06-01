@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layer, Heading, Box, } from 'grommet'
 
-const Modal = ({ show, header, component, width, ...props }) => {
+const Modal = ({ show, header, width, ...props }) => {
   return (show &&
     <Layer
       position="center"
@@ -13,7 +13,7 @@ const Modal = ({ show, header, component, width, ...props }) => {
         <Heading level={3} margin="none">{header}</Heading>
 
         {/* Render body of Modal */}
-        {component}
+        {props.children}
       </Box>
 
     </Layer>
