@@ -12,6 +12,17 @@ const defaultState = {
 export function workflowConditions(state = defaultState, action) {
   switch (action.type) {
 
+    case workflowContants.REMOVE_APPLIED_CONDITION: {
+      const nextState = { ...state };
+      const { elementId } = action;
+      try {
+        delete nextState.appliedConditions[elementId];
+      } catch (e) {
+        console.error(e);
+      }
+      return nextState;
+    }
+
     case workflowContants.RESET_CONDITION_PARAMS: {
       return defaultState;
     }

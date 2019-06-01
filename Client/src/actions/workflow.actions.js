@@ -85,6 +85,7 @@ function resetToInitialParams() {
 
 function deleteAssociatedVariableOfElement(elementId) {
   return dispatch => {
+    dispatch({ type: workflowContants.REMOVE_GENERATED_FORM, elementId });
     dispatch({ type: workflowContants.REMOVE_APPLIED_CONDITION, elementId });
     dispatch({ type: workflowContants.REMOVE_APPLIED_METHOD, elementId });
     dispatch({ type: workflowContants.REMOVE_APPLIED_PREINPUT, elementId });
