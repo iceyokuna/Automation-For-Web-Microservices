@@ -1,4 +1,4 @@
-import { workflowContants } from '_constants';
+import { workflowConstants } from '_constants';
 
 const defaultState = {
   // data: [
@@ -23,7 +23,7 @@ const defaultState = {
 export function workflowLogs(state = defaultState, action) {
   switch (action.type) {
 
-    case workflowContants.RECEIVE_WORKFLOW_STATUS: {
+    case workflowConstants.RECEIVE_WORKFLOW_STATUS: {
       const { data } = action;
 
       return {
@@ -33,15 +33,15 @@ export function workflowLogs(state = defaultState, action) {
       }
     }
 
-    case workflowContants.RESET_LOG_PARAMS: {
+    case workflowConstants.RESET_LOG_PARAMS: {
       return defaultState;
     }
 
-    case workflowContants.GET_CURRENT_LOGS_REQUEST: {
+    case workflowConstants.GET_CURRENT_LOGS_REQUEST: {
       return { ...state, loading: true };
     }
 
-    case workflowContants.GET_CURRENT_LOGS_SUCCESS: {
+    case workflowConstants.GET_CURRENT_LOGS_SUCCESS: {
       const { currentElement, executedItems } = action.log;
       return {
         ...state, loading: false,
@@ -49,11 +49,11 @@ export function workflowLogs(state = defaultState, action) {
       };
     }
 
-    case workflowContants.GET_CURRENT_LOGS_FAILURE: {
+    case workflowConstants.GET_CURRENT_LOGS_FAILURE: {
       return { ...state, loading: false, executedItems: [], currentElement: {} };
     }
 
-    case workflowContants.TOGGLE_LOGS: {
+    case workflowConstants.TOGGLE_LOGS: {
       return { ...state, show: !state.show };
     }
 

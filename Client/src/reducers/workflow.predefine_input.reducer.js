@@ -1,4 +1,4 @@
-import { workflowContants } from '_constants';
+import { workflowConstants } from '_constants';
 
 const defaultState = {
   showPreInputDialog: false,
@@ -8,7 +8,7 @@ const defaultState = {
 export function workflowPreInputs(state = defaultState, action) {
   switch (action.type) {
 
-    case workflowContants.REMOVE_APPLIED_PREINPUT: {
+    case workflowConstants.REMOVE_APPLIED_PREINPUT: {
       const nextState = { ...state };
       const { elementId } = action;
       try {
@@ -19,11 +19,11 @@ export function workflowPreInputs(state = defaultState, action) {
       return nextState;
     }
 
-    case workflowContants.RESET_PREINPUT_PARAMS: {
+    case workflowConstants.RESET_PREINPUT_PARAMS: {
       return defaultState;
     }
 
-    case workflowContants.APPLY_PRE_INPUT: {
+    case workflowConstants.APPLY_PRE_INPUT: {
       const nextState = { ...state };
       const { elementId, preInputs, method } = action;
       nextState.appliedPreInputs[elementId] = {
@@ -33,14 +33,14 @@ export function workflowPreInputs(state = defaultState, action) {
       return nextState;
     }
 
-    case workflowContants.SET_PRE_INPUTS: {
+    case workflowConstants.SET_PRE_INPUTS: {
       const nextState = { ...state };
       const { preInputs } = action;
       nextState.appliedPreInputs = preInputs;
       return nextState;
     }
 
-    case workflowContants.TOGGLE_PRE_INPUT_DIALOG: {
+    case workflowConstants.TOGGLE_PRE_INPUT_DIALOG: {
       const nextState = {
         ...state,
         showPreInputDialog: !state.showPreInputDialog

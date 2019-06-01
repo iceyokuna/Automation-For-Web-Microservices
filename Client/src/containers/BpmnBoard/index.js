@@ -259,27 +259,28 @@ class BpmnContainer extends Component {
   }
 
   onSubmitDiagram = (debug) => {
-    const { name, description, generatedForms, appliedMethods, mode } = this.props.workflow;
     this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       if (err) {
         console.error(err);
       } else {
         const bpmnJson = JSON.parse(
           xml2json(xml, { compact: false, spaces: 2 }));
-
         const { workflowConditions, workflowPreInputs,
-          workflowTimers, dispatch } = this.props;
+          workflowTimers, workflow, dispatch } = this.props;
+        const { name, description, generatedForms,
+          appliedMethods, appliedAsyncs, mode } = workflow;
         const { appliedConditions } = workflowConditions;
         const { appliedPreInputs } = workflowPreInputs;
         const { appliedTimers } = workflowTimers;
 
         const workflowData = {
           bpmnJson,
+          appliedAsyncs,
           appliedMethods,
           appliedConditions,
           appliedPreInputs,
           generatedForms,
-          appliedTimers
+          appliedTimers,
         }
 
         if (debug === "ToEngine") {

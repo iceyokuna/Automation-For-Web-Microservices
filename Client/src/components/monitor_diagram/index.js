@@ -181,6 +181,9 @@ class index extends Component {
     const overlays = this.viewer.get('overlays');
     overlays.clear();
 
+    // Highlight lane of current user
+    this.highlightUserlane();
+
     // Highlight executed elements
     executedItems.forEach((item, index) => {
       this.highlightExecutedElement(item)
@@ -188,7 +191,6 @@ class index extends Component {
 
     // Highlight current pointer
     this.highlightCurrentElement(currentElement);
-    this.highlightUserlane();
   }
 
   onClose = () => {
