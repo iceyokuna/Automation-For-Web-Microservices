@@ -64,6 +64,20 @@ class WorkflowView(APIView):
             else:
                 return Response({"detail": request.user.username+" does not have access to the workflow"}, status=HTTP_200_OK)
 
+@permission_classes((AllowAny,))
+class InternalWorkflowView(APIView):
+    def put(self, request):
+        if(request.data.get('id')):
+            
+            new_data =request.data.get('data')
+            workflow = Workflow.objects.filter(id=request.data.get('id')).update(**new_data)
+                
+            return Response({"detail": "successfully updated"}, status=HTTP_200_OK)
+        else:
+            return Response(status=HTTP_400_BAD_REQUEST)
+
+    
+
 #@permission_classes((IsAuthenticated,))
 class CollaboratorView(APIView):
     def get(self, request, workflow_id=0):
@@ -112,6 +126,7 @@ class WorkflowDeleteView(APIView):
             return Response({"detail":data}, status=HTTP_200_OK)
         return Response({"detail":"The selected workflow does not exist"}, status=HTTP_200_OK)
 
+@permission_classes((AllowAny,))
 class WorkflowObjView(APIView):
     def get(self, request, workflow_id = 0):
         
