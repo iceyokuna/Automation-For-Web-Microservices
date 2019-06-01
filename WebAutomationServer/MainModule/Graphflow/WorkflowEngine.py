@@ -174,11 +174,13 @@ class WorkflowEngine:
                 minutes = timer_list[timer]['minutes']
                 seconds = timer_list[timer]['seconds']
                 event = self.state[timer]
-                event.setTimeEvent(date, time)
+                event.setCountDownType()
+                event.setCountDown({"days":days, "hours":hours, "minutes":minutes, "secounds":seconds}})
             except:
                 date = timer_list[timer]['targetDate']
                 time = timer_list[timer]['targetTime'] + ":00"
                 event = self.state[timer]
+                event.setDateTimeType()
                 event.setTimeEvent(date, time)
 
     #setup condition to gateway
