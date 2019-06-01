@@ -5,7 +5,7 @@ import ServiceList from 'components/service_list'
 import { connect } from 'react-redux';
 import { workflowActions } from 'actions';
 
-function TaskProperty({ services, isAsync, taskId, onSelectServiceMethod, ...props }) {
+function TaskProperty({ services, taskId, onSelectServiceMethod, ...props }) {
 
   const onToggleAsync = (checked) => {
     props.dispatch(workflowActions.applyAsyncToTask(taskId, checked))
@@ -16,7 +16,7 @@ function TaskProperty({ services, isAsync, taskId, onSelectServiceMethod, ...pro
       <CheckBox
         toggle
         label="Asynchronous"
-        checked={isAsync}
+        checked={props.appliedAsyncs[taskId] == true ? true : false}
         onChange={event => onToggleAsync(event.target.checked)} />
       <Box fill="horizontal">
         <ServiceList services={services}
@@ -28,9 +28,8 @@ function TaskProperty({ services, isAsync, taskId, onSelectServiceMethod, ...pro
 
 const mapStateToProps = (state) => {
   return {
-
+    appliedAsyncs: state.workflow.appliedAsyncs,
   }
 }
-
 
 export default connect(mapStateToProps)(TaskProperty);

@@ -377,29 +377,13 @@ function setupExistingWorkflow() {
     const currentFlow = getState().workflowMyFlows.currentFlow;
 
     // Load workflow
-
     const { appliedConditions, appliedPreInputs, appliedTimers,
-      ...dataForWorkflowReducer } = currentFlow;
+      workflowObject, ...dataForWorkflowReducer } = currentFlow;
 
     dispatch({
       type: workflowConstants.SETUP_EXISTING_WORKFLOW,
       dataForWorkflowReducer,
     });
-
-    // dispatch({
-    //   type: workflowConstants.SET_BPMN_JSON,
-    //   bpmnJson: currentFlow.bpmnJson,
-    // })
-
-    // dispatch({
-    //   type: workflowConstants.SET_APPLIED_METHODS,
-    //   appliedMethods: currentFlow.appliedMethods,
-    // })
-
-    // dispatch({
-    //   type: workflowConstants.SET_GENERATED_FORMS,
-    //   generatedForms: currentFlow.generatedForms,
-    // })
 
     // Load workflow's conditions
     const { appliedMethods } = getState().workflow;
