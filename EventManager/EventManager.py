@@ -50,6 +50,21 @@ def messageEvent():
     response.status_code = 201
     return response
 
+@app.route('/clear', methods=['POST'])
+def messageEvent():
+    data = request.form.to_dict()
+    if(request.method == 'POST'):
+        workflowId = data['workflowId']
+        time_event_data = time_db_ref.get()
+        for event in time_event_data:
+            if(str(time_event_data[event][workflowId]) == str(workflowId)):
+                time_db_ref.update({event:None})
+
+    #pack to JSON response
+    response = jsonify({'status':'201'})
+    response.status_code = 201
+    return response
+
 if __name__ == '__main__':
     #ping firebase server to check time event (to trigger time event)
     worker = BackgroundThread(1, "PingFirebase", time_db_ref)
