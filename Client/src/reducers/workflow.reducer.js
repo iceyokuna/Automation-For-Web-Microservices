@@ -79,6 +79,10 @@ export function workflow(state = defaultState, action) {
       return nextState;
     }
 
+    case workflowConstants.SET_APPLIED_ASYNCS: {
+      return { ...state, appliedAsyncs: action.appliedAsyncs };
+    }
+
     case workflowConstants.SET_BPMN_JSON: {
       return { ...state, bpmnJson: action.bpmnJson };
     }
