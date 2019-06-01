@@ -193,17 +193,9 @@ class WorkflowEngine:
             #set as a input to task
             task.setInput(Input)
 
-        
     #message from client input (run time)
     def next(self, message , user_name, status = "done"):
-        #check execution permission (lane owner)
-        try:
-            if(user_name != self.state[self.currentState["current"]].getLaneOwner()):
-                wait_collaborator_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\"></div>"}
-                return {"HTML":"WAIT_LANE", "taskId":self.currentState["current"]}
-        except:
-            pass
-
+        
         #get object from current execution
         element_object = None
         if(message['taskId'] == None):
@@ -212,9 +204,6 @@ class WorkflowEngine:
             #execute task, if message[taskId] is task object
             if(isinstance(self.state[message['taskId']], ServiceTask)):
                 self.execute(message)
-            elif(isinstance(self.state[message['taskId']], TimeEvent)):
-                wait_time_event_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\">Please!! wait time event is pending</div>"}
-                return ({"HTML": wait_time_event_form, "taskId":self.currentState["current"]})  
 
             #update state (for parallel change element_object to get from message)
             #send execution notification detail
@@ -239,6 +228,13 @@ class WorkflowEngine:
 
         #Task case
         if(isinstance(element_object, ServiceTask)):
+            #check execution permission (lane owner)
+            try:
+                if(user_name != self.state[self.currentState["current"]].getLaneOwner()):
+                    wait_collaborator_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\"></div>"}
+                    return {"HTML":"WAIT_LANE", "taskId":self.currentState["current"]}
+            except:
+                pass
             if(element_object.getHTML() is None):
                 #no html form
                 return self.next({'formInputValues': element_object.getInput(), 'taskId': element_object.getId()}, user_name)
@@ -255,8 +251,8 @@ class WorkflowEngine:
             url = "http://127.0.0.1:5000/timeEvent"
             payload = {"elementEventId": element_object.getId(), "time":element_object.getTriggerTime(), "date":element_object.getTriggerDate()}
             result = requests.post(url , data=payload)
-            wait_time_event_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\">Please wait time event is pending</div>"}
-            return ({"HTML": wait_time_event_form, "taskId":element_object.getId()})          
+            element_object.pending()
+            return ({"HTML": "WAIT_TIME", "taskId":element_object.getId()})          
 
         #exclusive gateway case
         if(isinstance(element_object, ExclusiveGateway)):
