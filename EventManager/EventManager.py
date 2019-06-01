@@ -50,15 +50,17 @@ def messageEvent():
     response.status_code = 201
     return response
 
+#Clear event of workflow
 @app.route('/clear', methods=['POST'])
-def messageEvent():
+def clear():
     data = request.form.to_dict()
     if(request.method == 'POST'):
         workflowId = data['workflowId']
         time_event_data = time_db_ref.get()
-        for event in time_event_data:
-            if(str(time_event_data[event][workflowId]) == str(workflowId)):
-                time_db_ref.update({event:None})
+        if(time_event_data != None):
+            for event in time_event_data:
+                if(str(time_event_data[event]['workflowId']) == str(workflowId)):
+                    time_db_ref.update({event:None})
 
     #pack to JSON response
     response = jsonify({'status':'201'})
