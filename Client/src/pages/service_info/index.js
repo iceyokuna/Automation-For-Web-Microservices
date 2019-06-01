@@ -235,7 +235,9 @@ const ServiceInfo = (props) => {
         <Modal show={showMethodDialog}
           width="650px"
           onCloseModal={() => setShowMethodDialog(false)}
-          header="Method's information" component={renderMethodInfo()} />
+          header="Method's information" >
+          {renderMethodInfo()}
+        </Modal>
       </Box>
     </AppPage>
   );

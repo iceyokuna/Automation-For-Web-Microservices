@@ -41,7 +41,9 @@ export const socketMiddleware = store => next => action => {
             } break;
 
             case socketConstants.WAIT: {
-
+              // console.log("%c Data", "color: red; font-size: 20px;");
+              // console.log({ data });
+              store.dispatch(workflowActions.showWaitingDialog(data.message));
             } break;
 
             case socketConstants.FINISH_ALL_FORMS: {
@@ -59,25 +61,9 @@ export const socketMiddleware = store => next => action => {
       }
 
       socket.onclose = (res) => {
+        toast.error("Socket connection is closed");
         console.error(res);
       };
-
-    } break;
-
-    case socketConstants.SEND_MESSAGE: {
-      // Payload must contain 'message' key
-      const payload = JSON.stringify({
-        message: {
-          type: action.type,
-          title: 'My title',
-          body: 'Good morning'
-        }
-      })
-      try {
-        socket.send(payload);
-      } catch (error) {
-        console.error(error);
-      }
 
     } break;
 
@@ -91,6 +77,7 @@ export const socketMiddleware = store => next => action => {
       try {
         socket.send(payload);
       } catch (error) {
+        toast.error("Can't start workflow");
         console.error(error);
       }
     } break;
@@ -102,10 +89,9 @@ export const socketMiddleware = store => next => action => {
         }
       })
       try {
-        console.log({ payload });
         socket.send(payload);
       } catch (error) {
-        console.log("ERROR");
+        toast.error("Can't get the next form");
         console.error(error);
       }
     } break;

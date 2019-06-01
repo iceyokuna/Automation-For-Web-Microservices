@@ -39,6 +39,10 @@ export const workflowActions = {
   setWorkflowId,
   setBpmnJson,
   setCurrentElement,
+
+  showWaitingDialog,
+  closeWaitingDialog,
+
   toggleMemberDialog,
   toggleTimerDialog,
   togglePreInputDialog,
@@ -52,6 +56,25 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function showWaitingDialog(message) {
+  return {
+    type: workflowConstants.SHOW_WAITING_DIALOG,
+    message,
+  }
+}
+
+function closeWaitingDialog() {
+  return {
+    type: workflowConstants.CLOSE_WAITING_DIALOG,
+  }
+}
+
+function toggleWaitingDialog() {
+  return {
+    type: workflowConstants.TOGGLE_WAITING_DIALOG,
+  }
+}
 
 function applyAsyncToTask(taskId, checked) {
   return {

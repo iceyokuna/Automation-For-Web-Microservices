@@ -22,6 +22,10 @@ const defaultState = {
   showMemberDialog: false,
   showEditInfoDialog: false,
   showFormTypeDialog: false,
+
+  showWaitingDialog: false,
+  waitingMessage: "",
+
   mode: "CREATE_NEW",
 }
 
@@ -29,6 +33,21 @@ const initState = { ...defaultState };
 
 export function workflow(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowConstants.SHOW_WAITING_DIALOG: {
+      return { ...state,
+         showWaitingDialog: true,
+         waitingMessage: action.message, 
+        };
+    }
+
+    case workflowConstants.CLOSE_WAITING_DIALOG: {
+      return { ...state, showWaitingDialog: false };
+    }
+
+    case workflowConstants.TOGGLE_WAITING_DIALOG: {
+      return { ...state, showWaitingDialog: !state.showWaitingDialog };
+    }
 
     case workflowConstants.APPLY_ASYNC_TO_TASK: {
       const nextState = { ...state };
