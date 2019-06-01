@@ -72,7 +72,7 @@ body {
   right: 360px !important;
 }
 
-table {
+/* table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 15px;
@@ -101,4 +101,4 @@ tr.service {
 
 tr.service:hover {
   background-color: #d3d3d3;
-}
+} */

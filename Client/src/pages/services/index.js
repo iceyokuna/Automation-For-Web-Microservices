@@ -2,8 +2,13 @@ import React, { Component, } from 'react'
 import {
   Box, Button, Text,
   Heading,
+  Table,
+  TableCell,
+  TableBody,
+  TableHeader,
 } from 'grommet';
-import { Add, Close } from 'grommet-icons'
+import { Add, Close } from 'grommet-icons';
+import { TableRow } from 'style';
 
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
@@ -67,36 +72,42 @@ class index extends Component {
     return (
       <Box animation={["fadeIn"]} pad="medium"
         background="light-0" round={{ size: "small" }}>
-        <table>
-          <tr>
-            <th>Service name</th>
-            <th>Service info</th>
-          </tr>
-          {userServices.data.map((service, index) =>
-            <tr className="service" onClick={() => this.onSelectService(index, service.id)}>
-              <td>{service.name || "Untitled"}</td>
-              <td>
-                <Box justify="between" direction="row" align="center">
-                  <Text>
-                    {service.info || "Undefined"}
-                  </Text>
-                  <Button onClick={(e) => {
-                    e.stopPropagation();
-                    this.onDeleteUserService(service)
-                  }}
-                    icon={<Close size="14px" />} />
-                </Box>
-              </td>
-            </tr>
-          )}
-        </table>
 
-        <Box direction="row" justify="end" align="center">
-          <Button label="Add service" color="accent-1"
-            icon={<Add />}
-            primary onClick={this.onAddService} />
+        <Table caption="Default Table">
+          <TableHeader>
+            <TableRow>
+              <TableCell key="1" scope="col" align="left">
+                <Text>Service name</Text>
+              </TableCell>
+              <TableCell key="2" scope="col" align="left">
+                <Text>Service info</Text>
+              </TableCell>
+            </TableRow>
+          </TableHeader>
 
-        </Box>
+          <TableBody>
+            {userServices.data.map((service, index) =>
+              <TableRow onClick={() => this.onSelectService(index, service.id)}>
+                <TableCell ho>
+                  <Text weight="bold">{service.name || "Untitled"}</Text>
+                </TableCell>
+                <TableCell>
+                  <Box justify="between" direction="row" align="center" fill>
+                    <Text>
+                      {service.info || "Undefined"}
+                    </Text>
+                    <Button onClick={(e) => {
+                      e.stopPropagation();
+                      this.onDeleteUserService(service)
+                    }}
+                      icon={<Close size="14px" />} />
+                  </Box>
+                </TableCell>
+              </TableRow>
+            )}
+
+          </TableBody>
+        </Table>
       </Box>
     );
   }
@@ -105,8 +116,10 @@ class index extends Component {
     return (
       <div style={global.mainContainer}>
         <Box pad={{ horizontal: 'medium' }}>
-          <Box direction="row" align="center">
+          <Box direction="row" align="center" justify="between" margin={{ bottom: 'small' }}>
             <Heading size='small' margin={{ right: 'medium' }}>My services</Heading>
+            <Button label="Service" color="accent-1"
+              icon={<Add />} primary onClick={this.onAddService} />
           </Box>
           {this.renderServices()}
         </Box>
