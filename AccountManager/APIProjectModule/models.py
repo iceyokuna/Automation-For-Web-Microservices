@@ -14,6 +14,7 @@ class Workflow(models.Model):
     appliedConditions = JSONField(null=True)
     appliedPreInputs = JSONField(null=True)
     appliedTimers = JSONField(null=True)
+    appliedAsyncs = JSONField(null=True)
     generatedForms = JSONField(null=True)
     workflowObject = models.TextField(null=True)#models.BinaryField(default=None)
 

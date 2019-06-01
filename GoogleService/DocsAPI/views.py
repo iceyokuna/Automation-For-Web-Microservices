@@ -32,13 +32,10 @@ import os
 class CreateView(APIView):
 
     def post(self, request):
-        title = request.data.get('title')
-        f_name = request.data.get('f_name')
-        l_name = request.data.get('l_name')
-        dct = request.data.get('dct')
+        auth = request.data.pop('auth')
+        title = request.data.pop('title')
+        dct = request.data
         
-        
-        auth = request.data.get('auth')
         AUTH = auth
         SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents']
         CLIENT_SECRET_FILE = 'DocsAPI/client_secrets.json'
@@ -50,42 +47,17 @@ class CreateView(APIView):
         file_metadata = {'name': title,'mimeType': 'application/vnd.google-apps.document'}
         media = http.MediaFileUpload('DocsAPI/template#1.html',mimetype='text/html',resumable=True)
         file = drive_service.files().create(body=file_metadata,media_body=media).execute()
-        
-        
         service = discovery.build('docs', 'v1', credentials=creds)
-        
-        #doc = service.documents().create(body=template).execute()
-        #docId = doc.get('documentId')
        
         requests = []
         for i in dct:
-            #i = '{{'+i+'}}'
             replace = dct[i]
             requests.append({'replaceAllText': {'containsText': {'text': '{{'+i+'}}' ,'matchCase':  'true'},'replaceText': replace,}})
         
         fileId = file.get('id')
-        '''
-        requests = [
-            {
-                'replaceAllText': {
-                    'containsText': {
-                        'text': '{{f_name}}',
-                        'matchCase':  'true'
-                    },
-                    'replaceText': f_name,
-                }}, {
-                'replaceAllText': {
-                    'containsText': {
-                        'text': '{{l_name}}',
-                        'matchCase':  'true'
-                    },
-                    'replaceText': l_name,
-                }
-            }
-        ]
-        '''
+        
         result = service.documents().batchUpdate(documentId=fileId, body={'requests': requests}).execute()
         
         return Response({"detail":"https://docs.google.com/document/d/"+file.get("id")+"/edit"}, status=HTTP_200_OK)
         
-        # return Response({"detail":requests})
+       
