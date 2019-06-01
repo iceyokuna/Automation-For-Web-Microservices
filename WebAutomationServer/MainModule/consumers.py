@@ -54,7 +54,6 @@ class MainConsumer(WebsocketConsumer):
                         'message' : 'Execution is done'
                     }
                 )) 
-                return 
             elif (HTML == "WAIT_LANE"): 
                 self.send(text_data=json.dumps(
                     {
@@ -64,8 +63,6 @@ class MainConsumer(WebsocketConsumer):
                         'message' : 'Please wait other collaborator for execution !!'
                     }
                 )) 
-                return
-
             elif (HTML == "WAIT_TIME"): 
                 self.send(text_data=json.dumps(
                     {
@@ -75,29 +72,28 @@ class MainConsumer(WebsocketConsumer):
                         'message' : 'Please wait time event to trigger !!'
                     }
                 ))
-                return        
+            else:
+                #response to send html form to client
+                self.send(text_data=json.dumps(
+                {
+                    'type': "workflow/NEXT_FORM_SUCCESS",
+                    'taskId': taskId,
+                    'form': HTML
+                }
+                ))
             
             #write workflow state (update)
 #            with open('HTMLs.pkl', 'wb') as f:
 #                pickle.dump(workflowEngine_load, f)
             pickled_obj = pickle.dumps(workflowEngine_load)
             pickled_obj_str = str(pickled_obj)
-            
+
             headers = {"Authorization":("Token " + str(user_token)), "Content-Type":"application/json"}
             url = "http://178.128.214.101:8003/api/workflow"
             payload = {"id": int(workflow_id),"data": {"workflowObject": pickled_obj_str}}
             data = json.dumps(payload)
             r = requests.put(url, headers=headers, data=data)
             print(r.content)
-
-            #response to send html form to client
-            self.send(text_data=json.dumps(
-                {
-                    'type': "workflow/NEXT_FORM_SUCCESS",
-                    'taskId': taskId,
-                    'form': HTML
-                }
-            ))
 
 class EndConsumer(WebsocketConsumer):
     def connect(self):
