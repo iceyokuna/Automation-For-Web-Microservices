@@ -258,7 +258,7 @@ class WorkflowEngine:
                        "userId": user_name}
             result = requests.post(url , data=payload)
             element_object.pending()
-            print(element_object.getId())
+            self.state[self.currentState["current"]] = element_object
             return ({"HTML": "WAIT_TIME", "taskId":element_object.getId()})          
 
         #exclusive gateway case
@@ -377,7 +377,7 @@ class WorkflowEngine:
         element_object = self.state[self.currentState["current"]]
         element_object.trigger()
         self.state[self.currentState["current"]] = element_object
-        self.next({'formInputValues': None, 'taskId': None}, user_name)
+        self.next({'formInputValues': None, 'taskId': None}, user_id)
 
     #use to show all finite state machine formal defination
     def showDefination(self):
