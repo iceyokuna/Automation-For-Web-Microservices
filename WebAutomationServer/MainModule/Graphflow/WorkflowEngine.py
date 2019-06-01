@@ -245,7 +245,10 @@ class WorkflowEngine:
         #TimeEvent case (Intermidiate)
         if(isinstance(element_object, TimeEvent)):
             #check triggered first
-            
+            if(element_object.isTriggered()):
+                return self.next({'formInputValues': None, 'taskId': element_object.getId()}, user_name)
+            elif(element_object.isPending()):
+                return ({"HTML": "WAIT_TIME", "taskId":element_object.getId()})
             eventDefination = element_object.getEventDefination()
             #push event to event queue using cloud service
             url = "http://127.0.0.1:5000/timeEvent"
