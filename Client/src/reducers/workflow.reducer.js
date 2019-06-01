@@ -7,6 +7,7 @@ const defaultState = {
   ],
   workflowId: null,
   appliedMethods: {},
+  appliedAsyncs: {},
   executingForm: null,
   executingTaskId: null,
   formsDone: false,
@@ -41,6 +42,17 @@ export function workflow(state = defaultState, action) {
 
     }
 
+    case workflowContants.APPLY_ASYNC_TO_TASK: {
+      const nextState = { ...state };
+      const { checked, taskId } = action;
+      if (checked == true) {
+        nextState.appliedAsyncs[taskId] = checked;
+      } else {
+        delete nextState.appliedAsyncs[taskId];
+      }
+      return nextState;
+    }
+
     case workflowContants.RESET_WORKFLOW_PARAMS: {
       return defaultState;
     }
@@ -48,7 +60,7 @@ export function workflow(state = defaultState, action) {
     case workflowContants.REMOVE_GENERATED_FORM: {
       const nextState = { ...state };
       const { generatedForms } = nextState;
-      for (let i=0; i < generatedForms.length; i++) {
+      for (let i = 0; i < generatedForms.length; i++) {
         if (generatedForms[i].taskId === action.elementId) {
           generatedForms.splice(i, 1);
           break;

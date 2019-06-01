@@ -24,6 +24,7 @@ export const workflowActions = {
 
   deleteAssociatedVariableOfElement,
 
+  applyAsyncToTask,
   applyMethodToTask,
   applyConditionsToGateWay,
   applyPreInputsToTask,
@@ -51,6 +52,14 @@ export const workflowActions = {
   getMyFlows,
   getAllCollaborators,
 };
+
+function applyAsyncToTask(taskId, checked) {
+  return {
+    type: workflowContants.APPLY_ASYNC_TO_TASK,
+    taskId,
+    checked,
+  }
+}
 
 function resetExecutionState(name, description,
   workflowData, workflowId) {
