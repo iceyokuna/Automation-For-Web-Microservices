@@ -175,7 +175,7 @@ class WorkflowEngine:
                 seconds = timer_list[timer]['seconds']
                 event = self.state[timer]
                 event.setCountDownType()
-                event.setCountDown({"days":days, "hours":hours, "minutes":minutes, "secounds":seconds}})
+                event.setCountDown({"days":days, "hours":hours, "minutes":minutes, "seconds":seconds})
             except:
                 date = timer_list[timer]['targetDate']
                 time = timer_list[timer]['targetTime'] + ":00"
