@@ -22,8 +22,6 @@ def TimerUpdateState(request):
     workflowId = resquest['workflowId']
     userId = resquest['userId']
 
-    message = {}
-
     #read workflow
     workflowEngine_load = WorkflowEngine()
 
@@ -34,14 +32,14 @@ def TimerUpdateState(request):
     workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
 
     #update state
-    #task_data = workflowEngine_load.next(message, userId)
+    task_data = workflowEngine_load.TimerUpdateState(userId)
     print("\n\n\n!!! called !!!\n\n\n")
 
     #update workflow
     pickled_obj = pickle.dumps(workflowEngine_load)
     pickled_obj_str = str(pickled_obj)
     headers = {"Content-Type":"application/json"}
-    url = "http://127.0.0.1:8000/api/internal_workflow/"
+    url = "http://178.128.214.101:8003/api/internal_workflow/"
     payload = {"id": int(workflowId),"data": {"workflowObject": pickled_obj_str}}
     data = json.dumps(payload)
     r = requests.put(url, headers=headers, data=data)
