@@ -2,6 +2,7 @@ from flask import request
 import threading
 import time
 import datetime
+import requests
 
 class BackgroundThread(threading.Thread):
     def __init__(self, threadID, name, time_db_ref):
@@ -22,7 +23,7 @@ class BackgroundThread(threading.Thread):
                     continue
                 #check and trigger event
                 triggered_list = self.getTimeTriggered(time_event_data)
-                self.triggerTimeEvent(triggered_list)
+                self.triggerTimeEvent(triggered_list, time_event_data)
                 ##debuging time event
                 #print("pending time event !!")
                 #print(time_event_data)
@@ -57,10 +58,14 @@ class BackgroundThread(threading.Thread):
         #return list of element_id that are triggered
         return time_trigger_id_list
 
-    def triggerTimeEvent(self, trigger_list):
+    def triggerTimeEvent(self, trigger_list, time_event_data):
         for event_id in trigger_list:
+            workflowId = time_event_data[event_id]['workflowId']
+            userId = time_event_data[event_id]['userId']
             #update workflow
-
+            url = "http://127.0.0.1:8000/time_trigger/"
+            result = requests.post(url , json = {"workflowId": workflowId, "userId":userId})
+            print(result)
             #update state
             print("\n!!!!!!! trigger !!!!!!! ", event_id)
             #remove event from message queue
