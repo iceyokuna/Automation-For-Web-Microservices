@@ -17,8 +17,40 @@ def end_index(request):
 
 #update state from event handler (web hooking)
 @csrf_exempt
-def updateState(request):
+def TimerUpdateState(request):
     resquest = json.loads(request.body.decode('utf-8'))
+    workflowId = resquest['workflowId']
+    userId = resquest['userId']
+
+    message = {}
+
+    #read workflow
+    workflowEngine_load = WorkflowEngine()
+
+    headers = {"Content-Type":"application/json"}
+    url = "http://178.128.214.101:8003/api/workflow/obj/" + str(workflowId)
+    response = requests.get(url, headers=headers)
+    response = json.loads(response.content)
+    workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
+
+    #update state
+    #task_data = workflowEngine_load.next(message, userId)
+    print("\n\n\n!!! called !!!\n\n\n")
+
+    #update workflow
+    pickled_obj = pickle.dumps(workflowEngine_load)
+    pickled_obj_str = str(pickled_obj)
+    headers = {"Content-Type":"application/json"}
+    url = "http://127.0.0.1:8000/api/internal_workflow/"
+    payload = {"id": int(workflowId),"data": {"workflowObject": pickled_obj_str}}
+    data = json.dumps(payload)
+    r = requests.put(url, headers=headers, data=data)
+    print(r.content)
+
+    print("time trigger is triggered")
+    msg = {}
+    msg['message'] = 'triggered success'
+    return HttpResponse(json.dumps(msg),content_type= "application/json")
     
 @csrf_exempt
 def saveFlow(request):
