@@ -16,6 +16,7 @@ export const socketConstants = {
   NEXT_FORM_FAIL: Prefix + 'NEXT_FORM_FAIL',
 
   FINISH_ALL_FORMS: Prefix + 'FINISH_ALL_FORM',
+  WAIT: Prefix + "WAIT",
 
   OPEN_SOCKET: 'OPEN_SOCKET',
   CLOSE_SOCKET: 'CLOSE_SOCKET',

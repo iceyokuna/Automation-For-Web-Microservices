@@ -45,10 +45,27 @@ export function workflow(state = defaultState, action) {
       return defaultState;
     }
 
-    case workflowContants.DELETE_BPMN_ELEMENT: {
+    case workflowContants.REMOVE_GENERATED_FORM: {
       const nextState = { ...state };
-      const { taskId } = action;
-      delete nextState.appliedMethods[taskId];
+      const { generatedForms } = nextState;
+      for (let i=0; i < generatedForms.length; i++) {
+        if (generatedForms[i].taskId === action.elementId) {
+          generatedForms.splice(i, 1);
+          break;
+        }
+      }
+
+      return nextState;
+    }
+
+    case workflowContants.REMOVE_APPLIED_METHOD: {
+      const nextState = { ...state };
+      const { elementId } = action;
+      try {
+        delete nextState.appliedMethods[elementId];
+      } catch (e) {
+        console.error(e);
+      }
       return nextState;
     }
 
