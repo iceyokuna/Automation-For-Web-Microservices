@@ -33,6 +33,7 @@ export const socketMiddleware = store => next => action => {
 
             case socketConstants.NEXT_FORM_SUCCESS: {
               const { form, taskId } = data;
+              store.dispatch(workflowActions.closeWaitingDialog());
               store.dispatch(workflowActions.setExecutingForm(form, taskId));
             } break;
 
@@ -41,8 +42,6 @@ export const socketMiddleware = store => next => action => {
             } break;
 
             case socketConstants.WAIT: {
-              // console.log("%c Data", "color: red; font-size: 20px;");
-              // console.log({ data });
               store.dispatch(workflowActions.showWaitingDialog(data.message));
             } break;
 
