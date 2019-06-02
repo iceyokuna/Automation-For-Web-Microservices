@@ -17,9 +17,14 @@ function closeSocket() {
   }
 }
 
-function openSocket() {
+function openSocket(name, formInputValues, taskId, user, currentWorkflowId) {
   return {
     type: socketConstants.OPEN_SOCKET,
+    name,
+    formInputValues,
+    taskId,
+    user,
+    currentWorkflowId,
   }
 }
 

@@ -1,5 +1,5 @@
 import { socketConstants } from '_constants'
-import { workflowActions } from 'actions'
+import { workflowActions, socketActions } from 'actions'
 import { history } from '_helpers';
 import { toast } from 'react-toastify';
 var socket = null;
@@ -17,11 +17,16 @@ export const socketMiddleware = store => next => action => {
       socket.onopen = (e) => {
         const { currentFlow } = store.getState().workflowMyFlows;
         history.push('/execute_flow/' + currentFlow.id);
+        const {
+          user,
+          currentWorkflowId,
+        } = action;
+        store.dispatch(socketActions.nextForm(null, null, null, user, currentWorkflowId))
       }
       socket.onmessage = (res) => {
         try {
           const data = JSON.parse(res.data);
-          console.log({data});
+          console.log({ data });
           switch (data.type) {
             case socketConstants.START_FLOW_SUCCESS: {
               const { form, taskId } = data;
@@ -48,8 +53,10 @@ export const socketMiddleware = store => next => action => {
             case socketConstants.FINISH_ALL_FORMS: {
               store.dispatch(workflowActions.resetExecutingForm());
               socket.close();
-              history.replace('/my_flows');
               toast.success("Execution is done");
+              setTimeout(() => {
+                window.close();
+              }, 1000);
             } break;
             default:
               break;
@@ -60,7 +67,6 @@ export const socketMiddleware = store => next => action => {
       }
 
       socket.onclose = (res) => {
-        toast.error("Socket connection is closed");
         console.error(res);
       };
 
