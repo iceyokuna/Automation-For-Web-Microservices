@@ -1,18 +1,27 @@
 import React, { Component } from 'react'
 
-import { Box, Text, Accordion, AccordionPanel, Button } from 'grommet'
+import {
+  Box, Text, Accordion,
+  AccordionPanel, Button,
+} from 'grommet'
 import { FormDown } from 'grommet-icons'
 import PlainButton from 'components/plain_button'
 
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'react-redux';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 class index extends Component {
 
   state = {
     activeIndex: [0],
+    activeTabIndex: 0,
     selectedServiceMethod: null,
   };
+
+  onSelectTab = (activeTabIndex) => {
+    this.setState({ activeTabIndex });
+  }
 
   renderPanelHeader = (name, info, currentServiceId, serviceId) => {
     const active = currentServiceId == serviceId ?
@@ -49,8 +58,10 @@ class index extends Component {
     })
   }
 
-  renderServiceItem = () => {
-    const { services, workflow } = this.props;
+  renderServices = (type) => {
+    let { services, workflow } = this.props;
+    services = type === "user" ? services.userServices
+      : services.providedServices;
     const { appliedMethods } = workflow;
     const currentNodeId = workflow.currentNode != null
       ? workflow.currentNode.id : -1;
@@ -70,14 +81,30 @@ class index extends Component {
       </AccordionPanel>)
   }
 
+
   render() {
+    const { activeTabIndex } = this.state;
     return (
       <Scrollbars autoHeightMax={360} autoHeight>
         <Accordion
           style={{ overflow: 'hidden' }}
           onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
         >
-          {this.renderServiceItem()}
+          <Tabs
+            selectedIndex={activeTabIndex}
+            onSelect={this.onSelectTab}>
+            <TabList>
+              <Tab >User</Tab>
+              <Tab >Provided</Tab>
+            </TabList>
+
+            <TabPanel>
+              {this.renderServices("user")}
+            </TabPanel>
+            <TabPanel>
+              {this.renderServices("provided")}
+            </TabPanel>
+          </Tabs>
         </Accordion>
       </Scrollbars>
     );
