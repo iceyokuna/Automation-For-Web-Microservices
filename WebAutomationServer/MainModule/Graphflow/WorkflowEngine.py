@@ -327,32 +327,7 @@ class WorkflowEngine:
         print(str(element_object.getServiceMethodId()))
 
         #call gateway API to execute service
-        #test philips hue
-        '''
-        if(str(element_object.getServiceId()) == "74"):
-            if(str(element_object.getServiceMethodId()) == "84"):
-                url = "http://127.0.0.1:5000/turnon"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "85"):
-                url = "http://127.0.0.1:5000/turnoff"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "86"):
-                url = "http://127.0.0.1:5000/red"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "87"):
-                url = "http://127.0.0.1:5000/green"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "88"):
-                url = "http://127.0.0.1:5000/blue"
-                requests.post(url , data= {})
-        '''
-        #test line
-        if(str(element_object.getServiceId()) == "4"):
-            url = "https://safe-beyond-22181.herokuapp.com/notify"
-            user_id = message['formInputValues']['user_id']['value']
-            message_data = message['formInputValues']['message']['value']
-            request_data = {"user_id":user_id, "message":message_data}
-            requests.post(url , data= request_data)
+        self.callService(message, str(element_object.getServiceId()), str(element_object.getServiceMethodId()))
 
     def sendNotification(self, executeBy , executeTaskName):
         title =  "Iceyo " + " update '" + str(self.workflowName) + "'\n(" + executeTaskName +")"
@@ -409,5 +384,51 @@ class WorkflowEngine:
         print("END STATE -> " + str(self.endState) + "\n")
         print("TRANSITION FUNCTION ->  " + str(self.transition) + "\n")
         print()
+
+    def callService(self ,message ,service_id ,service_method):
+        try:
+            #test philips hue
+            if(str(service_id) == "74"):
+                if(str(service_method) == "84"):
+                    url = "http://127.0.0.1:5000/turnon"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "85"):
+                    url = "http://127.0.0.1:5000/turnoff"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "86"):
+                    url = "http://127.0.0.1:5000/red"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "87"):
+                    url = "http://127.0.0.1:5000/green"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "88"):
+                    url = "http://127.0.0.1:5000/blue"
+                    requests.post(url , data= {})
+            
+            #test email
+            if(str(service_id) == "1"):
+                email = message['formInputValues']['email']['value']
+                subject = message['formInputValues']['subject']['value']
+                message_data = message['formInputValues']['message']['value']
+
+                request_input = {"receiver":[email],"emailBody":message_data,"emailTitle":subject}
+                requests.post('http://127.0.0.1:8001/api/email', json= request_input)
+
+            #test Zmote
+
+
+            #test tts
+
+
+            #test line
+            if(str(service_id) == "4"):
+                url = "https://safe-beyond-22181.herokuapp.com/notify"
+                user_id = message['formInputValues']['user_id']['value']
+                message_data = message['formInputValues']['message']['value']
+                request_data = {"user_id":user_id, "message":message_data}
+                requests.post(url , data= request_data)
+
+        except:
+            print("Local Service calling Error")
 
 
