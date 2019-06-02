@@ -22,7 +22,9 @@ export function availableServices(state = defaultState, action) {
                 return item;
             });
 
-            nextState.data = [...userServices, ...action.allServices];
+            // nextState.data = [...userServices, ...action.allServices];
+            nextState.data.userServices = userServices;
+            nextState.data.providedServices = action.allServices;
             nextState.loading = false;
             return nextState;
         }
