@@ -21,7 +21,7 @@ import ServiceAdd from 'pages/service_add'
 
 import { Route, Switch, Redirect } from 'react-router-dom'
 
-import Media from 'react-media'
+import Media from 'react-media';
 
 import { history, askForPermissioToReceiveNotifications } from '_helpers';
 import { notificationServices } from 'services'

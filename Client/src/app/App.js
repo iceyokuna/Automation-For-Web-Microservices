@@ -30,9 +30,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 Box.defaultProps.responsive = false;
 
 const App = () => (
-  <Router history={history}>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate loading={true} persistor={persistor}>
+      <Router history={history}>
         <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <ToastContainer hideProgressBar position="top-center"
 
@@ -54,9 +54,9 @@ const App = () => (
             {/* <Redirect from="*" to="/my_flows" /> */}
           </Switch>
         </Grommet>
-      </PersistGate>
-    </Provider>
-  </Router >
+      </Router >
+    </PersistGate>
+  </Provider>
 );
 
 export default App;

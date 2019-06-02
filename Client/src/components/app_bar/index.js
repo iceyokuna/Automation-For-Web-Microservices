@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Box, Text, DropButton, Button } from 'grommet'
 import { User, Notification, } from 'grommet-icons'
-
 import { connect } from 'react-redux'
-
+import { history, } from '_helpers';
 import DropContent from 'components/dropdown_content'
 import PlainButton from 'components/plain_button';
 import NotificationItem from 'components/notification_item';
@@ -180,12 +179,10 @@ class AppBar extends Component {
           </Link>
 
           <Box direction="row" gap="medium" pad="small">
-            <Link to="/my_flows">
-              <PlainButton label="Flows" color="light-0" />
-            </Link>
-            <Link to="/services">
-              <PlainButton label="Services" color="light-0" />
-            </Link>
+            <PlainButton label="Flows" color="light-0"
+              onClick={() => history.push('/my_flows')} />
+            <PlainButton label="Services" color="light-0"
+              onClick={() => history.push('/services')} />
           </Box>
 
         </Box>
