@@ -90,7 +90,6 @@ class FlowDetail extends Component {
     // })
   }
 
-
   onCloseDock = () => {
     this.setState({
       showViewerDock: !this.state.showViewerDock
@@ -98,8 +97,9 @@ class FlowDetail extends Component {
   }
 
   onExecuteFlow = () => {
-    const { dispatch } = this.props;
-    dispatch(socketActions.openSocket());
+    const { dispatch, currentFlow, } = this.props;
+    // dispatch(socketActions.openSocket());
+    window.open(`/execute_flow/${currentFlow.id}`);
   }
 
   onResetExecutionState = () => {

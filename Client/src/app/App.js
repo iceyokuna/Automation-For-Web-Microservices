@@ -19,40 +19,44 @@ import { Close, UserAdd } from 'grommet-icons'
 import appTheme from 'theme';
 
 import { Provider } from 'react-redux';
-import { store, history } from '_helpers';
+import { store, persistor, history } from '_helpers';
 
 import PrivateRoute from 'components/private_route'
 import { ToastContainer } from 'react-toastify';
-import ReactTooltip from 'react-tooltip'
+import ReactTooltip from 'react-tooltip';
+import { PersistGate } from 'redux-persist/integration/react'
+
 
 Box.defaultProps.responsive = false;
 
 const App = () => (
-  <Router history={history}>
-    <Provider store={store}>
-      <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <ToastContainer hideProgressBar position="top-center"
-          
-          closeButton={<Close color="#fff" size="14px" />} />
+  <Provider store={store}>
+    <PersistGate loading={true} persistor={persistor}>
+      <Router history={history}>
+        <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <ToastContainer hideProgressBar position="top-center"
 
-        <ReactTooltip effect="solid" />
-        
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/reset_password" component={ResetPassword} />
+            closeButton={<Close color="#fff" size="14px" />} />
 
-          {/* For dev */}
-          <Route exact path="/test_modeler" component={ModelWorkflow} />
-          <Route exact path="/test_component" component={Test} />
-          <Route exact path="/execute_flow/:flowId" component={ExecuteFlow} />
+          <ReactTooltip effect="solid" />
 
-          <PrivateRoute path="/" component={Home} />
-          <Route component={NotFound} />
-          {/* <Redirect from="*" to="/my_flows" /> */}
-        </Switch>
-      </Grommet>
-    </Provider>
-  </Router >
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/reset_password" component={ResetPassword} />
+
+            {/* For dev */}
+            <Route exact path="/test_modeler" component={ModelWorkflow} />
+            <Route exact path="/test_component" component={Test} />
+            <Route exact path="/execute_flow/:flowId" component={ExecuteFlow} />
+
+            <PrivateRoute path="/" component={Home} />
+            <Route component={NotFound} />
+            {/* <Redirect from="*" to="/my_flows" /> */}
+          </Switch>
+        </Grommet>
+      </Router >
+    </PersistGate>
+  </Provider>
 );
 
 export default App;

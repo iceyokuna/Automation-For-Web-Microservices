@@ -11,16 +11,17 @@ import Modal from 'components/modal';
 
 class ExecuteFlow extends Component {
 
-  state = {
-    currentFormHtml: null,
-    currentFormCss: null,
-    currentFormJs: null,
-  }
-
-  componentDidMount = () => {
-    const { dispatch, authentication, currentWorkflowId } = this.props;
+  constructor(props) {
+    super(props);
+    const { dispatch, authentication, currentWorkflowId } = props;
     const user = authentication.user;
-    dispatch(socketActions.nextForm(null, null, null, user, currentWorkflowId));
+    dispatch(socketActions.openSocket(null, null, null, user, currentWorkflowId));
+
+    this.state = {
+      currentFormHtml: null,
+      currentFormCss: null,
+      currentFormJs: null,
+    }
   }
 
   componentWillReceiveProps = (nextProps) => {
