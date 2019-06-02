@@ -107,7 +107,7 @@ class ExecuteFlow extends Component {
           <Box gap="small">
             <Text>{waitingMessage}</Text>
             <Button alignSelf="end" label="Go back"
-              primary onClick={this.onAcceptWaitingStatus()} />
+              primary onClick={this.onAcceptWaitingStatus} />
           </Box>
         </Modal>
         <Style css={currentFormCss} />
