@@ -75,7 +75,9 @@ def saveFlow(request):
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
-    workflowEngine.initialize(workflow_id, workflow_name ,elements_list, HTML_list, service_list, preInput_list, condition_list, timer_list)
+    workflowEngine.initialize(workflow_id, workflow_name ,elements_list, HTML_list,
+                              service_list, preInput_list, condition_list, timer_list
+                              )
 
     #Workflow Engine Initiate construction and [save]!!!
 #    with open('HTMLs.pkl', 'wb') as f:
