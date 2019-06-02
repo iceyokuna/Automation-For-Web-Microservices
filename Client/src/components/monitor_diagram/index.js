@@ -74,10 +74,10 @@ class index extends Component {
 
       overlays.add(elementId, {
         position: {
-          bottom: 30,
+          bottom: shape.height / 2,
           right: -10,
         },
-        html: $(`<div>You are here</div>`).css({
+        html: $(`<div> <<< You are here</div>`).css({
           "text-align": 'start',
           color: colors.userLane,
           fontSize: 28,
