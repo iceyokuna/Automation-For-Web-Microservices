@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 
 import { Button, Box, Text } from 'grommet';
+import { CaretUp, } from 'grommet-icons';
 import { FillParent } from 'style'
 import { UniversalStyle as Style } from 'react-css-component'
 import { connect } from 'react-redux'
-import { socketActions, workflowActions, } from 'actions'
-import { Next, Previous } from 'grommet-icons'
-import { toast } from 'react-toastify'
+import { socketActions, workflowActions, logsActions, } from 'actions'
 import Modal from 'components/modal';
+import DockContainer from 'components/execution_log';
+import { OpenDock } from 'style';
+import MonitorDiagram from 'components/monitor_diagram';
 
 class ExecuteFlow extends Component {
 
@@ -95,6 +97,9 @@ class ExecuteFlow extends Component {
     history.goBack();
   }
 
+  onOpenLogs = () => {
+    this.props.dispatch(logsActions.toggleDock());
+  }
 
   render() {
     const { currentFormCss, currentFormHtml, } = this.state;
@@ -103,6 +108,15 @@ class ExecuteFlow extends Component {
 
     return (
       <FillParent>
+        <OpenDock icon={<CaretUp color="#fff"/>}
+          color="accent-4" primary plain={false} 
+          data-tip="Workflow logs" 
+          onClick={this.onOpenLogs} />
+
+        <DockContainer >
+          <MonitorDiagram height="350px" />
+        </DockContainer>
+
         <Modal show={showWaitingDialog} header="Execution status"
           onCloseModal={() => dispatch(workflowActions.closeWaitingDialog())}>
           <Box gap="small">
@@ -125,7 +139,6 @@ class ExecuteFlow extends Component {
         </Box>
       </FillParent>
     );
-
   }
 }
 

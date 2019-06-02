@@ -7,7 +7,8 @@ import { Close } from 'grommet-icons'
 import Scrollbars from 'react-custom-scrollbars';
 
 import { connect } from 'react-redux';
-import { logsActions } from 'actions'
+import { logsActions } from 'actions';
+import MonitorDiagram from 'components/monitor_diagram';
 
 class index extends Component {
 
@@ -22,23 +23,17 @@ class index extends Component {
   }
 
   render() {
-    const { workflowLogs } = this.props;
+    const { children, workflowLogs, } = this.props;
     return (
       <Dock position='bottom' dimMode="none"
         isVisible={workflowLogs.show} dockStyle={{ borderRadius: 12, overflow: 'hidden' }}>
-        <Box pad="small" gap="xsmall" fill>
+        <Box pad="medium" gap="medium" fill>
           <Box direction="row" justify="between" align="center">
-            <Text weight="bold">Execution logs</Text>
+            <Text weight="bold">Monitoring</Text>
             <Button icon={<Close size="14px" />} color="light-0"
               hoverIndicator onClick={this.onClose} />
           </Box>
-          <Box round={{ size: 'small' }} background="light-1">
-            <Scrollbars autoHide style={{ height: 170 }}>
-              <Box pad="small" gap="small">
-                {this.renderLogItems()}
-              </Box>
-            </Scrollbars>
-          </Box>
+          {children}
         </Box>
       </Dock >
     )

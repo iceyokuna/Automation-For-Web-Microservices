@@ -15,7 +15,6 @@ const colors = {
 class index extends Component {
 
   state = {
-    currentTask: {},
     current: true,
   }
 

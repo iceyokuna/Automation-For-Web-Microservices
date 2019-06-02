@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import Background from 'assets/images/background_2.png';
-import { TableRow as TRow } from 'grommet';
+import { TableRow as TRow, Button, } from 'grommet';
 
 const scaleUp = keyframes`
   from {
@@ -11,6 +11,16 @@ const scaleUp = keyframes`
     transform: scale(1.05);
   }
 
+`
+
+export const OpenDock = styled(Button)`
+  position: absolute;
+  bottom: 20px;
+  left: calc(50%);
+  transform: translateX(-50%);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 100%;
 `
 
 export const TableRow = styled(TRow)`

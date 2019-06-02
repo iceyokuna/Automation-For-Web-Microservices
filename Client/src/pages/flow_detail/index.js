@@ -240,15 +240,13 @@ class FlowDetail extends Component {
   }
 
   renderMonitoringDiagram = () => {
-    const { currentTask, } = this.state;
     return (
       <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="medium"
         animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Monitoring</Text>
-        <MonitorDiagram height="350px" currentTask={currentTask} />
+        <MonitorDiagram height="350px" />
       </Box>
-
     );
   }
 

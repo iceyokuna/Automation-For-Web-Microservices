@@ -5,7 +5,7 @@ import { Button, Text,Box, } from 'grommet';
 import { askForPermissioToReceiveNotifications } from '_helpers';
 import { GoogleLogin } from 'react-google-login';
 
-import ExecutionLog from 'components/execution_log';
+import DockContainer from 'components/execution_log';
 import { logsActions } from 'actions';
 import axios from 'axios';
 
