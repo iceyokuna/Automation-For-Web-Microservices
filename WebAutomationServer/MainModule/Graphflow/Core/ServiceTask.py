@@ -9,6 +9,15 @@ class ServiceTask(Activity):
         self.serviceId =  None
         self.serviceMethodId =  None
         self.lane_owner_id = lane_owner_id
+        self.type = "sync"
+
+    def setAsync(self):
+        self.type = "async"
+
+    def isAsync(self):
+        if(self.type == "async"):
+            return True
+        return False
 
     def setLaneOwner(self, lane_owner_id):
         self.lane_owner_id = lane_owner_id
