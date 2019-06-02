@@ -33,7 +33,6 @@ export const socketMiddleware = store => next => action => {
 
             case socketConstants.NEXT_FORM_SUCCESS: {
               const { form, taskId } = data;
-              store.dispatch(workflowActions.closeWaitingDialog());
               store.dispatch(workflowActions.setExecutingForm(form, taskId));
             } break;
 

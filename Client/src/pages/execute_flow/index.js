@@ -88,6 +88,13 @@ class ExecuteFlow extends Component {
     ));
   }
 
+  onAcceptWaitingStatus = () => {
+    const { dispatch, history, } = this.props;
+    dispatch(workflowActions.closeWaitingDialog());
+    history.goBack();
+  }
+
+
   render() {
     const { currentFormCss, currentFormHtml, } = this.state;
     const { dispatch, workflow, history, } = this.props;
@@ -100,7 +107,7 @@ class ExecuteFlow extends Component {
           <Box gap="small">
             <Text>{waitingMessage}</Text>
             <Button alignSelf="end" label="Go back"
-              primary onClick={() => history.goBack()} />
+              primary onClick={this.onAcceptWaitingStatus()} />
           </Box>
         </Modal>
         <Style css={currentFormCss} />
