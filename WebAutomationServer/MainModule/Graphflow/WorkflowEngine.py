@@ -26,7 +26,7 @@ class WorkflowEngine:
         self.workflowName = None
         self.executed = []
         self.collaborator = set()
-
+        self.unjoinStateId = [] #use to mark unjoin state
     #parsing workflow
     def initialize(self, id, name, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
         self.workflowId = id
@@ -363,6 +363,17 @@ class WorkflowEngine:
         'workflow_name': self.workflowName,
         'executedItems':self.executed,
         'currentElement': {'elementId':self.currentState["current"], "elementName": self.state[self.currentState["current"]].getName()}}
+
+        #remove executed not unjoin
+        for i in range (len(self.executed)):
+            elementId = self.executed[i]['elementId']
+            if(isinstance(self.state[elementId], ParallelGateway) and (not self.state[elementId].isJoined())):
+                self.executed.pop(i)
+                break
+
+        #current execution not unjoin
+        if(isinstance(self.state[self.currentState["current"]], ParallelGateway) and (len(self.state[self.currentState["current"]].getFlowReference()) == 1) and (not self.state[self.currentState["current"]].isJoined())):
+            return
 
         for colloaborator in list(self.collaborator):
             url = "http://178.128.214.101:8003/api/send_notification/"
