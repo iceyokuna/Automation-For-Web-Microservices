@@ -13,14 +13,14 @@ const defaultState = {
   //   { detail: "Workflow#1 : transfer task to user#2" },
   //   { detail: "Workflow#1 : transfer task to user#2" },
   // ],
-  show: false,
   loading: false,
-
+  showMonitorDock: false,
+  
   executedItems: [],
   currentElement: {},
 }
 
-export function workflowLogs(state = defaultState, action) {
+export function workflowMonitor(state = defaultState, action) {
   switch (action.type) {
 
     case workflowConstants.RECEIVE_WORKFLOW_STATUS: {
@@ -53,8 +53,8 @@ export function workflowLogs(state = defaultState, action) {
       return { ...state, loading: false, executedItems: [], currentElement: {} };
     }
 
-    case workflowConstants.TOGGLE_LOGS: {
-      return { ...state, show: !state.show };
+    case workflowConstants.TOGGLE_MONITOR_DOCK: {
+      return { ...state, showMonitorDock: !state.showMonitorDock };
     }
 
     default:

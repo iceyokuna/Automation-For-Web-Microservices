@@ -35,7 +35,7 @@ import { CloudUpload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 
 import {
   workflowActions, availableServicesActions,
-  logsActions,
+  monitorActions,
 } from 'actions'
 
 import Spinner from 'react-spinkit'
@@ -237,7 +237,7 @@ class BpmnContainer extends Component {
   }
 
   onOpenLogs = () => {
-    this.props.dispatch(logsActions.toggleDock());
+    this.props.dispatch(monitorActions.toggleDock());
   }
 
   onEditDiagram = () => {

@@ -23,7 +23,7 @@ import TaskItem from 'components/task_item';
 import MemberDialog from 'components/member_dialog';
 
 import { connect } from 'react-redux';
-import { workflowActions, logsActions, socketActions } from 'actions';
+import { workflowActions, monitorActions, socketActions } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
@@ -31,7 +31,10 @@ import { CircleButton, RoundButton } from './style';
 import ReactTooltip from 'react-tooltip';
 import Media from 'react-media';
 import MonitorDiagram from 'components/monitor_diagram';
-import Scrollbars from 'react-custom-scrollbars'
+import Scrollbars from 'react-custom-scrollbars';
+import Modal from 'components/modal';
+import { UniversalStyle as Style } from 'react-css-component';
+
 
 class FlowDetail extends Component {
 
@@ -41,8 +44,10 @@ class FlowDetail extends Component {
       newname: '',
       newDescription: '',
       executeStatus: 'Execute', // To do : Classify "Continue" & "Execute"
-      showViewerDock: false,
       currentTask: null,
+
+      showViewerDock: false,
+      showInspection: false,
     };
   }
 
@@ -77,7 +82,7 @@ class FlowDetail extends Component {
   componentDidMount = () => {
     const { dispatch, currentFlow } = this.props;
     try {
-      dispatch(logsActions.getCurrentLogs(currentFlow.id));
+      dispatch(monitorActions.getCurrentLogs(currentFlow.id));
     } catch (e) {
       this.props.history.push('/my_flows');
     }
@@ -118,6 +123,10 @@ class FlowDetail extends Component {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
+  onCloseInspection = () => {
+    this.setState({ showInspection: !this.state.showInspection });
+  }
+
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
@@ -149,8 +158,8 @@ class FlowDetail extends Component {
   }
 
   renderTaskList = () => {
-    const { workflowLogs } = this.props;
-    const { executedItems } = workflowLogs;
+    const { workflowMonitor } = this.props;
+    const { executedItems } = workflowMonitor;
 
     if (executedItems.length == 0) {
       return (
@@ -272,6 +281,21 @@ class FlowDetail extends Component {
     );
   }
 
+  renderElementInspection = () => {
+    const { generatedForms } = this.props.currentFlow;
+    const { showInspection } = this.state;
+    const { formHtml, formCss, formJs } = generatedForms[0].forms.inputForm;
+    return (
+      <Modal header="Inspection" show={showInspection}
+        onCloseModal={this.onCloseInspection}>
+        <Style css={formCss} />
+        <Text>* Received inputs</Text>
+        <div dangerouslySetInnerHTML={{ __html: formHtml }}
+          style={{ pointerEvents: 'none', opacity: 0.7, }} />
+      </Modal>
+    );
+  }
+
 
   render() {
     const { currentFlow } = this.props;
@@ -282,10 +306,11 @@ class FlowDetail extends Component {
     const { showViewerDock, currentTask, executeStatus } = this.state;
     return (
       <div style={global.mainContainer}>
+        <ReactTooltip effect="solid" />
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
         <MemberDialog />
-        <ReactTooltip effect="solid" />
+        {this.renderElementInspection()}
 
         <Box pad={{ horizontal: 'medium' }}>
           <Box>
@@ -341,7 +366,7 @@ const mapStateToProps = (state) => {
     currentFlow: state.workflowMyFlows.currentFlow,
     workflowCollaborators: state.workflowCollaborators,
     workflow: state.workflow,
-    workflowLogs: state.workflowLogs,
+    workflowMonitor: state.workflowMonitor,
   }
 }
 

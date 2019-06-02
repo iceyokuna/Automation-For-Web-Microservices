@@ -6,7 +6,7 @@ import { askForPermissioToReceiveNotifications } from '_helpers';
 import { GoogleLogin } from 'react-google-login';
 
 import DockContainer from 'components/execution_log';
-import { logsActions } from 'actions';
+import { monitorActions } from 'actions';
 import axios from 'axios';
 
 class Test extends Component {

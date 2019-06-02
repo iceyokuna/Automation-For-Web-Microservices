@@ -5,7 +5,7 @@ import { CaretUp, } from 'grommet-icons';
 import { FillParent } from 'style'
 import { UniversalStyle as Style } from 'react-css-component'
 import { connect } from 'react-redux'
-import { socketActions, workflowActions, logsActions, } from 'actions'
+import { socketActions, workflowActions, monitorActions, } from 'actions'
 import Modal from 'components/modal';
 import DockContainer from 'components/execution_log';
 import { OpenDock } from 'style';
@@ -98,7 +98,7 @@ class ExecuteFlow extends Component {
   }
 
   onOpenLogs = () => {
-    this.props.dispatch(logsActions.toggleDock());
+    this.props.dispatch(monitorActions.toggleDock());
   }
 
   render() {

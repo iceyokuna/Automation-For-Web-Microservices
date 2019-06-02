@@ -7,7 +7,7 @@ import { Close } from 'grommet-icons'
 import Scrollbars from 'react-custom-scrollbars';
 
 import { connect } from 'react-redux';
-import { logsActions } from 'actions';
+import { monitorActions } from 'actions';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 
 import { json2xml, } from 'xml-js';

@@ -1,7 +1,7 @@
 import { workflowConstants } from '_constants';
 import { workflowService } from 'services'
 
-export const logsActions = {
+export const monitorActions = {
   toggleDock,
   getCurrentLogs,
 }
@@ -28,6 +28,6 @@ function getCurrentLogs(workflowId) {
 
 function toggleDock() {
   return {
-    type: workflowConstants.TOGGLE_LOGS,
+    type: workflowConstants.TOGGLE_MONITOR_DOCK,
   }
 }

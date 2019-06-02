@@ -185,8 +185,8 @@ class index extends Component {
 
   componentWillReceiveProps(nextProps) {
 
-    const { workflowLogs } = nextProps;
-    const { executedItems, currentElement, } = workflowLogs;
+    const { workflowMonitor } = nextProps;
+    const { executedItems, currentElement, } = workflowMonitor;
 
 
     const overlays = this.viewer.get('overlays');
@@ -227,7 +227,7 @@ class index extends Component {
 const mapStateToProps = (state) => {
   return {
     currentFlow: state.workflowMyFlows.currentFlow,
-    workflowLogs: state.workflowLogs,
+    workflowMonitor: state.workflowMonitor,
     username: state.authentication.user.username,
   }
 }
