@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import {
   Box, Text, Accordion,
@@ -58,9 +58,10 @@ class index extends Component {
     })
   }
 
-  renderServices = (type) => {
+  renderServices = () => {
+    const { activeTabIndex } = this.state;
     let { services, workflow } = this.props;
-    services = type === "user" ? services.userServices
+    services = activeTabIndex == 0 ? services.userServices
       : services.providedServices;
     const { appliedMethods } = workflow;
     const currentNodeId = workflow.currentNode != null
@@ -85,28 +86,24 @@ class index extends Component {
   render() {
     const { activeTabIndex } = this.state;
     return (
-      <Scrollbars autoHeightMax={360} autoHeight>
+      <Fragment>
+        <Tabs
+          selectedIndex={activeTabIndex}
+          onSelect={this.onSelectTab}>
+          <TabList>
+            <Tab >User</Tab>
+            <Tab >Provided</Tab>
+          </TabList>
+        </Tabs>
+        <Scrollbars autoHeightMax={350} autoHeight>
         <Accordion
           style={{ overflow: 'hidden' }}
           onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
         >
-          <Tabs
-            selectedIndex={activeTabIndex}
-            onSelect={this.onSelectTab}>
-            <TabList>
-              <Tab >User</Tab>
-              <Tab >Provided</Tab>
-            </TabList>
-
-            <TabPanel>
-              {this.renderServices("user")}
-            </TabPanel>
-            <TabPanel>
-              {this.renderServices("provided")}
-            </TabPanel>
-          </Tabs>
+          {this.renderServices()}
         </Accordion>
       </Scrollbars>
+      </Fragment>
     );
   }
 }
