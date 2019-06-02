@@ -29,9 +29,14 @@ class MyFlows extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
-    dispatch(workflowActions.getMyFlows());
     dispatch(workflowActions.resetToInitialParams());
+    dispatch(workflowActions.getMyFlows());
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log({ nextProps });
+  }
+
 
   onCreateFlow = () => {
     const { match, history, dispatch, } = this.props;
