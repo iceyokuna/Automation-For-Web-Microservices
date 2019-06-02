@@ -39,8 +39,7 @@ export default class GrapeJSWrapper extends Component {
 
   loadExistingForm = () => {
     const { initialForm, elementsIdSet } = this.props;
-
-    if (initialForm != null) {
+    if (initialForm != null && initialForm.formHtml !== "") {
       const { editor } = this;
       editor.setComponents(initialForm.formHtml);
       editor.setStyle(initialForm.formCss);
@@ -51,7 +50,6 @@ export default class GrapeJSWrapper extends Component {
       editor.setComponents(html);
     }
   }
-
 
   createFormsByElementIds() {
     const { service, formType, onSetElementId } = this.props;
