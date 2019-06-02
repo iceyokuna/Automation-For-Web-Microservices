@@ -100,9 +100,12 @@ def saveFlow(request):
     print("Restart log: " + str(result))
 
     #Clear Event Queue
-    url = "http://127.0.0.1:5000/clear"
-    result = requests.post(url , data= {'workflowId': workflow_id})
-    print("Restart Event Queue: " + str(result))
+    try:
+        url = "http://127.0.0.1:5000/clear"
+        result = requests.post(url , data= {'workflowId': workflow_id})
+        print("Restart Event Queue: " + str(result))
+    except:
+        print("Event queue is not connecting")
 
     print("------saved workflow object successfully--------")
     #print all finite state machine defination
