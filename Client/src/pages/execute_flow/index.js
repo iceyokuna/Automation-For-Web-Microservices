@@ -94,7 +94,7 @@ class ExecuteFlow extends Component {
   onAcceptWaitingStatus = () => {
     const { dispatch, history, } = this.props;
     dispatch(workflowActions.closeWaitingDialog());
-    history.goBack();
+    window.close();
   }
 
   onOpenLogs = () => {
@@ -108,9 +108,9 @@ class ExecuteFlow extends Component {
 
     return (
       <FillParent>
-        <OpenDock icon={<CaretUp color="#fff"/>}
-          color="accent-4" primary plain={false} 
-          data-tip="Workflow logs" 
+        <OpenDock icon={<CaretUp color="#fff" />}
+          color="accent-4" primary plain={false}
+          data-tip="Workflow logs"
           onClick={this.onOpenLogs} />
 
         <DockContainer >
