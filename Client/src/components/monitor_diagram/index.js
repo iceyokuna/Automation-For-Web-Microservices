@@ -45,6 +45,17 @@ class index extends Component {
     this.bindEvents();
   }
 
+  onClickExecutedElement = (event) => {
+    const elementId = event.target.attributes[0].value;
+    console.log(({ executed: elementId }));
+  }
+
+  onClickCurrentElement = (event) => {
+    const elementId = event.target.attributes[0].value;
+    console.log(({ current: elementId }));
+  }
+
+
   highlightUserlane = () => {
     const { username, currentFlow, } = this.props;
     const overlays = this.viewer.get('overlays');
@@ -52,21 +63,21 @@ class index extends Component {
     const elementId = getElementIdFromLaneValue(username, currentFlow.bpmnJson);
     const shape = elementRegistry.get(elementId);
     if (shape != null) {
-      overlays.add(elementId, {
-        position: {},
-        html: $('<div/>').css({
-          width: shape.width,
-          height: shape.height,
-          border: `5px solid ${colors.userLane}`
-        })
-      });
+      // overlays.add(elementId, {
+      //   position: {},
+      //   html: $('<div/>').css({
+      //     width: shape.width,
+      //     height: shape.height,
+      //     border: `5px solid ${colors.userLane}`
+      //   })
+      // });
 
       overlays.add(elementId, {
         position: {
           bottom: 30,
           right: -10,
         },
-        html: $('<div>You are here</div>').css({
+        html: $(`<div>You are here</div>`).css({
           "text-align": 'start',
           color: colors.userLane,
           fontSize: 28,
@@ -86,14 +97,14 @@ class index extends Component {
     if (shape != null) {
       overlays.add(elementId, {
         position: {},
-        html: $('<div class="currentNode"/>').css(
+        html: $(`<div elementId="${elementId}"/>`).css(
           {
             width: shape.width,
             height: shape.height,
             opacity: 0.2,
             backgroundColor: colors.executed,
           }
-        )
+        ).click(this.onClickExecutedElement),
       });
 
       // Show status below the node
@@ -102,12 +113,13 @@ class index extends Component {
           bottom: -5,
           right: shape.width / 2,
         },
-        html: $('<div>Executed</div>').css({
+        html: $(`
+        <div elementId="${elementId}">Executed</div>`).css({
           "text-align": 'center',
           color: "white",
           fontSize: "14px",
-          backgroundColor: colors.executed
-        }),
+          backgroundColor: colors.executed,
+        }).click(this.onClickExecutedElement),
       });
     }
   }
@@ -122,14 +134,14 @@ class index extends Component {
       // overlays.clear();
       overlays.add(elementId, {
         position: {},
-        html: $('<div class="currentNode"/>').css(
+        html: $(`<div elementId="${elementId}" />`).css(
           {
             width: shape.width,
             height: shape.height,
             opacity: 0.3,
             backgroundColor: colors.currentNode,
           }
-        )
+        ).click(this.onClickCurrentElement),
       });
 
       // Show status below the node
@@ -138,11 +150,11 @@ class index extends Component {
           bottom: -5,
           right: shape.width / 2,
         },
-        html: $('<div>Current</div>').css({
+        html: $(`<div elementId="${elementId}">Current</div>`).css({
           "text-align": 'center',
           color: "white",
           backgroundColor: colors.currentNode
-        }),
+        }).click(this.onClickCurrentElement),
       });
     }
   }
@@ -153,6 +165,7 @@ class index extends Component {
     const eventBus = this.viewer.get('eventBus');
 
     eventBus.on('element.click', (event) => {
+      console.log({ event });
       // const currentElement = event.element.businessObject;
       // const { current } = this.state;
       // if (current) {
