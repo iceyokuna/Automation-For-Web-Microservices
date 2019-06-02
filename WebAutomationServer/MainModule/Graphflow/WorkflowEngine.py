@@ -240,7 +240,8 @@ class WorkflowEngine:
             #check execution permission (lane owner)
             try:
                 if(user_name != self.state[self.currentState["current"]].getLaneOwner()):
-                    wait_collaborator_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\"></div>"}
+                    print(user_name)
+                    print(self.currentState["current"])
                     return {"HTML":"WAIT_LANE", "taskId":self.currentState["current"]}
             except:
                 pass
@@ -294,7 +295,7 @@ class WorkflowEngine:
                     return
                 #base case is still not done, then return to kill thread
                 else:
-                    return
+                    return 
             #start parallel execution
             elif(len(element_object.getFlowReference()) != 1):
                 flow_reference_list = element_object.getFlowReference()
