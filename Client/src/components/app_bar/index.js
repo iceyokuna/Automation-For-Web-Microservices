@@ -185,10 +185,13 @@ class AppBar extends Component {
           <Media query="(min-width: 599px)">
             {matched => matched ? (
               <Box direction="row" gap="medium" pad="small">
-                <PlainButton label="Flows" color="light-0"
-                  onClick={() => history.push('/my_flows')} />
-                <PlainButton label="Services" color="light-0"
-                  onClick={() => history.push('/services')} />
+                <Link to="/my_flows">
+                  <PlainButton label="Flows" color="light-0" />
+                </Link>
+
+                <Link to="/services">
+                  <PlainButton label="Services" color="light-0" />
+                </Link>
               </Box>
             ) : null}
           </Media>
