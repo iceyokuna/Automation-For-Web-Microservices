@@ -320,7 +320,7 @@ class WorkflowEngine:
         print("execute")
         print("by " + str(element_object.getLaneOwner()))
         print(element_object.getId())
-        print(message['formInputValues'])
+        print(element_object.getInput())
         print()
         print("service id :",end ="  ")
         print(str(element_object.getServiceId()),end ="  ")
@@ -375,6 +375,12 @@ class WorkflowEngine:
         element_object.trigger()
         self.state[self.currentState["current"]] = element_object
         self.next({'formInputValues': None, 'taskId': None}, user_id)
+
+    def getPreview(self, taskId):
+        element_object = self.state[taskId]
+        form = element_object.getHTML()
+        inputValue = element_object.getInput()
+        return {'HTML':form, 'formInputValues': inputValue}
 
     #use to show all finite state machine formal defination
     def showDefination(self):
