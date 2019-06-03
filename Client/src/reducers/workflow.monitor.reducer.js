@@ -14,6 +14,7 @@ const defaultState = {
   //   { detail: "Workflow#1 : transfer task to user#2" },
   // ],
   loading: false,
+  loadingInputForm: false,
   showMonitorDock: false,
 
   executedItems: [],
@@ -25,17 +26,18 @@ export function workflowMonitor(state = defaultState, action) {
   switch (action.type) {
 
     case workflowConstants.GET_INPUT_FORM_REQUEST: {
-
+      return { ...state, loadingInputForm: true };
     }
 
     case workflowConstants.GET_INPUT_FORM_SUCCESS: {
       const nextState = { ...state };
       nextState.inputFormValues = action.data;
+      nextState.loadingInputForm = false;
       return nextState;
     }
 
     case workflowConstants.GET_INPUT_FORM_FAILURE: {
-
+      return { ...state, loadingInputForm: false };
     }
 
     case workflowConstants.RECEIVE_WORKFLOW_STATUS: {
