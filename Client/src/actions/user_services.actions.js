@@ -103,7 +103,7 @@ function uploadNewService() {
       res => {
         dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_SUCCESS, data: res.data });
         toast.success("A new service is added");
-        history.replace('/setting/services');
+        history.replace('/services');
       }
     ).catch(e => {
       dispatch({ type: userServicesConstants.CREATE_NEW_USER_SERVICE_FAILURE });
