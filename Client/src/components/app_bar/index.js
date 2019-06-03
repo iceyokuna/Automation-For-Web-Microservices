@@ -14,8 +14,8 @@ import { userActions, notificationActions } from 'actions'
 import Media from 'react-media';
 import Spinner from 'react-spinkit';
 import { Link } from 'react-router-dom'
-
 import { colors } from 'theme';
+import Badge from 'components/badge';
 
 const iconColor = "#ffffff";
 const appName = "Autoweb";
@@ -28,7 +28,8 @@ class AppBar extends Component {
     this.state = {
       openNotificationPanel: undefined,
       openAccountPanel: undefined,
-      username: 'Phat Thaveepholcharoen'
+      username: 'Phat Thaveepholcharoen',
+      resetBadgeAnim: false,
     }
   }
 
@@ -103,20 +104,23 @@ class AppBar extends Component {
 
 
   renderForSignedin() {
-    const { user } = this.props;
+    const { user, notification, } = this.props;
     if (user === undefined) return null;
     else {
-      const { openNotificationPanel, openAccountPanel } = this.state;
+      const { openNotificationPanel, openAccountPanel, resetBadgeAnim, } = this.state;
       return (
         <Box direction="row" gap='small'>
-          <DropButton
-            dropAlign={{ top: "bottom", right: "right" }}
-            open={openNotificationPanel}
-            onClose={() => this.setState({ openNotificationPanel: undefined })}
-            dropContent={this.renderNotifications()}
-          >
-            <PlainButton icon={<Notification color={iconColor} />} />
-          </DropButton>
+
+          <Badge length={notification.data.length}>
+            <DropButton
+              dropAlign={{ top: "bottom", right: "right" }}
+              open={openNotificationPanel}
+              onClose={() => this.setState({ openNotificationPanel: undefined })}
+              dropContent={this.renderNotifications()}
+            >
+              <PlainButton icon={<Notification color={iconColor} />} />
+            </DropButton>
+          </Badge>
 
           <DropButton
             dropAlign={{ top: "bottom", right: "right" }}
