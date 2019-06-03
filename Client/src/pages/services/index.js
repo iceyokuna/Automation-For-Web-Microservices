@@ -73,14 +73,14 @@ class index extends Component {
       <Box animation={["fadeIn"]} pad="medium"
         background="light-0" round={{ size: "small" }}>
 
-        <Table caption="Default Table">
+        <Table caption="Services Table">
           <TableHeader>
             <TableRow>
               <TableCell key="1" scope="col" align="left">
-                <Text>Service name</Text>
+                <Text weight="bold">Service name</Text>
               </TableCell>
               <TableCell key="2" scope="col" align="left">
-                <Text>Service info</Text>
+                <Text weight="bold">Service info</Text>
               </TableCell>
             </TableRow>
           </TableHeader>
@@ -89,7 +89,7 @@ class index extends Component {
             {userServices.data.map((service, index) =>
               <TableRow onClick={() => this.onSelectService(index, service.id)}>
                 <TableCell ho>
-                  <Text weight="bold">{service.name || "Untitled"}</Text>
+                  <Text >{service.name || "Untitled"}</Text>
                 </TableCell>
                 <TableCell>
                   <Box justify="between" direction="row" align="center" fill>
