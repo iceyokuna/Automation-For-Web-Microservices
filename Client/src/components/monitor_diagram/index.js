@@ -48,13 +48,14 @@ class index extends Component {
   onClickExecutedElement = (event) => {
     const elementId = event.target.attributes[0].value;
     console.log(({ executed: elementId }));
+    this.props.onClickElement(elementId);
   }
 
   onClickCurrentElement = (event) => {
     const elementId = event.target.attributes[0].value;
     console.log(({ current: elementId }));
+    this.props.onClickElement(elementId);
   }
-
 
   highlightUserlane = () => {
     const { username, currentFlow, } = this.props;
@@ -166,7 +167,8 @@ class index extends Component {
 
     eventBus.on('element.click', (event) => {
       console.log({ event });
-      // const currentElement = event.element.businessObject;
+      const currentElement = event.element.businessObject;
+      this.props.onClickElement(currentElement.id);
       // const { current } = this.state;
       // if (current) {
       //   this.highlightCurrentElement(currentElement.id)
