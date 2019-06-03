@@ -360,6 +360,30 @@ class WorkflowEngine:
             #update log to database
             self.updateLog(data)
 
+    def notifyLane(self, taskName, taskId, target):
+        localtime = time.localtime(time.time())
+        execute_date = str(localtime.tm_mday) + "/" + str(localtime.tm_mon) + "/" + str(localtime.tm_year)
+        execute_time = str(localtime.tm_hour) + ":" + str(localtime.tm_min)
+
+        title = "[" + self.workflowName + "]" + "You task is ready"
+        body = "Task :" + taskName + " is your responsibility"
+
+        payload = {'type':'YOUR_TURN',
+                   'title': title,
+                   'body': body,
+                   'workflowId': self.workflowId,
+                   'taskName': taskName,
+                   'taskId': taskId,
+                   'executedDate': execute_date,
+                   'executedTime': execute_time}
+
+        url = "http://178.128.214.101:8003/api/send_notification/"
+        data = {'title':title, 'body':body,'click_action':"none",
+        'data': payload,'to': [target]}
+        headers = {'Content-type': 'application/json'}
+        result = requests.post(url , json = data, headers = headers)
+        print("Send notification (lane changed): " + str(result))
+
     #update log of workflow to service manager
     def updateLog(self, data):
         url = "http://178.128.214.101:8003/api/log/" + str(self.workflowId)
