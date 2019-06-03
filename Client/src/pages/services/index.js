@@ -98,7 +98,7 @@ class index extends Component {
                     </Text>
                     <Button onClick={(e) => {
                       e.stopPropagation();
-                      this.onDeleteUserService(service)
+                      this.onDeleteUserService(service, index)
                     }}
                       icon={<Close size="14px" />} />
                   </Box>
