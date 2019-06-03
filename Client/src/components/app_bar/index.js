@@ -97,7 +97,7 @@ class AppBar extends Component {
     return (
       <Scrollbars autoHeightMax={350} autoHeight width="250px">
         <Box direction="column">
-        {elements}
+          {elements}
         </Box>
       </Scrollbars>);
 
@@ -133,7 +133,7 @@ class AppBar extends Component {
               onClose={this.onCloseDropdown} />}
         >
 
-          <Media query="(min-width: 599px)">
+          <Media query="(min-width: 400px)">
             {matches =>
               matches ? (
                 <PlainButton icon={<User color={iconColor} />} label={user.username} />
@@ -181,12 +181,17 @@ class AppBar extends Component {
               weight="bold">{appName}</Text>
           </Link>
 
-          <Box direction="row" gap="medium" pad="small">
-            <PlainButton label="Flows" color="light-0"
-              onClick={() => history.push('/my_flows')} />
-            <PlainButton label="Services" color="light-0"
-              onClick={() => history.push('/services')} />
-          </Box>
+          <Media query="(min-width: 599px)">
+            {matched => matched ? (
+              <Box direction="row" gap="medium" pad="small">
+                <PlainButton label="Flows" color="light-0"
+                  onClick={() => history.push('/my_flows')} />
+                <PlainButton label="Services" color="light-0"
+                  onClick={() => history.push('/services')} />
+              </Box>
+            ) : null}
+          </Media>
+
 
         </Box>
         {this.renderForSignedin()}
