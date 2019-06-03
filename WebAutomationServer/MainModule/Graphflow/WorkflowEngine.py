@@ -362,7 +362,7 @@ class WorkflowEngine:
             #update log to database
             self.updateLog(data)
 
-    def notifyLane(self, taskName, taskId, target):
+    def notifyLane(self, taskId, taskName, target):
         localtime = time.localtime(time.time())
         execute_date = str(localtime.tm_mday) + "/" + str(localtime.tm_mon) + "/" + str(localtime.tm_year)
         execute_time = str(localtime.tm_hour) + ":" + str(localtime.tm_min)
@@ -384,6 +384,7 @@ class WorkflowEngine:
         'data': payload,'to': [target]}
         headers = {'Content-type': 'application/json'}
         result = requests.post(url , json = data, headers = headers)
+        print(data)
         print("Send notification (lane changed): " + str(result))
 
     #update log of workflow to service manager
