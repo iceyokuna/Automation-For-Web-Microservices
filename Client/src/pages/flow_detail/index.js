@@ -59,7 +59,6 @@ class FlowDetail extends Component {
     const { workflowMonitor, } = nextProps;
     const { inputFormValues } = workflowMonitor;
     this.assignValuesToInputForm(inputFormValues);
-
   }
 
   assignValuesToInputForm = (inputFormValues) => {
@@ -309,9 +308,9 @@ class FlowDetail extends Component {
   renderElementInspection = () => {
     const { workflowMonitor, currentFlow, } = this.props;
     const { showInspection } = this.state;
+    if (currentFlow.generatedForms.length == 0) return null;
     const { formHtml, formCss, formJs } = currentFlow.generatedForms[0].forms.inputForm;
     const { inputFormValues } = workflowMonitor;
-
     return (
       <Modal header="Inspection" show={showInspection}
         onCloseModal={this.onCloseInspection}>
