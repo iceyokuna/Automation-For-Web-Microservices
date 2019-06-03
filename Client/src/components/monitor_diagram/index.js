@@ -29,15 +29,30 @@ class index extends Component {
       }
     });
 
-    const { currentFlow } = this.props;
+    const { currentFlow, workflowMonitor } = this.props;
     const xml = json2xml(currentFlow.bpmnJson);
-
+    
+    const { executedItems, currentElement, } = workflowMonitor;
     viewer.importXML(xml, err => {
       if (err) {
         console.log("error rendering", err);
       } else {
         const canvas = viewer.get('canvas');
         canvas.zoom('fit-viewport', 'center');
+
+        const overlays = viewer.get('overlays');
+        overlays.clear();
+
+        // Highlight lane of current user
+        this.highlightUserlane();
+
+        // Highlight executed elements
+        executedItems.forEach((item, index) => {
+          this.highlightExecutedElement(item)
+        })
+
+        // Highlight current pointer
+        this.highlightCurrentElement(currentElement);
       }
     });
 
