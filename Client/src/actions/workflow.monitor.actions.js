@@ -27,7 +27,7 @@ function getInputForm(workflowId, taskId) {
       dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS, data: res.data });
     } catch (e) {
       dispatch({ type: workflowConstants.GET_INPUT_FORM_FAILURE });
-      toast.error("Can't get input form");
+      toast.info("This element doesn't have a form");
       console.error(e);
     }
   }

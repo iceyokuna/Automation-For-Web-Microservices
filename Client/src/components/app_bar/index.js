@@ -9,6 +9,7 @@ import NotificationItem from 'components/notification_item';
 import { HamburgerContainer } from './style'
 
 import HamburgerButton from 'react-hamburger-menu';
+import Scrollbars from 'react-custom-scrollbars';
 
 import { userActions, notificationActions, workflowActions } from 'actions'
 import Media from 'react-media';
@@ -81,11 +82,7 @@ class AppBar extends Component {
         </Box>);
     }
 
-    const notifiationLength = 3;
-    const notifications = notification.data;
-    const someNotifications = notifications.slice(0, notifiationLength);
-
-    let elements = someNotifications.map((item, index) =>
+    let elements = notification.data.map((item, index) =>
       <NotificationItem
         key={index}
         title={item.title} body={item.body}
@@ -97,21 +94,12 @@ class AppBar extends Component {
         onClick={() => { this.onSelectNotification(item.workflowId) }} />
     );
 
-    if (notifications.length > notifiationLength) {
-      elements.push(
-        <Button fill plain key="more"
-          onClick={this.handleMoreNotifications} >
-          <Box justify="center" align="center" pad="small">
-            <Text size="small" weight="bold">See more</Text>
-          </Box>
-        </Button>
-      )
-    }
-
     return (
-      <Box width="250px">
+      <Scrollbars autoHeightMax={350} autoHeight width="250px">
+        <Box direction="column">
         {elements}
-      </Box>);
+        </Box>
+      </Scrollbars>);
 
   }
 
@@ -169,6 +157,7 @@ class AppBar extends Component {
         pad="small"
         background='brand'
         height="60px"
+        elevation="small"
       >
         <Box direction="row"
           align="center" gap="medium" pad="small">
