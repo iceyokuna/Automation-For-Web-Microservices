@@ -1,14 +1,30 @@
-import { notificationConstants } from '_constants';
+import { notificationConstants, workflowConstants } from '_constants';
 const initialState = {
   isLoading: false,
   data: [
     {
+      type: 'YOUR_TURN',
       title: 'Your turn',
       body: 'Checkout your workflow',
       workflowId: 163,
       createdAt: '23/05/19 15:31'
     },
     {
+      type: 'YOUR_TURN',
+      title: 'Your turn #2',
+      body: 'Checkout your workflow',
+      workflowId: 163,
+      createdAt: '23/05/19 15:30'
+    },
+    {
+      type: 'YOUR_TURN',
+      title: 'Your turn #2',
+      body: 'Checkout your workflow',
+      workflowId: 163,
+      createdAt: '23/05/19 15:30'
+    },
+    {
+      type: 'YOUR_TURN',
       title: 'Your turn #2',
       body: 'Checkout your workflow',
       workflowId: 163,
@@ -27,6 +43,12 @@ export function notification(state = initialState, action) {
         body: 'Checkout your workflow',
         workflowId: 163,
       })
+    }
+
+    case notificationConstants.ADD_NEW_NOTIFICATION: {
+      const nextState = {...state};
+      nextState.data.unshift(action.payload);
+      return nextState;
     }
 
     case notificationConstants.GET_ALL_NOTIFICATIONS_REQUEST: {

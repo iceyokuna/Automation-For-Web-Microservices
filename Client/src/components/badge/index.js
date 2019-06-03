@@ -7,7 +7,7 @@ const index = (props) => {
 
   useEffect(() => {
     setResetBadgeAnim(true);
-  }, [props.resetBadgeAnim]);
+  }, [props.length]);
 
   return (
     <div style={{ position: 'relative' }}>
