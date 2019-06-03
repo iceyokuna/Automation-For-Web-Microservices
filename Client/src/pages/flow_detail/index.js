@@ -310,11 +310,18 @@ class FlowDetail extends Component {
   }
 
   renderElementInspection = () => {
-    const { workflowMonitor, currentFlow, } = this.props;
-    const { showInspection } = this.state;
-    if (currentFlow.generatedForms.length == 0) return null;
-    const { formHtml, formCss, formJs } = currentFlow.generatedForms[0].forms.inputForm;
-    const { inputFormValues } = workflowMonitor;
+    const { showInspection, elementToInspect } = this.state;
+    const { currentFlow, } = this.props;
+
+    if (!showInspection || currentFlow.generatedForms.length == 0) return null;
+    const currentForm = currentFlow.generatedForms.find(
+      item => item.taskId === elementToInspect
+    )
+    
+    // Element doesn't have a form
+    if (currentForm == null) return null;
+
+    const { formHtml, formCss, } = currentForm.forms.inputForm;
     return (
       <Modal header="Inspection" show={showInspection}
         onCloseModal={this.onCloseInspection}>
