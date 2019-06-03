@@ -186,20 +186,20 @@ class index extends Component {
         <Row >
           <Col xs={12} md={5} lg={5}>
             <FormField>
-              <TextInput placeholder="Method name" size="small"
+              <TextInput id="method-name" placeholder="Method name" size="small"
                 onChange={this.onChangeMethodName} value={methodName} />
             </FormField>
           </Col>
           <Col xs={12} md={7} ld={7} >
             <FormField>
-              <TextInput placeholder="What does this method do ?" size="small"
+              <TextInput id="method-info" placeholder="What does this method do ?" size="small"
                 onChange={this.onChangeMethodInfo} value={methodInfo} />
             </FormField>
           </Col>
 
           <Col xs={12} md={8} lg={8}>
             <FormField>
-              <TextInput placeholder="URL's path e.g. /news/techologies" size="small"
+              <TextInput id="method-url" placeholder="URL's path e.g. /news/techologies" size="small"
                 onChange={this.onChangeMethodUrl} value={methodUrl} />
             </FormField>
           </Col>
@@ -219,13 +219,13 @@ class index extends Component {
 
         <Row style={{ height: 200 }}>
           <Col xs={12} md={6} lg={6}>
-            <TextArea fill
+            <TextArea fill id="method-input-interface"
               value={inputInterface} placeholder={interfacePlaceholder}
               onChange={this.onChangeInputInterfaceType} />
           </Col>
 
           <Col xs={12} md={6} lg={6}>
-            <TextArea fill
+            <TextArea fill id="method-output-interface"
               value={outputInterface} placeholder={interfacePlaceholder}
               onChange={this.onChangeOutputInterfaceType} />
           </Col>
@@ -246,8 +246,8 @@ class index extends Component {
 
           </MethodContainer>
           <Box direction="row" gap="small">
-            <Button icon={<Add />} label="Method" color="accent-1" onClick={this.onAddMethod} />
-            <Button label="Submit" color="accent-1" primary onClick={this.onSubmit} />
+            <Button icon={<Add />} label="Method" id="method-add" color="accent-1" onClick={this.onAddMethod} />
+            <Button label="Submit" color="accent-1" id="method-submit" primary onClick={this.onSubmit} />
           </Box>
         </Box>
       </Fragment>

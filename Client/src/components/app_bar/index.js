@@ -179,9 +179,9 @@ class AppBar extends Component {
           </Link>
 
           <Box direction="row" gap="medium" pad="small">
-            <PlainButton label="Flows" color="light-0"
+            <PlainButton id="myflows-link" label="Flows" color="light-0"
               onClick={() => history.push('/my_flows')} />
-            <PlainButton label="Services" color="light-0"
+            <PlainButton id="services-link" label="Services" color="light-0"
               onClick={() => history.push('/services')} />
           </Box>
 

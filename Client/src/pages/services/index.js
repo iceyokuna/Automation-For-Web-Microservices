@@ -87,7 +87,7 @@ class index extends Component {
 
           <TableBody>
             {userServices.data.map((service, index) =>
-              <TableRow onClick={() => this.onSelectService(index, service.id)}>
+              <TableRow id={`service-${index}`} onClick={() => this.onSelectService(index, service.id)}>
                 <TableCell ho>
                   <Text weight="bold">{service.name || "Untitled"}</Text>
                 </TableCell>
@@ -118,7 +118,7 @@ class index extends Component {
         <Box pad={{ horizontal: 'medium' }}>
           <Box direction="row" align="center" justify="between" margin={{ bottom: 'small' }}>
             <Heading size='small' margin={{ right: 'medium' }}>My services</Heading>
-            <Button label="Service" color="accent-1"
+            <Button label="Service" color="accent-1" id="addservice-button"
               icon={<Add />} primary onClick={this.onAddService} />
           </Box>
           {this.renderServices()}

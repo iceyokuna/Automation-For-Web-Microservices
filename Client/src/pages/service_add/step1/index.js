@@ -64,7 +64,7 @@ class index extends Component {
     } else {
       return (
         <Box direction="row" justify="end" align="center" gap="small">
-          <Button label="Next" color="accent-1" primary onClick={this.onNextStep} />
+          <Button id="nextstep-button" label="Next" color="accent-1" primary onClick={this.onNextStep} />
         </Box>);
     }
   }
@@ -75,15 +75,15 @@ class index extends Component {
     return (
       <Box gap="small" pad="medium">
         <FormField>
-          <TextInput placeholder="Service name" size="small"
+          <TextInput id="service-name" placeholder="Service name" size="small"
             onChange={this.onChangeServiceName} value={serviceName} />
         </FormField>
         <FormField>
-          <TextInput placeholder="What does this service do ?" size="small"
+          <TextInput id="service-info" placeholder="What does this service do ?" size="small"
             onChange={this.onChangeServiceInfo} value={serviceInfo} />
         </FormField>
         <FormField>
-          <TextInput placeholder="Service 's URL e.g. https://myservice.com/api/" size="small"
+          <TextInput id="service-url" placeholder="Service 's URL e.g. https://myservice.com/api/" size="small"
             onChange={this.onChangeServiceUrl} value={serviceUrl} />
         </FormField>
         {this.renderNextButton()}
