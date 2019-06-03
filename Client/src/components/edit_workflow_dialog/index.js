@@ -81,7 +81,7 @@ export class index extends Component {
               </Box>
 
               <Box direction="row" justify="end" align="center" gap="small">
-                <Button label="Ok" primary onClick={this.onUpdateInfo} />
+                <Button id="confirm-edit-workflow-info-button" label="Ok" primary onClick={this.onUpdateInfo} />
                 <Button label="Close" onClick={this.onColseDialog} />
               </Box>
 

@@ -263,18 +263,22 @@ class FlowDetail extends Component {
     return (
       <Box gap="small" direction="row">
         <CircleButton
+          id="invite-button"
           color="accent-4"
           primary plain={false}
           data-tip="Collaborators of this workflow"
           icon={<Group color="#fff" size="18px" />}
           onClick={this.onInviteMembers} />
-        <CircleButton primary data-tip="Start workflow"
+        <CircleButton
+          id="start-workflow-button" primary data-tip="Start workflow"
           icon={<CirclePlay size="18px" />} plain={false}
           color="accent-3" onClick={this.onExecuteFlow} />
-        <CircleButton primary data-tip="Restart workflow"
+        <CircleButton
+          id="restart-workflow-button" primary data-tip="Restart workflow"
           icon={<Refresh size="18px" />} plain={false}
           color="accent-2" onClick={this.onResetExecutionState} />
-        <CircleButton data-tip="Edit diagram" primary
+        <CircleButton
+          id="edit-diagram-button" data-tip="Edit diagram" primary
           plain={false} icon={<Cluster size="18px" />}
           color="accent-1" onClick={this.navigateToModeler} />
       </Box >
@@ -307,8 +311,8 @@ class FlowDetail extends Component {
     return (
       <div style={global.mainContainer}>
         <ReactTooltip effect="solid" />
-        <ViewerDock visible={showViewerDock} currentTask={currentTask}
-          onCloseDock={this.onCloseDock} />
+        {/* <ViewerDock visible={showViewerDock} currentTask={currentTask}
+          onCloseDock={this.onCloseDock} /> */}
         <MemberDialog />
         {this.renderElementInspection()}
 

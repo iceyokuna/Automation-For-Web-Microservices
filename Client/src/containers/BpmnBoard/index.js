@@ -409,6 +409,7 @@ class BpmnContainer extends Component {
         />
 
         <EditInfoButton
+          id="edit-workflow-info-button"
           color="accent-3" primary plain={false}
           icon={<Edit size="18px" color="#ffffff" />}
           data-tip="Edit information"
@@ -416,12 +417,13 @@ class BpmnContainer extends Component {
         />
 
         <InviteButton
+          id="invite-button"
           color="accent-4"
           primary plain={false} data-tip="Collaborators"
           icon={<Group size="18px" color={colors["light-0"]} />}
           onClick={this.onInvite} />
 
-        <SaveButton color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
+        <SaveButton id="save-workflow-button" color="accent-2" primary icon={<CloudUpload size="18px" color="#fff" />}
           data-tip="Save Workflow" plain={false} onClick={this.onSubmitDiagram} />
 
         {/* <OpenDock plain icon={<CaretUp />} data-tip="Workflow logs" onClick={this.onOpenLogs} /> */}
