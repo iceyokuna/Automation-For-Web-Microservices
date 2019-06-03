@@ -186,9 +186,9 @@ class index extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
     const { workflowMonitor, currentFlow } = nextProps;
     const { executedItems, currentElement, } = workflowMonitor;
+
     const xml = json2xml(currentFlow.bpmnJson);
     this.viewer.importXML(xml, err => {
       if (err) {
@@ -196,22 +196,22 @@ class index extends Component {
       } else {
         const canvas = this.viewer.get('canvas');
         canvas.zoom('fit-viewport', 'center');
+
+        const overlays = this.viewer.get('overlays');
+        overlays.clear();
+
+        // Highlight lane of current user
+        this.highlightUserlane();
+
+        // Highlight executed elements
+        executedItems.forEach((item, index) => {
+          this.highlightExecutedElement(item)
+        })
+
+        // Highlight current pointer
+        this.highlightCurrentElement(currentElement);
       }
     });
-
-    const overlays = this.viewer.get('overlays');
-    overlays.clear();
-
-    // Highlight lane of current user
-    this.highlightUserlane();
-
-    // Highlight executed elements
-    executedItems.forEach((item, index) => {
-      this.highlightExecutedElement(item)
-    })
-
-    // Highlight current pointer
-    this.highlightCurrentElement(currentElement);
   }
 
   onClose = () => {
