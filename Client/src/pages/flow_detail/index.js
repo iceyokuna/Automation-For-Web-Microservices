@@ -303,8 +303,8 @@ class FlowDetail extends Component {
     const { showInspection, elementToInspect } = this.state;
     const { currentFlow, workflowMonitor, } = this.props;
     const { loadingInputForm } = workflowMonitor;
-
-    // if (!showInspection || currentFlow.generatedForms.length == 0) return null;
+    
+    if (!showInspection || currentFlow.generatedForms.length == 0) return null;
 
     const currentForm = currentFlow.generatedForms.find(
       item => item.taskId === elementToInspect

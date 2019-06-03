@@ -31,7 +31,7 @@ class index extends Component {
 
     const { currentFlow, workflowMonitor } = this.props;
     const xml = json2xml(currentFlow.bpmnJson);
-    
+
     const { executedItems, currentElement, } = workflowMonitor;
     viewer.importXML(xml, err => {
       if (err) {
@@ -205,28 +205,32 @@ class index extends Component {
     const { executedItems, currentElement, } = workflowMonitor;
 
     const xml = json2xml(currentFlow.bpmnJson);
-    this.viewer.importXML(xml, err => {
-      if (err) {
-        console.log("error rendering", err);
-      } else {
-        const canvas = this.viewer.get('canvas');
-        canvas.zoom('fit-viewport', 'center');
 
-        const overlays = this.viewer.get('overlays');
-        overlays.clear();
+    // Render new diagram if set new current flow
+    if (this.props.currentFlow.id != nextProps.currentFlow.id) {
+      this.viewer.importXML(xml, err => {
+        if (err) {
+          console.log("error rendering", err);
+        } else {
+          const canvas = this.viewer.get('canvas');
+          canvas.zoom('fit-viewport', 'center');
+        }
+      });
+    }
 
-        // Highlight lane of current user
-        this.highlightUserlane();
+    const overlays = this.viewer.get('overlays');
+    overlays.clear();
 
-        // Highlight executed elements
-        executedItems.forEach((item, index) => {
-          this.highlightExecutedElement(item)
-        })
+    // Highlight lane of current user
+    this.highlightUserlane();
 
-        // Highlight current pointer
-        this.highlightCurrentElement(currentElement);
-      }
-    });
+    // Highlight executed elements
+    executedItems.forEach((item, index) => {
+      this.highlightExecutedElement(item)
+    })
+
+    // Highlight current pointer
+    this.highlightCurrentElement(currentElement);
   }
 
   onClose = () => {
