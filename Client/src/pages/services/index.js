@@ -88,7 +88,7 @@ class index extends Component {
           <TableBody>
             {userServices.data.map((service, index) =>
               <TableRow onClick={() => this.onSelectService(index, service.id)}>
-                <TableCell ho>
+                <TableCell >
                   <Text >{service.name || "Untitled"}</Text>
                 </TableCell>
                 <TableCell>
