@@ -67,14 +67,10 @@ def getPreview(request):
     workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
 
     #update state
-    workflowEngine_load
-    
-
+    #workflowEngine_load
+    data = workflowEngine_load.getPreview(str(taskId))
     print("get preview success")
-
-    response = {}
-    response['message'] = 'triggered success'
-    return HttpResponse(json.dumps(response),content_type= "application/json")
+    return HttpResponse(json.dumps(data),content_type= "application/json")
     
 @csrf_exempt
 def saveFlow(request):
