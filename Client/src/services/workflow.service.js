@@ -10,6 +10,7 @@ export const workflowService = {
   getAllMethodsByServiceId,
   getMyFlows,
   getCurrentLogs,
+  getInputForm,
 
   resetExecutionState,
 
@@ -20,6 +21,11 @@ export const workflowService = {
   deleteCollaborators,
   deleteWorkflowById,
 };
+
+function getInputForm(workflowId, taskId) {
+  return axios.post(engineUrl, { workflowId, taskId });
+
+}
 
 function resetExecutionState(workflowId) {
   return axios.post(engineUrl, { workflowId });

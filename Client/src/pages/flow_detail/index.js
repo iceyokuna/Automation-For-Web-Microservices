@@ -23,7 +23,7 @@ import TaskItem from 'components/task_item';
 import MemberDialog from 'components/member_dialog';
 
 import { connect } from 'react-redux';
-import { workflowActions, monitorActions, socketActions } from 'actions';
+import { workflowActions, monitorActions, } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
@@ -34,7 +34,7 @@ import MonitorDiagram from 'components/monitor_diagram';
 import Scrollbars from 'react-custom-scrollbars';
 import Modal from 'components/modal';
 import { UniversalStyle as Style } from 'react-css-component';
-
+import $ from 'jquery'
 
 class FlowDetail extends Component {
 
@@ -54,6 +54,20 @@ class FlowDetail extends Component {
   componentDidMount() {
     ReactTooltip.rebuild();
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { workflowMonitor, } = nextProps;
+    const { inputFormValues } = workflowMonitor;
+    this.assignValuesToInputForm(inputFormValues);
+  }
+
+  assignValuesToInputForm = (inputFormValues) => {
+    if (inputFormValues == null) return;
+    Object.keys(inputFormValues).forEach((id, index) => {
+      $(`#${id}`).val(inputFormValues[id].value);
+    })
+  }
+
 
   onChangename = (e) => {
     this.setState({ newname: e.target.value });
@@ -125,6 +139,16 @@ class FlowDetail extends Component {
 
   onCloseInspection = () => {
     this.setState({ showInspection: !this.state.showInspection });
+  }
+
+  onClickElement = (elementId) => {
+    this.setState({
+      showInspection: true,
+      elementToInspect: elementId
+    });
+
+    const { dispatch, currentFlow } = this.props;
+    dispatch(monitorActions.getInputForm(currentFlow.id, elementId));
   }
 
   renderCollaboratorItems = () => {
@@ -254,7 +278,7 @@ class FlowDetail extends Component {
         animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Monitoring</Text>
-        <MonitorDiagram height="350px" />
+        <MonitorDiagram height="350px" onClickElement={this.onClickElement} />
       </Box>
     );
   }
@@ -286,9 +310,11 @@ class FlowDetail extends Component {
   }
 
   renderElementInspection = () => {
-    const { generatedForms } = this.props.currentFlow;
+    const { workflowMonitor, currentFlow, } = this.props;
     const { showInspection } = this.state;
-    const { formHtml, formCss, formJs } = generatedForms[0].forms.inputForm;
+    if (currentFlow.generatedForms.length == 0) return null;
+    const { formHtml, formCss, formJs } = currentFlow.generatedForms[0].forms.inputForm;
+    const { inputFormValues } = workflowMonitor;
     return (
       <Modal header="Inspection" show={showInspection}
         onCloseModal={this.onCloseInspection}>

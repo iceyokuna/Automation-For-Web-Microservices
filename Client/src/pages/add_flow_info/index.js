@@ -56,6 +56,8 @@ class AddFlowInfo extends Component {
           </Heading>
             <FormField >
               <TextInput
+                id="input_workflow_name"
+
                 ref='workflowNameInput'
                 autoFocus
                 placeholder="Workflow Name"
@@ -64,12 +66,13 @@ class AddFlowInfo extends Component {
             </FormField>
             <FormField>
               <TextArea
+                id="input_workflow_description"
                 placeholder="Description"
                 value={description}
                 onChange={this.onChangeDescription} />
             </FormField>
             <Box margin={{ top: 'small' }}>
-              < Button color="accent-1" primary icon={<Next />} label="Next" onClick={this.onNextStep} />
+              < Button  id="confirm_creation"color="accent-1" primary icon={<Next />} label="Next" onClick={this.onNextStep} />
             </Box>
 
           </Box>

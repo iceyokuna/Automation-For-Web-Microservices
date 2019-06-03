@@ -15,13 +15,28 @@ const defaultState = {
   // ],
   loading: false,
   showMonitorDock: false,
-  
+
   executedItems: [],
   currentElement: {},
+  inputFormValues: {},
 }
 
 export function workflowMonitor(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowConstants.GET_INPUT_FORM_REQUEST: {
+
+    }
+
+    case workflowConstants.GET_INPUT_FORM_SUCCESS: {
+      const nextState = { ...state };
+      nextState.inputFormValues = action.data;
+      return nextState;
+    }
+
+    case workflowConstants.GET_INPUT_FORM_FAILURE: {
+
+    }
 
     case workflowConstants.RECEIVE_WORKFLOW_STATUS: {
       const { data } = action;
