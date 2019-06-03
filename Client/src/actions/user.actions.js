@@ -45,8 +45,10 @@ function login(username, password) {
 
 function logout() {
   accountService.logout().then((res) => {
-    localStorage.removeItem('user');
     history.push('/login');
+    setTimeout(() => {
+      localStorage.removeItem('user');
+    }, 2000);
   }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
 
   return { type: userConstants.LOGOUT };
