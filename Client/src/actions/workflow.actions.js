@@ -3,7 +3,7 @@ import { workflowService } from 'services'
 import { toast } from 'react-toastify'
 import { history, getUserToken } from '_helpers';
 import axios from 'axios';
-import { logsActions } from 'actions';
+import { monitorActions } from 'actions';
 
 export const workflowActions = {
   addNewForm,
@@ -97,7 +97,7 @@ function resetExecutionState(name, description,
       toast.success("Workflow's state is reset");;
 
       // Get current logs after reset state
-      dispatch(logsActions.getCurrentLogs(workflowId));
+      dispatch(monitorActions.getCurrentLogs(workflowId));
     } catch (e) {
       toast.error("Can't reset the workflow's state");
     }
@@ -442,13 +442,21 @@ function setupNewWorkflow() {
   }
 }
 
-function setCurrentFlow(currentFlow, redirectUrl) {
-  return dispatch => {
+function setCurrentFlow(workflowId) {
+  return (dispatch, getState) => {
+    const { workflowMyFlows } = getState();
+    const { myFlows } = workflowMyFlows;
+    const currentFlow = myFlows.find((item) => item.id === workflowId);
+
     dispatch({
       type: workflowConstants.SET_CURRENT_FLOW,
       currentFlow,
-      redirectUrl
     });
+
+    dispatch(getAllCollaborators(workflowId));
+    dispatch(monitorActions.getCurrentLogs(workflowId));
+
+    history.push(`/my_flows/${workflowId}`)
   }
 }
 

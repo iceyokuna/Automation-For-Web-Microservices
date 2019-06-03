@@ -16,7 +16,7 @@ import ConditionList from 'components/condition_list';
 import PredefineInput from 'components/predefine_input';
 import EditWorkflowInfo from 'components/edit_workflow_dialog';
 import FormTypeDialog from 'components/form_type_dialog';
-// import ExecutionLog from 'components/execution_log';
+// import DockContainer from 'components/execution_log';
 
 import "./style/app.less";
 
@@ -35,7 +35,7 @@ import { CloudUpload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 
 import {
   workflowActions, availableServicesActions,
-  logsActions,
+  monitorActions,
 } from 'actions'
 
 import Spinner from 'react-spinkit'
@@ -43,7 +43,6 @@ import { colors } from 'theme';
 import {
   InviteButton, SaveButton,
   EditInfoButton,
-  OpenDock
 } from './style'
 
 import ReactTooltip from 'react-tooltip';
@@ -238,7 +237,7 @@ class BpmnContainer extends Component {
   }
 
   onOpenLogs = () => {
-    this.props.dispatch(logsActions.toggleDock());
+    this.props.dispatch(monitorActions.toggleDock());
   }
 
   onEditDiagram = () => {
@@ -376,7 +375,7 @@ class BpmnContainer extends Component {
           </Layer>)
         }
 
-        {/* <ExecutionLog /> */}
+        {/* <DockContainer /> */}
         <FormTypeDialog />
         <EditWorkflowInfo />
         <MemberDialog />

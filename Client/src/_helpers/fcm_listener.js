@@ -32,6 +32,14 @@ export function applyFCMListener(store) {
           data: parsedData,
         })
       } break;
+
+      case "YOUR_TURN": {
+        store.dispatch({
+          type: workflowConstants.RECEIVE_YOUR_TURN,
+          data: parsedData,
+        })
+      }
+
       default: break;
     }
   }, err => {

@@ -27,14 +27,3 @@ export const SendWorkflowButton = styled(Button)`
   right: 525px;
   border-radius: 100%;
 `
-export const OpenDock = styled(Button)`
-  position: absolute;
-  bottom: 20px;
-  left: calc(50% - 145px);
-  transform: translateX(-50%);
-  cursor: pointer;
-  background-color: #fff; 
-  padding: 2px 12px;
-  border-radius: 12px;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.20);
-`

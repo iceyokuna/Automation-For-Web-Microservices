@@ -10,12 +10,12 @@ import { HamburgerContainer } from './style'
 
 import HamburgerButton from 'react-hamburger-menu';
 
-import { userActions, notificationActions } from 'actions'
+import { userActions, notificationActions, workflowActions } from 'actions'
 import Media from 'react-media';
 import Spinner from 'react-spinkit';
 import { Link } from 'react-router-dom'
-
 import { colors } from 'theme';
+import Badge from 'components/badge';
 
 const iconColor = "#ffffff";
 const appName = "Autoweb";
@@ -28,14 +28,14 @@ class AppBar extends Component {
     this.state = {
       openNotificationPanel: undefined,
       openAccountPanel: undefined,
-      username: 'Phat Thaveepholcharoen'
+      username: 'Phat Thaveepholcharoen',
+      resetBadgeAnim: false,
     }
   }
 
   componentDidMount() {
-    this.props.dispatch(notificationActions.getAllNotifications())
+    // this.props.dispatch(notificationActions.getAllNotifications())
   }
-
 
   onCloseDropdown = () => {
     this.setState({
@@ -55,12 +55,18 @@ class AppBar extends Component {
     }
   }
 
-  onSelectNotification = (notification) => {
-    this.props.history.push('/execute_flow/111', { notification })
+  onSelectNotification = (workflowId) => {
+    this.props.dispatch(workflowActions.setCurrentFlow(workflowId));
   }
 
   handleMoreNotifications = () => {
-
+    this.props.dispatch(notificationActions.addNewNotification({
+      type: 'YOUR_TURN',
+      title: 'Your turn',
+      body: 'Checkout your workflow',
+      workflowId: 163,
+      createdAt: '23/05/19 15:31'
+    }))
   }
 
   renderNotifications = () => {
@@ -75,7 +81,7 @@ class AppBar extends Component {
         </Box>);
     }
 
-    const notifiationLength = 4;
+    const notifiationLength = 3;
     const notifications = notification.data;
     const someNotifications = notifications.slice(0, notifiationLength);
 
@@ -83,7 +89,7 @@ class AppBar extends Component {
       <NotificationItem
         key={index}
         title={item.title} body={item.body} createdAt={item.createdAt}
-        onClick={() => { this.onSelectNotification(item) }} />
+        onClick={() => { this.onSelectNotification(item.workflowId) }} />
     );
 
     if (notifications.length > notifiationLength) {
@@ -97,26 +103,29 @@ class AppBar extends Component {
       )
     }
 
-    return <Box>{elements}</Box>;
+    return <Box width="250px">{elements}</Box>;
 
   }
 
 
   renderForSignedin() {
-    const { user } = this.props;
+    const { user, notification, } = this.props;
     if (user === undefined) return null;
     else {
-      const { openNotificationPanel, openAccountPanel } = this.state;
+      const { openNotificationPanel, openAccountPanel, } = this.state;
       return (
         <Box direction="row" gap='small'>
-          <DropButton
-            dropAlign={{ top: "bottom", right: "right" }}
-            open={openNotificationPanel}
-            onClose={() => this.setState({ openNotificationPanel: undefined })}
-            dropContent={this.renderNotifications()}
-          >
-            <PlainButton icon={<Notification color={iconColor} />} />
-          </DropButton>
+
+          <Badge length={notification.data.length}>
+            <DropButton
+              dropAlign={{ top: "bottom", right: "right" }}
+              open={openNotificationPanel}
+              onClose={() => this.setState({ openNotificationPanel: undefined })}
+              dropContent={this.renderNotifications()}
+            >
+              <PlainButton icon={<Notification color={iconColor} />} />
+            </DropButton>
+          </Badge>
 
           <DropButton
             dropAlign={{ top: "bottom", right: "right" }}

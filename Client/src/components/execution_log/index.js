@@ -7,38 +7,33 @@ import { Close } from 'grommet-icons'
 import Scrollbars from 'react-custom-scrollbars';
 
 import { connect } from 'react-redux';
-import { logsActions } from 'actions'
+import { monitorActions } from 'actions';
+import MonitorDiagram from 'components/monitor_diagram';
 
 class index extends Component {
 
   renderLogItems = () => {
-    const { workflowLogs } = this.props;
-    return workflowLogs.data.map((item, index) =>
+    const { workflowMonitor } = this.props;
+    return workflowMonitor.data.map((item, index) =>
       <Text key={index}>{item.detail}</Text>)
   }
 
   onClose = () => {
-    this.props.dispatch(logsActions.toggleDock());
+    this.props.dispatch(monitorActions.toggleDock());
   }
 
   render() {
-    const { workflowLogs } = this.props;
+    const { children, workflowMonitor, } = this.props;
     return (
       <Dock position='bottom' dimMode="none"
-        isVisible={workflowLogs.show} dockStyle={{ borderRadius: 12, overflow: 'hidden' }}>
-        <Box pad="small" gap="xsmall" fill>
+        isVisible={workflowMonitor.showMonitorDock} dockStyle={{ borderRadius: 12, overflow: 'hidden' }}>
+        <Box pad="medium" gap="medium" fill>
           <Box direction="row" justify="between" align="center">
-            <Text weight="bold">Execution logs</Text>
+            <Text weight="bold">Monitoring</Text>
             <Button icon={<Close size="14px" />} color="light-0"
               hoverIndicator onClick={this.onClose} />
           </Box>
-          <Box round={{ size: 'small' }} background="light-1">
-            <Scrollbars autoHide style={{ height: 170 }}>
-              <Box pad="small" gap="small">
-                {this.renderLogItems()}
-              </Box>
-            </Scrollbars>
-          </Box>
+          {children}
         </Box>
       </Dock >
     )
@@ -47,7 +42,7 @@ class index extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    workflowLogs: state.workflowLogs,
+    workflowMonitor: state.workflowMonitor,
   }
 }
 

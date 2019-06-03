@@ -11,14 +11,14 @@ border-color: #bbbbbb;
 
 const dateColor = "#666666";
 
-const index = ({ title, body, createdAt, onClick }) => {
+const index = ({ title, body, createdAt, workflowId, onClick }) => {
   return (
-    <Button hoverIndicator onClick={onClick}>
+    <Button hoverIndicator onClick={() => onClick(workflowId)}>
       <Notification gap="small" pad="small">
         <Text weight="bold">{title}</Text>
         <Text>{body}</Text>
         <Text size="xsmall" color={dateColor}>
-          {moment(createdAt).format('llll')}
+          {createdAt}
         </Text>
       </Notification>
     </Button >

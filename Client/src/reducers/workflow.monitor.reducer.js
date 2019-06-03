@@ -13,15 +13,32 @@ const defaultState = {
   //   { detail: "Workflow#1 : transfer task to user#2" },
   //   { detail: "Workflow#1 : transfer task to user#2" },
   // ],
-  show: false,
   loading: false,
+  loadingInputForm: false,
+  showMonitorDock: false,
 
   executedItems: [],
   currentElement: {},
+  inputFormValues: {},
 }
 
-export function workflowLogs(state = defaultState, action) {
+export function workflowMonitor(state = defaultState, action) {
   switch (action.type) {
+
+    case workflowConstants.GET_INPUT_FORM_REQUEST: {
+      return { ...state, loadingInputForm: true };
+    }
+
+    case workflowConstants.GET_INPUT_FORM_SUCCESS: {
+      const nextState = { ...state };
+      nextState.inputFormValues = action.data;
+      nextState.loadingInputForm = false;
+      return nextState;
+    }
+
+    case workflowConstants.GET_INPUT_FORM_FAILURE: {
+      return { ...state, loadingInputForm: false };
+    }
 
     case workflowConstants.RECEIVE_WORKFLOW_STATUS: {
       const { data } = action;
@@ -53,8 +70,8 @@ export function workflowLogs(state = defaultState, action) {
       return { ...state, loading: false, executedItems: [], currentElement: {} };
     }
 
-    case workflowConstants.TOGGLE_LOGS: {
-      return { ...state, show: !state.show };
+    case workflowConstants.TOGGLE_MONITOR_DOCK: {
+      return { ...state, showMonitorDock: !state.showMonitorDock };
     }
 
     default:

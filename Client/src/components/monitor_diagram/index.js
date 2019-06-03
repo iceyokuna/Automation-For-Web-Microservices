@@ -15,7 +15,6 @@ const colors = {
 class index extends Component {
 
   state = {
-    currentTask: {},
     current: true,
   }
 
@@ -46,6 +45,18 @@ class index extends Component {
     this.bindEvents();
   }
 
+  onClickExecutedElement = (event) => {
+    const elementId = event.target.attributes[0].value;
+    console.log(({ executed: elementId }));
+    this.props.onClickElement(elementId);
+  }
+
+  onClickCurrentElement = (event) => {
+    const elementId = event.target.attributes[0].value;
+    console.log(({ current: elementId }));
+    this.props.onClickElement(elementId);
+  }
+
   highlightUserlane = () => {
     const { username, currentFlow, } = this.props;
     const overlays = this.viewer.get('overlays');
@@ -53,21 +64,21 @@ class index extends Component {
     const elementId = getElementIdFromLaneValue(username, currentFlow.bpmnJson);
     const shape = elementRegistry.get(elementId);
     if (shape != null) {
-      overlays.add(elementId, {
-        position: {},
-        html: $('<div/>').css({
-          width: shape.width,
-          height: shape.height,
-          border: `5px solid ${colors.userLane}`
-        })
-      });
+      // overlays.add(elementId, {
+      //   position: {},
+      //   html: $('<div/>').css({
+      //     width: shape.width,
+      //     height: shape.height,
+      //     border: `5px solid ${colors.userLane}`
+      //   })
+      // });
 
       overlays.add(elementId, {
         position: {
-          bottom: 30,
+          bottom: shape.height / 2,
           right: -10,
         },
-        html: $('<div>You are here</div>').css({
+        html: $(`<div> <<< You are here</div>`).css({
           "text-align": 'start',
           color: colors.userLane,
           fontSize: 28,
@@ -87,14 +98,14 @@ class index extends Component {
     if (shape != null) {
       overlays.add(elementId, {
         position: {},
-        html: $('<div class="currentNode"/>').css(
+        html: $(`<div elementId="${elementId}"/>`).css(
           {
             width: shape.width,
             height: shape.height,
             opacity: 0.2,
             backgroundColor: colors.executed,
           }
-        )
+        ).click(this.onClickExecutedElement),
       });
 
       // Show status below the node
@@ -103,12 +114,13 @@ class index extends Component {
           bottom: -5,
           right: shape.width / 2,
         },
-        html: $('<div>Executed</div>').css({
+        html: $(`
+        <div elementId="${elementId}">Executed</div>`).css({
           "text-align": 'center',
           color: "white",
           fontSize: "14px",
-          backgroundColor: colors.executed
-        }),
+          backgroundColor: colors.executed,
+        }).click(this.onClickExecutedElement),
       });
     }
   }
@@ -123,14 +135,14 @@ class index extends Component {
       // overlays.clear();
       overlays.add(elementId, {
         position: {},
-        html: $('<div class="currentNode"/>').css(
+        html: $(`<div elementId="${elementId}" />`).css(
           {
             width: shape.width,
             height: shape.height,
             opacity: 0.3,
             backgroundColor: colors.currentNode,
           }
-        )
+        ).click(this.onClickCurrentElement),
       });
 
       // Show status below the node
@@ -139,11 +151,11 @@ class index extends Component {
           bottom: -5,
           right: shape.width / 2,
         },
-        html: $('<div>Current</div>').css({
+        html: $(`<div elementId="${elementId}">Current</div>`).css({
           "text-align": 'center',
           color: "white",
           backgroundColor: colors.currentNode
-        }),
+        }).click(this.onClickCurrentElement),
       });
     }
   }
@@ -154,7 +166,9 @@ class index extends Component {
     const eventBus = this.viewer.get('eventBus');
 
     eventBus.on('element.click', (event) => {
-      // const currentElement = event.element.businessObject;
+      console.log({ event });
+      const currentElement = event.element.businessObject;
+      this.props.onClickElement(currentElement.id);
       // const { current } = this.state;
       // if (current) {
       //   this.highlightCurrentElement(currentElement.id)
@@ -172,24 +186,32 @@ class index extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { workflowMonitor, currentFlow } = nextProps;
+    const { executedItems, currentElement, } = workflowMonitor;
 
-    const { workflowLogs } = nextProps;
-    const { executedItems, currentElement, } = workflowLogs;
+    const xml = json2xml(currentFlow.bpmnJson);
+    this.viewer.importXML(xml, err => {
+      if (err) {
+        console.log("error rendering", err);
+      } else {
+        const canvas = this.viewer.get('canvas');
+        canvas.zoom('fit-viewport', 'center');
 
+        const overlays = this.viewer.get('overlays');
+        overlays.clear();
 
-    const overlays = this.viewer.get('overlays');
-    overlays.clear();
+        // Highlight lane of current user
+        this.highlightUserlane();
 
-    // Highlight lane of current user
-    this.highlightUserlane();
+        // Highlight executed elements
+        executedItems.forEach((item, index) => {
+          this.highlightExecutedElement(item)
+        })
 
-    // Highlight executed elements
-    executedItems.forEach((item, index) => {
-      this.highlightExecutedElement(item)
-    })
-
-    // Highlight current pointer
-    this.highlightCurrentElement(currentElement);
+        // Highlight current pointer
+        this.highlightCurrentElement(currentElement);
+      }
+    });
   }
 
   onClose = () => {
@@ -215,7 +237,7 @@ class index extends Component {
 const mapStateToProps = (state) => {
   return {
     currentFlow: state.workflowMyFlows.currentFlow,
-    workflowLogs: state.workflowLogs,
+    workflowMonitor: state.workflowMonitor,
     username: state.authentication.user.username,
   }
 }

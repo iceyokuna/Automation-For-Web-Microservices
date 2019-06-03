@@ -23,7 +23,7 @@ import TaskItem from 'components/task_item';
 import MemberDialog from 'components/member_dialog';
 
 import { connect } from 'react-redux';
-import { workflowActions, logsActions, socketActions } from 'actions';
+import { workflowActions, monitorActions, } from 'actions';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { Redirect } from 'react-router-dom';
@@ -31,7 +31,10 @@ import { CircleButton, RoundButton } from './style';
 import ReactTooltip from 'react-tooltip';
 import Media from 'react-media';
 import MonitorDiagram from 'components/monitor_diagram';
-import Scrollbars from 'react-custom-scrollbars'
+import Scrollbars from 'react-custom-scrollbars';
+import Modal from 'components/modal';
+import { UniversalStyle as Style } from 'react-css-component';
+import $ from 'jquery'
 
 class FlowDetail extends Component {
 
@@ -41,14 +44,30 @@ class FlowDetail extends Component {
       newname: '',
       newDescription: '',
       executeStatus: 'Execute', // To do : Classify "Continue" & "Execute"
-      showViewerDock: false,
       currentTask: null,
+
+      showViewerDock: false,
+      showInspection: false,
     };
   }
 
   componentDidMount() {
     ReactTooltip.rebuild();
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { workflowMonitor, } = nextProps;
+    const { inputFormValues } = workflowMonitor;
+    this.assignValuesToInputForm(inputFormValues);
+  }
+
+  assignValuesToInputForm = (inputFormValues) => {
+    if (inputFormValues == null) return;
+    Object.keys(inputFormValues).forEach((id, index) => {
+      $(`#${id}`).val(inputFormValues[id].value);
+    })
+  }
+
 
   onChangename = (e) => {
     this.setState({ newname: e.target.value });
@@ -72,15 +91,6 @@ class FlowDetail extends Component {
     dispatch(workflowActions.setMode("VIEW_EXISTING"));
     dispatch(workflowActions.setWorkflowId(currentFlow.id));
     history.push(match.url + '/edit_diagram');
-  }
-
-  componentDidMount = () => {
-    const { dispatch, currentFlow } = this.props;
-    try {
-      dispatch(logsActions.getCurrentLogs(currentFlow.id));
-    } catch (e) {
-      this.props.history.push('/my_flows');
-    }
   }
 
   onClickTask = (task) => {
@@ -118,6 +128,20 @@ class FlowDetail extends Component {
     this.props.dispatch(workflowActions.toggleMemberDialog());
   }
 
+  onCloseInspection = () => {
+    this.setState({ showInspection: !this.state.showInspection });
+  }
+
+  onClickElement = (elementId) => {
+    this.setState({
+      showInspection: true,
+      elementToInspect: elementId
+    });
+
+    const { dispatch, currentFlow } = this.props;
+    dispatch(monitorActions.getInputForm(currentFlow.id, elementId));
+  }
+
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
@@ -149,8 +173,8 @@ class FlowDetail extends Component {
   }
 
   renderTaskList = () => {
-    const { workflowLogs } = this.props;
-    const { executedItems } = workflowLogs;
+    const { workflowMonitor } = this.props;
+    const { executedItems } = workflowMonitor;
 
     if (executedItems.length == 0) {
       return (
@@ -240,15 +264,13 @@ class FlowDetail extends Component {
   }
 
   renderMonitoringDiagram = () => {
-    const { currentTask, } = this.state;
     return (
       <Box margin={{ horizontal: "xsmall", vertical: 'small' }} pad="medium" gap="medium"
         animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Monitoring</Text>
-        <MonitorDiagram height="350px" currentTask={currentTask} />
+        <MonitorDiagram height="350px" onClickElement={this.onClickElement} />
       </Box>
-
     );
   }
 
@@ -274,6 +296,30 @@ class FlowDetail extends Component {
     );
   }
 
+  renderElementInspection = () => {
+    const { showInspection, elementToInspect } = this.state;
+    const { currentFlow, } = this.props;
+
+    if (!showInspection || currentFlow.generatedForms.length == 0) return null;
+    const currentForm = currentFlow.generatedForms.find(
+      item => item.taskId === elementToInspect
+    )
+
+    // Element doesn't have a form
+    if (currentForm == null) return null;
+
+    const { formHtml, formCss, } = currentForm.forms.inputForm;
+    return (
+      <Modal header="Inspection" show={showInspection}
+        onCloseModal={this.onCloseInspection}>
+        <Style css={formCss} />
+        <Text>* Received inputs</Text>
+        <div dangerouslySetInnerHTML={{ __html: formHtml }}
+          style={{ pointerEvents: 'none', opacity: 0.7, }} />
+      </Modal>
+    );
+  }
+
 
   render() {
     const { currentFlow } = this.props;
@@ -284,10 +330,11 @@ class FlowDetail extends Component {
     const { showViewerDock, currentTask, executeStatus } = this.state;
     return (
       <div style={global.mainContainer}>
+        <ReactTooltip effect="solid" />
         <ViewerDock visible={showViewerDock} currentTask={currentTask}
           onCloseDock={this.onCloseDock} />
         <MemberDialog />
-        <ReactTooltip effect="solid" />
+        {this.renderElementInspection()}
 
         <Box pad={{ horizontal: 'medium' }}>
           <Box>
@@ -343,7 +390,7 @@ const mapStateToProps = (state) => {
     currentFlow: state.workflowMyFlows.currentFlow,
     workflowCollaborators: state.workflowCollaborators,
     workflow: state.workflow,
-    workflowLogs: state.workflowLogs,
+    workflowMonitor: state.workflowMonitor,
   }
 }
 

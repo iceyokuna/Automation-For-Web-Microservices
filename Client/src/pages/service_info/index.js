@@ -3,9 +3,15 @@ import { connect } from 'react-redux'
 import {
   Box, Button, TextArea,
   TextInput, FormField,
-  Text, Select
+  Text, Select,
+  Table,
+  TableCell,
+  TableBody,
+  TableHeader,
 } from 'grommet';
-import { Add, Edit, Upload } from 'grommet-icons'
+import { Add, Edit, Upload } from 'grommet-icons';
+import { TableRow } from 'style';
+
 import { withRouter } from 'react-router-dom';
 import { Row, Col } from 'react-flexbox-grid';
 import { colors } from 'theme';
@@ -148,20 +154,32 @@ const ServiceInfo = (props) => {
           <Button label="Add method" icon={<Add />} color="accent-3"
             onClick={onShowMethodDialog} primary />
         </Box>
-        <table>
-          <tr>
-            <th>Method name</th>
-            <th>URL's endpoint</th>
-            <th>Request type</th>
-          </tr>
-          {methods.map((item, index) =>
-            <tr className="service" onClick={() => onSelectMethod(item, index)}>
-              <td>{item.name}</td>
-              <td>{item.info}</td>
-              <td>{item.methodType || "GET"}</td>
-            </tr>
-          )}
-        </table>
+        <Table caption="Services Table">
+
+          <TableHeader>
+            <TableRow>
+              <TableCell key="1" scope="col" align="left">
+                <Text weight="bold">Method name</Text>
+              </TableCell>
+              <TableCell key="2" scope="col" align="left">
+                <Text weight="bold">URL's endpoint</Text>
+              </TableCell>
+              <TableCell key="2" scope="col" align="left">
+                <Text weight="bold">Request type</Text>
+              </TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {methods.map((item, index) =>
+              <TableRow className="service" onClick={() => onSelectMethod(item, index)}>
+                <TableCell><Text>{item.name}</Text></TableCell>
+                <TableCell><Text>{item.info}</Text></TableCell>
+                <TableCell><Text>{item.methodType || "GET"}</Text></TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+
+        </Table>
       </Fragment>
     )
   }

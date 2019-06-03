@@ -2,9 +2,13 @@
 import React, { Component, Fragment } from 'react';
 import {
   TextInput, Box, Button, FormField,
-  Select, TextArea, Layer, Text
+  Select, TextArea, Layer, Text,
+  Table,
+  TableCell,
+  TableBody,
+  TableHeader,
 } from 'grommet';
-
+import { TableRow } from 'style';
 import { Sort, Add } from 'grommet-icons'
 import { Row, Col } from 'react-flexbox-grid';
 
@@ -128,28 +132,39 @@ class index extends Component {
     const { userServices } = this.props;
     const newMethods = userServices.newService.methods;
     return (
-      <Fragment>
-        <table>
-          <tr>
-            <th>Method name</th>
-            <th>URL's endpoint</th>
-            <th>Request type</th>
-          </tr>
-          {newMethods.map((item, index) =>
-            <tr className="service" onClick={() => this.onSelectMethod(item)}>
-              <td>{item.methodName}</td>
-              <td>{item.methodUrl}</td>
-              <td>{item.methodType}</td>
-            </tr>
-          )}
-        </table>
+      <Box fill gap="medium">
+        <Table caption="Methods Table">
+          <TableHeader>
+            <TableRow>
+              <TableCell key="1" scope="col" align="left">
+                <Text weight="bold">Method name</Text>
+              </TableCell>
+              <TableCell key="2" scope="col" align="left">
+                <Text weight="bold">URL's endpoint</Text>
+              </TableCell>
+              <TableCell key="2" scope="col" align="left">
+                <Text weight="bold">Request type</Text>
+              </TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+
+            {newMethods.map((item, index) =>
+              <TableRow className="service" onClick={() => this.onSelectMethod(item)}>
+                <TableCell><Text>{item.methodName}</Text></TableCell>
+                <TableCell> <Text>{item.methodUrl}</Text></TableCell>
+                <TableCell> <Text>{item.methodType}</Text> </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
         <Box direction="row" justify="end" gap="small">
           <Button icon={<Add color={colors["dark-2"]} />} label="Add more" color="accent-1"
             onClick={this.onAddmoreMethod} />
           <Button label="Submit" color="accent-1"
             primary onClick={this.onSubmit} />
         </Box>
-      </Fragment>
+      </Box>
     );
   }
 

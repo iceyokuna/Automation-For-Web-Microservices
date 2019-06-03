@@ -19,13 +19,6 @@ export class index extends Component {
     userIds: ["iceyo#1177", "pym#887", "bas#998"],
   }
 
-  componentDidMount = () => {
-    const { dispatch, currentFlow } = this.props;
-    if (currentFlow) {
-      dispatch(workflowActions.getAllCollaborators(currentFlow.id));
-    }
-  }
-
   onChangecollaborators = (chips) => {
     this.setState({
       selectedCollaborators: chips,

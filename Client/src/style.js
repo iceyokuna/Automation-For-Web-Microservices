@@ -1,22 +1,27 @@
 import styled, { keyframes } from 'styled-components';
 import Background from 'assets/images/background_2.png';
-import { TableRow as TRow } from 'grommet';
+import { TableRow as TRow, Button, } from 'grommet';
 
-const scaleUp = keyframes`
-  from {
-    transform: scale(1);
-  }
-
+const highlight = keyframes`
   to {
-    transform: scale(1.05);
+    background-color: #F1F1F1;
   }
+`
 
+export const OpenDock = styled(Button)`
+  position: absolute;
+  bottom: 20px;
+  left: calc(50%);
+  transform: translateX(-50%);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 100%;
 `
 
 export const TableRow = styled(TRow)`
 &:hover {
   cursor: pointer;
-  animation: ${scaleUp} 0.5s forwards;
+  animation: ${highlight} 0.3s forwards;
 }
 `
 

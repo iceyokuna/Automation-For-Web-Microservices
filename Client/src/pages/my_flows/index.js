@@ -29,9 +29,14 @@ class MyFlows extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
-    dispatch(workflowActions.getMyFlows());
     dispatch(workflowActions.resetToInitialParams());
+    dispatch(workflowActions.getMyFlows());
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log({ nextProps });
+  }
+
 
   onCreateFlow = () => {
     const { match, history, dispatch, } = this.props;
@@ -42,11 +47,7 @@ class MyFlows extends Component {
   onActiveTab = index => this.setState({ activeTabIndex: index });
 
   onSelectFlow = flow => {
-    const { match, dispatch, workflowMyFlows } = this.props;
-    const { myFlows } = workflowMyFlows;
-    const currentFlow = myFlows.find((item) => item.id === flow.id);
-    const redirectUrl = match.url + '/' + flow.id;
-    dispatch(workflowActions.setCurrentFlow(currentFlow, redirectUrl));
+    this.props.dispatch(workflowActions.setCurrentFlow(flow.id));
   }
 
   onDeleteFlow = (flow) => {
