@@ -83,13 +83,9 @@ class AppBar extends Component {
 
     const notifiationLength = 3;
     const notifications = notification.data;
-    // const someNotifications = notifications.slice(0, notifiationLength);
+    const someNotifications = notifications.slice(0, notifiationLength);
 
-    // console.log({ someNotifications, notification });
-
-    console.log({notification})
-
-    let elements = notifications.map((item, index) =>
+    let elements = someNotifications.map((item, index) =>
       <NotificationItem
         key={index}
         title={item.title} body={item.body}
@@ -112,7 +108,10 @@ class AppBar extends Component {
       )
     }
 
-    return <Box width="250px">{elements}</Box>;
+    return (
+      <Box width="250px">
+        {elements}
+      </Box>);
 
   }
 

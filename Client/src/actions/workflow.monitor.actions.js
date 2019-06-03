@@ -24,7 +24,7 @@ function getInputForm(workflowId, taskId) {
     // }, 1000);
     try {
       const res = await workflowService.getInputForm(workflowId, taskId);
-      dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS });
+      dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS, data: res.data });
     } catch (e) {
       dispatch({ type: workflowConstants.GET_INPUT_FORM_FAILURE });
       toast.error("Can't get input form");

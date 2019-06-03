@@ -57,14 +57,14 @@ class FlowDetail extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { workflowMonitor, } = nextProps;
-    const { inputFormValues } = workflowMonitor;
-    this.assignValuesToInputForm(inputFormValues);
+    const { formInputValues } = workflowMonitor;
+    this.assignValuesToInputForm(formInputValues);
   }
 
-  assignValuesToInputForm = (inputFormValues) => {
-    if (inputFormValues == null) return;
-    Object.keys(inputFormValues).forEach((id, index) => {
-      $(`#${id}`).val(inputFormValues[id].value);
+  assignValuesToInputForm = (formInputValues) => {
+    if (formInputValues == null) return;
+    Object.keys(formInputValues).forEach((id, index) => {
+      $(`#${id}`).val(formInputValues[id].value);
     })
   }
 

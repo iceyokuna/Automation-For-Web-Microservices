@@ -19,7 +19,7 @@ const defaultState = {
 
   executedItems: [],
   currentElement: {},
-  inputFormValues: {},
+  formInputValues: {},
 }
 
 export function workflowMonitor(state = defaultState, action) {
@@ -31,7 +31,7 @@ export function workflowMonitor(state = defaultState, action) {
 
     case workflowConstants.GET_INPUT_FORM_SUCCESS: {
       const nextState = { ...state };
-      nextState.inputFormValues = action.data;
+      nextState.formInputValues = action.data.formInputValues;
       nextState.loadingInputForm = false;
       return nextState;
     }
