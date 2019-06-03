@@ -107,6 +107,7 @@ class AppBar extends Component {
   renderForSignedin() {
     const { user, notification, } = this.props;
     const { openNotificationPanel, openAccountPanel, } = this.state;
+    if (user == null) return null;
     return (
       <Box direction="row" gap='small'>
 

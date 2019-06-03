@@ -90,14 +90,16 @@ class index extends Component {
 
       overlays.add(elementId, {
         position: {
-          bottom: shape.height / 2,
-          right: -10,
+          // bottom: shape.height / 2,
+          right: 60,
+          top: 0,
         },
-        html: $(`<div> <<< You are here</div>`).css({
-          "text-align": 'start',
+        html: $(`<div>You</div>`).css({
+          "text-align": 'center',
           color: colors.userLane,
+          padding: 5,
           fontSize: 28,
-          width: 300,
+          border: `4px solid ${colors.userLane}`
         }),
       });
     };
