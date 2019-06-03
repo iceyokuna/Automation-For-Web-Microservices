@@ -20,13 +20,13 @@ class WorkflowEngine:
         self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
         self.transition = {} #delta
-
+        
         #workflow infomation
         self.workflowId = None
         self.workflowName = None
         self.executed = []
         self.collaborator = set()
-
+        self.unjoinStateId = [] #use to mark unjoin state
     #parsing workflow
     def initialize(self, id, name, elements_list, HTML_list = None, service_list = None, preInput_list = None, condition_list = None, timer_list = None):
         self.workflowId = id
@@ -240,7 +240,8 @@ class WorkflowEngine:
             #check execution permission (lane owner)
             try:
                 if(user_name != self.state[self.currentState["current"]].getLaneOwner()):
-                    wait_collaborator_form = {"formJs": "","formCss": "* { box-sizing: border-box; } body {margin: 0;}.c1794{padding:10px;}","formHtml": "<div class=\"c1794\"></div>"}
+                    print(user_name)
+                    print(self.currentState["current"])
                     return {"HTML":"WAIT_LANE", "taskId":self.currentState["current"]}
             except:
                 pass
@@ -294,7 +295,7 @@ class WorkflowEngine:
                     return
                 #base case is still not done, then return to kill thread
                 else:
-                    return
+                    return 
             #start parallel execution
             elif(len(element_object.getFlowReference()) != 1):
                 flow_reference_list = element_object.getFlowReference()
@@ -319,39 +320,14 @@ class WorkflowEngine:
         print("execute")
         print("by " + str(element_object.getLaneOwner()))
         print(element_object.getId())
-        print(message['formInputValues'])
+        print(element_object.getInput())
         print()
         print("service id :",end ="  ")
         print(str(element_object.getServiceId()),end ="  ")
         print(str(element_object.getServiceMethodId()))
 
         #call gateway API to execute service
-        #test philips hue
-        '''
-        if(str(element_object.getServiceId()) == "74"):
-            if(str(element_object.getServiceMethodId()) == "84"):
-                url = "http://127.0.0.1:5000/turnon"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "85"):
-                url = "http://127.0.0.1:5000/turnoff"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "86"):
-                url = "http://127.0.0.1:5000/red"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "87"):
-                url = "http://127.0.0.1:5000/green"
-                requests.post(url , data= {})
-            elif(str(element_object.getServiceMethodId()) == "88"):
-                url = "http://127.0.0.1:5000/blue"
-                requests.post(url , data= {})
-        '''
-        #test line
-        if(str(element_object.getServiceId()) == "4"):
-            url = "https://safe-beyond-22181.herokuapp.com/notify"
-            user_id = message['formInputValues']['user_id']['value']
-            message_data = message['formInputValues']['message']['value']
-            request_data = {"user_id":user_id, "message":message_data}
-            requests.post(url , data= request_data)
+        self.callService(message, str(element_object.getServiceId()), str(element_object.getServiceMethodId()))
 
     def sendNotification(self, executeBy , executeTaskName):
         title =  "Iceyo " + " update '" + str(self.workflowName) + "'\n(" + executeTaskName +")"
@@ -362,6 +338,17 @@ class WorkflowEngine:
         'workflow_name': self.workflowName,
         'executedItems':self.executed,
         'currentElement': {'elementId':self.currentState["current"], "elementName": self.state[self.currentState["current"]].getName()}}
+
+        #remove executed not unjoin
+        for i in range (len(self.executed)):
+            elementId = self.executed[i]['elementId']
+            if(isinstance(self.state[elementId], ParallelGateway) and (not self.state[elementId].isJoined())):
+                self.executed.pop(i)
+                break
+
+        #current execution not unjoin
+        if(isinstance(self.state[self.currentState["current"]], ParallelGateway) and (len(self.state[self.currentState["current"]].getFlowReference()) == 1) and (not self.state[self.currentState["current"]].isJoined())):
+            return
 
         for colloaborator in list(self.collaborator):
             url = "http://178.128.214.101:8003/api/send_notification/"
@@ -389,6 +376,12 @@ class WorkflowEngine:
         self.state[self.currentState["current"]] = element_object
         self.next({'formInputValues': None, 'taskId': None}, user_id)
 
+    def getPreview(self, taskId):
+        element_object = self.state[taskId]
+        form = element_object.getHTML()
+        inputValue = element_object.getInput()
+        return {'HTML':form, 'formInputValues': inputValue}
+
     #use to show all finite state machine formal defination
     def showDefination(self):
         print()
@@ -397,5 +390,54 @@ class WorkflowEngine:
         print("END STATE -> " + str(self.endState) + "\n")
         print("TRANSITION FUNCTION ->  " + str(self.transition) + "\n")
         print()
+
+    def callService(self ,message ,service_id ,service_method):
+        try:
+            #test philips hue
+            if(str(service_id) == "74"):
+                if(str(service_method) == "84"):
+                    url = "http://127.0.0.1:5000/turnon"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "85"):
+                    url = "http://127.0.0.1:5000/turnoff"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "86"):
+                    url = "http://127.0.0.1:5000/red"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "87"):
+                    url = "http://127.0.0.1:5000/green"
+                    requests.post(url , data= {})
+                elif(str(service_method) == "88"):
+                    url = "http://127.0.0.1:5000/blue"
+                    requests.post(url , data= {})
+            
+            #test email
+            if(str(service_id) == "1"):
+                email = message['formInputValues']['email']['value']
+                subject = message['formInputValues']['subject']['value']
+                message_data = message['formInputValues']['message']['value']
+
+                request_input = {"receiver":[email],"emailBody":message_data,"emailTitle":subject}
+                requests.post('http://127.0.0.1:8001/api/email', json= request_input)
+
+            #test Zmote
+
+
+            #test tts
+            if(str(service_id) == "85"):
+                url = "http://127.0.0.1:5005/say"
+                sentence = message['formInputValues']['sentence']['value']
+                result = requests.post(url , data = {"sentence": sentence})
+
+            #test line
+            if(str(service_id) == "4"):
+                url = "https://safe-beyond-22181.herokuapp.com/notify"
+                user_id = message['formInputValues']['user_id']['value']
+                message_data = message['formInputValues']['message']['value']
+                request_data = {"user_id":user_id, "message":message_data}
+                requests.post(url , data= request_data)
+
+        except:
+            print("Local Service calling Error")
 
 

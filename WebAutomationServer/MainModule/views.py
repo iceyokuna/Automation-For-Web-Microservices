@@ -49,6 +49,28 @@ def TimerUpdateState(request):
     msg = {}
     msg['message'] = 'triggered success'
     return HttpResponse(json.dumps(msg),content_type= "application/json")
+
+#get preview of HTML form and FormInputValue
+@csrf_exempt
+def getPreview(request):
+    resquest = json.loads(request.body.decode('utf-8'))
+    workflowId = resquest['workflowId']
+    taskId = resquest['taskId']
+
+    #read workflow
+    workflowEngine_load = WorkflowEngine()
+
+    headers = {"Content-Type":"application/json"}
+    url = "http://178.128.214.101:8003/api/workflow/obj/" + str(workflowId)
+    response = requests.get(url, headers=headers)
+    response = json.loads(response.content)
+    workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
+
+    #update state
+    #workflowEngine_load
+    data = workflowEngine_load.getPreview(str(taskId))
+    print("get preview success")
+    return HttpResponse(json.dumps(data),content_type= "application/json")
     
 @csrf_exempt
 def saveFlow(request):
@@ -75,7 +97,9 @@ def saveFlow(request):
 
     #initialize workflow engine instance
     workflowEngine = WorkflowEngine()
-    workflowEngine.initialize(workflow_id, workflow_name ,elements_list, HTML_list, service_list, preInput_list, condition_list, timer_list)
+    workflowEngine.initialize(workflow_id, workflow_name ,elements_list, HTML_list,
+                              service_list, preInput_list, condition_list, timer_list
+                              )
 
     #Workflow Engine Initiate construction and [save]!!!
 #    with open('HTMLs.pkl', 'wb') as f:

@@ -7,4 +7,5 @@ urlpatterns = [
 #    path('main-user/', views.main_index),
     path('create_workflow/', views.saveFlow),
     path('time_trigger/', views.TimerUpdateState),
+    path('preview/', views.getPreview),
 ]
