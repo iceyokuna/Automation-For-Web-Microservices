@@ -127,6 +127,13 @@ class FlowDetail extends Component {
     this.setState({ showInspection: !this.state.showInspection });
   }
 
+  onClickElement = (elementId) => {
+    this.setState({
+      showInspection: true,
+      elementToInspect: elementId
+    });
+  }
+
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
@@ -254,7 +261,7 @@ class FlowDetail extends Component {
         animation={[{ type: "fadeIn", delay: 200 }, { type: "zoomIn", size: "large" }]}
         round={{ size: 'small' }} background="light-0" >
         <Text size="large" weight="bold">Monitoring</Text>
-        <MonitorDiagram height="350px" />
+        <MonitorDiagram height="350px" onClickElement={this.onClickElement} />
       </Box>
     );
   }
@@ -282,9 +289,10 @@ class FlowDetail extends Component {
   }
 
   renderElementInspection = () => {
-    const { generatedForms } = this.props.currentFlow;
+    const { workflowMonitor, currentFlow, } = this.props;
     const { showInspection } = this.state;
-    const { formHtml, formCss, formJs } = generatedForms[0].forms.inputForm;
+    const { formHtml, formCss, formJs } = currentFlow.generatedForms[0].forms.inputForm;
+    console.log({ workflowMonitor });
     return (
       <Modal header="Inspection" show={showInspection}
         onCloseModal={this.onCloseInspection}>
