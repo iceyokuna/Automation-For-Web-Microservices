@@ -20,7 +20,7 @@ class WorkflowEngine:
         self.currentState = {"previous":None,"current":None} #S (dict because need to set previous(future feature) and current)
         self.endState = {} #E
         self.transition = {} #delta
-
+        
         #workflow infomation
         self.workflowId = None
         self.workflowName = None
