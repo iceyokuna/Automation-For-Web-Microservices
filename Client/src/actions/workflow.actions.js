@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { history, getUserToken } from '_helpers';
 import axios from 'axios';
 import { monitorActions } from 'actions';
+import { userActions } from './user.actions';
 
 export const workflowActions = {
   addNewForm,
@@ -625,7 +626,13 @@ function getMyFlows() {
       (res) => {
         dispatch(success(res.data));
       }
-    ).catch(err => dispatch(failure(err)));
+    ).catch(err => {
+      dispatch(failure(err));
+
+      if (err.response.status == 401) {
+        dispatch(userActions.logout());
+      };
+    });
 
     function request() {
       return {
