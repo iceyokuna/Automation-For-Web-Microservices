@@ -24,7 +24,6 @@ export function workflowMyFlows(state = defaultState, action) {
     case workflowConstants.SET_CURRENT_FLOW: {
       const nextState = { ...state };
       nextState.currentFlow = action.currentFlow;
-      history.push(action.redirectUrl)
       return nextState;
     }
 

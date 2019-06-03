@@ -1,27 +1,32 @@
 import { notificationConstants } from '_constants';
 const initialState = {
   isLoading: false,
-  data: [],
+  data: [
+    {
+      title: 'Your turn',
+      body: 'Checkout your workflow',
+      workflowId: 163,
+      createdAt: '23/05/19 15:31'
+    },
+    {
+      title: 'Your turn #2',
+      body: 'Checkout your workflow',
+      workflowId: 163,
+      createdAt: '23/05/19 15:30'
+    },
+  ],
 }
 
 export function notification(state = initialState, action) {
   switch (action.type) {
 
-    case notificationConstants.ADD_NEW_NOTIFICATION: {
-      const { payload } = action;
+    case notificationConstants.RECEIVE_YOUR_TURN: {
       const nextState = { ...state };
-      try {
-        const data = payload.data["gcm.notification.data"];
-        const { notification } = payload;
-        nextState.data.unshift({
-          title: notification.title,
-          body: notification.body,
-          data: JSON.parse(data),
-        })
-      } catch (e) {
-        return nextState;
-      }
-      return nextState;
+      nextState.data.push({
+        title: 'Your turn',
+        body: 'Checkout your workflow',
+        workflowId: 163,
+      })
     }
 
     case notificationConstants.GET_ALL_NOTIFICATIONS_REQUEST: {

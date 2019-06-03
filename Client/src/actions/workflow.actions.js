@@ -442,13 +442,21 @@ function setupNewWorkflow() {
   }
 }
 
-function setCurrentFlow(currentFlow, redirectUrl) {
-  return dispatch => {
+function setCurrentFlow(workflowId) {
+  return (dispatch, getState) => {
+    const { workflowMyFlows } = getState();
+    const { myFlows } = workflowMyFlows;
+    const currentFlow = myFlows.find((item) => item.id === workflowId);
+
     dispatch({
       type: workflowConstants.SET_CURRENT_FLOW,
       currentFlow,
-      redirectUrl
     });
+
+    dispatch(getAllCollaborators(workflowId));
+    dispatch(monitorActions.getCurrentLogs(workflowId));
+
+    history.push(`/my_flows/${workflowId}`)
   }
 }
 

@@ -10,7 +10,7 @@ import { HamburgerContainer } from './style'
 
 import HamburgerButton from 'react-hamburger-menu';
 
-import { userActions, notificationActions } from 'actions'
+import { userActions, notificationActions, workflowActions } from 'actions'
 import Media from 'react-media';
 import Spinner from 'react-spinkit';
 import { Link } from 'react-router-dom'
@@ -34,9 +34,8 @@ class AppBar extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(notificationActions.getAllNotifications())
+    // this.props.dispatch(notificationActions.getAllNotifications())
   }
-
 
   onCloseDropdown = () => {
     this.setState({
@@ -56,8 +55,8 @@ class AppBar extends Component {
     }
   }
 
-  onSelectNotification = (notification) => {
-    this.props.history.push('/execute_flow/111', { notification })
+  onSelectNotification = (workflowId) => {
+    this.props.dispatch(workflowActions.setCurrentFlow(workflowId));
   }
 
   handleMoreNotifications = () => {
@@ -84,7 +83,7 @@ class AppBar extends Component {
       <NotificationItem
         key={index}
         title={item.title} body={item.body} createdAt={item.createdAt}
-        onClick={() => { this.onSelectNotification(item) }} />
+        onClick={() => { this.onSelectNotification(item.workflowId) }} />
     );
 
     if (notifications.length > notifiationLength) {
@@ -98,7 +97,7 @@ class AppBar extends Component {
       )
     }
 
-    return <Box>{elements}</Box>;
+    return <Box width="250px">{elements}</Box>;
 
   }
 
@@ -107,7 +106,7 @@ class AppBar extends Component {
     const { user, notification, } = this.props;
     if (user === undefined) return null;
     else {
-      const { openNotificationPanel, openAccountPanel, resetBadgeAnim, } = this.state;
+      const { openNotificationPanel, openAccountPanel, } = this.state;
       return (
         <Box direction="row" gap='small'>
 

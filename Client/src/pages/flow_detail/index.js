@@ -93,15 +93,6 @@ class FlowDetail extends Component {
     history.push(match.url + '/edit_diagram');
   }
 
-  componentDidMount = () => {
-    const { dispatch, currentFlow } = this.props;
-    try {
-      dispatch(monitorActions.getCurrentLogs(currentFlow.id));
-    } catch (e) {
-      this.props.history.push('/my_flows');
-    }
-  }
-
   onClickTask = (task) => {
     // this.setState({
     //   showViewerDock: true,
@@ -313,7 +304,7 @@ class FlowDetail extends Component {
     const currentForm = currentFlow.generatedForms.find(
       item => item.taskId === elementToInspect
     )
-    
+
     // Element doesn't have a form
     if (currentForm == null) return null;
 

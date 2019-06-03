@@ -187,9 +187,17 @@ class index extends Component {
 
   componentWillReceiveProps(nextProps) {
 
-    const { workflowMonitor } = nextProps;
+    const { workflowMonitor, currentFlow } = nextProps;
     const { executedItems, currentElement, } = workflowMonitor;
-
+    const xml = json2xml(currentFlow.bpmnJson);
+    this.viewer.importXML(xml, err => {
+      if (err) {
+        console.log("error rendering", err);
+      } else {
+        const canvas = this.viewer.get('canvas');
+        canvas.zoom('fit-viewport', 'center');
+      }
+    });
 
     const overlays = this.viewer.get('overlays');
     overlays.clear();
