@@ -242,6 +242,8 @@ class WorkflowEngine:
                 if(user_name != self.state[self.currentState["current"]].getLaneOwner()):
                     print(user_name)
                     print(self.currentState["current"])
+                    currentObject = self.state[self.currentState["current"]]
+                    self.notifyLane(currentObject.getId(),currentObject.getName(), currentObject.getLaneOwner())
                     return {"HTML":"WAIT_LANE", "taskId":self.currentState["current"]}
             except:
                 pass
