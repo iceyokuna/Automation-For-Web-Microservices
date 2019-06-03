@@ -83,12 +83,21 @@ class AppBar extends Component {
 
     const notifiationLength = 3;
     const notifications = notification.data;
-    const someNotifications = notifications.slice(0, notifiationLength);
+    // const someNotifications = notifications.slice(0, notifiationLength);
 
-    let elements = someNotifications.map((item, index) =>
+    // console.log({ someNotifications, notification });
+
+    console.log({notification})
+
+    let elements = notifications.map((item, index) =>
       <NotificationItem
         key={index}
-        title={item.title} body={item.body} createdAt={item.createdAt}
+        title={item.title} body={item.body}
+        workflowId={item.workflowId}
+        executedDate={item.executedDate}
+        executedTime={item.executedTime}
+        taskName={item.taskName}
+        taskId={item.taskId}
         onClick={() => { this.onSelectNotification(item.workflowId) }} />
     );
 
@@ -110,48 +119,45 @@ class AppBar extends Component {
 
   renderForSignedin() {
     const { user, notification, } = this.props;
-    if (user === undefined) return null;
-    else {
-      const { openNotificationPanel, openAccountPanel, } = this.state;
-      return (
-        <Box direction="row" gap='small'>
+    const { openNotificationPanel, openAccountPanel, } = this.state;
+    return (
+      <Box direction="row" gap='small'>
 
-          <Badge length={notification.data.length}>
-            <DropButton
-              dropAlign={{ top: "bottom", right: "right" }}
-              open={openNotificationPanel}
-              onClose={() => this.setState({ openNotificationPanel: undefined })}
-              dropContent={this.renderNotifications()}
-            >
-              <PlainButton icon={<Notification color={iconColor} />} />
-            </DropButton>
-          </Badge>
-
+        <Badge length={notification.data.length}>
           <DropButton
             dropAlign={{ top: "bottom", right: "right" }}
-            open={openAccountPanel}
-            onClose={() => this.setState({ openAccountPanel: undefined })}
-            dropContent={
-              <DropContent
-                title={user.username}
-                items={[{ label: 'Account Setting' }, { label: 'Logout' }]}
-                onSelect={this.onSelectAccountPanel}
-                onClose={this.onCloseDropdown} />}
+            open={openNotificationPanel}
+            onClose={() => this.setState({ openNotificationPanel: undefined })}
+            dropContent={this.renderNotifications()}
           >
-
-            <Media query="(min-width: 599px)">
-              {matches =>
-                matches ? (
-                  <PlainButton icon={<User color={iconColor} />} label={user.username} />
-                ) : (
-                    <PlainButton icon={<User color={iconColor} />} />
-                  )
-              }
-            </Media>
-
+            <PlainButton icon={<Notification color={iconColor} />} />
           </DropButton>
-        </Box>);
-    }
+        </Badge>
+
+        <DropButton
+          dropAlign={{ top: "bottom", right: "right" }}
+          open={openAccountPanel}
+          onClose={() => this.setState({ openAccountPanel: undefined })}
+          dropContent={
+            <DropContent
+              title={user.username}
+              items={[{ label: 'Account Setting' }, { label: 'Logout' }]}
+              onSelect={this.onSelectAccountPanel}
+              onClose={this.onCloseDropdown} />}
+        >
+
+          <Media query="(min-width: 599px)">
+            {matches =>
+              matches ? (
+                <PlainButton icon={<User color={iconColor} />} label={user.username} />
+              ) : (
+                  <PlainButton icon={<User color={iconColor} />} />
+                )
+            }
+          </Media>
+
+        </DropButton>
+      </Box>);
   }
 
   render() {

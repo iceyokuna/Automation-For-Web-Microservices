@@ -38,15 +38,12 @@ export function notification(state = initialState, action) {
 
     case notificationConstants.RECEIVE_YOUR_TURN: {
       const nextState = { ...state };
-      nextState.data.push({
-        title: 'Your turn',
-        body: 'Checkout your workflow',
-        workflowId: 163,
-      })
+      nextState.data.unshift(action.data);
+      return nextState;
     }
 
     case notificationConstants.ADD_NEW_NOTIFICATION: {
-      const nextState = {...state};
+      const nextState = { ...state };
       nextState.data.unshift(action.payload);
       return nextState;
     }

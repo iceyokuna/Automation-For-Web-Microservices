@@ -11,14 +11,14 @@ border-color: #bbbbbb;
 
 const dateColor = "#666666";
 
-const index = ({ title, body, createdAt, workflowId, onClick }) => {
+const index = (props) => {
   return (
-    <Button hoverIndicator onClick={() => onClick(workflowId)}>
+    <Button hoverIndicator onClick={() => props.onClick(props.workflowId)}>
       <Notification gap="small" pad="small">
-        <Text weight="bold">{title}</Text>
-        <Text>{body}</Text>
+        <Text weight="bold">{props.title}</Text>
+        <Text>{props.body}</Text>
         <Text size="xsmall" color={dateColor}>
-          {createdAt}
+          {`${props.executedDate} ${props.executedTime}`}
         </Text>
       </Notification>
     </Button >

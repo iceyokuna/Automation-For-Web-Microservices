@@ -23,7 +23,7 @@ export const workflowService = {
 };
 
 function getInputForm(workflowId, taskId) {
-  return axios.post(engineUrl, { workflowId, taskId });
+  return axios.post(globalConstants.GET_PREVIEW_INPUT_FORM_URL, { workflowId, taskId });
 
 }
 

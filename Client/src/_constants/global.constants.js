@@ -1,6 +1,8 @@
 const productionServer = "https://the-timemachine.com";
 const developmentServer = "http://178.128.214.101";
 
+const workflowEngineUrl = "http://127.0.0.1:8000";
+
 export const globalConstants = {
   USER_REGISTER_URL: `${developmentServer}:8003/api/register`,
   USER_LOGIN_URL: `${developmentServer}:8003/api/login`,
@@ -25,4 +27,6 @@ export const globalConstants = {
   USER_METHOD_URL: `${developmentServer}:8004/api/user_method/`,
 
   DELETE_COLLABORATORS_URL: `${developmentServer}:8003/api/collaborator/delete/`,
+
+  GET_PREVIEW_INPUT_FORM_URL: `${workflowEngineUrl}/preview/`,
 };

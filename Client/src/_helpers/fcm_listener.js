@@ -38,7 +38,7 @@ export function applyFCMListener(store) {
           type: workflowConstants.RECEIVE_YOUR_TURN,
           data: parsedData,
         })
-      }
+      } break;
 
       default: break;
     }
