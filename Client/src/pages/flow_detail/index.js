@@ -55,15 +55,18 @@ class FlowDetail extends Component {
     ReactTooltip.rebuild();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { workflowMonitor, } = nextProps;
+  componentDidUpdate(prevProps, prevState) {
+    const { workflowMonitor, } = this.props;
     const { formInputValues } = workflowMonitor;
     this.assignValuesToInputForm(formInputValues);
   }
 
+
   assignValuesToInputForm = (formInputValues) => {
     if (formInputValues == null) return;
+    // console.log({ formInputValues });
     Object.keys(formInputValues).forEach((id, index) => {
+      console.log({ id });
       $(`#${id}`).val(formInputValues[id].value);
     })
   }
@@ -298,9 +301,11 @@ class FlowDetail extends Component {
 
   renderElementInspection = () => {
     const { showInspection, elementToInspect } = this.state;
-    const { currentFlow, } = this.props;
+    const { currentFlow, workflowMonitor, } = this.props;
+    const { loadingInputForm } = workflowMonitor;
 
-    if (!showInspection || currentFlow.generatedForms.length == 0) return null;
+    // if (!showInspection || currentFlow.generatedForms.length == 0) return null;
+
     const currentForm = currentFlow.generatedForms.find(
       item => item.taskId === elementToInspect
     )
@@ -312,10 +317,21 @@ class FlowDetail extends Component {
     return (
       <Modal header="Inspection" show={showInspection}
         onCloseModal={this.onCloseInspection}>
-        <Style css={formCss} />
-        <Text>* Received inputs</Text>
-        <div dangerouslySetInnerHTML={{ __html: formHtml }}
-          style={{ pointerEvents: 'none', opacity: 0.7, }} />
+        {loadingInputForm ? (
+          <Box fill="horizontal" justify="center" align="center" margin={{ top: 'large' }}>
+            <Spinner
+              fadeIn="half"
+              name="ball-scale-multiple"
+              color={colors.brand} />
+          </Box>
+        ) : (
+            <Box animation={{ type: 'fadeIn', duration: 500 }}>
+              <Style css={formCss} />
+              <Text>* Received inputs</Text>
+              <div dangerouslySetInnerHTML={{ __html: formHtml }}
+                style={{ pointerEvents: 'none', opacity: 0.7, }} />
+            </Box>
+          )}
       </Modal>
     );
   }

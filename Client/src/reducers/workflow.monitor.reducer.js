@@ -1,22 +1,9 @@
 import { workflowConstants } from '_constants';
 
 const defaultState = {
-  // data: [
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  //   { detail: "Workflow#1 : transfer task to user#2" },
-  // ],
   loading: false,
   loadingInputForm: false,
   showMonitorDock: false,
-
   executedItems: [],
   currentElement: {},
   formInputValues: {},
