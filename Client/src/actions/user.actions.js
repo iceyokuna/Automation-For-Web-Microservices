@@ -44,15 +44,15 @@ function login(username, password) {
 }
 
 function logout() {
-  accountService.logout().then((res) => {
-    history.push('/login');
-    setTimeout(() => {
+  return dispatch => {
+    dispatch({ type: userConstants.LOGOUT });
+    accountService.logout().then((res) => {
       localStorage.removeItem('user');
-    }, 2000);
-  }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
-
-  return { type: userConstants.LOGOUT };
+      history.replace('/login');
+    }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
+  }
 }
+
 
 function register(user) {
   return dispatch => {
