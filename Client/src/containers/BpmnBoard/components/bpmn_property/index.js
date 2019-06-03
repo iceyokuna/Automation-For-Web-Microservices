@@ -88,9 +88,8 @@ class BpmnProperty extends Component {
 
   renderSpecialProperties() {
     const { nodeType, eventType } = this.state;
-    const { allServices, onSelectServiceMethod,
+    const { onSelectServiceMethod,
       onShowConditions, onAssignTask } = this.props;
-    const services = allServices.length === 0 ? services : allServices;
 
     let element = null;
 
@@ -110,7 +109,6 @@ class BpmnProperty extends Component {
             key={1}
             taskId={workflow.currentNode.id}
             onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)}
-            services={services}
           />,
           <Button label="Define input" disabled={disabled}
             icon={<Edit />} onClick={this.onDefineInput} key={2} />,

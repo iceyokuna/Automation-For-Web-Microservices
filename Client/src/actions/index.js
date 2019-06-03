@@ -3,7 +3,7 @@ export * from './user.actions';
 export * from './workflow.actions';
 export * from './workflow.monitor.actions';
 export * from './socket.actions';
-export * from './available_services.action'
+export * from './provided_services.action';
 export * from './inbox_tasks.action';
 export * from './notification.actions';
 export * from './user_services.actions';

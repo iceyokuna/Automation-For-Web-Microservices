@@ -7,7 +7,7 @@ import { workflowActions } from 'actions';
 
 function TaskProperty({ taskId, onSelectServiceMethod, ...props }) {
 
-  const { availableServices } = props;
+  const { userServices, providedServices, } = props;
 
   const onToggleAsync = (checked) => {
     props.dispatch(workflowActions.applyAsyncToTask(taskId, checked))
@@ -21,7 +21,9 @@ function TaskProperty({ taskId, onSelectServiceMethod, ...props }) {
         checked={props.appliedAsyncs[taskId] == true ? true : false}
         onChange={event => onToggleAsync(event.target.checked)} />
       <Box fill="horizontal">
-        <ServiceList services={availableServices.data}
+        <ServiceList
+          userServices={userServices.data}
+          providedServices={providedServices.data}
           onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)} />
       </Box>
     </Box>
@@ -31,7 +33,8 @@ function TaskProperty({ taskId, onSelectServiceMethod, ...props }) {
 const mapStateToProps = (state) => {
   return {
     appliedAsyncs: state.workflow.appliedAsyncs,
-    availableServices: state.availableServices,
+    providedServices: state.providedServices,
+    userServices: state.userServices,
   }
 }
 

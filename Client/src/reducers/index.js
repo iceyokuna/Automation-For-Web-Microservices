@@ -12,7 +12,7 @@ import { workflowMyFlows } from './workflow.my_flows.reducer';
 import { workflowCollaborators } from './workflow.collaborators.reducer';
 
 import { socket } from './socket.reducer';
-import { availableServices } from './available_services.reducer'
+import { providedServices } from './provided_services.reducer';
 import { inboxTasks } from './inbox_tasks.reducer';
 import { notification } from './notification.reducer';
 import { userServices } from './user_services.reducer';
@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   workflowCollaborators,
   workflowMyFlows,
   socket,
-  availableServices,
+  providedServices,
   inboxTasks,
   notification,
   userServices,

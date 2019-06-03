@@ -23,6 +23,11 @@ class index extends Component {
     this.setState({ activeTabIndex });
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log({nextProps});
+  }
+  
+
   renderPanelHeader = (name, info, currentServiceId, serviceId) => {
     const active = currentServiceId == serviceId ?
       { size: "medium", color: "accent-4", side: "left" } : null;
@@ -60,9 +65,9 @@ class index extends Component {
 
   renderServices = () => {
     const { activeTabIndex } = this.state;
-    let { services, workflow } = this.props;
-    services = activeTabIndex == 0 ? services.userServices
-      : services.providedServices;
+    let { userServices, providedServices, workflow } = this.props;
+    let services = activeTabIndex == 0 ? userServices
+      : providedServices;
     const { appliedMethods } = workflow;
     const currentNodeId = workflow.currentNode != null
       ? workflow.currentNode.id : -1;
@@ -96,20 +101,20 @@ class index extends Component {
           </TabList>
         </Tabs>
         <Scrollbars autoHeightMax={350} autoHeight>
-        <Accordion
-          style={{ overflow: 'hidden' }}
-          onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
-        >
-          {this.renderServices()}
-        </Accordion>
-      </Scrollbars>
+          <Accordion
+            style={{ overflow: 'hidden' }}
+            onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
+          >
+            {this.renderServices()}
+          </Accordion>
+        </Scrollbars>
       </Fragment>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  workflow: state.workflow
+  workflow: state.workflow,
 });
 
 export default connect(mapStateToProps)(index);

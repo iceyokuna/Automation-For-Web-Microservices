@@ -36,6 +36,7 @@ import { CloudUpload, Group, Test, Edit, CaretUp } from 'grommet-icons'
 import {
   workflowActions, availableServicesActions,
   monitorActions,
+  userServicesActions,
 } from 'actions'
 
 import Spinner from 'react-spinkit'
@@ -85,6 +86,7 @@ class BpmnContainer extends Component {
 
     // Request all availale services to be selected on the properties panel
     dispatch(availableServicesActions.getAllServices());
+    dispatch(userServicesActions.getUserServices());
 
     this.renderDiagram();
     this.bindEvenCallback();
@@ -350,7 +352,7 @@ class BpmnContainer extends Component {
       selectedServiceMethod,
       showConditionList,
       currentElement } = this.state
-    const { workflow, availableServices } = this.props;
+    const { workflow, providedServices } = this.props;
 
     return (
       <Box fill animation="fadeIn">
@@ -390,7 +392,7 @@ class BpmnContainer extends Component {
         />
 
         <BpmnProperty
-          allServices={availableServices.data}
+          allServices={providedServices.data}
           currentElement={this.state.currentElement}
           onAssignTask={this.showParticipantSelector}
           onUpdate={(newProps) => this.updateByBpmnProperty(newProps)}
@@ -451,7 +453,7 @@ class BpmnContainer extends Component {
 function mapStateToProps(state) {
   const {
     workflow,
-    availableServices,
+    providedServices,
     workflowConditions,
     workflowPreInputs,
     workflowMyFlows,
@@ -459,7 +461,7 @@ function mapStateToProps(state) {
   return {
     workflow,
     workflowConditions,
-    availableServices,
+    providedServices,
     workflowPreInputs,
     workflowMyFlows,
     workflowTimers,

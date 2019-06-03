@@ -14,19 +14,10 @@ function getAllServices() {
         });
         availaleServicesActions.getAllServices().then(
             res => {
-                const publicServices = res.data; // receive list of all services and its all methods
-                userService.getUserServices().then(
-                    res => {
-                        const userServices = res.data;
-                        dispatch({
-                            type: availableServicesContants.GET_ALL_SERVICES_SUCCESS,
-                            allServices: publicServices,
-                            userServices
-                        })
-                    }
-                ).catch(e => {
-                    dispatch({ type: userServicesConstants.GET_USER_SERVICES_FAILURE });
-                })
+                dispatch({
+                    type: availableServicesContants.GET_ALL_SERVICES_SUCCESS,
+                    providedServices: res.data,
+                });
             }
         ).catch(error => dispatch({
             type: availableServicesContants.GET_ALL_SERVICES_FAILURE
