@@ -75,6 +75,7 @@ class MyFlows extends Component {
     return myFlows.map((item, index) =>
       <Col key={index} lg={4} md={4} sm={12} xs={12}>
         <FlowItem
+          id={`flow-item-${index}`}
           onEdit={() => this.onSelectFlow(item)}
           delay={index}
           onSelectFlow={() => this.onSelectFlow(item)}
@@ -100,7 +101,8 @@ class MyFlows extends Component {
 
             <Col lg={4} sm={4} xs={6}>
               <Box direction="row" align="center" fill justify="end">
-                <Button label="Flow" primary icon={<Add />} color="accent-1" onClick={() => this.onCreateFlow()} />
+                <Button id="newflow-button" label="Flow" primary icon={<Add />}
+                  color="accent-1" onClick={() => this.onCreateFlow()} />
               </Box>
             </Col>
           </Row>

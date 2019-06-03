@@ -52,10 +52,11 @@ export default class FlowItem extends Component {
     const { onSelectFlow, description, owner, name, delay, type } = this.props;
     return (
       <Box fill onMouseEnter={this.showSnackbar}
+        onClick={onSelectFlow}
         onMouseLeave={this.hideSnackbar}
         animation={[
           { delay: delay * 50, type: "fadeIn" },
-          { delay: delay * 50, type: "zoomIn", size: 'xlarge' }]}>
+          { delay: delay * 50, type: "zoomIn", size: 'xlarge' }]} {...this.props}>
         <Box round={{ size: "small" }}
           margin={{ horizontal: "xsmall", vertical: 'small' }}
           pad="small" background="light-0" style={{ position: 'relative' }}>
