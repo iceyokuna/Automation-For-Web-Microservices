@@ -12,24 +12,24 @@ function getInputForm(workflowId, taskId) {
   return async (dispatch) => {
     dispatch({ type: workflowConstants.GET_INPUT_FORM_REQUEST });
 
-    setTimeout(() => {
-      const res = {
-        data: {
-          'email': { 'type': 'text', 'name': '', 'value': 'iceyokuna@gmail.com' },
-          'message': { 'type': 'textarea', 'name': '', 'value': 'AutoWeb-Message' },
-          'subject': { 'type': 'textarea', 'name': '', 'value': 'AutoWeb-Subject' },
-        }
-      };
-      dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS, data: res.data });
-    }, 1000);
-    // try {
-    //   const res = await workflowService.getInputForm(workflowId, taskId);
-    //   dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS });
-    // } catch (e) {
-    //   dispatch({ type: workflowConstants.GET_INPUT_FORM_FAILURE });
-    //   toast.error("Can't get input form");
-    //   console.error(e);
-    // }
+    // setTimeout(() => {
+    //   const res = {
+    //     data: {
+    //       'email': { 'type': 'text', 'name': '', 'value': 'iceyokuna@gmail.com' },
+    //       'message': { 'type': 'textarea', 'name': '', 'value': 'AutoWeb-Message' },
+    //       'subject': { 'type': 'textarea', 'name': '', 'value': 'AutoWeb-Subject' },
+    //     }
+    //   };
+    //   dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS, data: res.data });
+    // }, 1000);
+    try {
+      const res = await workflowService.getInputForm(workflowId, taskId);
+      dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS });
+    } catch (e) {
+      dispatch({ type: workflowConstants.GET_INPUT_FORM_FAILURE });
+      toast.error("Can't get input form");
+      console.error(e);
+    }
   }
 
 }
