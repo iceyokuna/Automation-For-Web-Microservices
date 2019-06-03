@@ -128,7 +128,8 @@ class Login extends Component {
       )
     } else {
       return (
-        < Button margin={{ top: 'small' }} primary icon={< Signin />} label="Sign in" onClick={this.onLogin} />
+        < Button id="signin-button" margin={{ top: 'small' }} primary 
+        icon={< Signin />} label="Sign in" onClick={this.onLogin} />
       );
     }
   }
@@ -142,6 +143,7 @@ class Login extends Component {
         <FormField >
           <TextInput
             ref='usernameInput'
+            id="username"
             autoFocus
             placeholder="Username"
             value={this.state.username}
@@ -150,6 +152,7 @@ class Login extends Component {
         <FormField>
           <TextInput
             placeholder="Password"
+            id="password"
             type="password"
             value={this.state.password}
             onChange={this.onChangePassword} />
