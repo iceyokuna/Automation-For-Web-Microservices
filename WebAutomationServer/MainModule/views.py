@@ -49,6 +49,32 @@ def TimerUpdateState(request):
     msg = {}
     msg['message'] = 'triggered success'
     return HttpResponse(json.dumps(msg),content_type= "application/json")
+
+#get preview of HTML form and FormInputValue
+@csrf_exempt
+def getPreview(request):
+    resquest = json.loads(request.body.decode('utf-8'))
+    workflowId = resquest['workflowId']
+    taskId = resquest['taskId']
+
+    #read workflow
+    workflowEngine_load = WorkflowEngine()
+
+    headers = {"Content-Type":"application/json"}
+    url = "http://178.128.214.101:8003/api/workflow/obj/" + str(workflowId)
+    response = requests.get(url, headers=headers)
+    response = json.loads(response.content)
+    workflowEngine_load = pickle.loads(ast.literal_eval(response['detail']['workflowObject']))
+
+    #update state
+    workflowEngine_load
+    
+
+    print("get preview success")
+
+    response = {}
+    response['message'] = 'triggered success'
+    return HttpResponse(json.dumps(response),content_type= "application/json")
     
 @csrf_exempt
 def saveFlow(request):
