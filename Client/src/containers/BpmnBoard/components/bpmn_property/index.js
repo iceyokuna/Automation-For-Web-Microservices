@@ -112,7 +112,7 @@ class BpmnProperty extends Component {
           />,
           <Button label="Define input" disabled={disabled}
             icon={<Edit />} onClick={this.onDefineInput} key={2} />,
-          <Button disabled={disabled} label="Create form"
+          <Button label="Create form"
             onClick={() => this.onSelectFormType()} />
         ]
       } break;

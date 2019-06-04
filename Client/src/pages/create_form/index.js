@@ -9,6 +9,8 @@ export default class CreateForm extends Component {
   constructor(props) {
     super(props);
     const currentTask = JSON.parse(localStorage.getItem('currentTask'));
+
+    console.log({currentTask});
     this.state = {
       currentTask: currentTask,
       elementsIdSet: {}

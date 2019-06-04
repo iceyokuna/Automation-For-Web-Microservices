@@ -83,10 +83,13 @@ export default class FloatDropdown extends Component {
     if (formType === "inputForm") {
       typeOfForm = "Input form";
       interfaceData = service.method.input_interface;
-    } else {
+    } else if (formType === "outputForm") {
       typeOfForm = "Output form";
       interfaceData = service.method.output_interface;
+    } else if (formType === "inputFormNoService") {
+      return null;
     }
+    
     return (
       <Container>
         <CollapseButton primary icon={<FormDown color="#ffffff" />} style={circleButton}

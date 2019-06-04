@@ -39,15 +39,20 @@ export default class GrapeJSWrapper extends Component {
 
   loadExistingForm = () => {
     const { initialForm, elementsIdSet } = this.props;
+
     if (initialForm != null && initialForm.formHtml !== "") {
       const { editor } = this;
       editor.setComponents(initialForm.formHtml);
       editor.setStyle(initialForm.formCss);
     } else {
-      const { editor } = this;
       // create initial forms according to service interface
-      const html = this.createFormsByElementIds();
-      editor.setComponents(html);
+      if (this.props.formType === "inputFormNoService") {
+        this.editor.setComponents("");
+      }
+      if (this.props.service != null) {
+        const html = this.createFormsByElementIds();
+        this.editor.setComponents(html);
+      }
     }
   }
 
@@ -58,13 +63,16 @@ export default class GrapeJSWrapper extends Component {
     if (formType === "inputForm") {
       typeOfForm = "Input form";
       interfaceData = service.method.input_interface;
-    } else {
+    } else if (formType === "outputForm") {
       typeOfForm = "Output form";
       interfaceData = service.method.output_interface;
     }
 
     const elements = [];
     const keys = Object.keys(interfaceData);
+
+    console.log({keys});
+
     keys.forEach((key, index) => {
       onSetElementId(key, true);
       const data = interfaceData[key];
