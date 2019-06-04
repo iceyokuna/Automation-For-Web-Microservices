@@ -29,6 +29,8 @@ class index extends Component {
       }
     });
 
+    $('#monitoring .bjs-powered-by').css({display: "none"});
+
     const { currentFlow, workflowMonitor } = this.props;
     const xml = json2xml(currentFlow.bpmnJson);
 

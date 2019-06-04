@@ -10,7 +10,7 @@ import {
 import { workflowActions } from 'actions';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "react-tabs/style/react-tabs.css";
+import "./tab.css";
 
 import 'flatpickr/dist/themes/light.css'
 import './index.css';

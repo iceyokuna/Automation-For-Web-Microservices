@@ -65,7 +65,7 @@ body {
 }
 
 .bjs-powered-by {
-  display: none !important;
+  /* display: none !important; */
   transform: translateY(-10px);
   z-index: 5 !important;
   bottom: 10px !important;
