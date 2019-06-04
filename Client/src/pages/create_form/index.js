@@ -48,6 +48,7 @@ export default class CreateForm extends Component {
         <GrapesContainer
           formType={currentTask.formType}
           initialForm={currentTask.currentForm}
+          taskId={currentTask.taskId}
           onExportForm={this.handleGeneratedForm}
           elementsIdSet={elementsIdSet}
           service={currentTask.selectedService}

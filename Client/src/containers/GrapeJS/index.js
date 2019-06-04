@@ -7,10 +7,8 @@ import customCodePlugin from 'grapesjs-custom-code'
 import 'grapesjs/dist/css/grapes.min.css';
 // import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
 
-import { global } from 'style';
 import $ from 'jquery';
 import ReactDOMServer from 'react-dom/server';
-import { Box } from 'grommet';
 import styles from './style';
 
 export default class GrapeJSWrapper extends Component {
@@ -47,7 +45,8 @@ export default class GrapeJSWrapper extends Component {
     } else {
       // create initial forms according to service interface
       if (this.props.formType === "inputFormNoService") {
-        this.editor.setComponents("");
+        const { taskId } = this.props;
+        this.editor.setComponents(`<div>This is a form of ${taskId}</div>`);
       }
       if (this.props.service != null) {
         const html = this.createFormsByElementIds();
@@ -70,8 +69,6 @@ export default class GrapeJSWrapper extends Component {
 
     const elements = [];
     const keys = Object.keys(interfaceData);
-
-    console.log({keys});
 
     keys.forEach((key, index) => {
       onSetElementId(key, true);
