@@ -35,7 +35,7 @@ def TimerUpdateState(request):
     task_data = workflowEngine_load.TimerUpdateState(userId)
     print("\n\n\n!!! called !!!\n\n\n")
 
-    #update workflow
+    #update workflow to database
     pickled_obj = pickle.dumps(workflowEngine_load)
     pickled_obj_str = str(pickled_obj)
     headers = {"Content-Type":"application/json"}
@@ -108,10 +108,14 @@ def saveFlow(request):
     #Save update new workflow object to database
     pickled_obj = pickle.dumps(workflowEngine)
     pickled_obj_str = str(pickled_obj)
-    
-    headers = {"Authorization":("Token " + str(user_token)), "Content-Type":"application/json"}
-    url = "http://178.128.214.101:8003/api/workflow"
+
+    headers = {"Content-Type":"application/json"}
+    url = "http://178.128.214.101:8003/api/internal_workflow/"
     payload = {"id": int(workflow_id),"data": {"workflowObject": pickled_obj_str}}
+
+    #headers = {"Authorization":("Token " + str(user_token)), "Content-Type":"application/json"}
+    #url = "http://178.128.214.101:8003/api/workflow"
+    #payload = {"id": int(workflow_id),"data": {"workflowObject": pickled_obj_str}}
     data = json.dumps(payload)
     r = requests.put(url, headers=headers, data=data)
     print("----------")
