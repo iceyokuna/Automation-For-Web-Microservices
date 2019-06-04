@@ -36,31 +36,42 @@ export default class GrapeJSWrapper extends Component {
   }
 
   loadExistingForm = () => {
-    const { initialForm, elementsIdSet } = this.props;
+    const { initialForm, } = this.props;
 
-    console.log("%c Props", "color: red;");
-    console.log(this.props);
-
+    // Found existing form
     if (initialForm != null && initialForm.formHtml !== "") {
-      alert("Case 1");
-
       const { editor } = this;
       editor.setComponents(initialForm.formHtml);
       editor.setStyle(initialForm.formCss);
-    } else {
-
-      alert("Case 2");
-
-      // create initial forms according to service interface
+      this.checkElementIds();
+    } else { // Not found existing form
       if (this.props.formType === "inputFormNoService") {
         const { taskId } = this.props;
         this.editor.setComponents(`<div>This is a form of ${taskId}</div>`);
       }
       else if (this.props.service != null) {
+        // create initial forms according to service interface
         const html = this.createFormsByElementIds();
         this.editor.setComponents(html);
       }
     }
+  }
+
+  checkElementIds() {
+    const { service, formType, onSetElementId } = this.props;
+    let interfaceData = null;
+
+    if (formType === "inputForm") {
+      interfaceData = service.method.input_interface;
+    } else if (formType === "outputForm") {
+      interfaceData = service.method.output_interface;
+    }
+
+    const keys = Object.keys(interfaceData);
+
+    keys.forEach((key, index) => {
+      onSetElementId(key, true);
+    });
   }
 
   createFormsByElementIds() {

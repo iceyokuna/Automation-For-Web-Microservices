@@ -82,6 +82,13 @@ class AppBar extends Component {
         </Box>);
     }
 
+    if (notification.data.length == 0) {
+      return (
+        <Box justify="center" align="center" pad="medium">
+          <Text>You don't have any message</Text>
+        </Box>);
+    }
+
     let elements = notification.data.map((item, index) =>
       <NotificationItem
         key={index}
