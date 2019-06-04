@@ -148,7 +148,7 @@ class FlowDetail extends Component {
   renderCollaboratorItems = () => {
     const { workflowCollaborators } = this.props;
     const { collaborators, loadingCollaborators } = workflowCollaborators;
-    if (loadingCollaborators === true) {
+    if (loadingCollaborators) {
       return (
         <Box align="center" pad='small' fill justify="center">
           <Spinner
@@ -303,7 +303,7 @@ class FlowDetail extends Component {
     const { showInspection, elementToInspect } = this.state;
     const { currentFlow, workflowMonitor, } = this.props;
     const { loadingInputForm } = workflowMonitor;
-    
+
     if (!showInspection || currentFlow.generatedForms.length == 0) return null;
 
     const currentForm = currentFlow.generatedForms.find(
@@ -318,11 +318,11 @@ class FlowDetail extends Component {
       <Modal header="Inspection" show={showInspection}
         onCloseModal={this.onCloseInspection}>
         {loadingInputForm ? (
-          <Box fill="horizontal" justify="center" align="center" margin={{ top: 'large' }}>
+          <Box align="center" pad='small'
+            justify="center" height="50px">
             <Spinner
               fadeIn="half"
-              name="ball-scale-multiple"
-              color={colors.brand} />
+              name="ball-scale-multiple" color={colors.brand} />
           </Box>
         ) : (
             <Box animation={{ type: 'fadeIn', duration: 500 }}>

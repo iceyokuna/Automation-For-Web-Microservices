@@ -14,8 +14,12 @@ function getInputForm(workflowId, taskId) {
     try {
       const res = await workflowService.getInputForm(workflowId, taskId);
       const { HTML, formInputValues } = res.data;
-      if (HTML == null || formInputValues == null) {
+      if (HTML == null) {
+        dispatch({ type: workflowConstants.GET_INPUT_FORM_FAILURE });
         toast.info("This element doesn't have a form");
+      } else if (formInputValues == null) {
+        dispatch({ type: workflowConstants.GET_INPUT_FORM_FAILURE });
+        toast.info("The task is not completed");
       } else {
         dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS, data: res.data });
       }
