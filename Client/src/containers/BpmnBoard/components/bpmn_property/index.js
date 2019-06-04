@@ -110,7 +110,7 @@ class BpmnProperty extends Component {
             taskId={workflow.currentNode.id}
             onSelectServiceMethod={(serviceMethod) => onSelectServiceMethod(serviceMethod)}
           />,
-          <Button label="Define input"
+          <Button label="Define input" disabled={disabled}
             icon={<Edit />} onClick={this.onDefineInput} key={2} />,
           <Button label="Create form"
             onClick={() => this.onSelectFormType()} />
