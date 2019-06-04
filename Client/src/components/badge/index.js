@@ -13,12 +13,14 @@ const index = (props) => {
     <div style={{ position: 'relative' }}>
       {props.children}
 
-      <Spring from={{ opacity: 0, transform: "scale(0.5)" }}
-        to={{ opacity: 1, transform: "scale(1.4)" }}
-        reset={resetBadgeAnim}
-        onRest={() => setResetBadgeAnim(false)} >
-        {style => <BadgeIcon style={style}>{props.length}</BadgeIcon>}
-      </Spring>
+      {props.length > 0 && (
+        <Spring from={{ opacity: 0, transform: "scale(0.5)" }}
+          to={{ opacity: 1, transform: "scale(1.4)" }}
+          reset={resetBadgeAnim}
+          onRest={() => setResetBadgeAnim(false)} >
+          {style => <BadgeIcon style={style}>{props.length}</BadgeIcon>}
+        </Spring>
+      )}
 
     </div >
   );
