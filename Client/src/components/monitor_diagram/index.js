@@ -73,7 +73,9 @@ class index extends Component {
   }
 
   highlightUserlane = () => {
-    const { username, currentFlow, } = this.props;
+    const { authentication, currentFlow, } = this.props;
+    if (!authentication.user) return null;
+    const { username } = authentication.user;
     const overlays = this.viewer.get('overlays');
     const elementRegistry = this.viewer.get('elementRegistry');
     const elementId = getElementIdFromLaneValue(username, currentFlow.bpmnJson);
@@ -259,7 +261,7 @@ const mapStateToProps = (state) => {
   return {
     currentFlow: state.workflowMyFlows.currentFlow,
     workflowMonitor: state.workflowMonitor,
-    username: state.authentication.user.username,
+    authentication: state.authentication,
   }
 }
 
