@@ -48,7 +48,7 @@ export default class GrapeJSWrapper extends Component {
         const { taskId } = this.props;
         this.editor.setComponents(`<div>This is a form of ${taskId}</div>`);
       }
-      if (this.props.service != null) {
+      else if (this.props.service != null) {
         const html = this.createFormsByElementIds();
         this.editor.setComponents(html);
       }

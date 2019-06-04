@@ -10,7 +10,7 @@ export default class CreateForm extends Component {
     super(props);
     const currentTask = JSON.parse(localStorage.getItem('currentTask'));
 
-    console.log({currentTask});
+    console.log({ currentTask });
     this.state = {
       currentTask: currentTask,
       elementsIdSet: {}
@@ -19,7 +19,10 @@ export default class CreateForm extends Component {
 
   handleGeneratedForm = (form) => {
     const { currentTask } = this.state;
-    const action = workflowActions.addNewForm(currentTask.formType, form, currentTask.taskId);
+    
+    const formType = currentTask.formType === "inputFormNoService" ? "inputForm": "outputForm";
+
+    const action = workflowActions.addNewForm(formType, form, currentTask.taskId);
     localStorage.setItem('newFormAdded', JSON.stringify(action));
     window.close(); // Close curent tab
   }

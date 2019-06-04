@@ -54,11 +54,11 @@ export class index extends Component {
                 <Button fill label="Input" color="accent-4" style={{ color: '#fff' }}
                   primary onClick={() => this.onGotoCreateForm('inputForm')} />
 
-                <Button fill label="Input ( No service )" color="accent-4" style={{ color: '#fff' }}
+                <Button fill label="Input ( No service )" color="accent-3" style={{ color: '#fff' }}
                   primary onClick={() => this.onGotoCreateForm('inputFormNoService')} />
-
+{/* 
                 <Button fill label="Output" color="accent-3" primary
-                  onClick={() => this.onGotoCreateForm('outputForm')} />
+                  onClick={() => this.onGotoCreateForm('outputForm')} /> */}
               </Box>
 
             </Box>
