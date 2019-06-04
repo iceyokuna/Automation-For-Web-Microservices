@@ -27,12 +27,18 @@ export class index extends Component {
     const { appliedMethods, generatedForms, currentNode } = this.props.workflow;
     const nodeId = currentNode.id;
     const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
+
+    console.log({currentFormIndex});
+
     const currentTask = {
       formType: formType,
       taskId: nodeId,
       selectedService: appliedMethods[nodeId],
       currentForm: currentFormIndex === -1 ? null : generatedForms[currentFormIndex].forms[formType],
     }
+
+    console.log({currentForm: currentTask.currentForm});
+
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
     window.open('/design_form'); // Open a new tab
     this.props.dispatch(workflowActions.toggleFormTypeDialog());
@@ -54,11 +60,11 @@ export class index extends Component {
                 <Button fill label="Input" color="accent-4" style={{ color: '#fff' }}
                   primary onClick={() => this.onGotoCreateForm('inputForm')} />
 
-                <Button fill label="Input ( No service )" color="accent-4" style={{ color: '#fff' }}
+                <Button fill label="Input ( No service )" color="accent-3" style={{ color: '#fff' }}
                   primary onClick={() => this.onGotoCreateForm('inputFormNoService')} />
-
+{/* 
                 <Button fill label="Output" color="accent-3" primary
-                  onClick={() => this.onGotoCreateForm('outputForm')} />
+                  onClick={() => this.onGotoCreateForm('outputForm')} /> */}
               </Box>
 
             </Box>

@@ -35,7 +35,6 @@ const App = () => (
       <Router history={history}>
         <Grommet theme={appTheme} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <ToastContainer hideProgressBar position="top-center"
-
             closeButton={<Close color="#fff" size="14px" />} />
 
           <ReactTooltip effect="solid" />

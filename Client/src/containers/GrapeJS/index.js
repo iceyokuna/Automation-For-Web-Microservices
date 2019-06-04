@@ -7,10 +7,8 @@ import customCodePlugin from 'grapesjs-custom-code'
 import 'grapesjs/dist/css/grapes.min.css';
 // import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
 
-import { global } from 'style';
 import $ from 'jquery';
 import ReactDOMServer from 'react-dom/server';
-import { Box } from 'grommet';
 import styles from './style';
 
 export default class GrapeJSWrapper extends Component {
@@ -39,15 +37,29 @@ export default class GrapeJSWrapper extends Component {
 
   loadExistingForm = () => {
     const { initialForm, elementsIdSet } = this.props;
+
+    console.log("%c Props", "color: red;");
+    console.log(this.props);
+
     if (initialForm != null && initialForm.formHtml !== "") {
+      alert("Case 1");
+
       const { editor } = this;
       editor.setComponents(initialForm.formHtml);
       editor.setStyle(initialForm.formCss);
     } else {
-      const { editor } = this;
+
+      alert("Case 2");
+
       // create initial forms according to service interface
-      const html = this.createFormsByElementIds();
-      editor.setComponents(html);
+      if (this.props.formType === "inputFormNoService") {
+        const { taskId } = this.props;
+        this.editor.setComponents(`<div>This is a form of ${taskId}</div>`);
+      }
+      else if (this.props.service != null) {
+        const html = this.createFormsByElementIds();
+        this.editor.setComponents(html);
+      }
     }
   }
 
@@ -58,13 +70,14 @@ export default class GrapeJSWrapper extends Component {
     if (formType === "inputForm") {
       typeOfForm = "Input form";
       interfaceData = service.method.input_interface;
-    } else {
+    } else if (formType === "outputForm") {
       typeOfForm = "Output form";
       interfaceData = service.method.output_interface;
     }
 
     const elements = [];
     const keys = Object.keys(interfaceData);
+
     keys.forEach((key, index) => {
       onSetElementId(key, true);
       const data = interfaceData[key];

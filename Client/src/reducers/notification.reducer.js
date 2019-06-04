@@ -1,36 +1,7 @@
 import { notificationConstants, workflowConstants } from '_constants';
 const initialState = {
   isLoading: false,
-  data: [
-    {
-      type: 'YOUR_TURN',
-      title: 'Your turn',
-      body: 'Checkout your workflow',
-      workflowId: 163,
-      createdAt: '23/05/19 15:31'
-    },
-    {
-      type: 'YOUR_TURN',
-      title: 'Your turn #2',
-      body: 'Checkout your workflow',
-      workflowId: 163,
-      createdAt: '23/05/19 15:30'
-    },
-    {
-      type: 'YOUR_TURN',
-      title: 'Your turn #2',
-      body: 'Checkout your workflow',
-      workflowId: 163,
-      createdAt: '23/05/19 15:30'
-    },
-    {
-      type: 'YOUR_TURN',
-      title: 'Your turn #2',
-      body: 'Checkout your workflow',
-      workflowId: 163,
-      createdAt: '23/05/19 15:30'
-    },
-  ],
+  data: [],
 }
 
 export function notification(state = initialState, action) {

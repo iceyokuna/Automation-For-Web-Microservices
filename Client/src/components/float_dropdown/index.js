@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import { Box, Text, Button } from 'grommet';
 import { Checkmark, Help, FormDown } from 'grommet-icons';
@@ -83,10 +83,13 @@ export default class FloatDropdown extends Component {
     if (formType === "inputForm") {
       typeOfForm = "Input form";
       interfaceData = service.method.input_interface;
-    } else {
+    } else if (formType === "outputForm") {
       typeOfForm = "Output form";
       interfaceData = service.method.output_interface;
     }
+
+    const height = formType === "inputFormNoService" ? 180 : 400;
+
     return (
       <Container>
         <CollapseButton primary icon={<FormDown color="#ffffff" />} style={circleButton}
@@ -96,7 +99,7 @@ export default class FloatDropdown extends Component {
         <Transition
           items={show}
           from={{ height: 0, width: 400, opacity: 0, }}
-          enter={{ height: 400, opacity: 1 }}
+          enter={{ height: height, opacity: 1 }}
           leave={{ height: 0, opacity: 0 }}>
           {toggle =>
             toggle
@@ -105,20 +108,32 @@ export default class FloatDropdown extends Component {
                   round={{ corner: 'bottom', size: 'small' }}
                   elevation="small" pad="medium" gap="xsmall" style={props}
                 >
-                  <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
-                    <Text color="accent-4" >{typeOfForm}</Text>
-                    <Box direction="row" justify="between">
-                      <Text size="xlarge" weight="bold" >{service.method.name}</Text>
-                      <Text size="large" >{taskId}</Text>
-                    </Box>
-                    <Box>
-                      <Text>{service.method.info}</Text>
-                    </Box>
-                  </Box>
+                  {formType === "inputFormNoService" ?
+                    (<Box pad={{ top: 'medium', bottom: 'xsmall', horizontal: 'xsmall' }} gap="xsmall">
+                      <Box direction="row" justify="between">
+                        <Text color="accent-4" >Input Form ( without service )</Text>
+                        <Text size="medium" weight="bold">{taskId}</Text>
+                      </Box>
+                      <Text>* You have to specify id for each input element</Text>
+                    </Box>) : (
+                      <Fragment>
+                        <Box border={{ side: 'bottom', size: 'small' }} pad="xsmall">
+                          <Text color="accent-4" >{typeOfForm}</Text>
+                          <Box direction="row" justify="between">
+                            <Text size="xlarge" weight="bold" >{service.method.name}</Text>
+                            <Text size="large" >{taskId}</Text>
+                          </Box>
+                          <Box>
+                            <Text>{service.method.info}</Text>
+                          </Box>
+                        </Box>
 
-                  <Scrollbars autoHeightMax={250} autoHeight autoHide>
-                    {this.renderInterfaceItems(interfaceData)}
-                  </Scrollbars>
+                        <Scrollbars autoHeightMax={250} autoHeight autoHide>
+                          {this.renderInterfaceItems(interfaceData)}
+                        </Scrollbars>
+                      </Fragment>
+                    )}
+
                 </Box>
               : props => null
           }

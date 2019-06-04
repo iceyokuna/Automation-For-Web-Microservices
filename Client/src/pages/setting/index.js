@@ -9,7 +9,7 @@ import { global } from 'style';
 
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "./tabs.css";
+// import "./tabs.css";
 
 import SettingServices from 'pages/setting_services';
 import SettingNotification from 'pages/setting_notification';

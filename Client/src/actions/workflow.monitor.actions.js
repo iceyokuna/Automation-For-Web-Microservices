@@ -13,7 +13,12 @@ function getInputForm(workflowId, taskId) {
     dispatch({ type: workflowConstants.GET_INPUT_FORM_REQUEST });
     try {
       const res = await workflowService.getInputForm(workflowId, taskId);
-      dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS, data: res.data });
+      const { HTML, formInputValues } = res.data;
+      if (HTML == null || formInputValues == null) {
+        toast.info("This element doesn't have a form");
+      } else {
+        dispatch({ type: workflowConstants.GET_INPUT_FORM_SUCCESS, data: res.data });
+      }
     } catch (e) {
       dispatch({ type: workflowConstants.GET_INPUT_FORM_FAILURE });
       toast.info("This element doesn't have a form");

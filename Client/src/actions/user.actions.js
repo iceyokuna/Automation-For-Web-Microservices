@@ -1,7 +1,7 @@
 import { userConstants } from '_constants';
 import { accountService, notificationServices } from 'services';
 import { alertActions } from './';
-import { history, askForPermissioToReceiveNotifications } from '_helpers';
+import { history, persistor } from '_helpers';
 import { toast } from 'react-toastify';
 
 export const userActions = {
@@ -47,8 +47,12 @@ function logout() {
   return dispatch => {
     dispatch({ type: userConstants.LOGOUT });
     accountService.logout().then((res) => {
-      localStorage.removeItem('user');
-      history.replace('/login');
+      persistor.purge().then(res => {
+        localStorage.removeItem('user');
+        history.replace('/login');
+      }).catch(e => {
+        console.error(e);
+      });
     }).catch(err => { console.error(err); localStorage.removeItem('user'); history.push('/login') });
   }
 }

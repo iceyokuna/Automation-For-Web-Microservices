@@ -9,6 +9,8 @@ export default class CreateForm extends Component {
   constructor(props) {
     super(props);
     const currentTask = JSON.parse(localStorage.getItem('currentTask'));
+
+    console.log({ currentTask });
     this.state = {
       currentTask: currentTask,
       elementsIdSet: {}
@@ -17,7 +19,10 @@ export default class CreateForm extends Component {
 
   handleGeneratedForm = (form) => {
     const { currentTask } = this.state;
-    const action = workflowActions.addNewForm(currentTask.formType, form, currentTask.taskId);
+    const formType = currentTask.formType === "inputFormNoService"
+      || currentTask.formType === "inputForm" ? "inputForm" : "outputForm";
+
+    const action = workflowActions.addNewForm(formType, form, currentTask.taskId);
     localStorage.setItem('newFormAdded', JSON.stringify(action));
     window.close(); // Close curent tab
   }
@@ -46,6 +51,7 @@ export default class CreateForm extends Component {
         <GrapesContainer
           formType={currentTask.formType}
           initialForm={currentTask.currentForm}
+          taskId={currentTask.taskId}
           onExportForm={this.handleGeneratedForm}
           elementsIdSet={elementsIdSet}
           service={currentTask.selectedService}
