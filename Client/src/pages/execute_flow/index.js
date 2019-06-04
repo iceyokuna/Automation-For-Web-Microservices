@@ -12,6 +12,7 @@ import { OpenDock } from 'style';
 import MonitorDiagram from 'components/monitor_diagram';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
+import { GoogleLogin } from 'react-google-login';
 
 class ExecuteFlow extends Component {
 
@@ -103,11 +104,17 @@ class ExecuteFlow extends Component {
     this.props.dispatch(monitorActions.toggleDock());
   }
 
+  responseGoogleSignin = (response) => {
+    this.setState({
+      authCode: response.code
+    })
+  }
+
   renderLoadingFormModal = () => {
     const { socket } = this.props;
     const { loadingExecutionForm } = socket;
     return (
-      <Modal show={loadingExecutionForm} width="300px">
+      <Modal show={loadingExecutionForm} width="300px" onCloseModal={() => { }}>
         <Box align="center" direction="row"
           pad='small' gap="large" justify="center">
           <Text>Loading next form ...</Text>
@@ -117,6 +124,24 @@ class ExecuteFlow extends Component {
         </Box>
       </Modal>
     );
+  }
+
+  renderGoogleSigninButton = () => {
+    if (this.state.serviceProvider === "Google" || true) {
+      return (
+        <GoogleLogin
+          clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={this.responseGoogleSignin}
+          onFailure={this.responseGoogleSignin}
+          cookiePolicy={'single_host_origin'}
+          scope={"https://www.googleapis.com/auth/drive.file"}
+          redirectUri="localhost:3000/execute"
+          responseType="code"
+          prompt="consent"
+        />
+      );
+    }
   }
 
   render() {
@@ -154,6 +179,7 @@ class ExecuteFlow extends Component {
               dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
           </Box>
           <Box direction="row" align="center" justify="end" gap="small">
+            {this.renderGoogleSigninButton()}
             <Button style={styles.navButton} label="Previous" onClick={() => this.getPreviousForm()} />
             <Button style={styles.navButton} label="Next" primary onClick={() => this.getNextForm()} />
           </Box>
