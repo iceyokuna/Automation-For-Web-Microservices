@@ -10,7 +10,7 @@ const Modal = ({ show, header, width, ...props }) => {
       onEsc={() => props.onCloseModal()}
     >
       <Box pad="medium" gap="small" width={width || "500px"} direction="column">
-        <Heading level={3} margin="none">{header}</Heading>
+        {header && (<Heading level={3} margin="none">{header}</Heading>)}
 
         {/* Render body of Modal */}
         {props.children}

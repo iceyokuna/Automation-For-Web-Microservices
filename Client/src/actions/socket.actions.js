@@ -51,12 +51,14 @@ function startFlow(name) {
 }
 
 function nextForm(name, formInputValues, taskId, user, currentWorkflowId) {
-  return {
-    type: socketConstants.NEXT_FORM,
-    name,
-    formInputValues,
-    taskId,
-    user,
-    currentWorkflowId,
+  return dispatch => {
+    dispatch({
+      type: socketConstants.NEXT_FORM,
+      name,
+      formInputValues,
+      taskId,
+      user,
+      currentWorkflowId,
+    })
   }
 }

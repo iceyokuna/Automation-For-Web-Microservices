@@ -42,6 +42,9 @@ export class index extends Component {
 
   render() {
     const { workflow } = this.props;
+    
+    if (!workflow.showFormTypeDialog) return null;
+
     const elementId = workflow.currentNode.id;
     const disabled = workflow.appliedMethods[elementId] != null ? false : true;
 

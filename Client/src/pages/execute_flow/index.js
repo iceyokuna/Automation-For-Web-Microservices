@@ -10,6 +10,8 @@ import Modal from 'components/modal';
 import DockContainer from 'components/execution_log';
 import { OpenDock } from 'style';
 import MonitorDiagram from 'components/monitor_diagram';
+import Spinner from 'react-spinkit';
+import { colors } from 'theme';
 
 class ExecuteFlow extends Component {
 
@@ -101,6 +103,22 @@ class ExecuteFlow extends Component {
     this.props.dispatch(monitorActions.toggleDock());
   }
 
+  renderLoadingFormModal = () => {
+    const { socket } = this.props;
+    const { loadingExecutionForm } = socket;
+    return (
+      <Modal show={loadingExecutionForm} width="300px">
+        <Box align="center" direction="row"
+          pad='small' gap="large" justify="center">
+          <Text>Loading next form ...</Text>
+          <Spinner
+            fadeIn="half"
+            name="ball-scale-multiple" color={colors.brand} />
+        </Box>
+      </Modal>
+    );
+  }
+
   render() {
     const { currentFormCss, currentFormHtml, } = this.state;
     const { dispatch, workflow, history, } = this.props;
@@ -108,6 +126,9 @@ class ExecuteFlow extends Component {
 
     return (
       <FillParent>
+
+        {this.renderLoadingFormModal()}
+
         <OpenDock icon={<CaretUp color="#fff" />}
           color="accent-4" primary plain={false}
           data-tip="Workflow logs"
@@ -153,6 +174,7 @@ const mapStateToProps = (state) => {
     workflow: state.workflow,
     authentication: state.authentication,
     currentWorkflowId: state.workflowMyFlows.currentFlow.id,
+    socket: state.socket,
   }
 }
 
