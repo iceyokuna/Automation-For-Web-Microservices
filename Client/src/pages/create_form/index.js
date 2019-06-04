@@ -19,8 +19,8 @@ export default class CreateForm extends Component {
 
   handleGeneratedForm = (form) => {
     const { currentTask } = this.state;
-    
-    const formType = currentTask.formType === "inputFormNoService" ? "inputForm": "outputForm";
+    const formType = currentTask.formType === "inputFormNoService"
+      || currentTask.formType === "inputForm" ? "inputForm" : "outputForm";
 
     const action = workflowActions.addNewForm(formType, form, currentTask.taskId);
     localStorage.setItem('newFormAdded', JSON.stringify(action));

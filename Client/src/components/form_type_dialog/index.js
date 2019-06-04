@@ -27,12 +27,18 @@ export class index extends Component {
     const { appliedMethods, generatedForms, currentNode } = this.props.workflow;
     const nodeId = currentNode.id;
     const currentFormIndex = generatedForms.findIndex((task) => task.taskId === nodeId);
+
+    console.log({currentFormIndex});
+
     const currentTask = {
       formType: formType,
       taskId: nodeId,
       selectedService: appliedMethods[nodeId],
       currentForm: currentFormIndex === -1 ? null : generatedForms[currentFormIndex].forms[formType],
     }
+
+    console.log({currentForm: currentTask.currentForm});
+
     localStorage.setItem('currentTask', JSON.stringify(currentTask));
     window.open('/design_form'); // Open a new tab
     this.props.dispatch(workflowActions.toggleFormTypeDialog());

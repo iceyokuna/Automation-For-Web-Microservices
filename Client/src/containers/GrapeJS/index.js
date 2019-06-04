@@ -38,11 +38,19 @@ export default class GrapeJSWrapper extends Component {
   loadExistingForm = () => {
     const { initialForm, elementsIdSet } = this.props;
 
+    console.log("%c Props", "color: red;");
+    console.log(this.props);
+
     if (initialForm != null && initialForm.formHtml !== "") {
+      alert("Case 1");
+
       const { editor } = this;
       editor.setComponents(initialForm.formHtml);
       editor.setStyle(initialForm.formCss);
     } else {
+
+      alert("Case 2");
+
       // create initial forms according to service interface
       if (this.props.formType === "inputFormNoService") {
         const { taskId } = this.props;
