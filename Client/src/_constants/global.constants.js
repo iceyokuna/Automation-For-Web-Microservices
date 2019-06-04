@@ -2,6 +2,8 @@ const productionServer = "https://the-timemachine.com";
 const developmentServer = "http://178.128.214.101";
 
 const workflowEngineUrl = "http://127.0.0.1:8000";
+// const googleServiceUrl = "http://127.0.0.1:8001";
+const googleServiceUrl = "https://c3160663.ngrok.io";
 
 export const globalConstants = {
   USER_REGISTER_URL: `${developmentServer}:8003/api/register`,
@@ -29,4 +31,6 @@ export const globalConstants = {
   DELETE_COLLABORATORS_URL: `${developmentServer}:8003/api/collaborator/delete/`,
 
   GET_PREVIEW_INPUT_FORM_URL: `${workflowEngineUrl}/preview/`,
+
+  GOOGLE_DOC_API_CREATE_URL: `${googleServiceUrl}/api/docs/create/`,
 };
