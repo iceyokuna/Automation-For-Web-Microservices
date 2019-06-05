@@ -45,7 +45,7 @@ class Method(models.Model):
     service = models.ForeignKey(Service, related_name='methods', on_delete=models.CASCADE)
     input_interface = JSONField(null=True)
     output_interface = JSONField(null=True)
-    created = models.TextField(null=True)
+    
    
 
     def __str__(self):
