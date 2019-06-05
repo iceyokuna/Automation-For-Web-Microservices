@@ -53,6 +53,9 @@ class FlowDetail extends Component {
 
   componentDidMount() {
     ReactTooltip.rebuild();
+
+    const { currentFlow, dispatch, } = this.props;
+    dispatch(monitorActions.getCurrentLogs(currentFlow.id));
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -305,7 +308,7 @@ class FlowDetail extends Component {
     const { loadingInputForm } = workflowMonitor;
     const { formInputValues } = workflowMonitor;
 
-    console.log({formInputValues});
+    console.log({ formInputValues });
 
     if (!showInspection || currentFlow.generatedForms.length == 0) return null;
 

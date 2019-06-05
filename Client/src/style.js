@@ -9,7 +9,7 @@ const highlight = keyframes`
 `
 
 export const OpenDock = styled(Button)`
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   left: calc(50%);
   transform: translateX(-50%);
