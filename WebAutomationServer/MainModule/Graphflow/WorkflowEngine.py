@@ -451,8 +451,10 @@ class WorkflowEngine:
             if(str(service_id) == "107"):
                 if(str(service_method) == "135"):
                     url = "http://127.0.0.1:5002/turnon"
-            if(str(service_method) == "137"):
+                    requests.post(url , data= {})
+                elif(str(service_method) == "137"):
                     url = "http://127.0.0.1:5002/turnoff"
+                    requests.post(url , data= {})
 
             #test google
 
