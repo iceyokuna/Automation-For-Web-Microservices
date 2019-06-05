@@ -232,9 +232,10 @@ export function workflow(state = defaultState, action) {
 
     case workflowConstants.SET_CURRENT_EXECUTING_FORM: {
       const nextState = { ...state };
-      const { executingForm, executingTaskId } = action;
+      const { executingForm, executingTaskId, serviceProvider, } = action;
       nextState.executingForm = executingForm;
       nextState.executingTaskId = executingTaskId;
+      nextState.serviceProvider = serviceProvider;
       return nextState;
     }
 

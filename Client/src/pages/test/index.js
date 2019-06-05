@@ -49,7 +49,7 @@ class Test extends Component {
 
         <Button label="POST" onClick={() => {
           axios.post(globalConstants.GOOGLE_DOC_API_CREATE_URL, {
-            "auth": this.state.authCode,
+            "auth": "4/YAHdh0_Y5biwxJSwGcQdkkztB5k-shkPxrKmdTF1P29uPMxyqWvPZbH1n2L5sGkfQC1IvggXG-V_bFPc8Z2jRuo",
             "title": "Test NGROKkkkkkkk",
             "f_name": "Phat",
             "l_name": "Tawee",

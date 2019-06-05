@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Button, Box, Text } from 'grommet';
+import { Button, Box, Text, Paragraph, } from 'grommet';
 import { CaretUp, } from 'grommet-icons';
 import { FillParent } from 'style'
 import { UniversalStyle as Style } from 'react-css-component'
@@ -13,6 +13,7 @@ import MonitorDiagram from 'components/monitor_diagram';
 import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { GoogleLogin } from 'react-google-login';
+import $ from 'jquery';
 
 class ExecuteFlow extends Component {
 
@@ -26,16 +27,20 @@ class ExecuteFlow extends Component {
       currentFormHtml: null,
       currentFormCss: null,
       currentFormJs: null,
+      showInspection: false,
+      showAuthCode: false,
+      googleAuthCode: '',
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { executingForm } = nextProps.workflow;
+    const { executingForm, serviceProvider, } = nextProps.workflow;
     if (executingForm) {
       this.setState({
         currentFormHtml: executingForm.formHtml,
         currentFormCss: executingForm.formCss,
         currentFormJs: executingForm.formJs,
+        serviceProvider: serviceProvider,
       });
 
       const script = document.createElement("script");
@@ -51,6 +56,22 @@ class ExecuteFlow extends Component {
     //         currentFormJs: "",
     //     });
     // }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { workflowMonitor, } = this.props;
+    const { formInputValues } = workflowMonitor;
+    this.assignValuesToInputForm(formInputValues);
+  }
+
+
+  assignValuesToInputForm = (formInputValues) => {
+    if (formInputValues == null) return;
+    // console.log({ formInputValues });
+    Object.keys(formInputValues).forEach((id, index) => {
+      console.log({ id });
+      $(`#${id}`).val(formInputValues[id].value).css({ color: colors["accent-4"] });
+    })
   }
 
   getPreviousForm = () => {
@@ -94,6 +115,16 @@ class ExecuteFlow extends Component {
     ));
   }
 
+  onClickElement = (elementId) => {
+    this.setState({
+      showInspection: true,
+      elementToInspect: elementId
+    });
+
+    const { dispatch, currentFlow } = this.props;
+    dispatch(monitorActions.getInputForm(currentFlow.id, elementId));
+  }
+
   onAcceptWaitingStatus = () => {
     const { dispatch, history, } = this.props;
     dispatch(workflowActions.closeWaitingDialog());
@@ -104,9 +135,14 @@ class ExecuteFlow extends Component {
     this.props.dispatch(monitorActions.toggleDock());
   }
 
-  responseGoogleSignin = (response) => {
+  onCloseInspection = () => {
+    this.setState({ showInspection: !this.state.showInspection });
+  }
+
+  OnResponseGoogleSignin = (response) => {
     this.setState({
-      authCode: response.code
+      googleAuthCode: response.code,
+      showAuthCode: true,
     })
   }
 
@@ -132,8 +168,8 @@ class ExecuteFlow extends Component {
         <GoogleLogin
           clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
           buttonText="Login"
-          onSuccess={this.responseGoogleSignin}
-          onFailure={this.responseGoogleSignin}
+          onSuccess={this.OnResponseGoogleSignin}
+          onFailure={this.OnResponseGoogleSignin}
           cookiePolicy={'single_host_origin'}
           scope={"https://www.googleapis.com/auth/drive.file"}
           redirectUri="localhost:3000/execute"
@@ -144,6 +180,62 @@ class ExecuteFlow extends Component {
     }
   }
 
+  renderElementInspection = () => {
+    const { showInspection, elementToInspect } = this.state;
+    const { currentFlow, workflowMonitor, } = this.props;
+    const { loadingInputForm } = workflowMonitor;
+    const { formInputValues } = workflowMonitor;
+
+    if (!showInspection || currentFlow.generatedForms.length == 0) return null;
+
+    const currentForm = currentFlow.generatedForms.find(
+      item => item.taskId === elementToInspect
+    )
+
+    // Element doesn't have a form
+    if (currentForm == null) return null;
+    if (formInputValues == null) return null;
+
+    const { formHtml, formCss, } = currentForm.forms.inputForm;
+    return (
+      <Modal header="Inspection" show={showInspection}
+        onCloseModal={this.onCloseInspection}>
+        {loadingInputForm ? (
+          <Box align="center" pad='small'
+            justify="center" height="50px">
+            <Spinner
+              fadeIn="half"
+              name="ball-scale-multiple" color={colors.brand} />
+          </Box>
+        ) : (
+            <Box animation={{ type: 'fadeIn', duration: 500 }}>
+              <Style css={formCss} />
+              <Text>* Received inputs</Text>
+              <div dangerouslySetInnerHTML={{ __html: formHtml }}
+                style={{ pointerEvents: 'none', opacity: 0.7, }} />
+            </Box>
+          )}
+      </Modal>
+    );
+  }
+
+  onCloseAuthCodeModal = () => {
+    this.setState({ showAuthCode: false });
+  }
+
+  renderGoogleModalAuthCode = () => {
+    const { showAuthCode, googleAuthCode } = this.state;
+    return (
+      <Modal header="Google auth code"
+        show={showAuthCode} onCloseModal={this.onCloseAuthCodeModal}>
+        <Box pad="small">
+          <Paragraph >{googleAuthCode}</Paragraph>
+        </Box>
+      </Modal>
+    );
+  }
+
+
   render() {
     const { currentFormCss, currentFormHtml, } = this.state;
     const { dispatch, workflow, history, } = this.props;
@@ -151,16 +243,16 @@ class ExecuteFlow extends Component {
 
     return (
       <FillParent>
-
+        {this.renderElementInspection()}
         {this.renderLoadingFormModal()}
-
+        {this.renderGoogleModalAuthCode()}
         <OpenDock icon={<CaretUp color="#fff" />}
           color="accent-4" primary plain={false}
           data-tip="Workflow logs"
           onClick={this.onOpenLogs} />
 
         <DockContainer >
-          <MonitorDiagram height="350px" />
+          <MonitorDiagram height="350px" onClickElement={this.onClickElement} />
         </DockContainer>
 
         <Modal show={showWaitingDialog} header="Execution status"
@@ -199,8 +291,10 @@ const mapStateToProps = (state) => {
   return {
     workflow: state.workflow,
     authentication: state.authentication,
+    currentFlow: state.workflowMyFlows.currentFlow,
     currentWorkflowId: state.workflowMyFlows.currentFlow.id,
     socket: state.socket,
+    workflowMonitor: state.workflowMonitor,
   }
 }
 
