@@ -308,8 +308,6 @@ class FlowDetail extends Component {
     const { loadingInputForm } = workflowMonitor;
     const { formInputValues } = workflowMonitor;
 
-    console.log({ formInputValues });
-
     if (!showInspection || currentFlow.generatedForms.length == 0) return null;
 
     const currentForm = currentFlow.generatedForms.find(
@@ -335,8 +333,10 @@ class FlowDetail extends Component {
             <Box animation={{ type: 'fadeIn', duration: 500 }}>
               <Style css={formCss} />
               <Text>* Received inputs</Text>
-              <div dangerouslySetInnerHTML={{ __html: formHtml }}
-                style={{ pointerEvents: 'none', opacity: 0.7, }} />
+              <Scrollbars autoHeightMax={500} autoHeight>
+                <div dangerouslySetInnerHTML={{ __html: formHtml }}
+                  style={{ pointerEvents: 'none', opacity: 0.7, }} />
+              </Scrollbars>
             </Box>
           )}
       </Modal>
@@ -361,7 +361,7 @@ class FlowDetail extends Component {
 
         <Box pad={{ horizontal: 'medium' }}>
           <Box>
-            <Row between={3}>
+            <Row>
               <Col xs={12} sm={6} md={4} lg={4}>
                 <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
               </Col>
