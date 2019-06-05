@@ -114,8 +114,15 @@ export default class GrapeJSWrapper extends Component {
           );
         } break;
 
-        default:
-          break;
+        default: {
+          elements.push(
+            <Fragment>
+              <label>{key.toUpperCase()}</label>
+              <textarea id={key} style={styles.textarea}
+                placeholder={`Type your ${key}`} />
+            </Fragment>
+          );
+        } break;
       }
     })
 

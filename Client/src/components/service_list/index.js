@@ -24,9 +24,9 @@ class index extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log({nextProps});
+    console.log({ nextProps });
   }
-  
+
 
   renderPanelHeader = (name, info, currentServiceId, serviceId) => {
     const active = currentServiceId == serviceId ?
@@ -100,7 +100,7 @@ class index extends Component {
             <Tab >Provided</Tab>
           </TabList>
         </Tabs>
-        <Scrollbars autoHeightMax={350} autoHeight>
+        <Scrollbars autoHeight>
           <Accordion
             style={{ overflow: 'hidden' }}
             onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
