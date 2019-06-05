@@ -29,7 +29,7 @@ class index extends Component {
       }
     });
 
-    $('#monitoring .bjs-powered-by').css({display: "none"});
+    $('#monitoring .bjs-powered-by').css({ display: "none" });
 
     const { currentFlow, workflowMonitor } = this.props;
     const xml = json2xml(currentFlow.bpmnJson);
@@ -98,12 +98,11 @@ class index extends Component {
           right: 60,
           top: 0,
         },
-        html: $(`<div>You</div>`).css({
-          "text-align": 'center',
-          color: colors.userLane,
+        html: $(`<div>
+            <img  style="width:50px;" 
+            src="https://firebasestorage.googleapis.com/v0/b/web-automation-service-client.appspot.com/o/location.png?alt=media&token=658f2f9e-1e1e-4f81-8757-5952bfffd338")}/>
+        </div>`).css({
           padding: 5,
-          fontSize: 28,
-          border: `4px solid ${colors.userLane}`
         }),
       });
     };
