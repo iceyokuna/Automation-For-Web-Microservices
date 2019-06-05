@@ -9,7 +9,7 @@ export function notification(state = initialState, action) {
 
     case notificationConstants.RECEIVE_YOUR_TURN: {
       const nextState = { ...state };
-      nextState.data.unshift(action.data);
+      nextState.data.unshift({data: action.data});
       return nextState;
     }
 

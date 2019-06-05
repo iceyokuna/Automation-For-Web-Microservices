@@ -24,7 +24,7 @@ export function workflowMonitor(state = defaultState, action) {
     }
 
     case workflowConstants.GET_INPUT_FORM_FAILURE: {
-      return { ...state, loadingInputForm: false };
+      return { ...state, loadingInputForm: false, formInputValues: null };
     }
 
     case workflowConstants.RECEIVE_WORKFLOW_STATUS: {

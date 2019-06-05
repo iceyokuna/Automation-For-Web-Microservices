@@ -303,6 +303,9 @@ class FlowDetail extends Component {
     const { showInspection, elementToInspect } = this.state;
     const { currentFlow, workflowMonitor, } = this.props;
     const { loadingInputForm } = workflowMonitor;
+    const { formInputValues } = workflowMonitor;
+
+    console.log({formInputValues});
 
     if (!showInspection || currentFlow.generatedForms.length == 0) return null;
 
@@ -312,6 +315,7 @@ class FlowDetail extends Component {
 
     // Element doesn't have a form
     if (currentForm == null) return null;
+    if (formInputValues == null) return null;
 
     const { formHtml, formCss, } = currentForm.forms.inputForm;
     return (
