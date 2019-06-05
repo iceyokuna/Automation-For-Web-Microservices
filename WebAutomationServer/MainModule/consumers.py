@@ -42,6 +42,8 @@ class MainConsumer(WebsocketConsumer):
             #get next html
             task_data = workflowEngine_load.next(message, user_id)
             HTML = task_data["HTML"]
+            google = task_data["serviceProvider"]
+
             taskId = task_data["taskId"]
 
             #when execution is done
@@ -81,7 +83,8 @@ class MainConsumer(WebsocketConsumer):
                 {
                     'type': "workflow/NEXT_FORM_SUCCESS",
                     'taskId': taskId,
-                    'form': HTML
+                    'form': HTML,
+                    'serviceProvider':google
                 }
                 ))
                 print("\nsend status NEXT FORM\n")

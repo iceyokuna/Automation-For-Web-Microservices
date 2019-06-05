@@ -252,7 +252,10 @@ class WorkflowEngine:
                 return self.next({'formInputValues': element_object.getInput(), 'taskId': element_object.getId()}, user_name)
             else:
                 #have html form
-                return ({"HTML":element_object.getHTML(), "taskId":element_object.getId()})
+                if(str(element_object.getServiceId()) == "51"):
+                    print("Google Form Service !!")
+                    return ({"HTML":element_object.getHTML(), "taskId":element_object.getId(), "serviceProvider":"google"})
+                return ({"HTML":element_object.getHTML(), "taskId":element_object.getId(), "serviceProvider": None})
 
         #TimeEvent case (Intermidiate)
         if(isinstance(element_object, TimeEvent)):
