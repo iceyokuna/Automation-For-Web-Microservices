@@ -270,10 +270,12 @@ class ExecuteFlow extends Component {
             <div id="formContainer"
               dangerouslySetInnerHTML={{ __html: currentFormHtml }} />
           </Box>
-          <Box direction="row" align="center" justify="end" gap="small">
+          <Box direction="row" align="center" justify="between">
             {this.renderGoogleSigninButton()}
-            <Button style={styles.navButton} label="Previous" onClick={() => this.getPreviousForm()} />
-            <Button style={styles.navButton} label="Next" primary onClick={() => this.getNextForm()} />
+            <Box direction="row" gap="small">
+              <Button style={styles.navButton} label="Previous" onClick={() => this.getPreviousForm()} />
+              <Button style={styles.navButton} label="Next" primary onClick={() => this.getNextForm()} />
+            </Box>
           </Box>
         </Box>
       </FillParent>
