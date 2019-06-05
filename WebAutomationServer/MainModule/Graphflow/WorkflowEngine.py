@@ -432,20 +432,27 @@ class WorkflowEngine:
             #test philips hue
             if(str(service_id) == "74"):
                 if(str(service_method) == "84"):
-                    url = "http://127.0.0.1:5001/turnon"
+                    url = "http://127.0.0.1:5002/turnon"
                     requests.post(url , data= {})
                 elif(str(service_method) == "85"):
-                    url = "http://127.0.0.1:5001/turnoff"
+                    url = "http://127.0.0.1:5002/turnoff"
                     requests.post(url , data= {})
                 elif(str(service_method) == "86"):
-                    url = "http://127.0.0.1:5001/red"
+                    url = "http://127.0.0.1:5002/red"
                     requests.post(url , data= {})
                 elif(str(service_method) == "87"):
-                    url = "http://127.0.0.1:5001/green"
+                    url = "http://127.0.0.1:5002/green"
                     requests.post(url , data= {})
                 elif(str(service_method) == "88"):
-                    url = "http://127.0.0.1:5001/blue"
+                    url = "http://127.0.0.1:5002/blue"
                     requests.post(url , data= {})
+
+            #hue pym
+            if(str(service_id) == "107"):
+                if(str(service_method) == "135"):
+                    url = "http://127.0.0.1:5002/turnon"
+            if(str(service_method) == "137"):
+                    url = "http://127.0.0.1:5002/turnoff"
 
             #test google
 
@@ -458,7 +465,7 @@ class WorkflowEngine:
                 request_input = {"receiver":[email],"emailBody":message_data,"emailTitle":subject}
                 requests.post('http://127.0.0.1:5003/api/email', json= request_input)
 
-            #test Zmote
+            #test Zmote (Pyrm)
             if(str(service_id) == "72"):
                 if(str(service_method) == "132"):
                     url = "http://127.0.0.1:5002/turn_off"

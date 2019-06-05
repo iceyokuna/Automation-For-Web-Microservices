@@ -13,10 +13,10 @@ class BackgroundThread(threading.Thread):
 
     def run(self):
         try:
-            #fetch event every 5 second
+            #fetch event every 3 second
             while(True):
                 #fetching periodic time
-                time.sleep(5)
+                #time.sleep(3)
                 #get time event from firebase
                 time_event_data = self.time_db_ref.get()
                 if(time_event_data == None):
