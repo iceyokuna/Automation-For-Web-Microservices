@@ -46,7 +46,7 @@ class Method(models.Model):
     input_interface = JSONField(null=True)
     output_interface = JSONField(null=True)
     created = models.TextField(null=True)
-    #updated_at = models.TextField(null=True)
+    updated_at = models.TextField(null=True)
 
     def __str__(self):
         return self.name
