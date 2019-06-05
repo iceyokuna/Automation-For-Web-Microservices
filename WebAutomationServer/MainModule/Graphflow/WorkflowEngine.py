@@ -389,8 +389,7 @@ class WorkflowEngine:
 
         #save notification
         url = "http://178.128.214.101:8003/api/notification/"
-        data = {'title':title, 'body':body,'click_action':"none",
-        'data': payload,'to': [target]}
+        data = {'data': payload}
         headers = {'Content-type': 'application/json'}
         result = requests.post(url , json = data, headers = headers)
         print(data)
