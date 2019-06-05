@@ -8,8 +8,7 @@ import { workflowConstants } from '_constants'
 
 export function applyFCMListener(store) {
   messaging.onMessage(payload => {
-    // Show notification
-    toast.info(payload.notification.title);
+
     var parsedData = JSON.parse(payload.data["gcm.notification.data"]);
     var messageType = parsedData.type;
 
@@ -37,7 +36,10 @@ export function applyFCMListener(store) {
         store.dispatch({
           type: workflowConstants.RECEIVE_YOUR_TURN,
           data: parsedData,
-        })
+        });
+
+        // Show notification
+        toast.info(parsedData.title);
       } break;
 
       default: break;
