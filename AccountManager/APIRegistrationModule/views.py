@@ -63,17 +63,20 @@ class AllUserView(viewsets.ModelViewSet):
 class NotificationView(APIView):
 
     def get(self, request):
-        queryset = Notification.objects.filter(user=request.user.username).order_by('-created').values()
+        queryset = Notification.objects.filter(user=request.user.username).values('data')#.order_by('-created').values()
         return Response({'notifications': queryset}, status=HTTP_200_OK)
    
     def post(self, request):
-        noti = Notification.objects.create(user=request.user, title=request.data.get('title'),body=request.data.get('body'),click_action =request.data.get('click_action'), data=request.data.get('data'))
+        noti = Notification.objects.create(user=request.user, data = request.data.get('data'))#, title=request.data.get('title'),body=request.data.get('body'),click_action =request.data.get('click_action'), data=request.data.get('data'))
         return Response({"detail": "successfully created"})
 
     def put(self, request):
+        '''
         read_flags =request.data.get('read_flags')
         for i in read_flags:
             noti = Notification.objects.filter(id=i).update(readFlag=True)
+        '''
+        noti = Notification.objects.filter(user=request.user).update(data = request.data.get('data'))
         return Response({"detail": "successfully updated"})
 
 @permission_classes((AllowAny,))
