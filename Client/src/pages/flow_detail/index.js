@@ -361,7 +361,7 @@ class FlowDetail extends Component {
 
         <Box pad={{ horizontal: 'medium' }}>
           <Box>
-            <Row between={3}>
+            <Row>
               <Col xs={12} sm={6} md={4} lg={4}>
                 <Heading size='small' margin={{ right: 'medium' }} >{currentFlow.name || "Untitled"}</Heading>
               </Col>
