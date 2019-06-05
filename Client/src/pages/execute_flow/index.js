@@ -70,7 +70,7 @@ class ExecuteFlow extends Component {
     // console.log({ formInputValues });
     Object.keys(formInputValues).forEach((id, index) => {
       console.log({ id });
-      $(`#${id}`).val(formInputValues[id].value);
+      $(`#${id}`).val(formInputValues[id].value).css({ color: colors["accent-4"] });
     })
   }
 
