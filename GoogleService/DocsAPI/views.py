@@ -26,8 +26,7 @@ from apiclient import discovery, http
 import httplib2
 from oauth2client import client
 import json
-
-
+import datetime
 import os
 class CreateView(APIView):
 
@@ -36,6 +35,7 @@ class CreateView(APIView):
         title = request.data.pop('title')
         dct = request.data
         
+        date = datetime.datetime.now().strftime("%y/%m/%d")
         AUTH = auth
         SCOPES = ['https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/documents']
         CLIENT_SECRET_FILE = 'DocsAPI/client_secrets.json'
@@ -53,7 +53,7 @@ class CreateView(APIView):
         for i in dct:
             replace = dct[i]
             requests.append({'replaceAllText': {'containsText': {'text': '{{'+i+'}}' ,'matchCase':  'true'},'replaceText': replace,}})
-        
+        requests.append({'replaceAllText': {'containsText': {'text': '{{date}}' ,'matchCase':  'true'},'replaceText': str(date),}})
         fileId = file.get('id')
         
         result = service.documents().batchUpdate(documentId=fileId, body={'requests': requests}).execute()
