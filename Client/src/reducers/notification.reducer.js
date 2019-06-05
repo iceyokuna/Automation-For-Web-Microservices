@@ -21,6 +21,7 @@ export function notification(state = initialState, action) {
 
     case notificationConstants.GET_ALL_NOTIFICATIONS_REQUEST: {
       return {
+        ...state,
         isLoading: true,
         data: [],
       }
@@ -28,6 +29,7 @@ export function notification(state = initialState, action) {
 
     case notificationConstants.GET_ALL_NOTIFICATIONS_SUCCESS: {
       return {
+        ...state,
         isLoading: false,
         data: action.notifications,
       }

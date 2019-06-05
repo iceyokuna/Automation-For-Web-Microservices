@@ -21,6 +21,10 @@ function setFCMToken(fcmToken) {
 }
 
 function getAllNotifications() {
-  return axios.get(globalConstants.GET_ALL_NOTIFICATIONS_URL);
+  return axios.get(globalConstants.NOTIFICATION_URL, {
+    headers: {
+      Authorization: "Token " + getUserToken(),
+    }
+  });
 }
 
