@@ -387,6 +387,15 @@ class WorkflowEngine:
         print(data)
         print("Send notification (lane changed): " + str(result))
 
+        #save notification
+        url = "http://178.128.214.101:8003/api/notification/"
+        data = {'title':title, 'body':body,'click_action':"none",
+        'data': payload,'to': [target]}
+        headers = {'Content-type': 'application/json'}
+        result = requests.post(url , json = data, headers = headers)
+        print(data)
+        print("Save notification (lane changed): " + str(result))
+
     #update log of workflow to service manager
     def updateLog(self, data):
         url = "http://178.128.214.101:8003/api/log/" + str(self.workflowId)
