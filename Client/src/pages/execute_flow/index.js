@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Button, Box, Text } from 'grommet';
+import { Button, Box, Text, Paragraph, } from 'grommet';
 import { CaretUp, } from 'grommet-icons';
 import { FillParent } from 'style'
 import { UniversalStyle as Style } from 'react-css-component'
@@ -28,16 +28,19 @@ class ExecuteFlow extends Component {
       currentFormCss: null,
       currentFormJs: null,
       showInspection: false,
+      showAuthCode: false,
+      googleAuthCode: '',
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { executingForm } = nextProps.workflow;
+    const { executingForm, serviceProvider, } = nextProps.workflow;
     if (executingForm) {
       this.setState({
         currentFormHtml: executingForm.formHtml,
         currentFormCss: executingForm.formCss,
         currentFormJs: executingForm.formJs,
+        serviceProvider: serviceProvider,
       });
 
       const script = document.createElement("script");
@@ -136,9 +139,10 @@ class ExecuteFlow extends Component {
     this.setState({ showInspection: !this.state.showInspection });
   }
 
-  responseGoogleSignin = (response) => {
+  OnResponseGoogleSignin = (response) => {
     this.setState({
-      authCode: response.code
+      googleAuthCode: response.code,
+      showAuthCode: true,
     })
   }
 
@@ -164,8 +168,8 @@ class ExecuteFlow extends Component {
         <GoogleLogin
           clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
           buttonText="Login"
-          onSuccess={this.responseGoogleSignin}
-          onFailure={this.responseGoogleSignin}
+          onSuccess={this.OnResponseGoogleSignin}
+          onFailure={this.OnResponseGoogleSignin}
           cookiePolicy={'single_host_origin'}
           scope={"https://www.googleapis.com/auth/drive.file"}
           redirectUri="localhost:3000/execute"
@@ -215,6 +219,23 @@ class ExecuteFlow extends Component {
     );
   }
 
+  onCloseAuthCodeModal = () => {
+    this.setState({ showAuthCode: false });
+  }
+
+  renderGoogleModalAuthCode = () => {
+    const { showAuthCode, googleAuthCode } = this.state;
+    return (
+      <Modal header="Google auth code"
+        show={showAuthCode} onCloseModal={this.onCloseAuthCodeModal}>
+        <Box pad="small">
+          <Paragraph >{googleAuthCode}</Paragraph>
+        </Box>
+      </Modal>
+    );
+  }
+
+
   render() {
     const { currentFormCss, currentFormHtml, } = this.state;
     const { dispatch, workflow, history, } = this.props;
@@ -224,6 +245,7 @@ class ExecuteFlow extends Component {
       <FillParent>
         {this.renderElementInspection()}
         {this.renderLoadingFormModal()}
+        {this.renderGoogleModalAuthCode()}
         <OpenDock icon={<CaretUp color="#fff" />}
           color="accent-4" primary plain={false}
           data-tip="Workflow logs"

@@ -29,8 +29,8 @@ export const socketMiddleware = store => next => action => {
           console.log({ data });
           switch (data.type) {
             case socketConstants.START_FLOW_SUCCESS: {
-              const { form, taskId } = data;
-              store.dispatch(workflowActions.setExecutingForm(form, taskId));
+              const { form, taskId, serviceProvider, } = data;
+              store.dispatch(workflowActions.setExecutingForm(form, taskId, serviceProvider));
             } break;
 
             case socketConstants.START_FLOW_FAIL: {

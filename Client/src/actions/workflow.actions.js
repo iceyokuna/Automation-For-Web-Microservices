@@ -302,11 +302,12 @@ function resetExecutingForm() {
   }
 }
 
-function setExecutingForm(form, taskId) {
+function setExecutingForm(form, taskId, serviceProvider) {
   return {
     type: workflowConstants.SET_CURRENT_EXECUTING_FORM,
     executingForm: form,
     executingTaskId: taskId,
+    serviceProvider,
   }
 }
 
