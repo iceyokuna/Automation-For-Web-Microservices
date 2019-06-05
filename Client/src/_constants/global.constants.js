@@ -6,7 +6,7 @@ const mode = "local";
 
 if (mode === "local") {
   var workflowEngineUrl = "http://127.0.0.1:8000";
-  var googleServiceUrl = "http://127.0.0.1:8001";
+  var googleServiceUrl = "http://127.0.0.1:8004";
   var accountManagerUrl = `${developmentServer}:8003`;
   var serviceManagerUrl = `${developmentServer}:8004`;
 } else if (mode === "public") {
