@@ -1,12 +1,21 @@
 const productionServer = "https://the-timemachine.com";
 const developmentServer = "http://178.128.214.101";
 
-const workflowEngineUrl = "http://127.0.0.1:8000";
-// const googleServiceUrl = "http://127.0.0.1:8001";
-const googleServiceUrl = "https://c3160663.ngrok.io";
+// const mode = "public";
+const mode = "local";
 
-const accountManagerUrl = `${developmentServer}:8003`;
-const serviceManagerUrl = `${developmentServer}:8004`;
+if (mode === "local") {
+  var workflowEngineUrl = "http://127.0.0.1:8000";
+  var googleServiceUrl = "http://127.0.0.1:8001";
+  var accountManagerUrl = `${developmentServer}:8003`;
+  var serviceManagerUrl = `${developmentServer}:8004`;
+} else if (mode === "public") {
+  var workflowEngineUrl = "http://127.0.0.1:8000";
+  var googleServiceUrl = "https://c3160663.ngrok.io";
+  var accountManagerUrl = `${developmentServer}:8003`;
+  var serviceManagerUrl = `${developmentServer}:8004`;
+}
+
 
 export const globalConstants = {
   USER_REGISTER_URL: `${accountManagerUrl}/api/register`,
