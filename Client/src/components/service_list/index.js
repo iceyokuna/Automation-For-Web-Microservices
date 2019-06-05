@@ -4,12 +4,13 @@ import {
   Box, Text, Accordion,
   AccordionPanel, Button,
 } from 'grommet'
-import { FormDown } from 'grommet-icons'
+import { FormDown, Refresh, } from 'grommet-icons'
 import PlainButton from 'components/plain_button'
 
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { availableServicesActions, userServicesActions } from 'actions';
 
 class index extends Component {
 
@@ -27,6 +28,10 @@ class index extends Component {
     console.log({ nextProps });
   }
 
+  onRefreshServices = () => {
+    this.props.dispatch(availableServicesActions.getAllServices());
+    this.props.dispatch(userServicesActions.getUserServices());
+  }
 
   renderPanelHeader = (name, info, currentServiceId, serviceId) => {
     const active = currentServiceId == serviceId ?
@@ -95,12 +100,15 @@ class index extends Component {
         <Tabs
           selectedIndex={activeTabIndex}
           onSelect={this.onSelectTab}>
-          <TabList>
-            <Tab >User</Tab>
-            <Tab >Provided</Tab>
-          </TabList>
+          <Box direction="row" justify="between">
+            <TabList>
+              <Tab >User</Tab>
+              <Tab >Provided</Tab>
+            </TabList>
+            <PlainButton icon={<Refresh />} onClick={this.onRefreshServices} />
+          </Box>
         </Tabs>
-        <Scrollbars autoHeight>
+        <Scrollbars style={{height: 300}} >
           <Accordion
             style={{ overflow: 'hidden' }}
             onActive={newActiveIndex => this.setState({ activeIndex: newActiveIndex })}
