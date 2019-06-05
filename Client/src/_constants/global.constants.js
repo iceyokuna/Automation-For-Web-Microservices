@@ -26,6 +26,7 @@ export const globalConstants = {
   WORKFLOW_LOG_URL: `${accountManagerUrl}/api/log/`,
   COLLABORATORS_URL: `${accountManagerUrl}/api/collaborator/`,
   SET_FCM_TOKEN_URL: `${accountManagerUrl}/api/fcm_token/`,
+  NOTIFICATION_URL: `${accountManagerUrl}/api/notification/`,
 
   GET_ALL_SERVICES_URL: `${serviceManagerUrl}/api/all_services/`,
   GET_ALL_USER_SERVICES_URL: `${serviceManagerUrl}/api/all_user_service/`,

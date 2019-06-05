@@ -52,7 +52,7 @@ function getAllNotifications() {
     notificationServices.getAllNotifications().then(
       res => {
         const notifications = res.data;
-        dispatch(success(notifications))
+        dispatch(success(notifications));
       }
     ).catch(error => dispatch(failure()))
   }
