@@ -446,13 +446,15 @@ class WorkflowEngine:
                 elif(str(service_method) == "88"):
                     url = "http://127.0.0.1:5001/blue"
                     requests.post(url , data= {})
+
+            #test google
+
             
             #test email
             if(str(service_id) == "1"):
                 email = message['formInputValues']['email']['value']
                 subject = message['formInputValues']['subject']['value']
                 message_data = message['formInputValues']['message']['value']
-
                 request_input = {"receiver":[email],"emailBody":message_data,"emailTitle":subject}
                 requests.post('http://127.0.0.1:5003/api/email', json= request_input)
 
