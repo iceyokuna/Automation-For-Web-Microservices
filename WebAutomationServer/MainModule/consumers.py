@@ -92,12 +92,15 @@ class MainConsumer(WebsocketConsumer):
             pickled_obj = pickle.dumps(workflowEngine_load)
             pickled_obj_str = str(pickled_obj)
 
+            print("internal_workflow called")
             headers = {"Authorization":("Token " + str(user_token)), "Content-Type":"application/json"}
-            url = "http://178.128.214.101:8003/api/workflow"
+            headers = {"Content-Type":"application/json"}
+            url = "http://178.128.214.101:8003/api/internal_workflow/"
             payload = {"id": int(workflow_id),"data": {"workflowObject": pickled_obj_str}}
             data = json.dumps(payload)
             r = requests.put(url, headers=headers, data=data)
             print(r.content)
+            print("internal_workflow called success")
 
 class EndConsumer(WebsocketConsumer):
     def connect(self):

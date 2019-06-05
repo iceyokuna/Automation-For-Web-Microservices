@@ -8,13 +8,15 @@ from django.contrib.auth.models import User
 
 class Notification(models.Model):
     user = models.ForeignKey(User, to_field="username", db_column="username", related_name='noti_user', on_delete=models.CASCADE)
+    data = JSONField(null=True)
+    '''
     title = models.CharField(max_length=200)
     body = models.TextField(null=True)
     click_action = models.CharField(max_length=200)
     data = JSONField(null=True)
     created = models.DateTimeField(auto_now_add=True)
     readFlag = models.BooleanField(default=False)
-
+    '''
 class FcmToken(models.Model):
     user = models.ForeignKey(User, to_field="username", db_column="username", related_name='firebase_user', on_delete=models.CASCADE,null=True, unique=True)
     fcmToken = models.CharField(max_length=200)
