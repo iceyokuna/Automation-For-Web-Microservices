@@ -35,7 +35,7 @@ class AppBar extends Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch(notificationActions.getAllNotifications())
+    this.props.dispatch(notificationActions.getAllNotifications())
   }
 
   onCloseDropdown = () => {
@@ -89,16 +89,16 @@ class AppBar extends Component {
         </Box>);
     }
 
-    let elements = notification.data.map((item, index) =>
+    let elements = notification.data.map(({data}, index) =>
       <NotificationItem
         key={index}
-        title={item.title} body={item.body}
-        workflowId={item.workflowId}
-        executedDate={item.executedDate}
-        executedTime={item.executedTime}
-        taskName={item.taskName}
-        taskId={item.taskId}
-        onClick={() => { this.onSelectNotification(item.workflowId) }} />
+        title={data.title} body={data.body}
+        workflowId={data.workflowId}
+        executedDate={data.executedDate}
+        executedTime={data.executedTime}
+        taskName={data.taskName}
+        taskId={data.taskId}
+        onClick={() => { this.onSelectNotification(data.workflowId) }} />
     );
 
     return (
