@@ -24,7 +24,7 @@ class Test extends Component {
   }
 
   responseGoogle = (response) => {
-    // console.log(response.code);
+    console.log(response.code);
     this.setState({
       authCode: response.code
     })

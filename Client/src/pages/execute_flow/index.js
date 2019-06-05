@@ -14,6 +14,7 @@ import Spinner from 'react-spinkit';
 import { colors } from 'theme';
 import { GoogleLogin } from 'react-google-login';
 import $ from 'jquery';
+import Scrollbars from 'react-custom-scrollbars';
 
 class ExecuteFlow extends Component {
 
@@ -140,10 +141,14 @@ class ExecuteFlow extends Component {
   }
 
   OnResponseGoogleSignin = (response) => {
+    if (response.code == null) return;
+
     this.setState({
       googleAuthCode: response.code,
       showAuthCode: true,
-    })
+    });
+
+    $('#auth').val(response.code);
   }
 
   renderLoadingFormModal = () => {
@@ -211,10 +216,13 @@ class ExecuteFlow extends Component {
             <Box animation={{ type: 'fadeIn', duration: 500 }}>
               <Style css={formCss} />
               <Text>* Received inputs</Text>
-              <div dangerouslySetInnerHTML={{ __html: formHtml }}
-                style={{ pointerEvents: 'none', opacity: 0.7, }} />
+              <Scrollbars autoHeightMax={500} autoHeight>
+                <div dangerouslySetInnerHTML={{ __html: formHtml }}
+                  style={{ pointerEvents: 'none', opacity: 0.7, }} />
+              </Scrollbars>
             </Box>
           )}
+
       </Modal>
     );
   }
@@ -245,7 +253,7 @@ class ExecuteFlow extends Component {
       <FillParent>
         {this.renderElementInspection()}
         {this.renderLoadingFormModal()}
-        {this.renderGoogleModalAuthCode()}
+        {/* {this.renderGoogleModalAuthCode()} */}
         <OpenDock icon={<CaretUp color="#fff" />}
           color="accent-4" primary plain={false}
           data-tip="Workflow logs"
