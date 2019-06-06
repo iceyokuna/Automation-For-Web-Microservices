@@ -459,6 +459,26 @@ class WorkflowEngine:
                     requests.post(url , data= {})
 
             #test google
+            if(str(service_id) == "51"):
+                url = "http://127.0.0.1:8004/api/docs/create/"
+                auth = message['formInputValues']['auth']['value']
+                title = message['formInputValues']['title']['value']
+                first_name = message['formInputValues']['first_name']['value']
+                last_name = message['formInputValues']['last_name']['value']
+                position = message['formInputValues']['position']['value']
+                date_of_birth = message['formInputValues']['date_of_birth']['value']
+                phone = message['formInputValues']['phone']['value']
+                address = message['formInputValues']['address']['value']
+                university = message['formInputValues']['university']['value']
+                faculty = message['formInputValues']['faculty']['value']
+                GPA = message['formInputValues']['GPA']['value']
+                payload = {'auth':auth,'title':title,'first_name':first_name,'last_name':last_name,
+                           'position':position, 'date_of_birth':date_of_birth,'phone':phone,
+                           'address':address, 'university':university,'faculty':faculty,
+                           'GPA':GPA}
+                request_data = payload
+                requests.post(url , data= request_data)
+                print("Google Success")
 
             
             #test email
@@ -467,7 +487,7 @@ class WorkflowEngine:
                 subject = message['formInputValues']['subject']['value']
                 message_data = message['formInputValues']['message']['value']
                 request_input = {"receiver":[email],"emailBody":message_data,"emailTitle":subject}
-                requests.post('http://127.0.0.1:5003/api/email', json= request_input)
+                requests.post('http://127.0.0.1:8003/api/email', json= request_input)
 
             #test Zmote (Pyrm)
             if(str(service_id) == "72"):
@@ -491,5 +511,6 @@ class WorkflowEngine:
 
         except:
             print("Local Service calling Error")
+
 
 

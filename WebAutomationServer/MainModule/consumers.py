@@ -42,7 +42,11 @@ class MainConsumer(WebsocketConsumer):
             #get next html
             task_data = workflowEngine_load.next(message, user_id)
             HTML = task_data["HTML"]
-            google = task_data["serviceProvider"]
+            google = None
+            try:
+                google = task_data["serviceProvider"]
+            except:
+                pass
 
             taskId = task_data["taskId"]
 
