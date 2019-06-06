@@ -31,6 +31,7 @@ class Test extends Component {
   }
 
   render() {
+    const { authCode } = this.state;
     return (
       <Box direction="column">
         {/* <Button label="Get Token" onClick={this.handlegetUserToken} /> */}
@@ -49,11 +50,17 @@ class Test extends Component {
 
         <Button label="POST" onClick={() => {
           axios.post(globalConstants.GOOGLE_DOC_API_CREATE_URL, {
-            "auth": "4/YAHdh0_Y5biwxJSwGcQdkkztB5k-shkPxrKmdTF1P29uPMxyqWvPZbH1n2L5sGkfQC1IvggXG-V_bFPc8Z2jRuo",
-            "title": "Test NGROKkkkkkkk",
-            "f_name": "Phat",
-            "l_name": "Tawee",
-            "position": "SE"
+            "auth": authCode,
+            "title": "Bassy",
+            "first_name": "Phat",
+            "last_name": "Tawee",
+            "position":"SE",
+            "date_of_birth": "Bassy",
+            "phone": "Phat",
+            "address": "Tawee",
+            "university":"SE",
+            "faculty": "Phat",
+            "GPA": "Tawee",
           }).then(res => console.log(res)).catch(e => {
             console.error(e)
           })

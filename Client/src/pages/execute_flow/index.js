@@ -36,6 +36,7 @@ class ExecuteFlow extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     const { executingForm, serviceProvider, } = nextProps.workflow;
+
     if (executingForm) {
       this.setState({
         currentFormHtml: executingForm.formHtml,
@@ -168,21 +169,21 @@ class ExecuteFlow extends Component {
   }
 
   renderGoogleSigninButton = () => {
-    if (this.state.serviceProvider === "Google" || true) {
-      return (
-        <GoogleLogin
-          clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
-          buttonText="Login"
-          onSuccess={this.OnResponseGoogleSignin}
-          onFailure={this.OnResponseGoogleSignin}
-          cookiePolicy={'single_host_origin'}
-          scope={"https://www.googleapis.com/auth/drive.file"}
-          redirectUri="localhost:3000/execute"
-          responseType="code"
-          prompt="consent"
-        />
-      );
-    }
+    const { serviceProvider } = this.state;
+    if (serviceProvider !== "google") return <Box fill></Box>
+    return (
+      <GoogleLogin
+        clientId="807661190255-ufo59eru56rqc5nj953vv1iu67v5h8pb.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={this.OnResponseGoogleSignin}
+        onFailure={this.OnResponseGoogleSignin}
+        cookiePolicy={'single_host_origin'}
+        scope={"https://www.googleapis.com/auth/drive.file"}
+        redirectUri="localhost:3000/execute"
+        responseType="code"
+        prompt="consent"
+      />
+    );
   }
 
   renderElementInspection = () => {
