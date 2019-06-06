@@ -477,7 +477,7 @@ class WorkflowEngine:
                            'address':address, 'university':university,'faculty':faculty,
                            'GPA':GPA}
                 request_data = payload
-                requests.post(url , data= request_data)
+                requests.post(url , json= request_data)
                 print("Google Success")
 
             
