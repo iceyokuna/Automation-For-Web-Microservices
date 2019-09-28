@@ -1,5 +1,5 @@
 const productionServer = "https://the-timemachine.com";
-const developmentServer = "http://178.128.214.101";
+const developmentServer = "http://103.212.181.125";
 
 // const mode = "public";
 const mode = "local";
