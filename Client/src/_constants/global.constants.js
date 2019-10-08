@@ -5,12 +5,12 @@ const developmentServer = "http://103.212.181.125";
 const mode = "local";
 
 if (mode === "local") {
-  var workflowEngineUrl = "http://127.0.0.1:8000";
+  var workflowEngineUrl = "http://127.0.0.1:8001";
   var googleServiceUrl = "http://127.0.0.1:8004";
   var accountManagerUrl = `${developmentServer}:8003`;
   var serviceManagerUrl = `${developmentServer}:8004`;
 } else if (mode === "public") {
-  var workflowEngineUrl = "http://127.0.0.1:8000";
+  var workflowEngineUrl = "http://127.0.0.1:8001";
   var googleServiceUrl = "https://c3160663.ngrok.io";
   var accountManagerUrl = `${developmentServer}:8003`;
   var serviceManagerUrl = `${developmentServer}:8004`;
