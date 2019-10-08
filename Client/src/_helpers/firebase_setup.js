@@ -1,21 +1,21 @@
-import firebase from 'firebase';
+// import firebase from 'firebase';
 
-firebase.initializeApp({
-  messagingSenderId: "807661190255",
-});
+// firebase.initializeApp({
+//   messagingSenderId: "807661190255",
+// });
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging();
 
-export const askForPermissioToReceiveNotifications = async () => {
-  try {
-    const messaging = firebase.messaging();
-    await messaging.requestPermission();
-    const token = await messaging.getToken();
-    return token;
-  } catch (error) {
-    console.error(error);
-  }
-}
+// export const askForPermissioToReceiveNotifications = async () => {
+//   try {
+//     const messaging = firebase.messaging();
+//     await messaging.requestPermission();
+//     const token = await messaging.getToken();
+//     return token;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
-export default messaging;
+// export default messaging;
 

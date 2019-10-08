@@ -32,4 +32,4 @@ export const persistor = persistStore(store);
 
 // Listeners
 applyStorageListener(store); // Require for open the second tab in grapesjs editor
-applyFCMListener(store);
+// applyFCMListener(store); // turn on/off FCM
