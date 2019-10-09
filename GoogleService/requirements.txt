@@ -12,7 +12,7 @@ defusedxml==0.5.0
 Django==2.1.2
 django-allauth==0.38.0
 django-rest-auth==0.9.3
-djangorestframework==3.9.0
+djangorestframework==3.9.1
 hyperlink==18.0.0
 idna==2.7
 incremental==17.5.0
