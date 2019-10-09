@@ -10,14 +10,10 @@ to construct your own web application to perform business services
   This program is created for International College KMITL <br>
   Software Engineering Thesis <br>
 
-  Software Engineering - Year 4 (Sem 1/2018)<br>
-  International College<br>
-  King Mongkut's Institute of Technology Ladkrabang (KMITL)<br>
-
 # AUTHORS AND PROGRAMMER
-  Treesakul  Tongsaree (58090016)<br>
-  Phat Thaveepholcharoen (58090025)<br>
-  Pakpoom Kunalittipol (58090027)<br>
+  Treesakul  Tongsaree <br>
+  Phat Thaveepholcharoen <br>
+  Pakpoom Kunalittipol <br>
 
 # INITIAL DESCRIPTION
 
