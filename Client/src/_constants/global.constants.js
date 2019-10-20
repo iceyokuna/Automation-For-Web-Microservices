@@ -4,18 +4,21 @@ const developmentServer = "http://103.212.181.125";
 // const mode = "public";
 const mode = "local";
 
-if (mode === "local") {
-  var workflowEngineUrl = "http://127.0.0.1:8001";
-  var googleServiceUrl = "http://127.0.0.1:8004";
-  var accountManagerUrl = `${developmentServer}:8003`;
-  var serviceManagerUrl = `${developmentServer}:8004`;
-} else if (mode === "public") {
-  var workflowEngineUrl = "http://127.0.0.1:8001";
-  var googleServiceUrl = "https://c3160663.ngrok.io";
+const { NODE_ENV } = process.env;
+
+if (NODE_ENV === "development") {
+  var socketUrl = `localhost:8000`;
+  var workflowEngineUrl = `localhost:8001`;
+  var googleServiceUrl = `localhost:8004`;
+  var accountManagerUrl = `localhost:8003`;
+  var serviceManagerUrl = `localhost:8004`;
+} else if (mode === "production") {
+  var socketUrl = `${developmentServer}:8000`;
+  var workflowEngineUrl = `${developmentServer}:8001`;
+  var googleServiceUrl = `${developmentServer}:8001`;
   var accountManagerUrl = `${developmentServer}:8003`;
   var serviceManagerUrl = `${developmentServer}:8004`;
 }
-
 
 export const globalConstants = {
   USER_REGISTER_URL: `${accountManagerUrl}/api/register`,
@@ -34,7 +37,8 @@ export const globalConstants = {
   CREATE_USER_SERVICE_URL: `${serviceManagerUrl}/api/service/add`,
   DELETE_USER_SERVICE_URL: `${serviceManagerUrl}/api/user_service/`,
   USER_METHOD_URL: `${serviceManagerUrl}/api/user_method/`,
-
+  GET_ALL_METHOD_URL: `http://localhost:8000/get_all_methods/`,
   GET_PREVIEW_INPUT_FORM_URL: `${workflowEngineUrl}/preview/`,
   GOOGLE_DOC_API_CREATE_URL: `${googleServiceUrl}/api/docs/create/`,
+  EXECUTE_FLOW_SOCKET_URL: `${socketUrl}/execute/`
 };
