@@ -1,24 +1,15 @@
-const productionServer = "https://the-timemachine.com";
-const developmentServer = "http://103.212.181.125";
-
-// const mode = "public";
-const mode = "local";
-
+// const productionServer = "http://the-timemachine.com";
+const productionServer = "http://103.212.181.125";
 const { NODE_ENV } = process.env;
+const hostname = NODE_ENV === "production" ? productionServer : "localhost";
 
-if (NODE_ENV === "development") {
-  var socketUrl = `localhost:8000`;
-  var workflowEngineUrl = `localhost:8001`;
-  var googleServiceUrl = `localhost:8004`;
-  var accountManagerUrl = `localhost:8003`;
-  var serviceManagerUrl = `localhost:8004`;
-} else if (mode === "production") {
-  var socketUrl = `${developmentServer}:8000`;
-  var workflowEngineUrl = `${developmentServer}:8001`;
-  var googleServiceUrl = `${developmentServer}:8001`;
-  var accountManagerUrl = `${developmentServer}:8003`;
-  var serviceManagerUrl = `${developmentServer}:8004`;
-}
+var socketUrl = `${hostname}:8000`;
+var workflowEngineUrl = `${hostname}:8001`;
+var googleServiceUrl = `${hostname}:8001`;
+var accountManagerUrl = `${hostname}:8003`;
+var serviceManagerUrl = `${hostname}:8004`;
+
+console.log({ hostname });
 
 export const globalConstants = {
   USER_REGISTER_URL: `${accountManagerUrl}/api/register`,
