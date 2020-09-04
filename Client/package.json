@@ -18,7 +18,7 @@
     "babel-plugin-import": "^1.9.1",
     "bpmn-js": "^2.5.2",
     "bpmn-js-bpmnlint": "^0.10.0",
-    "bpmn-js-properties-panel": "^0.26.2",
+    "bpmn-js-properties-panel": "^0.31.0",
     "bpmnlint": "^5.0.0",
     "copy-webpack-plugin": "^4.6.0",
     "downloadjs": "^1.4.7",
